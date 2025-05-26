@@ -285,11 +285,7 @@ public class OnlineCoursesModule : AbpModule
         context.Services.AddAutoMapperObjectMapper<OnlineCoursesModule>();
         Configure<AbpAutoMapperOptions>(options =>
         {
-            /* Uncomment `validate: true` if you want to enable the Configuration Validation feature.
-             * See AutoMapper's documentation to learn what it is:
-             * https://docs.automapper.org/en/stable/Configuration-validation.html
-             */
-            options.AddMaps<OnlineCoursesModule>(/* validate: true */);
+            options.AddMaps<OnlineCoursesModule>(validate: true);
         });
     }
 
