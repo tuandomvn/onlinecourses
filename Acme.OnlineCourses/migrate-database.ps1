@@ -1,1 +1,1 @@
-dotnet run --project Acme.OnlineCourses --migrate-database
+dotnet ef database update --project Acme.OnlineCourses --verbose
