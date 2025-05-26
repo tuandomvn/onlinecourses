@@ -20,6 +20,7 @@ public class OnlineCoursesDbContext : AbpDbContext<OnlineCoursesDbContext>
     }
 
     public DbSet<Agency> Agencies { get; set; } = default!;
+    public DbSet<Student> Students { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -41,6 +42,29 @@ public class OnlineCoursesDbContext : AbpDbContext<OnlineCoursesDbContext>
             b.Property(x => x.ContactPhone).HasMaxLength(32);
             b.Property(x => x.CommissionPercent).IsRequired();
             b.Property(x => x.Status).IsRequired();
+        });
+
+        builder.Entity<Student>(b =>
+        {
+            b.HasIndex(x => x.Email).IsUnique();
+            b.HasIndex(x => x.PhoneNumber).IsUnique();
+            b.Property(x => x.FullName).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Email).IsRequired().HasMaxLength(256);
+            b.Property(x => x.PhoneNumber).IsRequired().HasMaxLength(32);
+            b.Property(x => x.IdentityNumber).HasMaxLength(32);
+            b.Property(x => x.CourseName).IsRequired().HasMaxLength(256);
+            b.Property(x => x.InternalNote).HasMaxLength(1024);
+            b.Property(x => x.PaymentProofFile).HasMaxLength(1024);
+            
+            b.HasOne(x => x.Agency)
+                .WithMany()
+                .HasForeignKey(x => x.AgencyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            b.HasOne(x => x.AssignedAdmin)
+                .WithMany()
+                .HasForeignKey(x => x.AssignedAdminId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }

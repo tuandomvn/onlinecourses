@@ -1,10 +1,9 @@
 ﻿using Acme.OnlineCourses.Data;
 using Acme.OnlineCourses.Localization;
 using Acme.OnlineCourses.Menus;
-using Microsoft.AspNetCore.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
-using OpenIddict.Validation.AspNetCore;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
@@ -15,6 +14,7 @@ using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
+using Volo.Abp.Authorization;
 using Volo.Abp.Autofac;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Emailing;
@@ -36,7 +36,6 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.PermissionManagement.OpenIddict;
-using Volo.Abp.Security.Claims;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.Web;
@@ -53,6 +52,7 @@ namespace Acme.OnlineCourses;
     typeof(AbpAspNetCoreMvcModule),
     typeof(AbpAutofacModule),
     typeof(AbpAutoMapperModule),
+    typeof(AbpAuthorizationModule),
     typeof(AbpEntityFrameworkCoreMySQLModule),
     typeof(AbpSwashbuckleModule),
     typeof(AbpAspNetCoreSerilogModule),
@@ -147,7 +147,27 @@ public class OnlineCoursesModule : AbpModule
             context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
         }
 
-        ConfigureAuthentication(context);
+        // Disable authorization
+        context.Services.AddAuthorization(options =>
+        {
+            options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                .RequireAssertion(_ => true)
+                .Build();
+        });
+
+        // Disable ABP authorization
+        //Configure<AbpAuthorizationOptions>(options =>
+        //{
+        //    options.IsEnabled = false;
+        //});
+
+        //// Disable permission checking
+        //Configure<AbpPermissionManagementOptions>(options =>
+        //{
+        //    options.IsDynamicFeatureStoreEnabled = false;
+        //    options.IsDynamicPermissionStoreEnabled = false;
+        //});
+
         ConfigureMultiTenancy();
         ConfigureUrls(configuration);
         ConfigureBundles();
@@ -158,15 +178,6 @@ public class OnlineCoursesModule : AbpModule
         ConfigureVirtualFiles(hostingEnvironment);
         ConfigureLocalization();
         ConfigureEfCore(context);
-    }
-
-    private void ConfigureAuthentication(ServiceConfigurationContext context)
-    {
-        context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
-        context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
-        {
-            options.IsDynamicClaimsEnabled = true;
-        });
     }
 
     private void ConfigureMultiTenancy()
@@ -325,12 +336,13 @@ public class OnlineCoursesModule : AbpModule
         app.UseStaticFiles();
         app.UseRouting();
         app.UseCors();
-        app.UseAuthentication();
-        app.UseAbpOpenIddictValidation();
-
-        app.UseUnitOfWork();
-        app.UseDynamicClaims();
-        app.UseAuthorization();
+        
+        // Comment out all authentication and authorization middleware
+        // app.UseAuthentication();
+        // app.UseAbpOpenIddictValidation();
+        // app.UseUnitOfWork();
+        // app.UseDynamicClaims();
+        // app.UseAuthorization();
 
         app.UseSwagger();
         app.UseAbpSwaggerUI(options =>

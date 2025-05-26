@@ -10,7 +10,7 @@ public interface IAgencyAppService :
     ICrudAppService<
         AgencyDto,
         Guid,
-        GetAgencyListDto,
+        PagedAndSortedResultRequestDto,
         CreateUpdateAgencyDto,
         CreateUpdateAgencyDto>
 {

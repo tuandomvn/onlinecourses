@@ -18,7 +18,7 @@ public class AgencyAppService :
         Agency,
         AgencyDto,
         Guid,
-        GetAgencyListDto,
+        PagedAndSortedResultRequestDto,
         CreateUpdateAgencyDto,
         CreateUpdateAgencyDto>,
     IAgencyAppService
@@ -44,7 +44,7 @@ public class AgencyAppService :
         return _objectMapper.Map<Agency, AgencyDto>(agency);
     }
 
-    public override async Task<PagedResultDto<AgencyDto>> GetListAsync(GetAgencyListDto input)
+    public override async Task<PagedResultDto<AgencyDto>> GetListAsync(PagedAndSortedResultRequestDto input)
     {
         var query = await CreateFilteredQueryAsync(input);
         var totalCount = await query.CountAsync();
@@ -76,24 +76,24 @@ public class AgencyAppService :
         return _objectMapper.Map<Agency, AgencyDto>(agency);
     }
 
-    protected override async Task<IQueryable<Agency>> CreateFilteredQueryAsync(GetAgencyListDto input)
+    protected override async Task<IQueryable<Agency>> CreateFilteredQueryAsync(PagedAndSortedResultRequestDto input)
     {
         var query = await base.CreateFilteredQueryAsync(input);
 
-        if (!string.IsNullOrWhiteSpace(input.Filter))
+        if (input is GetAgencyListDto agencyListInput && !string.IsNullOrWhiteSpace(agencyListInput.Filter))
         {
             query = query.Where(x =>
-                x.AgencyCode.Contains(input.Filter) ||
-                x.Name.Contains(input.Filter) ||
-                x.ContactEmail.Contains(input.Filter) ||
-                x.ContactPhone.Contains(input.Filter)
+                x.AgencyCode.Contains(agencyListInput.Filter) ||
+                x.Name.Contains(agencyListInput.Filter) ||
+                x.ContactEmail.Contains(agencyListInput.Filter) ||
+                x.ContactPhone.Contains(agencyListInput.Filter)
             );
         }
 
         return query;
     }
 
-    protected override IQueryable<Agency> ApplySorting(IQueryable<Agency> query, GetAgencyListDto input)
+    protected override IQueryable<Agency> ApplySorting(IQueryable<Agency> query, PagedAndSortedResultRequestDto input)
     {
         if (string.IsNullOrWhiteSpace(input.Sorting))
         {

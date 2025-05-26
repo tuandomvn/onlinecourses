@@ -1,6 +1,5 @@
-﻿using System.Threading.Tasks;
-using Acme.OnlineCourses.Localization;
-using Acme.OnlineCourses.MultiTenancy;
+﻿using Acme.OnlineCourses.Localization;
+using Acme.OnlineCourses.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.UI.Navigation;
@@ -33,8 +32,18 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             )
         );
 
-        administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
-        administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                OnlineCoursesPermissions.Students.Default,
+                l["Menu:Students"],
+                url: "/Students",
+                icon: "fas fa-user-graduate",
+                order: 1
+            )
+        );
+
+        administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
+        administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 2);
 
         return Task.CompletedTask;
     }

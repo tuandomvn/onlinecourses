@@ -1,7 +1,7 @@
 {
   "culture": "en",
   "texts": {
-    "AppName": "OnlineCourses",
+     "AppName": "OnlineCourses",
     "Welcome_Title": "Welcome",
     "Welcome_Text": "This is a minimalist, single layer application startup template for the ABP Framework.",
     "Menu:Home": "Home",
@@ -21,6 +21,31 @@
     "AgencyDeletionConfirmationMessage": "Are you sure you want to delete agency {0}?",
     "SuccessfullyDeleted": "Successfully deleted",
     "Enum:AgencyStatus:Active": "Active",
-    "Enum:AgencyStatus:Inactive": "Inactive"
+    "Enum:AgencyStatus:Inactive": "Inactive",
+    "Menu:Students": "Students",
+    "NewStudent": "New Student",
+    "FullName": "Full Name",
+    "Email": "Email",
+    "PhoneNumber": "Phone Number",
+    "DateOfBirth": "Date of Birth",
+    "IdentityNumber": "Identity Number",
+    "CourseName": "Course Name",
+    "RegistrationDate": "Registration Date",
+    "TestStatus": "Test Status",
+    "PaymentStatus": "Payment Status",
+    "AccountStatus": "Account Status",
+    "InternalNote": "Internal Note",
+    "Agency": "Agency",
+    "AssignedAdmin": "Assigned Admin",
+    "PaymentProofFile": "Payment Proof File",
+    "StudentDeletionConfirmationMessage": "Are you sure you want to delete student {0}?",
+    "Enum:TestStatus:NotTaken": "Not Taken",
+    "Enum:TestStatus:Taken": "Taken",
+    "Enum:TestStatus:Passed": "Passed",
+    "Enum:TestStatus:Failed": "Failed",
+    "Enum:PaymentStatus:NotPaid": "Not Paid",
+    "Enum:PaymentStatus:Paid": "Paid",
+    "Enum:AccountStatus:NotSent": "Not Sent",
+    "Enum:AccountStatus:Sent": "Sent"
   }
 }

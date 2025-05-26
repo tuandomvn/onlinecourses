@@ -1,0 +1,49 @@
+@page
+@using Microsoft.Extensions.Localization
+@using Acme.OnlineCourses.Localization
+@using Acme.OnlineCourses.Pages.Students
+@using Acme.OnlineCourses.Students
+@model IndexModel
+@inject IStringLocalizer<OnlineCoursesResource> L
+@{
+    ViewData["Title"] = L["Students"];
+}
+
+@section scripts {
+    <abp-script src="/Pages/Students/Index.js" />
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Students"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+                <abp-button id="NewStudentButton"
+                            text="@L["NewStudent"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="StudentsTable">
+            <thead>
+                <tr>
+                    <th>@L["FullName"]</th>
+                    <th>@L["Email"]</th>
+                    <th>@L["PhoneNumber"]</th>
+                    <th>@L["CourseName"]</th>
+                    <th>@L["RegistrationDate"]</th>
+                    <th>@L["TestStatus"]</th>
+                    <th>@L["PaymentStatus"]</th>
+                    <th>@L["AccountStatus"]</th>
+                    <th>@L["Agency"]</th>
+                    <th>@L["AssignedAdmin"]</th>
+                    <th>@L["Actions"]</th>
+                </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card> 
