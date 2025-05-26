@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Acme.OnlineCourses.Entities;
 using Acme.OnlineCourses.Students.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;

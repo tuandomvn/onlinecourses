@@ -1,0 +1,64 @@
+@page "{slug}"
+@using Microsoft.Extensions.Localization
+@using Acme.OnlineCourses.Localization
+@using Acme.OnlineCourses.Pages.Blogs
+@model ShowModel
+@inject IStringLocalizer<OnlineCoursesResource> L
+@{
+    ViewData["Title"] = Model.Blog?.Title;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            @if (Model.Blog != null)
+            {
+                <article class="blog-post">
+                    <h1 class="blog-post-title">@Model.Blog.Title</h1>
+                    <p class="blog-post-meta">
+                        @if (Model.Blog.PublishedDate.HasValue)
+                        {
+                            <span>@Model.Blog.PublishedDate.Value.ToString("MMMM dd, yyyy")</span>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Blog.Author))
+                        {
+                            <span>by @Model.Blog.Author</span>
+                        }
+                    </p>
+
+                    @if (!string.IsNullOrEmpty(Model.Blog.FeaturedImage))
+                    {
+                        <img src="@Model.Blog.FeaturedImage" class="img-fluid mb-4" alt="@Model.Blog.Title" />
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Blog.Summary))
+                    {
+                        <div class="blog-post-summary lead mb-4">
+                            @Model.Blog.Summary
+                        </div>
+                    }
+
+                    <div class="blog-post-content">
+                        @Html.Raw(Model.Blog.Content)
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Blog.Tags))
+                    {
+                        <div class="blog-post-tags mt-4">
+                            @foreach (var tag in Model.Blog.Tags.Split(','))
+                            {
+                                <span class="badge bg-secondary me-1">@tag.Trim()</span>
+                            }
+                        </div>
+                    }
+                </article>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    @L["BlogNotFound"]
+                </div>
+            }
+        </div>
+    </div>
+</div> 

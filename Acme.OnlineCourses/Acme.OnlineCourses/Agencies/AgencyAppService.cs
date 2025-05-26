@@ -1,10 +1,4 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
 using Acme.OnlineCourses.Agencies.Dtos;
-using Acme.OnlineCourses.Data;
-using Acme.OnlineCourses.Entities;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -83,7 +77,7 @@ public class AgencyAppService :
         if (input is GetAgencyListDto agencyListInput && !string.IsNullOrWhiteSpace(agencyListInput.Filter))
         {
             query = query.Where(x =>
-                x.AgencyCode.Contains(agencyListInput.Filter) ||
+                x.Code.Contains(agencyListInput.Filter) ||
                 x.Name.Contains(agencyListInput.Filter) ||
                 x.ContactEmail.Contains(agencyListInput.Filter) ||
                 x.ContactPhone.Contains(agencyListInput.Filter)

@@ -46,6 +46,18 @@
     "Enum:PaymentStatus:NotPaid": "Not Paid",
     "Enum:PaymentStatus:Paid": "Paid",
     "Enum:AccountStatus:NotSent": "Not Sent",
-    "Enum:AccountStatus:Sent": "Sent"
+    "Enum:AccountStatus:Sent": "Sent",
+    "Menu:Blogs": "Blogs",
+    "NewBlog": "New Blog",
+    "Title": "Title",
+    "Slug": "Slug",
+    "Content": "Content",
+    "Summary": "Summary",
+    "FeaturedImage": "Featured Image",
+    "IsPublished": "Published",
+    "PublishedDate": "Published Date",
+    "Author": "Author",
+    "Tags": "Tags",
+    "BlogDeletionConfirmationMessage": "Are you sure you want to delete blog {0}?"
   }
 }

@@ -1,0 +1,42 @@
+@page
+@using Microsoft.Extensions.Localization
+@using Acme.OnlineCourses.Localization
+@using Acme.OnlineCourses.Pages.Blogs
+@model IndexModel
+@inject IStringLocalizer<OnlineCoursesResource> L
+@{
+    ViewData["Title"] = L["Menu:Blogs"];
+}
+
+@section scripts {
+    <abp-script src="/Pages/Blogs/Index.js" />
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Menu:Blogs"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+                <abp-button id="NewBlogButton"
+                           text="@L["NewBlog"].Value"
+                           icon="plus"
+                           button-type="Primary" />
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="BlogsTable">
+            <thead>
+                <tr>
+                    <th>@L["Title"]</th>
+                    <th>@L["Author"]</th>
+                    <th>@L["PublishedDate"]</th>
+                    <th>@L["IsPublished"]</th>
+                    <th>@L["Actions"]</th>
+                </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card> 

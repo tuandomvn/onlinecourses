@@ -52,6 +52,16 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             )
         );
 
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                OnlineCoursesPermissions.Blogs.Default,
+                l["Menu:Blogs"],
+                url: "/Blogs",
+                icon: "fas fa-blog",
+                order: 3
+            )
+        );
+
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 2);
 

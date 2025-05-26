@@ -8,7 +8,11 @@ public class CreateUpdateStudentDto : EntityDto<Guid>
 {
     [Required]
     [StringLength(128)]
-    public string FullName { get; set; }
+    public string FirstName { get; set; }
+
+    [Required]
+    [StringLength(128)]
+    public string LastName { get; set; }
 
     [Required]
     [EmailAddress]
@@ -19,13 +23,13 @@ public class CreateUpdateStudentDto : EntityDto<Guid>
     [StringLength(32)]
     public string PhoneNumber { get; set; }
 
-    public DateTime? DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
 
     [StringLength(32)]
     public string IdentityNumber { get; set; }
 
     [Required]
-    [StringLength(128)]
+    [StringLength(256)]
     public string CourseName { get; set; }
 
     public DateTime RegistrationDate { get; set; }
@@ -43,5 +47,6 @@ public class CreateUpdateStudentDto : EntityDto<Guid>
 
     public Guid? AssignedAdminId { get; set; }
 
+    [StringLength(1024)]
     public string PaymentProofFile { get; set; }
 } 
