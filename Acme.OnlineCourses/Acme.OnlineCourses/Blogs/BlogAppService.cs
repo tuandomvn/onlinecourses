@@ -43,34 +43,16 @@ public class BlogAppService :
         return ObjectMapper.Map<List<Blog>, List<BlogDto>>(blogs);
     }
 
-    public async Task<BlogDto> GetBySlugAsync(GetBlogBySlugInput input)
-    {
-        var query = await Repository.GetQueryableAsync();
-        var blog = await query
-            .FirstOrDefaultAsync(x => x.Slug == input.Slug);
-
-        if (blog == null)
-        {
-            return null;
-        }
-
-        return ObjectMapper.Map<Blog, BlogDto>(blog);
-    }
-
     protected override async Task<IQueryable<Blog>> CreateFilteredQueryAsync(PagedAndSortedResultRequestDto input)
     {
         var query = await Repository.GetQueryableAsync();
-
         if (input is GetBlogListDto blogListInput && !string.IsNullOrWhiteSpace(blogListInput.Filter))
         {
             query = query.Where(x =>
                 x.Title.Contains(blogListInput.Filter) ||
-                x.Slug.Contains(blogListInput.Filter) ||
-                x.Summary.Contains(blogListInput.Filter) ||
-                x.Author.Contains(blogListInput.Filter)
+                x.Summary.Contains(blogListInput.Filter)
             );
         }
-
         return query;
     }
 

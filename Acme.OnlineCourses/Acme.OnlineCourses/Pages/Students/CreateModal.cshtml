@@ -16,6 +16,8 @@
         <abp-modal-header title="@L["NewStudent"].Value"></abp-modal-header>
         <abp-modal-body>
             <abp-input asp-for="Student.Email" />
+            <abp-input asp-for="Student.FirstName" />
+            <abp-input asp-for="Student.LastName" />
             <abp-input asp-for="Student.PhoneNumber" />
             <abp-input asp-for="Student.DateOfBirth" type="date" />
             <abp-input asp-for="Student.IdentityNumber" />

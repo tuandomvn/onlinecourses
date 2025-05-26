@@ -16,5 +16,4 @@ public interface IBlogAppService :
         CreateUpdateBlogDto>
 {
     Task<List<BlogDto>> GetPublishedBlogsAsync();
-    Task<BlogDto> GetBySlugAsync(GetBlogBySlugInput input);
 } 

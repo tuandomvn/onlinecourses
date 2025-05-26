@@ -17,23 +17,5 @@ namespace Acme.OnlineCourses.Pages.Blogs
         {
             _blogAppService = blogAppService;
         }
-
-        public async Task<IActionResult> OnGetAsync(string slug)
-        {
-            if (string.IsNullOrEmpty(slug))
-            {
-                return NotFound();
-            }
-
-            var input = new GetBlogBySlugInput { Slug = slug };
-            Blog = await _blogAppService.GetBySlugAsync(input);
-
-            if (Blog == null)
-            {
-                return NotFound();
-            }
-
-            return Page();
-        }
     }
 } 

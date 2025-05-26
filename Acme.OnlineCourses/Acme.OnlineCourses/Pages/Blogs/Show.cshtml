@@ -20,16 +20,7 @@
                         {
                             <span>@Model.Blog.PublishedDate.Value.ToString("MMMM dd, yyyy")</span>
                         }
-                        @if (!string.IsNullOrEmpty(Model.Blog.Author))
-                        {
-                            <span>by @Model.Blog.Author</span>
-                        }
                     </p>
-
-                    @if (!string.IsNullOrEmpty(Model.Blog.FeaturedImage))
-                    {
-                        <img src="@Model.Blog.FeaturedImage" class="img-fluid mb-4" alt="@Model.Blog.Title" />
-                    }
 
                     @if (!string.IsNullOrEmpty(Model.Blog.Summary))
                     {
@@ -41,16 +32,6 @@
                     <div class="blog-post-content">
                         @Html.Raw(Model.Blog.Content)
                     </div>
-
-                    @if (!string.IsNullOrEmpty(Model.Blog.Tags))
-                    {
-                        <div class="blog-post-tags mt-4">
-                            @foreach (var tag in Model.Blog.Tags.Split(','))
-                            {
-                                <span class="badge bg-secondary me-1">@tag.Trim()</span>
-                            }
-                        </div>
-                    }
                 </article>
             }
             else

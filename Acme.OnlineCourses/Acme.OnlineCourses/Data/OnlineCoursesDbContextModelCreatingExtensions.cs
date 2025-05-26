@@ -23,26 +23,11 @@ public static class OnlineCoursesDbContextModelCreatingExtensions
                 .IsRequired()
                 .HasMaxLength(256);
 
-            b.Property(x => x.Slug)
-                .IsRequired()
-                .HasMaxLength(256);
-
             b.Property(x => x.Summary)
                 .HasMaxLength(1024);
 
             b.Property(x => x.Content)
                 .IsRequired();
-
-            b.Property(x => x.FeaturedImage)
-                .HasMaxLength(1024);
-
-            b.Property(x => x.Author)
-                .HasMaxLength(128);
-
-            b.Property(x => x.Tags)
-                .HasMaxLength(512);
-
-            b.HasIndex(x => x.Slug);
         });
 
         builder.Entity<Student>(b =>

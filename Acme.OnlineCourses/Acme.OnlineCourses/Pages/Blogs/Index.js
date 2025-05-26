@@ -13,10 +13,6 @@ $(function () {
                     data: "title"
                 },
                 {
-                    title: l('Author'),
-                    data: "author"
-                },
-                {
                     title: l('PublishedDate'),
                     data: "publishedDate",
                     render: function (data) {

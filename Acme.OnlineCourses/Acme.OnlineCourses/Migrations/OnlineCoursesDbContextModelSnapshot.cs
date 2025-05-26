@@ -107,11 +107,6 @@ namespace Acme.OnlineCourses.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .IsRequired()
@@ -136,11 +131,6 @@ namespace Acme.OnlineCourses.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
-                    b.Property<string>("FeaturedImage")
-                        .IsRequired()
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)");
-
                     b.Property<bool>("IsPublished")
                         .HasColumnType("tinyint(1)");
 
@@ -155,20 +145,10 @@ namespace Acme.OnlineCourses.Migrations
                     b.Property<DateTime?>("PublishedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
                     b.Property<string>("Summary")
                         .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("varchar(1024)");
-
-                    b.Property<string>("Tags")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("varchar(512)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -176,8 +156,6 @@ namespace Acme.OnlineCourses.Migrations
                         .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Slug");
 
                     b.ToTable("Blogs", (string)null);
                 });
