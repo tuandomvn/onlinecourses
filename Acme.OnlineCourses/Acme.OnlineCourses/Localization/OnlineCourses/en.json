@@ -1,8 +1,26 @@
 {
   "culture": "en",
   "texts": {
-     "AppName": "OnlineCourses",
+    "AppName": "OnlineCourses",
+    "Welcome_Title": "Welcome",
     "Welcome_Text": "This is a minimalist, single layer application startup template for the ABP Framework.",
-    "Menu:Home": "Home"
+    "Menu:Home": "Home",
+    "Welcome": "Welcome",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
+    "Menu:Agencies": "Agencies",
+    "NewAgency": "New Agency",
+    "AgencyCode": "Agency Code",
+    "Name": "Name",
+    "ContactEmail": "Contact Email",
+    "ContactPhone": "Contact Phone",
+    "CommissionPercent": "Commission Percent",
+    "Status": "Status",
+    "Actions": "Actions",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "AgencyDeletionConfirmationMessage": "Are you sure you want to delete agency {0}?",
+    "SuccessfullyDeleted": "Successfully deleted",
+    "Enum:AgencyStatus:Active": "Active",
+    "Enum:AgencyStatus:Inactive": "Inactive"
   }
 }

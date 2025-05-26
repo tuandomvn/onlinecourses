@@ -1,0 +1,41 @@
+@page
+@using Acme.OnlineCourses.Agencies
+@using Acme.OnlineCourses.Agencies.Dtos
+@using Acme.OnlineCourses.Localization
+@using Microsoft.Extensions.Localization
+@model Acme.OnlineCourses.Pages.Agencies.IndexModel
+@inject IStringLocalizer<OnlineCoursesResource> L
+@section scripts {
+    <abp-script src="/Pages/Agencies/Index.js" />
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Agencies"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+                <abp-button id="NewAgencyButton"
+                            text="@L["NewAgency"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="AgenciesTable">
+            <thead>
+                <tr>
+                    <th>@L["AgencyCode"]</th>
+                    <th>@L["Name"]</th>
+                    <th>@L["ContactEmail"]</th>
+                    <th>@L["ContactPhone"]</th>
+                    <th>@L["CommissionPercent"]</th>
+                    <th>@L["Status"]</th>
+                    <th>@L["Actions"]</th>
+                </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card> 

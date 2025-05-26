@@ -1,0 +1,28 @@
+@page
+@using Microsoft.Extensions.Localization
+@using Acme.OnlineCourses.Agencies
+@using Acme.OnlineCourses.Agencies.Dtos
+@using Acme.OnlineCourses.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Button
+@model Acme.OnlineCourses.Pages.Agencies.EditModalModel
+@inject IStringLocalizer<OnlineCoursesResource> L
+@{
+    Layout = null;
+}
+
+<form asp-page="/Agencies/EditModal">
+    <abp-modal>
+        <abp-modal-header title="@L["Edit"].Value"></abp-modal-header>
+        <abp-modal-body>
+            <input asp-for="Id" />
+            <abp-input asp-for="Agency.AgencyCode" />
+            <abp-input asp-for="Agency.Name" />
+            <abp-input asp-for="Agency.ContactEmail" />
+            <abp-input asp-for="Agency.ContactPhone" />
+            <abp-input asp-for="Agency.CommissionPercent" />
+            <abp-select asp-for="Agency.Status" asp-items="@Model.StatusList" />
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form> 
