@@ -16,7 +16,7 @@ public static class OnlineCoursesDbContextModelCreatingExtensions
 
         builder.Entity<Blog>(b =>
         {
-            b.ToTable(OnlineCoursesConsts.DbTablePrefix + "Blogs", OnlineCoursesConsts.DbSchema);
+            b.ToTable("Blogs", OnlineCoursesConsts.DbSchema);
             b.ConfigureByConvention();
 
             b.Property(x => x.Title)
@@ -47,7 +47,7 @@ public static class OnlineCoursesDbContextModelCreatingExtensions
 
         builder.Entity<Student>(b =>
         {
-            b.ToTable(OnlineCoursesConsts.DbTablePrefix + "Students", OnlineCoursesConsts.DbSchema);
+            b.ToTable("Students", OnlineCoursesConsts.DbSchema);
             b.ConfigureByConvention();
 
             b.Property(x => x.FirstName)
@@ -70,8 +70,12 @@ public static class OnlineCoursesDbContextModelCreatingExtensions
 
         builder.Entity<Agency>(b =>
         {
-            b.ToTable(OnlineCoursesConsts.DbTablePrefix + "Agencies", OnlineCoursesConsts.DbSchema);
+            b.ToTable("Agencies", OnlineCoursesConsts.DbSchema);
             b.ConfigureByConvention();
+
+            b.Property(x => x.Code)
+                .IsRequired()
+                .HasMaxLength(32);
 
             b.Property(x => x.Name)
                 .IsRequired()
@@ -89,6 +93,7 @@ public static class OnlineCoursesDbContextModelCreatingExtensions
             b.Property(x => x.Address)
                 .HasMaxLength(512);
 
+            b.HasIndex(x => x.Code);
             b.HasIndex(x => x.Name);
         });
     }

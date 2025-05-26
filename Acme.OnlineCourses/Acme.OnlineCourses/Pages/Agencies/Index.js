@@ -9,8 +9,8 @@ $(function () {
             ajax: abp.libs.datatables.createAjax(acme.onlineCourses.agencies.agency.getList),
             columnDefs: [
                 {
-                    title: l('AgencyCode'),
-                    data: "agencyCode"
+                    title: l('Code'),
+                    data: "code"
                 },
                 {
                     title: l('Name'),

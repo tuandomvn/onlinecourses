@@ -1,10 +1,13 @@
 @page
-@using Acme.OnlineCourses.Agencies
-@using Acme.OnlineCourses.Agencies.Dtos
-@using Acme.OnlineCourses.Localization
 @using Microsoft.Extensions.Localization
-@model Acme.OnlineCourses.Pages.Agencies.IndexModel
+@using Acme.OnlineCourses.Localization
+@using Acme.OnlineCourses.Pages.Agencies
+@model IndexModel
 @inject IStringLocalizer<OnlineCoursesResource> L
+@{
+    ViewData["Title"] = L["Agencies"];
+}
+
 @section scripts {
     <abp-script src="/Pages/Agencies/Index.js" />
 }
@@ -17,9 +20,9 @@
             </abp-column>
             <abp-column size-md="_6" class="text-end">
                 <abp-button id="NewAgencyButton"
-                            text="@L["NewAgency"].Value"
-                            icon="plus"
-                            button-type="Primary" />
+                           text="@L["NewAgency"].Value"
+                           icon="plus"
+                           button-type="Primary" />
             </abp-column>
         </abp-row>
     </abp-card-header>
@@ -27,7 +30,7 @@
         <abp-table striped-rows="true" id="AgenciesTable">
             <thead>
                 <tr>
-                    <th>@L["AgencyCode"]</th>
+                    <th>@L["Code"]</th>
                     <th>@L["Name"]</th>
                     <th>@L["ContactEmail"]</th>
                     <th>@L["ContactPhone"]</th>

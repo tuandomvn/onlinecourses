@@ -29,6 +29,17 @@ public class OnlineCoursesDbContext : AbpDbContext<OnlineCoursesDbContext>
     {
         base.OnModelCreating(builder);
 
+        /* Include modules to your migration db context */
+
+        builder.ConfigurePermissionManagement();
+        builder.ConfigureSettingManagement();
+        builder.ConfigureAuditLogging();
+        builder.ConfigureIdentity();
+        builder.ConfigureOpenIddict();
+        builder.ConfigureFeatureManagement();
+
+        /* Configure your own tables/entities inside here */
+
         builder.ConfigureOnlineCourses();
     }
 }

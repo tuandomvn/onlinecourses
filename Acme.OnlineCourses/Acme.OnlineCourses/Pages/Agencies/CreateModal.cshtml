@@ -1,11 +1,10 @@
 @page
 @using Microsoft.Extensions.Localization
-@using Acme.OnlineCourses.Agencies
-@using Acme.OnlineCourses.Agencies.Dtos
 @using Acme.OnlineCourses.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Button
-@model Acme.OnlineCourses.Pages.Agencies.CreateModalModel
+@using Acme.OnlineCourses.Pages.Agencies
+@model CreateModalModel
 @inject IStringLocalizer<OnlineCoursesResource> L
 @{
     Layout = null;
@@ -15,12 +14,14 @@
     <abp-modal>
         <abp-modal-header title="@L["NewAgency"].Value"></abp-modal-header>
         <abp-modal-body>
-            <abp-input asp-for="Agency.AgencyCode" />
+            <abp-input asp-for="Agency.Code" />
             <abp-input asp-for="Agency.Name" />
+            <abp-input asp-for="Agency.Description" />
             <abp-input asp-for="Agency.ContactEmail" />
             <abp-input asp-for="Agency.ContactPhone" />
+            <abp-input asp-for="Agency.Address" />
             <abp-input asp-for="Agency.CommissionPercent" />
-            <abp-select asp-for="Agency.Status" asp-items="@Model.StatusList" />
+            <abp-select asp-for="Agency.Status" />
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
     </abp-modal>

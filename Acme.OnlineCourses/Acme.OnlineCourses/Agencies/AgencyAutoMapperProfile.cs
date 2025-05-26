@@ -1,5 +1,6 @@
 using Acme.OnlineCourses.Agencies.Dtos;
 using AutoMapper;
+using Volo.Abp.AutoMapper;
 
 namespace Acme.OnlineCourses.Agencies;
 
@@ -7,18 +8,17 @@ public class AgencyAutoMapperProfile : Profile
 {
     public AgencyAutoMapperProfile()
     {
-        CreateMap<Agency, AgencyDto>()
-            .ForMember(dest => dest.AgencyCode, opt => opt.MapFrom(src => src.Code));
+        CreateMap<Agency, AgencyDto>();
+
         CreateMap<CreateUpdateAgencyDto, Agency>()
-            .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.AgencyCode))
-            .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.CreationTime, opt => opt.Ignore())
-            .ForMember(dest => dest.CreatorId, opt => opt.Ignore())
-            .ForMember(dest => dest.LastModificationTime, opt => opt.Ignore())
-            .ForMember(dest => dest.LastModifierId, opt => opt.Ignore())
-            //.ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
-            //.ForMember(dest => dest.DeleterId, opt => opt.Ignore())
-            //.ForMember(dest => dest.DeletionTime, opt => opt.Ignore())
-            ;
+            .Ignore(dest => dest.Students)
+            .Ignore(dest => dest.ExtraProperties)
+            .Ignore(dest => dest.ConcurrencyStamp)
+            .Ignore(dest => dest.LastModificationTime)
+            .Ignore(dest => dest.LastModifierId)
+            .Ignore(dest => dest.CreationTime)
+            .Ignore(dest => dest.CreatorId);
+
+        CreateMap<AgencyDto, CreateUpdateAgencyDto>();
     }
 } 
