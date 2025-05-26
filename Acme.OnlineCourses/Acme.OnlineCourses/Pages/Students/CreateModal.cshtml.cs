@@ -26,22 +26,18 @@ public class CreateModalModel : OnlineCoursesPageModel
     public List<SelectListItem> PaymentStatusList { get; set; }
     public List<SelectListItem> AccountStatusList { get; set; }
     public List<SelectListItem> AgencyList { get; set; }
-    public List<SelectListItem> AdminList { get; set; }
 
     private readonly IStudentAppService _studentAppService;
     private readonly IAgencyAppService _agencyAppService;
-    private readonly IIdentityUserAppService _identityUserAppService;
     private readonly IStringLocalizer<OnlineCoursesResource> _localizer;
 
     public CreateModalModel(
         IStudentAppService studentAppService,
         IAgencyAppService agencyAppService,
-        IIdentityUserAppService identityUserAppService,
         IStringLocalizer<OnlineCoursesResource> localizer)
     {
         _studentAppService = studentAppService;
         _agencyAppService = agencyAppService;
-        _identityUserAppService = identityUserAppService;
         _localizer = localizer;
     }
 
@@ -109,20 +105,5 @@ public class CreateModalModel : OnlineCoursesPageModel
                 Text = x.Name
             })
             .ToList();
-
-        // Load admin list
-        //var admins = await _identityUserAppService.GetListAsync(new Volo.Abp.Identity.GetIdentityUsersInput
-        //{
-        //    MaxResultCount = 1000,
-        //    Filter = "role:admin" // Assuming admin role name is "admin"
-        //});
-
-        //AdminList = admins.Items
-        //    .Select(x => new SelectListItem
-        //    {
-        //        Value = x.Id.ToString(),
-        //        Text = x.UserName
-        //    })
-        //    .ToList();
     }
 } 

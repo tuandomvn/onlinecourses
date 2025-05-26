@@ -106,18 +106,18 @@ public class EditModalModel : OnlineCoursesPageModel
             .ToList();
 
         // Load admin list
-        var admins = await _identityUserAppService.GetListAsync(new Volo.Abp.Identity.GetIdentityUsersInput
-        {
-            MaxResultCount = 1000,
-            Filter = "role:admin" // Assuming admin role name is "admin"
-        });
+        //var admins = await _identityUserAppService.GetListAsync(new Volo.Abp.Identity.GetIdentityUsersInput
+        //{
+        //    MaxResultCount = 1000,
+        //    Filter = "role:admin" // Assuming admin role name is "admin"
+        //});
 
-        AdminList = admins.Items
-            .Select(x => new SelectListItem
-            {
-                Value = x.Id.ToString(),
-                Text = x.UserName
-            })
-            .ToList();
+        //AdminList = admins.Items
+        //    .Select(x => new SelectListItem
+        //    {
+        //        Value = x.Id.ToString(),
+        //        Text = x.UserName
+        //    })
+        //    .ToList();
     }
 } 

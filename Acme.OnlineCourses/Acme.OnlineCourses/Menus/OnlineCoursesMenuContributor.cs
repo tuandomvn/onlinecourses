@@ -42,6 +42,16 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             )
         );
 
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                OnlineCoursesPermissions.Agencies.Default,
+                l["Menu:Agencies"],
+                url: "/Agencies",
+                icon: "fas fa-building",
+                order: 2
+            )
+        );
+
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 2);
 
