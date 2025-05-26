@@ -14,6 +14,16 @@ public class OnlineCoursesPermissionDefinitionProvider : PermissionDefinitionPro
         studentsPermission.AddChild(OnlineCoursesPermissions.Students.Create, L("Permission:Students.Create"));
         studentsPermission.AddChild(OnlineCoursesPermissions.Students.Edit, L("Permission:Students.Edit"));
         studentsPermission.AddChild(OnlineCoursesPermissions.Students.Delete, L("Permission:Students.Delete"));
+
+        var agenciesPermission = onlineCoursesGroup.AddPermission("AgencyManagement", L("Permission:Agencies"));
+        agenciesPermission.AddChild("AgencyManagement.Create", L("Permission:Agencies.Create"));
+        agenciesPermission.AddChild("AgencyManagement.Edit", L("Permission:Agencies.Edit"));
+        agenciesPermission.AddChild("AgencyManagement.Delete", L("Permission:Agencies.Delete"));
+
+        var blogsPermission = onlineCoursesGroup.AddPermission(OnlineCoursesPermissions.Blogs.Default, L("Permission:Blogs"));
+        blogsPermission.AddChild(OnlineCoursesPermissions.Blogs.Create, L("Permission:Blogs.Create"));
+        blogsPermission.AddChild(OnlineCoursesPermissions.Blogs.Edit, L("Permission:Blogs.Edit"));
+        blogsPermission.AddChild(OnlineCoursesPermissions.Blogs.Delete, L("Permission:Blogs.Delete"));
     }
 
     private static LocalizableString L(string name)

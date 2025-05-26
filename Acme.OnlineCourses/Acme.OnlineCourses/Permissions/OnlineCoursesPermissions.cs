@@ -1,3 +1,5 @@
+using Volo.Abp.Reflection;
+
 namespace Acme.OnlineCourses.Permissions;
 
 public static class OnlineCoursesPermissions
