@@ -3,6 +3,7 @@ using Acme.OnlineCourses.Blogs.Dtos;
 using Acme.OnlineCourses.Students;
 using Acme.OnlineCourses.Students.Dtos;
 using AutoMapper;
+using Volo.Abp.AutoMapper;
 
 namespace Acme.OnlineCourses;
 
@@ -18,6 +19,12 @@ public class OnlineCoursesAutoMapperProfile : Profile
         CreateMap<CreateUpdateStudentDto, Student>();
 
         CreateMap<Blog, BlogDto>();
-        CreateMap<CreateUpdateBlogDto, Blog>();
+        CreateMap<CreateUpdateBlogDto, Blog>()
+            .Ignore(x => x.LastModificationTime)
+            .Ignore(x => x.LastModifierId)
+            .Ignore(x => x.CreationTime)
+            .Ignore(x => x.CreatorId)
+            .Ignore(x => x.ExtraProperties)
+            .Ignore(x => x.ConcurrencyStamp);
     }
 } 
