@@ -6,6 +6,8 @@
     "Menu:Students": "Students",
 	"Menu:About": "About Us",
     "Menu:Blogs": "Blogs",
+	"Menu:Students:Register": "Register",
+    "Menu:Students:List": "Students List",
     "Welcome": "Welcome",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
     "Permission:Agencies": "Agency Management",
@@ -77,6 +79,14 @@
     "PublishedDate": "Published Date",
     "IsPublished": "Is Published",
     "Tags": "Tags",
-    "BlogDeletionConfirmationMessage": "Are you sure you want to delete blog {0}?"
+    "BlogDeletionConfirmationMessage": "Are you sure you want to delete blog {0}?",
+	"ReadTermsAndConditions": "Read Terms and Conditions",
+    "TermsAndConditions": "Terms and Conditions",
+    "IAgreeToTerms": "I agree to the terms and conditions",
+    "PleaseAgreeToTerms": "Please agree to the terms and conditions",
+    "Accept": "Accept",
+    "Close": "Close",
+	"BlogNotFound": "Terms and conditions not found",
+    "ErrorLoadingTerms": "Error loading terms and conditions",
   }
 } 

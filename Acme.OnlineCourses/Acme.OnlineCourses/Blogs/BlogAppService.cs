@@ -27,11 +27,11 @@ public class BlogAppService :
     public BlogAppService(IRepository<Blog, Guid> repository)
         : base(repository)
     {
-        //GetPolicyName = OnlineCoursesPermissions.Blogs.Default;
-        //GetListPolicyName = OnlineCoursesPermissions.Blogs.Default;
-        //CreatePolicyName = OnlineCoursesPermissions.Blogs.Create;
-        //UpdatePolicyName = OnlineCoursesPermissions.Blogs.Edit;
-        //DeletePolicyName = OnlineCoursesPermissions.Blogs.Delete;
+        GetPolicyName = OnlineCoursesPermissions.Blogs.Default;
+        GetListPolicyName = OnlineCoursesPermissions.Blogs.Default;
+        CreatePolicyName = OnlineCoursesPermissions.Blogs.Create;
+        UpdatePolicyName = OnlineCoursesPermissions.Blogs.Edit;
+        DeletePolicyName = OnlineCoursesPermissions.Blogs.Delete;
     }
 
     public async Task<List<BlogDto>> GetPublishedBlogsAsync()
@@ -45,6 +45,7 @@ public class BlogAppService :
         return ObjectMapper.Map<List<Blog>, List<BlogDto>>(blogs);
     }
 
+    [AllowAnonymous]
     public async Task<BlogDto> GetByCodeAsync(string code)
     {
         var query = await Repository.GetQueryableAsync();

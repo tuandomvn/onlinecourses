@@ -4,14 +4,12 @@ using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Agencies.Dtos;
 using Acme.OnlineCourses.Students;
 using Acme.OnlineCourses.Students.Dtos;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Acme.OnlineCourses.Pages.Students;
 
-[Authorize(Roles = "student")]
 public class RegisterModel : PageModel
 {
     private readonly IStudentAppService _studentAppService;

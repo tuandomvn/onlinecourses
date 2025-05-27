@@ -11,7 +11,6 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Acme.OnlineCourses.Students;
 
-[Authorize(Roles = "student")]
 public class StudentAppService : CrudAppService<
     Student,
     StudentDto,

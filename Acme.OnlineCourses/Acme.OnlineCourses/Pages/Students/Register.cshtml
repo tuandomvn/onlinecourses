@@ -26,10 +26,39 @@
             <abp-input asp-for="Student.IdentityNumber" />
             <abp-input asp-for="Student.Address" />
             <abp-select asp-for="Student.AgencyId" asp-items="Model.Agencies" />
-            <abp-input asp-for="Student.AgreeToTerms" />
+            <div class="form-group">
+                <a href="javascript:void(0);" id="TermsLink">@L["ReadTermsAndConditions"]</a>
+            </div>
+            <input type="hidden" asp-for="Student.AgreeToTerms" id="AgreeToTerms" />
         </form>
     </abp-card-body>
     <abp-card-footer>
         <abp-button button-type="Primary" text="@L["Save"]" id="SaveButton" />
     </abp-card-footer>
-</abp-card> 
+</abp-card>
+
+<div id="TermsModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@L["TermsAndConditions"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="TermsContent"></div>
+                <div class="form-group mt-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="AgreeToTermsCheckbox">
+                        <label class="custom-control-label" for="AgreeToTermsCheckbox">@L["IAgreeToTerms"]</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@L["Close"]</button>
+                <button type="button" class="btn btn-primary" id="AcceptTermsButton">@L["Accept"]</button>
+            </div>
+        </div>
+    </div>
+</div> 
