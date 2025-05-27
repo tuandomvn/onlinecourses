@@ -13,11 +13,13 @@
     <abp-modal>
         <abp-modal-header title="@L["NewBlog"].Value"></abp-modal-header>
         <abp-modal-body>
+            <abp-input asp-for="Blog.Code" />
             <abp-input asp-for="Blog.Title" />
             <div class="form-group">
                 <label asp-for="Blog.Content">@L["Content"]</label>
                 <textarea id="Blog_Content" name="Blog.Content" class="form-control"></textarea>
             </div>
+            <abp-input asp-for="Blog.Summary" />
             <abp-input asp-for="Blog.IsPublished" />
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
@@ -47,7 +49,7 @@
                 menubar: 'file edit view insert format tools table help',
                 branding: false
             });
-        }, 1000); // 300ms, có thể tăng lên nếu modal render chậm
+        }, 300); // 300ms, có thể tăng lên nếu modal render chậm
     });
 
     $('form').on('submit', function () {

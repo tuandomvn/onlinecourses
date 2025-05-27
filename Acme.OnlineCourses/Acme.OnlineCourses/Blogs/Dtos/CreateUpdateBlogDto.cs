@@ -7,6 +7,10 @@ namespace Acme.OnlineCourses.Blogs.Dtos;
 public class CreateUpdateBlogDto : EntityDto<Guid>
 {
     [Required]
+    [StringLength(50)]
+    public string Code { get; set; }
+
+    [Required]
     [StringLength(256)]
     public string Title { get; set; }
 
