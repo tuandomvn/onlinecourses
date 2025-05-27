@@ -107,6 +107,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 Address = "123 Main St, City A",
                 Description = "Agency in Hanoi",
                 ContactPhone = "0123456789",
+                ContactEmail = "test1@gmail.com"
             },
             new Agency
             {
@@ -115,6 +116,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 Address = "456 Oak St, City B",
                 Description = "Agency in Lam Dong",
                 ContactPhone = "0123456789",
+                ContactEmail = "test1@gmail.com"
             },
             new Agency
             {
@@ -123,6 +125,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 Address = "789 Pine St, City C",
                 Description = "Agency in Thanh Hoa",
                 ContactPhone = "0123456789",
+                ContactEmail = "test1@gmail.com"
             }
         };
 
@@ -215,6 +218,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
 
         foreach (var blog in blogs)
         {
+            blog.Summary = "TBD"; // Default summary
             await _blogRepository.InsertAsync(blog, autoSave: true);
         }
     }
