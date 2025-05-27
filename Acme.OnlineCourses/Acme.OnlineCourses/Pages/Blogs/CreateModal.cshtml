@@ -49,4 +49,14 @@
             });
         }, 300); // 300ms, có thể tăng lên nếu modal render chậm
     });
+
+    $('form').on('submit', function () {
+         console.log("FORM script 111111111111")
+        tinymce.triggerSave();
+    });
+
+    $(document).on('abp-ajax-beforeSend', function () {
+         console.log("ABp script 111111111111")
+        tinymce.triggerSave();
+    });
 </script>
