@@ -9,17 +9,56 @@
     Layout = null;
 }
 
-<form asp-page="/Blogs/EditModal">
+<form asp-page="/Blogs/EditModal" asp-route-id="@Model.Id">
     <abp-modal>
         <abp-modal-header title="@L["Edit"].Value"></abp-modal-header>
         <abp-modal-body>
-            <input asp-for="Blog.Id" />
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Blog.Id" />
             <abp-input asp-for="Blog.Title" />
-            <abp-input asp-for="Blog.Content" />
+            <div class="form-group">
+                <label asp-for="Blog.Content">@L["Content"]</label>
+                <textarea id="Blog_Content" name="Blog.Content" class="form-control">@Model.Blog.Content</textarea>
+            </div>
             <abp-input asp-for="Blog.Summary" />
             <abp-input asp-for="Blog.IsPublished" />
             <abp-input asp-for="Blog.PublishedDate" type="date" />
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
     </abp-modal>
-</form> 
+</form>
+
+<script src="https://cdn.tiny.cloud/1/r7wvp6swxi0c9v5j13ek6leb1ufare0sojpf7x1kv06qo55b/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    console.log("EditModal script loaded")
+    $(function () {
+        // Đợi một chút để modal render xong
+        setTimeout(function () {
+            console.log("EditModal script 111111111111")
+            tinymce.remove('#Blog_Content');
+            tinymce.init({
+                selector: '#Blog_Content',
+                height: 400,
+                plugins: [
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'print', 'preview', 'anchor',
+                    'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'paste', 'help', 'wordcount'
+                ],
+                toolbar: 'undo redo | formatselect | bold italic backcolor | ' +
+                    'alignleft aligncenter alignright alignjustify | ' +
+                    'bullist numlist outdent indent | removeformat | help | code | image | table',
+                menubar: 'file edit view insert format tools table help',
+                branding: false
+            });
+        }, 1000); // 300ms, có thể tăng lên nếu modal render chậm
+    });
+
+    $('form').on('submit', function () {
+        tinymce.triggerSave();
+    });
+
+    $(document).on('abp-ajax-beforeSend', function () {
+        console.log("ABp script 111111111111")
+        tinymce.triggerSave();
+    });
+</script> 

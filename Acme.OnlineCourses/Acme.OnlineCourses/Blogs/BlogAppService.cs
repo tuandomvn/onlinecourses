@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Acme.OnlineCourses.Agencies.Dtos;
+using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Blogs.Dtos;
 using Acme.OnlineCourses.Permissions;
 using Microsoft.AspNetCore.Authorization;

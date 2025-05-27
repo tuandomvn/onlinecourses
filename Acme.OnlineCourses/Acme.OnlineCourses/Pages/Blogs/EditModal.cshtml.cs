@@ -1,5 +1,6 @@
 using Acme.OnlineCourses.Blogs;
 using Acme.OnlineCourses.Blogs.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
@@ -32,10 +33,15 @@ public class EditModalModel : PageModel
     {
         var blog = await _blogAppService.GetAsync(Id);
         Blog = _objectMapper.Map<BlogDto, CreateUpdateBlogDto>(blog);
+        Blog.Id = Id;
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
+        if (Blog.Id != Id)
+        {
+            Blog.Id = Id;
+        }
         await _blogAppService.UpdateAsync(Id, Blog);
         return new OkResult();
     }

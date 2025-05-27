@@ -45,7 +45,8 @@ public class OnlineCoursesAutoMapperProfile : Profile
             .Ignore(x => x.CreatorId)
             .Ignore(x => x.ExtraProperties)
             .Ignore(x => x.ConcurrencyStamp);
-
+        CreateMap<BlogDto, CreateUpdateBlogDto>()
+            ;
 
         CreateMap<Agency, AgencyDto>();
 
