@@ -110,4 +110,8 @@
     <Content Remove="$(UserProfile)\.nuget\packages\*\*\contentFiles\any\*\*.abppkg*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ObjectMapping\" />
+  </ItemGroup>
+
 </Project>
