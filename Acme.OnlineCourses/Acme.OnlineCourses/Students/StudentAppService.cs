@@ -27,7 +27,7 @@ public class StudentAppService :
         // Add default sorting by registration date if no sorting is specified
         if (string.IsNullOrWhiteSpace(input.Sorting))
         {
-            query = query.OrderByDescending(x => x.RegistrationDate);
+            //query = query.OrderByDescending(x => x.RegistrationDate);
         }
         
         return query;

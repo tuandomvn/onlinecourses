@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Acme.OnlineCourses.Migrations
 {
     [DbContext(typeof(OnlineCoursesDbContext))]
-    [Migration("20250527022403_AddCodeToBlog")]
-    partial class AddCodeToBlog
+    [Migration("20250527064732_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -175,8 +175,19 @@ namespace Acme.OnlineCourses.Migrations
                     b.Property<int>("AccountStatus")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<Guid?>("AgencyId")
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("AgencyName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("AgreeToTerms")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid?>("AssignedAdminId")
                         .HasColumnType("char(36)");
@@ -188,9 +199,12 @@ namespace Acme.OnlineCourses.Migrations
                         .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
-                    b.Property<string>("CourseName")
+                    b.Property<string>("CourseNote")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("CourseStatus")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime(6)")
@@ -200,7 +214,7 @@ namespace Acme.OnlineCourses.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
@@ -251,9 +265,6 @@ namespace Acme.OnlineCourses.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("varchar(32)");
 
-                    b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<int>("TestStatus")
                         .HasColumnType("int");
 
@@ -266,6 +277,71 @@ namespace Acme.OnlineCourses.Migrations
                     b.HasIndex("Email");
 
                     b.ToTable("Students", (string)null);
+                });
+
+            modelBuilder.Entity("Acme.OnlineCourses.Students.StudentAttachment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("UploadDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentAttachment");
+                });
+
+            modelBuilder.Entity("Acme.OnlineCourses.Students.StudentCourse", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CourseName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentCourse");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -1873,7 +1949,7 @@ namespace Acme.OnlineCourses.Migrations
 
             modelBuilder.Entity("Acme.OnlineCourses.Students.Student", b =>
                 {
-                    b.HasOne("Acme.OnlineCourses.Agencies.Agency", "Agency")
+                    b.HasOne("Acme.OnlineCourses.Agencies.Agency", null)
                         .WithMany("Students")
                         .HasForeignKey("AgencyId");
 
@@ -1881,9 +1957,25 @@ namespace Acme.OnlineCourses.Migrations
                         .WithMany()
                         .HasForeignKey("AssignedAdminId");
 
-                    b.Navigation("Agency");
-
                     b.Navigation("AssignedAdmin");
+                });
+
+            modelBuilder.Entity("Acme.OnlineCourses.Students.StudentAttachment", b =>
+                {
+                    b.HasOne("Acme.OnlineCourses.Students.Student", null)
+                        .WithMany("Attachments")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Acme.OnlineCourses.Students.StudentCourse", b =>
+                {
+                    b.HasOne("Acme.OnlineCourses.Students.Student", null)
+                        .WithMany("Courses")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
@@ -2022,6 +2114,13 @@ namespace Acme.OnlineCourses.Migrations
             modelBuilder.Entity("Acme.OnlineCourses.Agencies.Agency", b =>
                 {
                     b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("Acme.OnlineCourses.Students.Student", b =>
+                {
+                    b.Navigation("Attachments");
+
+                    b.Navigation("Courses");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

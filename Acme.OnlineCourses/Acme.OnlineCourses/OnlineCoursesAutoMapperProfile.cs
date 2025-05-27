@@ -17,48 +17,22 @@ public class OnlineCoursesAutoMapperProfile : Profile
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */
 
-        //CreateMap<Student, StudentDto>();
-        //CreateMap<CreateUpdateStudentDto, Student>();
-
-        CreateMap<Student, StudentDto>()
-            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
-            .Ignore(dest => dest.AgencyName)
-            .Ignore(dest => dest.AssignedAdminName);
-
-        CreateMap<CreateUpdateStudentDto, Student>()
-            .Ignore(dest => dest.Agency)
-            .Ignore(dest => dest.AssignedAdmin)
-            .Ignore(dest => dest.ExtraProperties)
-            .Ignore(dest => dest.ConcurrencyStamp)
-            .Ignore(dest => dest.LastModificationTime)
-            .Ignore(dest => dest.LastModifierId)
-            .Ignore(dest => dest.CreationTime)
-            .Ignore(dest => dest.CreatorId);
-
+        CreateMap<Student, StudentDto>();
+        CreateMap<CreateUpdateStudentDto, Student>();
         CreateMap<StudentDto, CreateUpdateStudentDto>();
 
+        CreateMap<StudentCourse, StudentCourseDto>();
+        CreateMap<CreateUpdateStudentCourseDto, StudentCourse>();
+
+        CreateMap<StudentAttachment, StudentAttachmentDto>();
+        CreateMap<CreateUpdateStudentAttachmentDto, StudentAttachment>();
+
         CreateMap<Blog, BlogDto>();
-        CreateMap<CreateUpdateBlogDto, Blog>()
-            .Ignore(x => x.LastModificationTime)
-            .Ignore(x => x.LastModifierId)
-            .Ignore(x => x.CreationTime)
-            .Ignore(x => x.CreatorId)
-            .Ignore(x => x.ExtraProperties)
-            .Ignore(x => x.ConcurrencyStamp);
-        CreateMap<BlogDto, CreateUpdateBlogDto>()
-            ;
+        CreateMap<CreateUpdateBlogDto, Blog>();
+        CreateMap<BlogDto, CreateUpdateBlogDto>();
 
         CreateMap<Agency, AgencyDto>();
-
-        CreateMap<CreateUpdateAgencyDto, Agency>()
-            .Ignore(dest => dest.Students)
-            .Ignore(dest => dest.ExtraProperties)
-            .Ignore(dest => dest.ConcurrencyStamp)
-            .Ignore(dest => dest.LastModificationTime)
-            .Ignore(dest => dest.LastModifierId)
-            .Ignore(dest => dest.CreationTime)
-            .Ignore(dest => dest.CreatorId);
-
+        CreateMap<CreateUpdateAgencyDto, Agency>();
         CreateMap<AgencyDto, CreateUpdateAgencyDto>();
     }
 } 

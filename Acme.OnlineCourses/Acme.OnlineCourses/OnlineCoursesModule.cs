@@ -291,7 +291,7 @@ public class OnlineCoursesModule : AbpModule
         context.Services.AddAutoMapperObjectMapper<OnlineCoursesModule>();
         Configure<AbpAutoMapperOptions>(options =>
         {
-            options.AddMaps<OnlineCoursesModule>(validate: true);
+            options.AddMaps<OnlineCoursesModule>(validate: false);
         });
     }
 
