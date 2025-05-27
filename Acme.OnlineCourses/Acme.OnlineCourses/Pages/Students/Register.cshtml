@@ -1,0 +1,35 @@
+@page
+@using Microsoft.Extensions.Localization
+@using Acme.OnlineCourses.Localization
+@using Acme.OnlineCourses.Pages.Students
+@model RegisterModel
+@inject IStringLocalizer<OnlineCoursesResource> L
+@{
+    ViewData["Title"] = L["RegisterStudent"];
+}
+
+@section scripts {
+    <abp-script src="/Pages/Students/Register.js" />
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-card-title>@L["RegisterStudent"]</abp-card-title>
+    </abp-card-header>
+    <abp-card-body>
+        <form id="RegisterForm">
+            <abp-input asp-for="Student.FirstName" />
+            <abp-input asp-for="Student.LastName" />
+            <abp-input asp-for="Student.Email" />
+            <abp-input asp-for="Student.PhoneNumber" />
+            <abp-input asp-for="Student.DateOfBirth" type="date" />
+            <abp-input asp-for="Student.IdentityNumber" />
+            <abp-input asp-for="Student.Address" />
+            <abp-select asp-for="Student.AgencyId" asp-items="Model.Agencies" />
+            <abp-input asp-for="Student.AgreeToTerms" />
+        </form>
+    </abp-card-body>
+    <abp-card-footer>
+        <abp-button button-type="Primary" text="@L["Save"]" id="SaveButton" />
+    </abp-card-footer>
+</abp-card> 

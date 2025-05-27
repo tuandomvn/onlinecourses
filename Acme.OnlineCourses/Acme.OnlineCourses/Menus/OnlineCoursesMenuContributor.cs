@@ -1,4 +1,5 @@
-﻿using Acme.OnlineCourses.Localization;
+﻿using System.Threading.Tasks;
+using Acme.OnlineCourses.Localization;
 using Acme.OnlineCourses.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
@@ -16,7 +17,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
         }
     }
 
-    private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
+    private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
     {
         var administration = context.Menu.GetAdministration();
         var l = context.GetLocalizer<OnlineCoursesResource>();
@@ -34,37 +35,60 @@ public class OnlineCoursesMenuContributor : IMenuContributor
 
         context.Menu.AddItem(
             new ApplicationMenuItem(
-                OnlineCoursesPermissions.Students.Default,
-                l["Menu:Students"],
-                url: "/Students",
-                icon: "fas fa-user-graduate",
+                OnlineCoursesMenus.About,
+                l["Menu:About"],
+                "~/About",
+                icon: "fas fa-info-circle",
                 order: 1
             )
         );
 
+        // Register menu - public access
         context.Menu.AddItem(
             new ApplicationMenuItem(
-                OnlineCoursesPermissions.Agencies.Default,
-                l["Menu:Agencies"],
-                url: "/Agencies",
-                icon: "fas fa-building",
+                OnlineCoursesMenus.Students.Register,
+                l["Menu:Students:Register"],
+                url: "/Students/Register",
+                icon: "fas fa-user-plus",
                 order: 2
+            )
+        );
+
+        // List menu - admin only
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                OnlineCoursesMenus.Students.List,
+                l["Menu:Students:List"],
+                url: "/Students",
+                icon: "fas fa-list",
+                order: 3,
+                requiredPermissionName: OnlineCoursesPermissions.Students.Default
             )
         );
 
         context.Menu.AddItem(
             new ApplicationMenuItem(
-                OnlineCoursesPermissions.Blogs.Default,
+                OnlineCoursesMenus.Agencies,
+                l["Menu:Agencies"],
+                url: "/Agencies",
+                icon: "fas fa-building",
+                order: 4,
+                requiredPermissionName: OnlineCoursesPermissions.Agencies.Default
+            )
+        );
+
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                OnlineCoursesMenus.Blogs,
                 l["Menu:Blogs"],
                 url: "/Blogs",
                 icon: "fas fa-blog",
-                order: 3
+                order: 5,
+                requiredPermissionName: OnlineCoursesPermissions.Blogs.Default
             )
         );
 
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 2);
-
-        return Task.CompletedTask;
     }
 }

@@ -4,6 +4,7 @@
     "Menu:Home": "Home",
     "Menu:Agencies": "Agencies",
     "Menu:Students": "Students",
+	"Menu:About": "About Us",
     "Menu:Blogs": "Blogs",
     "Welcome": "Welcome",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",

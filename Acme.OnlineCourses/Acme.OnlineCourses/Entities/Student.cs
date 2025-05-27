@@ -29,7 +29,7 @@ public class Student : AuditedAggregateRoot<Guid>
     public IdentityUser AssignedAdmin { get; set; }
     public string PaymentProofFile { get; set; }
 
-    protected Student()
+    public Student()
     {
         Attachments = new List<StudentAttachment>();
         Courses = new List<StudentCourse>();

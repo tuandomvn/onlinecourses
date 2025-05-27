@@ -219,6 +219,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         foreach (var blog in blogs)
         {
             blog.Summary = "TBD"; // Default summary
+            blog.IsPublished = true;
             await _blogRepository.InsertAsync(blog, autoSave: true);
         }
     }
