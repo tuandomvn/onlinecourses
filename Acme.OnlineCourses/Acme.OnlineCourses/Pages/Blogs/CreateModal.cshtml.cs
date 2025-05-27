@@ -25,6 +25,14 @@ public class CreateModalModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        if(Blog.PublishedDate == null)
+        {
+            Blog.PublishedDate = DateTime.Now;
+        }
+        if (string.IsNullOrEmpty(Blog.Summary))
+        {
+            Blog.Summary = "TBD";
+        }
         await _blogAppService.CreateAsync(Blog);
         return new OkResult();
     }
