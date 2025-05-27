@@ -16,4 +16,5 @@ public interface IBlogAppService :
         CreateUpdateBlogDto>
 {
     Task<List<BlogDto>> GetPublishedBlogsAsync();
+    Task<BlogDto> GetByCodeAsync(string code);
 } 

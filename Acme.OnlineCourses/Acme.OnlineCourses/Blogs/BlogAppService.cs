@@ -45,6 +45,15 @@ public class BlogAppService :
         return ObjectMapper.Map<List<Blog>, List<BlogDto>>(blogs);
     }
 
+    public async Task<BlogDto> GetByCodeAsync(string code)
+    {
+        var query = await Repository.GetQueryableAsync();
+        var blog = await query
+            .FirstOrDefaultAsync(x => x.Code == code && x.IsPublished);
+
+        return ObjectMapper.Map<Blog, BlogDto>(blog);
+    }
+
     protected override async Task<IQueryable<Blog>> CreateFilteredQueryAsync(PagedAndSortedResultRequestDto input)
     {
         var query = await Repository.GetQueryableAsync();

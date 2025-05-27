@@ -12,6 +12,25 @@
 }
 
 <div class="row mb-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">@Model.FeaturedBlog?.Title</h3>
+                <div class="text-muted mb-3">
+                    @if (Model.FeaturedBlog?.PublishedDate != null)
+                    {
+                        <small>@Model.FeaturedBlog.PublishedDate.Value.ToString("dd/MM/yyyy")</small>
+                    }
+                </div>
+                <div class="blog-content">
+                    @Html.Raw(Model.FeaturedBlog?.Content)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-3">
     <div class="col-xl-6 col-12 d-flex">
         <div class="card h-lg-100 w-100 overflow-hidden">
             <div class="card-body">

@@ -9,6 +9,10 @@ $(function () {
             ajax: abp.libs.datatables.createAjax(acme.onlineCourses.blogs.blog.getList),
             columnDefs: [
                 {
+                    title: l('Code'),
+                    data: "code"
+                },
+                {
                     title: l('Title'),
                     data: "title"
                 },
