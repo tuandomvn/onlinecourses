@@ -44,6 +44,8 @@ using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.Data;
+using DataSeeder = Acme.OnlineCourses.Data.DataSeeder;
 
 namespace Acme.OnlineCourses;
 
@@ -90,7 +92,10 @@ namespace Acme.OnlineCourses;
     typeof(AbpSettingManagementApplicationModule),
     typeof(AbpSettingManagementEntityFrameworkCoreModule),
     typeof(AbpSettingManagementHttpApiModule),
-    typeof(AbpSettingManagementWebModule)
+    typeof(AbpSettingManagementWebModule),
+
+    // Localization module
+    typeof(AbpLocalizationModule)
 )]
 public class OnlineCoursesModule : AbpModule
 {
@@ -135,6 +140,12 @@ public class OnlineCoursesModule : AbpModule
         OnlineCoursesGlobalFeatureConfigurator.Configure();
         OnlineCoursesModuleExtensionConfigurator.Configure();
         OnlineCoursesEfCoreEntityExtensionMappings.Configure();
+
+        Configure<AbpLocalizationOptions>(options =>
+        {
+            var languages = options.Languages;
+            languages.Add(new LanguageInfo("vi", "vi", "Tiếng Việt"));
+        });
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context)
@@ -178,6 +189,9 @@ public class OnlineCoursesModule : AbpModule
         ConfigureVirtualFiles(hostingEnvironment);
         ConfigureLocalization();
         ConfigureEfCore(context);
+
+        // Đăng ký DataSeeder
+        context.Services.AddTransient<IDataSeedContributor, DataSeeder>();
     }
 
     private void ConfigureMultiTenancy()
@@ -334,5 +348,9 @@ public class OnlineCoursesModule : AbpModule
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
+
+        // Chạy DataSeeder khi ứng dụng khởi động
+        var seeder = context.ServiceProvider.GetRequiredService<IDataSeedContributor>();
+        seeder.SeedAsync(new DataSeedContext()).GetAwaiter().GetResult();
     }
 }
