@@ -120,4 +120,35 @@ public class AgencyAppService :
             Items = _objectMapper.Map<Student[], StudentDto[]>(items.ToArray())
         };
     }
+
+    // New method to get students list
+    public async Task<PagedResultDto<StudentDto>> GetStudentsListAsync(Guid agencyId, PagedAndSortedResultRequestDto input)
+    {
+        var query = await _studentRepository.GetQueryableAsync();
+        query = query.Where(x => x.AgencyId == agencyId);
+
+        var totalCount = await query.CountAsync();
+        var items = await query
+            .Skip(input.SkipCount)
+            .Take(input.MaxResultCount)
+            .ToListAsync();
+
+        return new PagedResultDto<StudentDto>
+        {
+            TotalCount = totalCount,
+            Items = _objectMapper.Map<Student[], StudentDto[]>(items.ToArray())
+        };
+    }
+
+    public async Task<List<StudentDto>> GetStudentsAsync(Guid agencyId)
+    {
+        var query = await _studentRepository.GetQueryableAsync();
+        query = query.Where(x => x.AgencyId == agencyId);
+
+        var totalCount = await query.CountAsync();
+        var items = await query
+            .ToListAsync();
+
+        return _objectMapper.Map<List<Student>, List<StudentDto>>(items);
+    }
 } 

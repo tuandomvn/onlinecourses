@@ -10,27 +10,59 @@
     Layout = null;
 }
 
-@section scripts {
-    <abp-script src="/Pages/Agencies/StudentsModal.js" />
-}
-
-<abp-modal>
+<abp-modal size="Large">
     <abp-modal-header title="@L["AgencyStudents"]"></abp-modal-header>
     <abp-modal-body>
-        <abp-table striped-rows="true" id="AgencyStudentsTable">
-            <thead>
-                <tr>
-                    <th>@L["FullName"]</th>
-                    <th>@L["Email"]</th>
-                    <th>@L["PhoneNumber"]</th>
-                    <th>@L["CourseName"]</th>
-                    <th>@L["RegistrationDate"]</th>
-                    <th>@L["TestStatus"]</th>
-                    <th>@L["PaymentStatus"]</th>
-                    <th>@L["AccountStatus"]</th>
-                </tr>
-            </thead>
-        </abp-table>
+        <form id="StudentsForm" method="post">
+            @Html.AntiForgeryToken()
+            <abp-table striped-rows="true" id="AgencyStudentsTable" class="table-responsive">
+                <thead>
+                    <tr>
+                        <th>@L["FullName"]</th>
+                        <th>@L["Email"]</th>
+                        <th>@L["PhoneNumber"]</th>
+                        <th>@L["CourseName"]</th>
+                        <th>@L["RegistrationDate"]</th>
+                        <th>@L["TestStatus"]</th>
+                        <th>@L["PaymentStatus"]</th>
+                        <th>@L["AccountStatus"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model.Students)
+                    {
+                        <tr>
+                            <td>@student.FullName</td>
+                            <td>@student.Email</td>
+                            <td>@student.PhoneNumber</td>
+                            <td>@student.CourseName</td>
+                            <td>@student.RegistrationDate.ToString("dd/MM/yyyy")</td>
+                            <td>@L[$"Enum:TestStatus:{student.TestStatus}"]</td>
+                            <td>@L[$"Enum:PaymentStatus:{student.PaymentStatus}"]</td>
+                            <td>@L[$"Enum:AccountStatus:{student.AccountStatus}"]</td>
+                        </tr>
+                    }
+                </tbody>
+            </abp-table>
+        </form>
     </abp-modal-body>
     <abp-modal-footer buttons="@(AbpModalButtons.Close)"></abp-modal-footer>
-</abp-modal> 
+</abp-modal>
+
+@section scripts {
+    <script>
+        $(function () {
+            $('#AgencyStudentsTable').DataTable({
+                paging: true,
+                order: [[1, "asc"]],
+                searching: true,
+                scrollX: true,
+                language: {
+                    url: abp.localization.currentCulture.cultureName === 'vi' 
+                        ? '/libs/datatables/i18n/vi.json' 
+                        : '/libs/datatables/i18n/en.json'
+                }
+            });
+        });
+    </script>
+} 
