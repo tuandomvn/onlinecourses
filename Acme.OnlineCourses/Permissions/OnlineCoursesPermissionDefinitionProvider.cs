@@ -6,6 +6,8 @@ namespace Acme.OnlineCourses.Permissions;
 
 public class OnlineCoursesPermissionDefinitionProvider : PermissionDefinitionProvider
 {
+    //Tạo nhóm quyền hạn, để thể hiện trên trang Permission Management
+    //Link với phân quyền ban đầu: SeedRolesAsync
     public override void Define(IPermissionDefinitionContext context)
     {
         var onlineCoursesGroup = context.AddGroup(OnlineCoursesPermissions.GroupName, L("Permission:OnlineCourses"));

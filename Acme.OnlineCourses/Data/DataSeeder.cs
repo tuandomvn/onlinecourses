@@ -5,6 +5,10 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
 using Volo.Abp.Uow;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.Identity.Localization;
+using Volo.Abp.PermissionManagement.Identity;
+using Acme.OnlineCourses.Permissions;
 
 namespace Acme.OnlineCourses.Data;
 
@@ -17,6 +21,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
     private readonly IUnitOfWorkManager _unitOfWorkManager;
     private readonly IIdentityRoleRepository _roleRepository;
     private readonly IdentityRoleManager _roleManager;
+    private readonly IPermissionManager _permissionManager;
 
     public DataSeeder(
         IRepository<Agency, Guid> agencyRepository,
@@ -25,7 +30,8 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         IdentityUserManager userManager,
         IUnitOfWorkManager unitOfWorkManager,
         IIdentityRoleRepository roleRepository,
-        IdentityRoleManager roleManager)
+        IdentityRoleManager roleManager,
+        IPermissionManager permissionManager)
     {
         _agencyRepository = agencyRepository;
         _blogRepository = blogRepository;
@@ -34,6 +40,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         _unitOfWorkManager = unitOfWorkManager;
         _roleRepository = roleRepository;
         _roleManager = roleManager;
+        _permissionManager = permissionManager;
     }
 
     [UnitOfWork]
@@ -65,25 +72,80 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
             return;
         }
 
-        var roles = new[]
+        var adminRole = new IdentityRole(
+            Guid.NewGuid(),
+            "admin"
+        );
+
+        var studentRole = new IdentityRole(
+            Guid.NewGuid(),
+            "student"
+        );
+
+        var agencyRole = new IdentityRole(
+            Guid.NewGuid(),
+            "agency"
+        );
+
+        await _roleManager.CreateAsync(adminRole);
+        await _roleManager.CreateAsync(studentRole);
+        await _roleManager.CreateAsync(agencyRole);
+
+        // Grant all permissions to admin role
+        var allPermissions = new[]
         {
-            new IdentityRole(
-                Guid.NewGuid(),
-                "admin"
-            ),
-            new IdentityRole(
-                Guid.NewGuid(),
-                "student"
-            ),
-            new IdentityRole(
-                Guid.NewGuid(),
-                "agency"
-            )
+            // Identity permissions
+            "AbpIdentity.Roles",
+            "AbpIdentity.Users",
+            "AbpIdentity.ClaimTypes",
+            "AbpIdentity.SecurityLogs",
+            "AbpIdentity.Roles.ManagePermissions",
+            "AbpIdentity.Users.ManagePermissions",
+            "AbpIdentity.Roles.Create",
+            "AbpIdentity.Roles.Edit",
+            "AbpIdentity.Roles.Delete",
+            "AbpIdentity.Users.Create",
+            "AbpIdentity.Users.Edit",
+            "AbpIdentity.Users.Delete",
+
+            // Feature management permissions
+            "FeatureManagement.ManageHostFeatures",
+
+            // Setting management permissions
+            "SettingManagement.ManageHostSettings",
+
+            // Audit logging permissions
+            "AuditLogging.Default",
+
+            // Tenant management permissions
+            "TenantManagement.Tenants.Default",
+            "TenantManagement.Tenants.Create",
+            "TenantManagement.Tenants.Delete",
+
+            // Online courses permissions
+            "OnlineCourses.Students.Default",
+            "OnlineCourses.Students.Create",
+            "OnlineCourses.Students.Edit",
+            "OnlineCourses.Students.Delete",
+            "OnlineCourses.Agencies.Default",
+            "OnlineCourses.Agencies.Create",
+            "OnlineCourses.Agencies.Edit",
+            "OnlineCourses.Agencies.Delete",
+
+            // Permission management permissions
+            "AbpPermissionManagement.Default",
+            "AbpPermissionManagement.ManagePermissions",
+
+            // Identity UI permissions
+            "AbpIdentity.Roles",
+            "AbpIdentity.Users",
+            "AbpIdentity.ClaimTypes",
+            "AbpIdentity.SecurityLogs"
         };
 
-        foreach (var role in roles)
+        foreach (var permission in allPermissions)
         {
-            await _roleManager.CreateAsync(role);
+            await _permissionManager.SetForRoleAsync(adminRole.Name, permission, true);
         }
     }
 
@@ -229,7 +291,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
 
         var adminUser = new IdentityUser(
             Guid.NewGuid(),
-            "admin",
+            "admin1",
             "admin@onlinecourses.com"
         );
 
@@ -238,7 +300,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
 
         var studentUser = new IdentityUser(
             Guid.NewGuid(),
-            "student",
+            "student1",
             "student@onlinecourses.com"
         );
 
@@ -247,7 +309,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
 
         var agencyUser = new IdentityUser(
             Guid.NewGuid(),
-            "agency",
+            "agency1",
             "agency@onlinecourses.com"
         );
 

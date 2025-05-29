@@ -46,7 +46,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
         // Register menu - public access
         context.Menu.AddItem(
             new ApplicationMenuItem(
-                OnlineCoursesMenus.Students.Register,
+                OnlineCoursesMenus.StudentsRegister,
                 l["Menu:Students:Register"],
                 url: "/Students/Register",
                 icon: "fas fa-user-plus",
@@ -57,7 +57,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
         // List menu - admin only
         context.Menu.AddItem(
             new ApplicationMenuItem(
-                OnlineCoursesMenus.Students.List,
+                OnlineCoursesMenus.StudentsList,
                 l["Menu:Students:List"],
                 url: "/Students",
                 icon: "fas fa-list",
