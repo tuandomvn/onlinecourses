@@ -18,13 +18,11 @@ public class Student : AuditedAggregateRoot<Guid>
     public AccountStatus AccountStatus { get; set; }
     public string InternalNote { get; set; }
     public Guid? AgencyId { get; set; }
-    public string AgencyName { get; set; }
     public string Address { get; set; }
     public bool AgreeToTerms { get; set; }
     public List<StudentAttachment> Attachments { get; set; }
     public List<StudentCourse> Courses { get; set; }
     public CourseStatus CourseStatus { get; set; }
-    public string CourseNote { get; set; }
 
     public Student()
     {
@@ -49,7 +47,6 @@ public class Student : AuditedAggregateRoot<Guid>
         string address,
         bool agreeToTerms,
         CourseStatus courseStatus = CourseStatus.Active,
-        string courseNote = null,
         Guid? assignedAdminId = null
     ) : base(id)
     {
@@ -64,11 +61,9 @@ public class Student : AuditedAggregateRoot<Guid>
         AccountStatus = accountStatus;
         InternalNote = internalNote;
         AgencyId = agencyId;
-        AgencyName = agencyName;
         Address = address;
         AgreeToTerms = agreeToTerms;
         CourseStatus = courseStatus;
-        CourseNote = courseNote;
         Attachments = new List<StudentAttachment>();
         Courses = new List<StudentCourse>();
     }
@@ -106,6 +101,7 @@ public class StudentCourse : AuditedEntity<Guid>
     public Guid StudentId { get; set; }
     public string CourseName { get; set; }
     public DateTime RegistrationDate { get; set; }
+    public string CourseNote { get; set; }
 
     protected StudentCourse()
     {

@@ -21,16 +21,11 @@ public class StudentDto : AuditedEntityDto<Guid>
     public AccountStatus AccountStatus { get; set; }
     public string InternalNote { get; set; }
     public Guid? AgencyId { get; set; }
-    public string AgencyName { get; set; }
     public string Address { get; set; }
     public bool AgreeToTerms { get; set; }
     public List<StudentAttachmentDto> Attachments { get; set; }
     public List<StudentCourseDto> Courses { get; set; }
     public CourseStatus CourseStatus { get; set; }
-    public string CourseNote { get; set; }
-    public Guid? AssignedAdminId { get; set; }
-    public string AssignedAdminName { get; set; }
-    public string PaymentProofFile { get; set; }
 }
 
 public class StudentAttachmentDto

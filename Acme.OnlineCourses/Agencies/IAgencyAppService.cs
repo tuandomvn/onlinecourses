@@ -1,4 +1,5 @@
 using Acme.OnlineCourses.Agencies.Dtos;
+using Acme.OnlineCourses.Students.Dtos;
 using System;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
@@ -14,4 +15,5 @@ public interface IAgencyAppService :
         CreateUpdateAgencyDto,
         CreateUpdateAgencyDto>
 {
+    Task<PagedResultDto<StudentDto>> GetStudentsByAgencyAsync(Guid agencyId, PagedAndSortedResultRequestDto input);
 } 

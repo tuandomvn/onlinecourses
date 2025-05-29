@@ -1,4 +1,6 @@
 using Acme.OnlineCourses.Agencies.Dtos;
+using Acme.OnlineCourses.Students.Dtos;
+using Acme.OnlineCourses.Students;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -18,13 +20,15 @@ public class AgencyAppService :
     IAgencyAppService
 {
     private readonly IObjectMapper _objectMapper;
-
+    private readonly IRepository<Student, Guid> _studentRepository;
     public AgencyAppService(
         IRepository<Agency, Guid> repository,
+        IRepository<Student, Guid> studentRepository,
         IObjectMapper objectMapper)
         : base(repository)
     {
         _objectMapper = objectMapper;
+        _studentRepository = studentRepository;
         //GetPolicyName = "AgencyManagement";
         //GetListPolicyName = "AgencyManagement";
         //CreatePolicyName = "AgencyManagement.Create";
@@ -95,5 +99,25 @@ public class AgencyAppService :
         }
 
         return base.ApplySorting(query, input);
+    }
+
+
+    public async Task<PagedResultDto<StudentDto>> GetStudentsByAgencyAsync(Guid agencyId, PagedAndSortedResultRequestDto input)
+    {
+        var query = await _studentRepository.GetQueryableAsync();
+        //TODO
+        //query = query.Where(x => x.AgencyId == agencyId);
+
+        var totalCount = await query.CountAsync();
+        var items = await query
+            .Skip(input.SkipCount)
+            .Take(input.MaxResultCount)
+            .ToListAsync();
+
+        return new PagedResultDto<StudentDto>
+        {
+            TotalCount = totalCount,
+            Items = _objectMapper.Map<Student[], StudentDto[]>(items.ToArray())
+        };
     }
 } 

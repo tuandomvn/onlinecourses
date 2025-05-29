@@ -55,15 +55,28 @@ $(function () {
             return;
         }
 
-        var student = registerForm.serializeFormToObject();
+        var formData = {};
+        var formArray = registerForm.serializeArray();
+        formArray.forEach(function(item) {
+            if (item.name.startsWith('Student.')) {
+                var key = item.name.replace('Student.', '');
+                formData[key] = item.value;
+            }
+        });
+
+        // Add AgreeToTerms
+        formData.agreeToTerms = agreeToTermsHidden.val() === 'true';
 
         abp.ajax({
-            url: abp.appPath + 'api/app/student/register',
+            url: abp.appPath + 'api/app/student/register-student',
             type: 'POST',
-            data: JSON.stringify(student)
+            contentType: 'application/json',
+            data: JSON.stringify(formData)
         }).done(function () {
             abp.notify.info(l('SavedSuccessfully'));
             window.location.href = '/Students';
+        }).fail(function (error) {
+            abp.notify.error(error.message || l('ErrorSavingStudent'));
         });
     });
 }); 

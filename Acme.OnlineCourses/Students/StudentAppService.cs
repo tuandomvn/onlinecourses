@@ -25,11 +25,11 @@ public class StudentAppService : CrudAppService<
         : base(repository)
     {
         _studentRepository = repository;
-        GetPolicyName = OnlineCoursesPermissions.Students.Default;
-        GetListPolicyName = OnlineCoursesPermissions.Students.Default;
-        CreatePolicyName = OnlineCoursesPermissions.Students.Create;
-        UpdatePolicyName = OnlineCoursesPermissions.Students.Edit;
-        DeletePolicyName = OnlineCoursesPermissions.Students.Delete;
+        //GetPolicyName = OnlineCoursesPermissions.Students.Default;
+        //GetListPolicyName = OnlineCoursesPermissions.Students.Default;
+        //CreatePolicyName = OnlineCoursesPermissions.Students.Create;
+        //UpdatePolicyName = OnlineCoursesPermissions.Students.Edit;
+        //DeletePolicyName = OnlineCoursesPermissions.Students.Delete;
     }
 
     protected override async Task<IQueryable<Student>> CreateFilteredQueryAsync(GetStudentListDto input)

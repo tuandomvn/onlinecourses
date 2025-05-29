@@ -6,8 +6,7 @@ namespace Acme.OnlineCourses.Students.Dtos;
 
 public class GetStudentListDto : PagedAndSortedResultRequestDto
 {
-    [Required(AllowEmptyStrings = true)]
-    public string Filter { get; set; }
+    public string? Filter { get; set; }
     public Guid? AgencyId { get; set; }
     public TestStatus? TestStatus { get; set; }
     public PaymentStatus? PaymentStatus { get; set; }

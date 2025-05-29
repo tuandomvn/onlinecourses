@@ -42,14 +42,14 @@ public class RegisterModel : PageModel
         }
     }
 
-    public async Task<IActionResult> OnPostAsync()
-    {
-        if (!ModelState.IsValid)
-        {
-            return Page();
-        }
+    //public async Task<IActionResult> OnPostAsync()
+    //{
+    //    if (!ModelState.IsValid)
+    //    {
+    //        return Page();
+    //    }
 
-        await _studentAppService.RegisterStudentAsync(Student);
-        return RedirectToPage("./Index");
-    }
+    //    await _studentAppService.RegisterStudentAsync(Student);
+    //    return RedirectToPage("./Index");
+    //}
 } 

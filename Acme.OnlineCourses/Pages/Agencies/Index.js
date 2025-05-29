@@ -44,6 +44,20 @@ $(function () {
                         items:
                             [
                                 {
+                                    text: l('ViewStudents'),
+                                    action: function (data) {
+                                        var modal = new abp.ModalManager({
+                                            viewUrl: abp.appPath + 'Agencies/StudentsModal',
+                                            scriptUrl: abp.appPath + 'Pages/Agencies/StudentsModal.js',
+                                            modalClass: 'StudentsModal'
+                                        });
+
+                                        modal.open({
+                                            agencyId: data.record.id
+                                        });
+                                    }
+                                },
+                                {
                                     text: l('Edit'),
                                     action: function (data) {
                                         editModal.open({ id: data.record.id });
