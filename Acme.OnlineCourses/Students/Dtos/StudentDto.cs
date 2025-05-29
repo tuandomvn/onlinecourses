@@ -19,7 +19,6 @@ public class StudentDto : AuditedEntityDto<Guid>
     public TestStatus TestStatus { get; set; }
     public PaymentStatus PaymentStatus { get; set; }
     public AccountStatus AccountStatus { get; set; }
-    public string InternalNote { get; set; }
     public Guid? AgencyId { get; set; }
     public string Address { get; set; }
     public bool AgreeToTerms { get; set; }

@@ -179,10 +179,6 @@ namespace Acme.OnlineCourses.Migrations
                     b.Property<Guid?>("AgencyId")
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("AgencyName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<bool>("AgreeToTerms")
                         .HasColumnType("tinyint(1)");
 
@@ -192,10 +188,6 @@ namespace Acme.OnlineCourses.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<string>("CourseNote")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<int>("CourseStatus")
                         .HasColumnType("int");
@@ -227,10 +219,6 @@ namespace Acme.OnlineCourses.Migrations
                         .HasColumnType("varchar(128)");
 
                     b.Property<string>("IdentityNumber")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("InternalNote")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -270,16 +258,17 @@ namespace Acme.OnlineCourses.Migrations
             modelBuilder.Entity("Acme.OnlineCourses.Students.StudentAttachment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("FileName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("FilePath")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)");
 
                     b.Property<Guid>("StudentId")
                         .HasColumnType("char(36)");
@@ -291,7 +280,7 @@ namespace Acme.OnlineCourses.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentAttachment");
+                    b.ToTable("StudentAttachment", (string)null);
                 });
 
             modelBuilder.Entity("Acme.OnlineCourses.Students.StudentCourse", b =>
@@ -301,23 +290,12 @@ namespace Acme.OnlineCourses.Migrations
 
                     b.Property<string>("CourseName")
                         .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("CourseNote")
+                        .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("char(36)")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("char(36)")
-                        .HasColumnName("LastModifierId");
 
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime(6)");
@@ -329,7 +307,7 @@ namespace Acme.OnlineCourses.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentCourse");
+                    b.ToTable("StudentCourse", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

@@ -1,5 +1,6 @@
 ﻿using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Blogs;
+using Acme.OnlineCourses.Students;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
@@ -16,6 +17,9 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
 {
     private readonly IRepository<Agency, Guid> _agencyRepository;
     private readonly IRepository<Blog, Guid> _blogRepository;
+    private readonly IRepository<Student, Guid> _studentRepository;
+    private readonly IRepository<StudentCourse, Guid> _studentCourseRepository;
+    private readonly IRepository<StudentAttachment, Guid> _studentAttachmentRepository;
     private readonly IIdentityUserRepository _userRepository;
     private readonly IdentityUserManager _userManager;
     private readonly IUnitOfWorkManager _unitOfWorkManager;
@@ -26,6 +30,9 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
     public DataSeeder(
         IRepository<Agency, Guid> agencyRepository,
         IRepository<Blog, Guid> blogRepository,
+        IRepository<Student, Guid> studentRepository,
+        IRepository<StudentCourse, Guid> studentCourseRepository,
+        IRepository<StudentAttachment, Guid> studentAttachmentRepository,
         IIdentityUserRepository userRepository,
         IdentityUserManager userManager,
         IUnitOfWorkManager unitOfWorkManager,
@@ -35,6 +42,9 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
     {
         _agencyRepository = agencyRepository;
         _blogRepository = blogRepository;
+        _studentRepository = studentRepository;
+        _studentCourseRepository = studentCourseRepository;
+        _studentAttachmentRepository = studentAttachmentRepository;
         _userRepository = userRepository;
         _userManager = userManager;
         _unitOfWorkManager = unitOfWorkManager;
@@ -54,6 +64,9 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 await SeedAgenciesAsync();
                 await SeedBlogsAsync();
                 await SeedUsersAsync();
+                await SeedStudentsAsync();
+                await SeedStudentCoursesAsync();
+                await SeedStudentAttachmentsAsync();
 
                 await uow.CompleteAsync();
             }
@@ -323,5 +336,159 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
 
         await _userManager.CreateAsync(agencyUser, "1q2w3E*");
         await _userManager.AddToRoleAsync(agencyUser, "agency");
+    }
+
+    private async Task SeedStudentsAsync()
+    {
+        if (await _studentRepository.GetCountAsync() > 0)
+        {
+            return;
+        }
+
+        var students = new[]
+        {
+            new Student
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "john.doe@example.com",
+                PhoneNumber = "1234567890",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                IdentityNumber = "ID123456",
+                Address = "123 Main St, City",
+                TestStatus = TestStatus.NotTaken,
+                PaymentStatus = PaymentStatus.Paid,
+                AccountStatus = AccountStatus.NotSent,
+                CourseStatus = CourseStatus.Active,
+                AgreeToTerms = true
+            },
+            new Student
+            {
+                FirstName = "Jane",
+                LastName = "Smith",
+                Email = "jane.smith@example.com",
+                PhoneNumber = "0987654321",
+                DateOfBirth = new DateTime(1992, 5, 15),
+                IdentityNumber = "ID789012",
+                Address = "456 Oak St, Town",
+                TestStatus = TestStatus.NotTaken,
+                PaymentStatus = PaymentStatus.Paid,
+                AccountStatus = AccountStatus.NotSent,
+                CourseStatus = CourseStatus.Active,
+                AgreeToTerms = true
+            },
+            new Student
+            {
+                FirstName = "Mike",
+                LastName = "Johnson",
+                Email = "mike.johnson@example.com",
+                PhoneNumber = "5551234567",
+                DateOfBirth = new DateTime(1988, 12, 25),
+                IdentityNumber = "ID345678",
+                Address = "789 Pine St, Village",
+                TestStatus = TestStatus.NotTaken,
+                PaymentStatus = PaymentStatus.Paid,
+                AccountStatus = AccountStatus.NotSent,
+                CourseStatus = CourseStatus.Completed,
+                AgreeToTerms = true
+            }
+        };
+
+        foreach (var student in students)
+        {
+            await _studentRepository.InsertAsync(student, autoSave: true);
+        }
+    }
+
+    private async Task SeedStudentCoursesAsync()
+    {
+        if (await _studentCourseRepository.GetCountAsync() > 0)
+        {
+            return;
+        }
+
+        var students = await _studentRepository.GetListAsync();
+        var courses = new[]
+        {
+            new StudentCourse
+            {
+                StudentId = students[0].Id,
+                CourseName = "Introduction to Programming",
+                RegistrationDate = DateTime.Now.AddDays(-30),
+                CourseNote = "Basic programming concepts and languages."
+            },
+            new StudentCourse
+            {
+                StudentId = students[0].Id,
+                CourseName = "Web Development Basics",
+                RegistrationDate = DateTime.Now.AddDays(-20),
+                CourseNote= "Learn the fundamentals of web development."
+            },
+            new StudentCourse
+            {
+                StudentId = students[1].Id,
+                CourseName = "Advanced JavaScript",
+                RegistrationDate = DateTime.Now.AddDays(-15),
+                CourseNote = "Deep dive into JavaScript programming."
+            },
+            new StudentCourse
+            {
+                StudentId = students[2].Id,
+                CourseName = "Database Design",
+                RegistrationDate = DateTime.Now.AddDays(-10),
+                CourseNote = "Learn how to design and manage databases."
+            }
+        };
+
+        foreach (var course in courses)
+        {
+            await _studentCourseRepository.InsertAsync(course, autoSave: true);
+        }
+    }
+
+    private async Task SeedStudentAttachmentsAsync()
+    {
+        if (await _studentAttachmentRepository.GetCountAsync() > 0)
+        {
+            return;
+        }
+
+        var students = await _studentRepository.GetListAsync();
+        var attachments = new[]
+        {
+            new StudentAttachment
+            {
+                StudentId = students[0].Id,
+                FileName = "ID_Card_John.pdf",
+                FilePath = "/uploads/students/id_cards/ID_Card_John.pdf",
+                UploadDate = DateTime.Now.AddDays(-25)
+            },
+            new StudentAttachment
+            {
+                StudentId = students[0].Id,
+                FileName = "Certificate_John.pdf",
+                FilePath = "/uploads/students/certificates/Certificate_John.pdf",
+                UploadDate = DateTime.Now.AddDays(-15)
+            },
+            new StudentAttachment
+            {
+                StudentId = students[1].Id,
+                FileName = "ID_Card_Jane.pdf",
+                FilePath = "/uploads/students/id_cards/ID_Card_Jane.pdf",
+                UploadDate = DateTime.Now.AddDays(-20)
+            },
+            new StudentAttachment
+            {
+                StudentId = students[2].Id,
+                FileName = "ID_Card_Mike.pdf",
+                FilePath = "/uploads/students/id_cards/ID_Card_Mike.pdf",
+                UploadDate = DateTime.Now.AddDays(-12)
+            }
+        };
+
+        foreach (var attachment in attachments)
+        {
+            await _studentAttachmentRepository.InsertAsync(attachment, autoSave: true);
+        }
     }
 }

@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.OpenApi.Models;
-using Acme.OnlineCourses.Data;
+﻿using Acme.OnlineCourses.Data;
 using Acme.OnlineCourses.Localization;
 using Acme.OnlineCourses.Menus;
+using Acme.OnlineCourses.Students;
+using Microsoft.AspNetCore.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.OpenApi.Models;
 using OpenIddict.Validation.AspNetCore;
 using Volo.Abp;
-using Volo.Abp.Uow;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Mvc;
@@ -19,6 +19,9 @@ using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.Autofac;
 using Volo.Abp.AutoMapper;
+using Volo.Abp.Data;
+using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.Emailing;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.MySQL;
@@ -31,12 +34,14 @@ using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.OpenIddict;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.HttpApi;
 using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.PermissionManagement.OpenIddict;
+using Volo.Abp.Security.Claims;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.Web;
@@ -44,13 +49,10 @@ using Volo.Abp.Swashbuckle;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.Web;
-using Volo.Abp.OpenIddict;
-using Volo.Abp.Security.Claims;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
-using Volo.Abp.Data;
 using DataSeeder = Acme.OnlineCourses.Data.DataSeeder;
 
 namespace Acme.OnlineCourses;
@@ -301,6 +303,10 @@ public class OnlineCoursesModule : AbpModule
              * Documentation: https://docs.abp.io/en/abp/latest/Entity-Framework-Core#add-default-repositories
              */
             options.AddDefaultRepositories(includeAllEntities: true);
+
+            // Add custom repositories
+            options.AddRepository<StudentCourse, EfCoreRepository<OnlineCoursesDbContext, StudentCourse, Guid>>();
+            options.AddRepository<StudentAttachment, EfCoreRepository<OnlineCoursesDbContext, StudentAttachment, Guid>>();
         });
 
         Configure<AbpDbContextOptions>(options =>
@@ -310,7 +316,6 @@ public class OnlineCoursesModule : AbpModule
                 configurationContext.UseMySQL();
             });
         });
-
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)

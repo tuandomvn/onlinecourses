@@ -48,11 +48,7 @@ public class CreateUpdateStudentDto
 
     public AccountStatus AccountStatus { get; set; }
 
-    public string InternalNote { get; set; }
-
     public Guid? AgencyId { get; set; }
-
-    public string AgencyName { get; set; }
 
     [Required]
     [StringLength(512)]
@@ -63,7 +59,6 @@ public class CreateUpdateStudentDto
 
     public List<CreateUpdateStudentAttachmentDto> Attachments { get; set; }
     public CourseStatus CourseStatus { get; set; }
-    public string CourseNote { get; set; }
 }
 
 public class CreateUpdateStudentAttachmentDto

@@ -21,10 +21,6 @@ $(function () {
                     data: "phoneNumber"
                 },
                 {
-                    title: l('CourseName'),
-                    data: "courseName"
-                },
-                {
                     title: l('RegistrationDate'),
                     data: "registrationDate",
                     render: function (data) {
@@ -51,14 +47,6 @@ $(function () {
                     render: function (data) {
                         return l('Enum:AccountStatus:' + data);
                     }
-                },
-                {
-                    title: l('Agency'),
-                    data: "agency.name"
-                },
-                {
-                    title: l('AssignedAdmin'),
-                    data: "assignedAdminName"
                 },
                 {
                     title: l('Actions'),

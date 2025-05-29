@@ -53,6 +53,40 @@ public static class OnlineCoursesDbContextModelCreatingExtensions
             b.HasIndex(x => x.Email);
         });
 
+        builder.Entity<StudentCourse>(b =>
+        {
+            b.ToTable("StudentCourse", OnlineCoursesConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.Property(x => x.CourseName)
+                .IsRequired()
+                .HasMaxLength(256);
+
+            b.HasOne<Student>()
+                .WithMany(x => x.Courses)
+                .HasForeignKey(x => x.StudentId)
+                .IsRequired();
+        });
+
+        builder.Entity<StudentAttachment>(b =>
+        {
+            b.ToTable("StudentAttachment", OnlineCoursesConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.Property(x => x.FileName)
+                .IsRequired()
+                .HasMaxLength(256);
+
+            b.Property(x => x.FilePath)
+                .IsRequired()
+                .HasMaxLength(512);
+
+            b.HasOne<Student>()
+                .WithMany(x => x.Attachments)
+                .HasForeignKey(x => x.StudentId)
+                .IsRequired();
+        });
+
         builder.Entity<Agency>(b =>
         {
             b.ToTable("Agencies", OnlineCoursesConsts.DbSchema);

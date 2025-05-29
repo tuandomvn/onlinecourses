@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.Identity;
 
@@ -16,7 +17,6 @@ public class Student : AuditedAggregateRoot<Guid>
     public TestStatus TestStatus { get; set; }
     public PaymentStatus PaymentStatus { get; set; }
     public AccountStatus AccountStatus { get; set; }
-    public string InternalNote { get; set; }
     public Guid? AgencyId { get; set; }
     public string Address { get; set; }
     public bool AgreeToTerms { get; set; }
@@ -41,7 +41,6 @@ public class Student : AuditedAggregateRoot<Guid>
         TestStatus testStatus,
         PaymentStatus paymentStatus,
         AccountStatus accountStatus,
-        string internalNote,
         Guid? agencyId,
         string agencyName,
         string address,
@@ -59,7 +58,6 @@ public class Student : AuditedAggregateRoot<Guid>
         TestStatus = testStatus;
         PaymentStatus = paymentStatus;
         AccountStatus = accountStatus;
-        InternalNote = internalNote;
         AgencyId = agencyId;
         Address = address;
         AgreeToTerms = agreeToTerms;
@@ -69,9 +67,8 @@ public class Student : AuditedAggregateRoot<Guid>
     }
 }
 
-public class StudentAttachment
+public class StudentAttachment : Entity<Guid>
 {
-    public Guid Id { get; set; }
     public Guid StudentId { get; set; }
     public string FileName { get; set; }
     public string FilePath { get; set; }
@@ -86,9 +83,8 @@ public class StudentAttachment
         Guid studentId,
         string fileName,
         string filePath
-    )
+    ) : base(id)
     {
-        Id = id;
         StudentId = studentId;
         FileName = fileName;
         FilePath = filePath;
@@ -96,14 +92,15 @@ public class StudentAttachment
     }
 }
 
-public class StudentCourse : AuditedEntity<Guid>
+public class StudentCourse : Entity<Guid>
 {
+
     public Guid StudentId { get; set; }
     public string CourseName { get; set; }
     public DateTime RegistrationDate { get; set; }
     public string CourseNote { get; set; }
 
-    protected StudentCourse()
+    public StudentCourse()
     {
     }
 
