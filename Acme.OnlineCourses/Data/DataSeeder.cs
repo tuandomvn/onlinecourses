@@ -122,15 +122,23 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
             "TenantManagement.Tenants.Create",
             "TenantManagement.Tenants.Delete",
 
-            // Online courses permissions
-            "OnlineCourses.Students.Default",
-            "OnlineCourses.Students.Create",
-            "OnlineCourses.Students.Edit",
-            "OnlineCourses.Students.Delete",
-            "OnlineCourses.Agencies.Default",
-            "OnlineCourses.Agencies.Create",
-            "OnlineCourses.Agencies.Edit",
-            "OnlineCourses.Agencies.Delete",
+            // Online courses permissions - using constants
+            OnlineCoursesPermissions.Students.Default,
+            OnlineCoursesPermissions.Students.Create,
+            OnlineCoursesPermissions.Students.Edit,
+            OnlineCoursesPermissions.Students.Delete,
+            
+            // Agency permissions - using constants
+            OnlineCoursesPermissions.Agencies.Default,
+            OnlineCoursesPermissions.Agencies.Create,
+            OnlineCoursesPermissions.Agencies.Edit,
+            OnlineCoursesPermissions.Agencies.Delete,
+
+            // Blog permissions - using constants
+            OnlineCoursesPermissions.Blogs.Default,
+            OnlineCoursesPermissions.Blogs.Create,
+            OnlineCoursesPermissions.Blogs.Edit,
+            OnlineCoursesPermissions.Blogs.Delete,
 
             // Permission management permissions
             "AbpPermissionManagement.Default",
