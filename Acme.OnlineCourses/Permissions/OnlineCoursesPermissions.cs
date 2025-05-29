@@ -1,7 +1,8 @@
-using Volo.Abp.Reflection;
+﻿using Volo.Abp.Reflection;
 
 namespace Acme.OnlineCourses.Permissions;
 
+//Các nhóm permission trên trang phân quyền
 public static class OnlineCoursesPermissions
 {
     public const string GroupName = "OnlineCourses";
@@ -22,9 +23,9 @@ public static class OnlineCoursesPermissions
         public const string Delete = Default + ".Delete";
     }
 
-    public static class Admins
+    public static class Blogs
     {
-        public const string Default = GroupName + ".Admins";
+        public const string Default = GroupName + ".Blogs";
         public const string Create = Default + ".Create";
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";

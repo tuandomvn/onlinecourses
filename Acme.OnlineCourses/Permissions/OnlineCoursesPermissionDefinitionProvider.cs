@@ -17,15 +17,15 @@ public class OnlineCoursesPermissionDefinitionProvider : PermissionDefinitionPro
         studentsPermission.AddChild(OnlineCoursesPermissions.Students.Edit, L("Permission:Students.Edit"));
         studentsPermission.AddChild(OnlineCoursesPermissions.Students.Delete, L("Permission:Students.Delete"));
 
-        var agenciesPermission = onlineCoursesGroup.AddPermission("AgencyManagement", L("Permission:Agencies"));
-        agenciesPermission.AddChild("AgencyManagement.Create", L("Permission:Agencies.Create"));
-        agenciesPermission.AddChild("AgencyManagement.Edit", L("Permission:Agencies.Edit"));
-        agenciesPermission.AddChild("AgencyManagement.Delete", L("Permission:Agencies.Delete"));
+        var agenciesPermission = onlineCoursesGroup.AddPermission(OnlineCoursesPermissions.Agencies.Default, L("Permission:Agencies"));
+        agenciesPermission.AddChild(OnlineCoursesPermissions.Agencies.Create, L("Permission:Agencies.Create"));
+        agenciesPermission.AddChild(OnlineCoursesPermissions.Agencies.Edit, L("Permission:Agencies.Edit"));
+        agenciesPermission.AddChild(OnlineCoursesPermissions.Agencies.Delete, L("Permission:Agencies.Delete"));
 
-        var blogsPermission = onlineCoursesGroup.AddPermission(OnlineCoursesPermissions.Admins.Default, L("Permission:Blogs"));
-        blogsPermission.AddChild(OnlineCoursesPermissions.Admins.Create, L("Permission:Blogs.Create"));
-        blogsPermission.AddChild(OnlineCoursesPermissions.Admins.Edit, L("Permission:Blogs.Edit"));
-        blogsPermission.AddChild(OnlineCoursesPermissions.Admins.Delete, L("Permission:Blogs.Delete"));
+        var blogsPermission = onlineCoursesGroup.AddPermission(OnlineCoursesPermissions.Blogs.Default, L("Permission:Blogs"));
+        blogsPermission.AddChild(OnlineCoursesPermissions.Blogs.Create, L("Permission:Blogs.Create"));
+        blogsPermission.AddChild(OnlineCoursesPermissions.Blogs.Edit, L("Permission:Blogs.Edit"));
+        blogsPermission.AddChild(OnlineCoursesPermissions.Blogs.Delete, L("Permission:Blogs.Delete"));
     }
 
     private static LocalizableString L(string name)
