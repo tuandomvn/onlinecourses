@@ -1,11 +1,118 @@
 $(function () {
     var l = abp.localization.getResource('OnlineCourses');
     var dataTable;
+    var studentsDataTable;
     var modalManager = new abp.ModalManager({
         viewUrl: abp.appPath + 'Agencies/StudentsModal',
-        scriptUrl: abp.appPath + 'Pages/Agencies/StudentsModal.js?v=' + new Date().getTime(),
         modalClass: 'StudentsModal'
     });
+
+    // Add event handler for modal opened
+    modalManager.onOpen(function() {
+        console.log('Modal opened, initializing students table');
+        initializeStudentsTable();
+
+        // Bind close button event
+        $('#StudentsModal .btn-secondary').off('click').on('click', function(e) {
+            console.log('Close button clicked');
+            e.preventDefault();
+            e.stopPropagation();
+            modalManager.close();
+            return false;
+        });
+
+        // Bind modal background click
+        $('#StudentsModal').off('click').on('click', function(e) {
+            if ($(e.target).is('#StudentsModal')) {
+                console.log('Modal background clicked');
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        });
+    });
+
+    // Add event handler for modal hidden
+    $(document).on('hidden.bs.modal', '#StudentsModal', function () {
+        console.log('Modal hidden, cleaning up');
+        if (studentsDataTable) {
+            studentsDataTable.destroy();
+            studentsDataTable = null;
+        }
+        $('#AgencyStudentsTable').empty();
+    });
+
+    function initializeStudentsTable() {
+        console.log('Initializing Students DataTable');
+        if (studentsDataTable) {
+            console.log('Destroying existing Students DataTable');
+            studentsDataTable.destroy();
+            $('#AgencyStudentsTable').empty();
+        }
+
+        studentsDataTable = $('#AgencyStudentsTable').DataTable(
+            abp.libs.datatables.normalizeConfiguration({
+                serverSide: true,
+                paging: true,
+                order: [[1, "asc"]],
+                searching: false,
+                processing: true,
+                ajax: abp.libs.datatables.createAjax(acme.onlineCourses.agencies.agency.getStudentsList, function (input) {
+                    var data = {
+                        agencyId: $('#AgencyId').val()
+                    };
+                    console.log('Calling API with data:', data);
+                    return data;
+                }),
+                columnDefs: [
+                    {
+                        title: l('FullName'),
+                        data: "fullName"
+                    },
+                    {
+                        title: l('Email'),
+                        data: "email"
+                    },
+                    {
+                        title: l('PhoneNumber'),
+                        data: "phoneNumber"
+                    },
+                    {
+                        title: l('CourseName'),
+                        data: "courseName"
+                    },
+                    {
+                        title: l('RegistrationDate'),
+                        data: "registrationDate",
+                        render: function (data) {
+                            return moment(data).format('DD/MM/YYYY');
+                        }
+                    },
+                    {
+                        title: l('TestStatus'),
+                        data: "testStatus",
+                        render: function (data) {
+                            return l('Enum:TestStatus:' + data);
+                        }
+                    },
+                    {
+                        title: l('PaymentStatus'),
+                        data: "paymentStatus",
+                        render: function (data) {
+                            return l('Enum:PaymentStatus:' + data);
+                        }
+                    },
+                    {
+                        title: l('AccountStatus'),
+                        data: "accountStatus",
+                        render: function (data) {
+                            return l('Enum:AccountStatus:' + data);
+                        }
+                    }
+                ]
+            })
+        );
+    }
 
     function initializeDataTable() {
         dataTable = $('#AgenciesTable').DataTable(

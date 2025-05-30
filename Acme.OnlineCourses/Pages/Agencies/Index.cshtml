@@ -1,9 +1,11 @@
 @page
 @using Microsoft.Extensions.Localization
 @using Acme.OnlineCourses.Localization
+@using Acme.OnlineCourses.Agencies
 @using Acme.OnlineCourses.Pages.Agencies
 @model IndexModel
 @inject IStringLocalizer<OnlineCoursesResource> L
+@inject IAgencyAppService AgencyAppService
 @{
     ViewData["Title"] = L["Agencies"];
 }
@@ -27,7 +29,7 @@
         </abp-row>
     </abp-card-header>
     <abp-card-body>
-        <abp-table striped-rows="true" id="AgenciesTable">
+        <abp-table striped-rows="true" id="AgenciesTable" class="table-responsive">
             <thead>
                 <tr>
                     <th>@L["Code"]</th>
@@ -41,4 +43,6 @@
             </thead>
         </abp-table>
     </abp-card-body>
-</abp-card> 
+</abp-card>
+
+@await Html.PartialAsync("_StudentsModal", new StudentsModalModel(AgencyAppService)) 

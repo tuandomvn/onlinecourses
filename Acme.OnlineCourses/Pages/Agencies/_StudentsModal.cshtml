@@ -1,4 +1,3 @@
-@page
 @using Microsoft.Extensions.Localization
 @using Acme.OnlineCourses.Localization
 @using Acme.OnlineCourses.Pages.Agencies
@@ -6,11 +5,8 @@
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Button
 @model StudentsModalModel
 @inject IStringLocalizer<OnlineCoursesResource> L
-@{
-    Layout = null;
-}
 
-<abp-modal size="ExtraLarge">
+<abp-modal size="ExtraLarge" id="StudentsModal">
     <abp-modal-header title="@L["AgencyStudents"]"></abp-modal-header>
     <abp-modal-body>
         <form id="StudentsForm" method="post">
