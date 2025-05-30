@@ -30,27 +30,27 @@ namespace Acme.OnlineCourses.Pages.Agencies
             return Page();
         }
 
-        public async Task<JsonResult> OnGetStudentsAsync(
-            [FromQuery] Guid agencyId,
-            [FromQuery] int skipCount = 0,
-            [FromQuery] int maxResultCount = 10,
-            [FromQuery] string sorting = null)
-        {
-            var input = new GetStudentListDto
-            {
-                AgencyId = agencyId,
-                SkipCount = skipCount,
-                MaxResultCount = maxResultCount
-            };
+        //public async Task<JsonResult> OnGetStudentsAsync(
+        //    [FromQuery] Guid agencyId,
+        //    [FromQuery] int skipCount = 0,
+        //    [FromQuery] int maxResultCount = 10,
+        //    [FromQuery] string sorting = null)
+        //{
+        //    var input = new GetStudentListDto
+        //    {
+        //        AgencyId = agencyId,
+        //        SkipCount = skipCount,
+        //        MaxResultCount = maxResultCount
+        //    };
 
-            var result = await _agencyAppService.GetStudentsAsync(input);
-            return new JsonResult(new
-            {
-                draw = 1,
-                recordsTotal = result.TotalCount,
-                recordsFiltered = result.TotalCount,
-                data = result.Items
-            });
-        }
+        //    var result = await _agencyAppService.GetStudentsAsync(input);
+        //    return new JsonResult(new
+        //    {
+        //        draw = 1,
+        //        recordsTotal = result.TotalCount,
+        //        recordsFiltered = result.TotalCount,
+        //        data = result.Items
+        //    });
+        //}
     }
 } 

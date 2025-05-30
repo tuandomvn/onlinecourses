@@ -1,4 +1,4 @@
-using Acme.OnlineCourses.Agencies.Dtos;
+﻿using Acme.OnlineCourses.Agencies.Dtos;
 using Acme.OnlineCourses.Students.Dtos;
 using Acme.OnlineCourses.Students;
 using Microsoft.EntityFrameworkCore;
@@ -121,7 +121,8 @@ public class AgencyAppService :
         };
     }
 
-    // New method to get students list
+    // acme.onlineCourses.agencies.agency.getStudentsList
+    // goi từ Agency > Students Model
     public async Task<PagedResultDto<StudentDto>> GetStudentsListAsync(GetStudentFromAgencyDto input)
     {
         var query = await _studentRepository.GetQueryableAsync();
