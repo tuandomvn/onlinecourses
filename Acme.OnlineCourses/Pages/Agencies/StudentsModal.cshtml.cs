@@ -16,25 +16,41 @@ namespace Acme.OnlineCourses.Pages.Agencies
     {
         private readonly IAgencyAppService _agencyAppService;
 
-        public List<StudentDto> Students { get; set; }
+        [HiddenInput]
+        [BindProperty(SupportsGet = true)]
+        public Guid AgencyId { get; set; }
 
         public StudentsModalModel(IAgencyAppService agencyAppService)
         {
             _agencyAppService = agencyAppService;
         }
 
-        public async Task<IActionResult> OnGetAsync(Guid agencyId)
+        public async Task<IActionResult> OnGetAsync()
+        {
+            return Page();
+        }
+
+        public async Task<JsonResult> OnGetStudentsAsync(
+            [FromQuery] Guid agencyId,
+            [FromQuery] int skipCount = 0,
+            [FromQuery] int maxResultCount = 10,
+            [FromQuery] string sorting = null)
         {
             var input = new GetStudentListDto
             {
                 AgencyId = agencyId,
-                MaxResultCount = 1000 // Load tất cả học viên của agency
+                SkipCount = skipCount,
+                MaxResultCount = maxResultCount
             };
 
-            var result = await _agencyAppService.GetStudentsAsync(input.AgencyId.Value);
-            Students = result;
-
-            return Page();
+            var result = await _agencyAppService.GetStudentsAsync(input);
+            return new JsonResult(new
+            {
+                draw = 1,
+                recordsTotal = result.TotalCount,
+                recordsFiltered = result.TotalCount,
+                data = result.Items
+            });
         }
     }
 } 

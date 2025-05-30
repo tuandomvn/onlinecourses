@@ -16,6 +16,6 @@ public interface IAgencyAppService :
         CreateUpdateAgencyDto>
 {
     Task<PagedResultDto<StudentDto>> GetStudentsByAgencyAsync(Guid agencyId, PagedAndSortedResultRequestDto input);
-    Task<PagedResultDto<StudentDto>> GetStudentsListAsync(Guid agencyId, PagedAndSortedResultRequestDto input);
-    Task<List<StudentDto>> GetStudentsAsync(Guid agencyId);
+    Task<PagedResultDto<StudentDto>> GetStudentsListAsync(GetStudentFromAgencyDto input);
+    Task<PagedResultDto<StudentDto>> GetStudentsAsync(GetStudentListDto dto);
 } 

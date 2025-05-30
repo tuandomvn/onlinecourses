@@ -18,4 +18,9 @@ public class AgencyDto : AuditedEntityDto<Guid>
 public class GetAgencyListDto : PagedAndSortedResultRequestDto
 {
     public string Filter { get; set; }
-} 
+}
+
+public class GetStudentFromAgencyDto : PagedAndSortedResultRequestDto
+{
+    public Guid AgencyId { get; set; }
+}

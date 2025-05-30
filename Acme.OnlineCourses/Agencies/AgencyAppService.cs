@@ -122,10 +122,10 @@ public class AgencyAppService :
     }
 
     // New method to get students list
-    public async Task<PagedResultDto<StudentDto>> GetStudentsListAsync(Guid agencyId, PagedAndSortedResultRequestDto input)
+    public async Task<PagedResultDto<StudentDto>> GetStudentsListAsync(GetStudentFromAgencyDto input)
     {
         var query = await _studentRepository.GetQueryableAsync();
-        query = query.Where(x => x.AgencyId == agencyId);
+        query = query.Where(x => x.AgencyId == input.AgencyId);
 
         var totalCount = await query.CountAsync();
         var items = await query
@@ -140,15 +140,21 @@ public class AgencyAppService :
         };
     }
 
-    public async Task<List<StudentDto>> GetStudentsAsync(Guid agencyId)
+    public async Task<PagedResultDto<StudentDto>> GetStudentsAsync(GetStudentListDto dto)
     {
         var query = await _studentRepository.GetQueryableAsync();
-        query = query.Where(x => x.AgencyId == agencyId);
+        query = query.Where(x => x.AgencyId == dto.AgencyId);
 
         var totalCount = await query.CountAsync();
         var items = await query
+            .Skip(dto.SkipCount)
+            .Take(dto.MaxResultCount)
             .ToListAsync();
 
-        return _objectMapper.Map<List<Student>, List<StudentDto>>(items);
+        return new PagedResultDto<StudentDto>
+        {
+            TotalCount = totalCount,
+            Items = _objectMapper.Map<Student[], StudentDto[]>(items.ToArray())
+        };
     }
 } 

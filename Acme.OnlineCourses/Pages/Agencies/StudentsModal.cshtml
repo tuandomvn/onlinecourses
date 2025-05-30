@@ -10,11 +10,12 @@
     Layout = null;
 }
 
-<abp-modal size="Large">
+<abp-modal size="ExtraLarge">
     <abp-modal-header title="@L["AgencyStudents"]"></abp-modal-header>
     <abp-modal-body>
         <form id="StudentsForm" method="post">
             @Html.AntiForgeryToken()
+            <input type="hidden" id="AgencyId" value="@Model.AgencyId" />
             <abp-table striped-rows="true" id="AgencyStudentsTable" class="table-responsive">
                 <thead>
                     <tr>
@@ -28,21 +29,6 @@
                         <th>@L["AccountStatus"]</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var student in Model.Students)
-                    {
-                        <tr>
-                            <td>@student.FullName</td>
-                            <td>@student.Email</td>
-                            <td>@student.PhoneNumber</td>
-                            <td>@student.CourseName</td>
-                            <td>@student.RegistrationDate.ToString("dd/MM/yyyy")</td>
-                            <td>@L[$"Enum:TestStatus:{student.TestStatus}"]</td>
-                            <td>@L[$"Enum:PaymentStatus:{student.PaymentStatus}"]</td>
-                            <td>@L[$"Enum:AccountStatus:{student.AccountStatus}"]</td>
-                        </tr>
-                    }
-                </tbody>
             </abp-table>
         </form>
     </abp-modal-body>
@@ -52,17 +38,85 @@
 @section scripts {
     <script>
         $(function () {
-            $('#AgencyStudentsTable').DataTable({
-                paging: true,
-                order: [[1, "asc"]],
-                searching: true,
-                scrollX: true,
-                language: {
-                    url: abp.localization.currentCulture.cultureName === 'vi' 
-                        ? '/libs/datatables/i18n/vi.json' 
-                        : '/libs/datatables/i18n/en.json'
-                }
-            });
+            console.log(" dataTable gencyStudentsTable)DataTable(")
+            var l = abp.localization.getResource('OnlineCourses');
+            var dataTable;
+
+            function initializeDataTable() {
+                dataTable = $('#AgencyStudentsTable').DataTable(
+                    abp.libs.datatables.normalizeConfiguration({
+                        serverSide: true,
+                        paging: true,
+                        order: [[1, "asc"]],
+                        searching: false,
+                        processing: true,
+                        ajax: {
+                            url: abp.appPath + 'Agencies/StudentsModal?handler=GetStudents',
+                            type: 'GET',
+                            data: function (input) {
+                                var data = {
+                                    agencyId: '@Model.AgencyId',
+                                    skipCount: input.start,
+                                    maxResultCount: input.length,
+                                    sorting: input.order[0].column + ' ' + input.order[0].dir
+                                };
+                                return data;
+                            },
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader('RequestVerificationToken', abp.security.antiForgery.getToken());
+                            }
+                        },
+                        columnDefs: [
+                            {
+                                title: l('FullName'),
+                                data: "fullName"
+                            },
+                            {
+                                title: l('Email'),
+                                data: "email"
+                            },
+                            {
+                                title: l('PhoneNumber'),
+                                data: "phoneNumber"
+                            },
+                            {
+                                title: l('CourseName'),
+                                data: "courseName"
+                            },
+                            {
+                                title: l('RegistrationDate'),
+                                data: "registrationDate",
+                                render: function (data) {
+                                    return moment(data).format('DD/MM/YYYY');
+                                }
+                            },
+                            {
+                                title: l('TestStatus'),
+                                data: "testStatus",
+                                render: function (data) {
+                                    return l('Enum:TestStatus:' + data);
+                                }
+                            },
+                            {
+                                title: l('PaymentStatus'),
+                                data: "paymentStatus",
+                                render: function (data) {
+                                    return l('Enum:PaymentStatus:' + data);
+                                }
+                            },
+                            {
+                                title: l('AccountStatus'),
+                                data: "accountStatus",
+                                render: function (data) {
+                                    return l('Enum:AccountStatus:' + data);
+                                }
+                            }
+                        ]
+                    })
+                );
+            }
+
+            initializeDataTable();
         });
     </script>
 } 
