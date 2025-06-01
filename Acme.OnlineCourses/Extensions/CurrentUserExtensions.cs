@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Volo.Abp.Data;
 using Volo.Abp.Identity;
 using Volo.Abp.Users;
+using Microsoft.Extensions.Logging;
 
 namespace Acme.OnlineCourses.Extensions;
 
@@ -18,14 +19,14 @@ public static class CurrentUserExtensions
         return await userRepository.FindAsync(currentUser.Id.Value);
     }
 
-    public static async Task<Guid?> GetAgencyIdAsync(this ICurrentUser currentUser, IIdentityUserRepository userRepository)
+    public static Guid? GetAgencyIdAsync(this ICurrentUser currentUser, IIdentityUserRepository userRepository)
     {
         if (currentUser == null || userRepository == null)
         {
             return null;
         }
 
-        var user = await currentUser.GetUserAsync(userRepository);
+        var user = currentUser.GetUserAsync(userRepository).Result;
         if (user == null)
         {
             return null;

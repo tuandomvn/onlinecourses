@@ -6,6 +6,8 @@ using static Volo.Abp.Identity.Settings.IdentitySettingNames;
 using System.Linq;
 using Volo.Abp.Identity;
 using Acme.OnlineCourses.Extensions;
+using Microsoft.Extensions.Logging;
+using Acme.OnlineCourses.Agencies;
 
 namespace Acme.OnlineCourses.Students;
 
@@ -20,13 +22,20 @@ public class StudentAppService : CrudAppService<
     private readonly IRepository<Student, Guid> _studentRepository;
     private readonly ICurrentUser _currentUser;
     private readonly IIdentityUserRepository _userRepository;
+    private readonly ILogger<StudentAppService> _logger;
 
-    public StudentAppService(IRepository<Student, Guid> repository, ICurrentUser currentUser, IIdentityUserRepository userRepository)
+    public StudentAppService(
+        IRepository<Student, Guid> repository, 
+        ICurrentUser currentUser, 
+        IIdentityUserRepository userRepository,
+        ILogger<StudentAppService> logger)
         : base(repository)
     {
         _studentRepository = repository;
         _currentUser = currentUser;
         _userRepository = userRepository;
+        _logger = logger;
+
         //GetPolicyName = OnlineCoursesPermissions.Students.Default;
         //GetListPolicyName = OnlineCoursesPermissions.Students.Default;
         //CreatePolicyName = OnlineCoursesPermissions.Students.Create;
@@ -53,12 +62,20 @@ public class StudentAppService : CrudAppService<
         if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email) 
             && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
         {
-            //var user = await _currentUser.GetUserAsync(_userRepository);
-
             // Lấy agencyId
-            var agencyId = await _currentUser.GetAgencyIdAsync(_userRepository);
-
-            query = query.Where(x => x.AgencyId == agencyId);
+            if(_currentUser!= null && _userRepository!=null)
+            {
+                var agencyId = _currentUser.GetAgencyIdAsync(_userRepository);
+                if (agencyId != null)
+                {
+                    query = query.Where(x => x.AgencyId == agencyId);
+                }
+            }
+        }
+        else
+        {
+            //No result
+            query = query.Where(x => x.AgencyId == Guid.NewGuid());
         }
 
         if (input.AgencyId.HasValue)
