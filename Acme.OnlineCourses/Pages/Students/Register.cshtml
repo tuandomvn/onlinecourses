@@ -18,14 +18,14 @@
     </abp-card-header>
     <abp-card-body>
         <form id="RegisterForm">
-            <abp-input asp-for="Student.FirstName" />
-            <abp-input asp-for="Student.LastName" />
-            <abp-input asp-for="Student.Email" />
-            <abp-input asp-for="Student.PhoneNumber" />
-            <abp-input asp-for="Student.DateOfBirth" type="date" />
-            <abp-input asp-for="Student.IdentityNumber" />
-            <abp-input asp-for="Student.Address" />
-            <abp-select asp-for="Student.AgencyId" asp-items="Model.Agencies" />
+            <abp-input asp-for="Student.FirstName" required="required" />
+            <abp-input asp-for="Student.LastName" required="required" />
+            <abp-input asp-for="Student.Email" required="required" type="email" />
+            <abp-input asp-for="Student.PhoneNumber" required="required" />
+            <abp-input asp-for="Student.DateOfBirth" type="date" required="required" />
+            <abp-input asp-for="Student.IdentityNumber" required="required" />
+            <abp-input asp-for="Student.Address" required="required" />
+            <abp-select asp-for="Student.AgencyId" asp-items="Model.Agencies" required="required" />
             <div class="form-group">
                 <a href="javascript:void(0);" id="TermsLink">@L["ReadTermsAndConditions"]</a>
             </div>
@@ -57,7 +57,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">@L["Close"]</button>
-                <button type="button" class="btn btn-primary" id="AcceptTermsButton">@L["Accept"]</button>
             </div>
         </div>
     </div>

@@ -8,6 +8,8 @@ using Volo.Abp.Identity;
 using Acme.OnlineCourses.Extensions;
 using Microsoft.Extensions.Logging;
 using Acme.OnlineCourses.Agencies;
+using Acme.OnlineCourses.Permissions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Acme.OnlineCourses.Students;
 
@@ -36,13 +38,15 @@ public class StudentAppService : CrudAppService<
         _userRepository = userRepository;
         _logger = logger;
 
-        //GetPolicyName = OnlineCoursesPermissions.Students.Default;
-        //GetListPolicyName = OnlineCoursesPermissions.Students.Default;
-        //CreatePolicyName = OnlineCoursesPermissions.Students.Create;
-        //UpdatePolicyName = OnlineCoursesPermissions.Students.Edit;
-        //DeletePolicyName = OnlineCoursesPermissions.Students.Delete;
+        GetPolicyName = OnlineCoursesPermissions.Students.Default;
+        GetListPolicyName = OnlineCoursesPermissions.Students.Default;
+        CreatePolicyName = OnlineCoursesPermissions.Students.Create;
+        UpdatePolicyName = OnlineCoursesPermissions.Students.Edit;
+        DeletePolicyName = OnlineCoursesPermissions.Students.Delete;
     }
 
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
+    [Authorize(OnlineCoursesPermissions.Students.Delete)]
     protected override async Task<IQueryable<Student>> CreateFilteredQueryAsync(GetStudentListDto input)
     {
         var query = await base.CreateFilteredQueryAsync(input);
@@ -106,6 +110,7 @@ public class StudentAppService : CrudAppService<
         return query;
     }
 
+    [AllowAnonymous]
     public async Task<StudentDto> RegisterStudentAsync(RegisterStudentDto input)
     {
         var student = new Student
@@ -129,4 +134,4 @@ public class StudentAppService : CrudAppService<
 
         return ObjectMapper.Map<Student, StudentDto>(student);
     }
-} 
+}
