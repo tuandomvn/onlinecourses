@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Acme.OnlineCourses.Permissions;
-using Acme.OnlineCourses.Students.Dtos;
-using Microsoft.AspNetCore.Authorization;
-using Volo.Abp.Application.Dtos;
+﻿using Acme.OnlineCourses.Students.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Users;
+using static Volo.Abp.Identity.Settings.IdentitySettingNames;
+using System.Linq;
+using Volo.Abp.Identity;
+using Acme.OnlineCourses.Extensions;
 
 namespace Acme.OnlineCourses.Students;
 
@@ -20,11 +18,15 @@ public class StudentAppService : CrudAppService<
     IStudentAppService
 {
     private readonly IRepository<Student, Guid> _studentRepository;
+    private readonly ICurrentUser _currentUser;
+    private readonly IIdentityUserRepository _userRepository;
 
-    public StudentAppService(IRepository<Student, Guid> repository)
+    public StudentAppService(IRepository<Student, Guid> repository, ICurrentUser currentUser, IIdentityUserRepository userRepository)
         : base(repository)
     {
         _studentRepository = repository;
+        _currentUser = currentUser;
+        _userRepository = userRepository;
         //GetPolicyName = OnlineCoursesPermissions.Students.Default;
         //GetListPolicyName = OnlineCoursesPermissions.Students.Default;
         //CreatePolicyName = OnlineCoursesPermissions.Students.Create;
@@ -45,6 +47,18 @@ public class StudentAppService : CrudAppService<
                 x.PhoneNumber.Contains(input.Filter) ||
                 x.IdentityNumber.Contains(input.Filter)
             );
+        }
+
+        //filter by user logged in and agency if applicable
+        if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email) 
+            && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        {
+            //var user = await _currentUser.GetUserAsync(_userRepository);
+
+            // Lấy agencyId
+            var agencyId = await _currentUser.GetAgencyIdAsync(_userRepository);
+
+            query = query.Where(x => x.AgencyId == agencyId);
         }
 
         if (input.AgencyId.HasValue)

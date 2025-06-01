@@ -328,14 +328,22 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         await _userManager.CreateAsync(studentUser, "1q2w3E*");
         await _userManager.AddToRoleAsync(studentUser, "student");
 
-        var agencyUser = new IdentityUser(
-            Guid.NewGuid(),
-            "agency1",
-            "agency@onlinecourses.com"
-        );
+        // Get first agency for the agency user
+        var firstAgency = await _agencyRepository.FirstOrDefaultAsync();
+        if (firstAgency != null)
+        {
+            var agencyUser = new IdentityUser(
+                Guid.NewGuid(),
+                "agency1",
+                "agency@onlinecourses.com"
+            );
 
-        await _userManager.CreateAsync(agencyUser, "1q2w3E*");
-        await _userManager.AddToRoleAsync(agencyUser, "agency");
+            // Add agencyId as extra property
+            agencyUser.SetProperty("AgencyId", firstAgency.Id.ToString());
+
+            await _userManager.CreateAsync(agencyUser, "1q2w3E*");
+            await _userManager.AddToRoleAsync(agencyUser, "agency");
+        }
     }
 
     private async Task SeedStudentsAsync()
