@@ -4,6 +4,7 @@ using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Agencies.Dtos;
 using Acme.OnlineCourses.Students;
 using Acme.OnlineCourses.Students.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,13 +12,14 @@ using Volo.Abp.Users;
 
 namespace Acme.OnlineCourses.Pages.Students;
 
-public class RegisterModel : PageModel
+[Authorize]
+public class ProfileModel : PageModel
 {
     private readonly IStudentAppService _studentAppService;
     private readonly IAgencyAppService _agencyAppService;
     private readonly ICurrentUser _currentUser;
 
-    public RegisterModel(
+    public ProfileModel(
         IStudentAppService studentAppService,
         IAgencyAppService agencyAppService,
         ICurrentUser currentUser)
@@ -28,14 +30,26 @@ public class RegisterModel : PageModel
     }
 
     [BindProperty]
-    public RegisterStudentDto Student { get; set; }
+    public StudentDto Student { get; set; }
 
     public List<SelectListItem> Agencies { get; set; }
 
-    public bool IsLoggedIn => _currentUser.IsAuthenticated;
-
     public async Task<IActionResult> OnGetAsync()
     {
+        if (!_currentUser.IsAuthenticated)
+        {
+            return RedirectToPage("/Account/Login");
+        }
+
+        // Get student by email
+        var student = await _studentAppService.GetByEmailAsync(_currentUser.Email);
+        if (student == null)
+        {
+            return RedirectToPage("/Students/Register");
+        }
+
+        Student = student;
+
         // Get agencies for dropdown
         var agencies = await _agencyAppService.GetListAsync(new GetAgencyListDto());
         Agencies = new List<SelectListItem>();
@@ -44,31 +58,6 @@ public class RegisterModel : PageModel
             Agencies.Add(new SelectListItem(agency.Name, agency.Id.ToString()));
         }
 
-        // If user is logged in, set their email
-        if (_currentUser.IsAuthenticated)
-        {
-            Student = new RegisterStudentDto
-            {
-                Email = _currentUser.Email
-            };
-        }
-        else
-        {
-            Student = new RegisterStudentDto();
-        }
-
         return Page();
-    }
-
-    //Hinh nhu ko dung
-    public async Task<IActionResult> OnPostAsync()
-    {
-        if (!ModelState.IsValid)
-        {
-            return Page();
-        }
-
-        await _studentAppService.RegisterStudentAsync(Student);
-        return RedirectToPage("./Index");
     }
 } 

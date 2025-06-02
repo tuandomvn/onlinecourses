@@ -1,7 +1,4 @@
-using System;
-using System.Threading.Tasks;
 using Acme.OnlineCourses.Students.Dtos;
-using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace Acme.OnlineCourses.Students;
@@ -14,4 +11,6 @@ public interface IStudentAppService :
         CreateUpdateStudentDto>
 {
     Task<StudentDto> RegisterStudentAsync(RegisterStudentDto input);
+    Task<StudentDto> GetByEmailAsync(string email);
+    Task<bool> IsUserExistsAsync(string email);
 } 

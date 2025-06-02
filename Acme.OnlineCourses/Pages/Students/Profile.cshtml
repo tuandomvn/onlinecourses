@@ -1,0 +1,35 @@
+@page
+@using Microsoft.Extensions.Localization
+@using Acme.OnlineCourses.Localization
+@using Acme.OnlineCourses.Pages.Students
+@model ProfileModel
+@inject IStringLocalizer<OnlineCoursesResource> L
+@{
+    ViewData["Title"] = L["StudentProfile"];
+}
+
+@section scripts {
+    <abp-script src="/Pages/Students/Profile.js" />
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-card-title>@L["StudentProfile"]</abp-card-title>
+    </abp-card-header>
+    <abp-card-body>
+        <form id="ProfileForm">
+            <input type="hidden" asp-for="Student.Id" />
+            <abp-input asp-for="Student.FirstName" required="required" />
+            <abp-input asp-for="Student.LastName" required="required" />
+            <abp-input asp-for="Student.Email" required="required" type="email" />
+            <abp-input asp-for="Student.PhoneNumber" required="required" />
+            <abp-input asp-for="Student.DateOfBirth" type="date" required="required" />
+            <abp-input asp-for="Student.IdentityNumber" required="required" />
+            <abp-input asp-for="Student.Address" required="required" />
+            <abp-select asp-for="Student.AgencyId" asp-items="Model.Agencies" required="required" />
+        </form>
+    </abp-card-body>
+    <abp-card-footer>
+        <abp-button button-type="Primary" text="@L["Save"]" id="SaveButton" />
+    </abp-card-footer>
+</abp-card> 

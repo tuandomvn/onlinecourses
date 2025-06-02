@@ -10,6 +10,9 @@ using Microsoft.Extensions.Logging;
 using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Permissions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using IdentityUser = Volo.Abp.Identity.IdentityUser;
+using static Acme.OnlineCourses.OnlineCoursesConsts;
 
 namespace Acme.OnlineCourses.Students;
 
@@ -25,11 +28,12 @@ public class StudentAppService : CrudAppService<
     private readonly ICurrentUser _currentUser;
     private readonly IIdentityUserRepository _userRepository;
     private readonly ILogger<StudentAppService> _logger;
-
+    private readonly IdentityUserManager _userManager;
     public StudentAppService(
         IRepository<Student, Guid> repository, 
         ICurrentUser currentUser, 
         IIdentityUserRepository userRepository,
+        IdentityUserManager userManager,
         ILogger<StudentAppService> logger)
         : base(repository)
     {
@@ -37,6 +41,7 @@ public class StudentAppService : CrudAppService<
         _currentUser = currentUser;
         _userRepository = userRepository;
         _logger = logger;
+        _userManager = userManager;
 
         GetPolicyName = OnlineCoursesPermissions.Students.Default;
         GetListPolicyName = OnlineCoursesPermissions.Students.Default;
@@ -113,6 +118,17 @@ public class StudentAppService : CrudAppService<
     [AllowAnonymous]
     public async Task<StudentDto> RegisterStudentAsync(RegisterStudentDto input)
     {
+        var isUserExists = await IsUserExistsAsync(input.Email);
+        if(!isUserExists)
+        {
+            _logger.LogWarning($"User with email {input.Email} does not exist.");
+            var studentUser = new IdentityUser(Guid.NewGuid(), input.Email, input.Email);
+
+            await _userManager.CreateAsync(studentUser, "1q2w3E*");//TODO
+            await _userManager.AddToRoleAsync(studentUser, Roles.Student);
+            //TODO: send mail
+        }
+
         var student = new Student
         {
             FirstName = input.FirstName,
@@ -133,5 +149,23 @@ public class StudentAppService : CrudAppService<
         await _studentRepository.InsertAsync(student, autoSave: true);
 
         return ObjectMapper.Map<Student, StudentDto>(student);
+    }
+
+    public async Task<StudentDto> GetByEmailAsync(string email)
+    {
+        var student = await _studentRepository.FirstOrDefaultAsync(x => x.Email == email);
+        return ObjectMapper.Map<Student, StudentDto>(student);
+    }
+
+    public async Task<bool> IsUserExistsAsync(string email)
+    {
+        if (string.IsNullOrEmpty(email))
+        {
+            return false;
+        }
+
+        var normalizedEmail = email.ToUpperInvariant();
+        var user = await _userRepository.FindByNormalizedEmailAsync(normalizedEmail);
+        return user != null;
     }
 }
