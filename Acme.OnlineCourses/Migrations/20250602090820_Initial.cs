@@ -905,7 +905,6 @@ namespace Acme.OnlineCourses.Migrations
                     Address = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     AgreeToTerms = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CourseStatus = table.Column<int>(type: "int", nullable: false),
                     ExtraProperties = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: false)
@@ -997,7 +996,9 @@ namespace Acme.OnlineCourses.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FilePath = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UploadDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    UploadDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -1021,7 +1022,8 @@ namespace Acme.OnlineCourses.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     RegistrationDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     CourseNote = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CourseStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

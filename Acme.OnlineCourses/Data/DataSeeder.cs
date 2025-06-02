@@ -367,7 +367,6 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 TestStatus = TestStatus.NotTaken,
                 PaymentStatus = PaymentStatus.Paid,
                 AccountStatus = AccountStatus.NotSent,
-                CourseStatus = CourseStatus.Active,
                 AgreeToTerms = true
             },
             new Student
@@ -382,7 +381,6 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 TestStatus = TestStatus.NotTaken,
                 PaymentStatus = PaymentStatus.Paid,
                 AccountStatus = AccountStatus.NotSent,
-                CourseStatus = CourseStatus.Active,
                 AgreeToTerms = true
             },
             new Student
@@ -397,7 +395,6 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 TestStatus = TestStatus.NotTaken,
                 PaymentStatus = PaymentStatus.Paid,
                 AccountStatus = AccountStatus.NotSent,
-                CourseStatus = CourseStatus.Completed,
                 AgreeToTerms = true
             }
         };
@@ -496,6 +493,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
 
         foreach (var attachment in attachments)
         {
+            attachment.Description = "Uploaded by data seeder";
             await _studentAttachmentRepository.InsertAsync(attachment, autoSave: true);
         }
     }

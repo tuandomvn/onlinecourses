@@ -189,9 +189,6 @@ namespace Acme.OnlineCourses.Migrations
                         .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
-                    b.Property<int>("CourseStatus")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
@@ -260,6 +257,10 @@ namespace Acme.OnlineCourses.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -296,6 +297,9 @@ namespace Acme.OnlineCourses.Migrations
                     b.Property<string>("CourseNote")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("CourseStatus")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime(6)");

@@ -14,7 +14,6 @@ public class StudentDto : AuditedEntityDto<Guid>
     public string PhoneNumber { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public string IdentityNumber { get; set; }
-    public string CourseName { get; set; }
     public DateTime RegistrationDate { get; set; }
     public TestStatus TestStatus { get; set; }
     public PaymentStatus PaymentStatus { get; set; }
@@ -24,7 +23,6 @@ public class StudentDto : AuditedEntityDto<Guid>
     public bool AgreeToTerms { get; set; }
     public List<StudentAttachmentDto> Attachments { get; set; }
     public List<StudentCourseDto> Courses { get; set; }
-    public CourseStatus CourseStatus { get; set; }
 }
 
 public class StudentAttachmentDto

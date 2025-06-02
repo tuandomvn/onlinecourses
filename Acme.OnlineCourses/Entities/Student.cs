@@ -20,9 +20,8 @@ public class Student : AuditedAggregateRoot<Guid>
     public Guid? AgencyId { get; set; }
     public string Address { get; set; }
     public bool AgreeToTerms { get; set; }
-    public List<StudentAttachment> Attachments { get; set; }
+    public virtual ICollection<StudentAttachment> Attachments { get; set; }
     public List<StudentCourse> Courses { get; set; }
-    public CourseStatus CourseStatus { get; set; }
 
     public Student()
     {
@@ -45,7 +44,6 @@ public class Student : AuditedAggregateRoot<Guid>
         string agencyName,
         string address,
         bool agreeToTerms,
-        CourseStatus courseStatus = CourseStatus.Active,
         Guid? assignedAdminId = null
     ) : base(id)
     {
@@ -61,9 +59,8 @@ public class Student : AuditedAggregateRoot<Guid>
         AgencyId = agencyId;
         Address = address;
         AgreeToTerms = agreeToTerms;
-        CourseStatus = courseStatus;
-        Attachments = new List<StudentAttachment>();
         Courses = new List<StudentCourse>();
+        Attachments = new List<StudentAttachment>();
     }
 }
 
@@ -73,7 +70,7 @@ public class StudentAttachment : Entity<Guid>
     public string FileName { get; set; }
     public string FilePath { get; set; }
     public DateTime UploadDate { get; set; }
-
+    public string Description { get; set; }
     public StudentAttachment()
     {
     }
@@ -82,23 +79,25 @@ public class StudentAttachment : Entity<Guid>
         Guid id,
         Guid studentId,
         string fileName,
-        string filePath
+        string filePath,
+        string description
     ) : base(id)
     {
         StudentId = studentId;
         FileName = fileName;
         FilePath = filePath;
         UploadDate = DateTime.Now;
+        Description = description;
     }
 }
 
 public class StudentCourse : Entity<Guid>
 {
-
     public Guid StudentId { get; set; }
     public string CourseName { get; set; }
     public DateTime RegistrationDate { get; set; }
     public string CourseNote { get; set; }
+    public CourseStatus CourseStatus { get; set; }
 
     public StudentCourse()
     {

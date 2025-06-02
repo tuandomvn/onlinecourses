@@ -32,4 +32,42 @@
     <abp-card-footer>
         <abp-button button-type="Primary" text="@L["Save"]" id="SaveButton" />
     </abp-card-footer>
+</abp-card>
+
+<abp-card class="mt-4">
+    <abp-card-header>
+        <abp-card-title>@L["Attachments"]</abp-card-title>
+    </abp-card-header>
+    <abp-card-body>
+        <form id="UploadForm" enctype="multipart/form-data">
+            <input type="hidden" name="StudentId" value="@Model.Student.Id" />
+            <div class="form-group">
+                <label for="Files">@L["SelectFiles"]</label>
+                <input type="file" class="form-control-file" id="Files" name="Files" multiple />
+            </div>
+            <div class="form-group">
+                <label for="Description">@L["Description"]</label>
+                <textarea class="form-control" id="Description" name="Description" rows="3"></textarea>
+            </div>
+        </form>
+
+        <div class="mt-4">
+            <h5>@L["UploadedFiles"]</h5>
+            <div id="AttachmentsList">
+                @foreach (var attachment in Model.Attachments)
+                {
+                    <div class="attachment-item mb-2">
+                        <a href="@attachment.FilePath" target="_blank">@attachment.FileName</a>
+                        <small class="text-muted">(@attachment.FileSize bytes)</small>
+                        <button type="button" class="btn btn-sm btn-danger delete-attachment" data-id="@attachment.Id">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </abp-card-body>
+    <abp-card-footer>
+        <abp-button button-type="Primary" text="@L["Upload"]" id="UploadButton" />
+    </abp-card-footer>
 </abp-card> 

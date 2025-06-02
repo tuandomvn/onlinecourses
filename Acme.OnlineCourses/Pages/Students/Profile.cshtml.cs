@@ -34,6 +34,8 @@ public class ProfileModel : PageModel
 
     public List<SelectListItem> Agencies { get; set; }
 
+    public List<StudentAttachmentDto> Attachments { get; set; }
+
     public async Task<IActionResult> OnGetAsync()
     {
         if (!_currentUser.IsAuthenticated)
@@ -57,6 +59,9 @@ public class ProfileModel : PageModel
         {
             Agencies.Add(new SelectListItem(agency.Name, agency.Id.ToString()));
         }
+
+        // Get attachments
+        Attachments = await _studentAppService.GetAttachmentsAsync(student.Id);
 
         return Page();
     }

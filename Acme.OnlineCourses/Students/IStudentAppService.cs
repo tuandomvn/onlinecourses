@@ -13,4 +13,7 @@ public interface IStudentAppService :
     Task<StudentDto> RegisterStudentAsync(RegisterStudentDto input);
     Task<StudentDto> GetByEmailAsync(string email);
     Task<bool> IsUserExistsAsync(string email);
+    Task<List<StudentAttachmentDto>> GetAttachmentsAsync(Guid studentId);
+    Task<StudentAttachmentDto> UploadAttachmentAsync(Guid studentId, IFormFile file, string description);
+    Task DeleteAttachmentAsync(Guid attachmentId);
 } 

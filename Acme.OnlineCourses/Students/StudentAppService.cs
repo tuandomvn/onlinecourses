@@ -13,6 +13,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using IdentityUser = Volo.Abp.Identity.IdentityUser;
 using static Acme.OnlineCourses.OnlineCoursesConsts;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System;
+using Volo.Abp;
 
 namespace Acme.OnlineCourses.Students;
 
@@ -29,12 +33,15 @@ public class StudentAppService : CrudAppService<
     private readonly IIdentityUserRepository _userRepository;
     private readonly ILogger<StudentAppService> _logger;
     private readonly IdentityUserManager _userManager;
+    private readonly IRepository<StudentAttachment, Guid> _attachmentRepository;
+
     public StudentAppService(
         IRepository<Student, Guid> repository, 
         ICurrentUser currentUser, 
         IIdentityUserRepository userRepository,
         IdentityUserManager userManager,
-        ILogger<StudentAppService> logger)
+        ILogger<StudentAppService> logger,
+        IRepository<StudentAttachment, Guid> attachmentRepository)
         : base(repository)
     {
         _studentRepository = repository;
@@ -42,6 +49,7 @@ public class StudentAppService : CrudAppService<
         _userRepository = userRepository;
         _logger = logger;
         _userManager = userManager;
+        _attachmentRepository = attachmentRepository;
 
         GetPolicyName = OnlineCoursesPermissions.Students.Default;
         GetListPolicyName = OnlineCoursesPermissions.Students.Default;
@@ -107,11 +115,6 @@ public class StudentAppService : CrudAppService<
             query = query.Where(x => x.AccountStatus == input.AccountStatus.Value);
         }
 
-        if (input.CourseStatus.HasValue)
-        {
-            query = query.Where(x => x.CourseStatus == input.CourseStatus.Value);
-        }
-
         return query;
     }
 
@@ -143,7 +146,6 @@ public class StudentAppService : CrudAppService<
             //TestStatus = TestStatus.NotStarted,
             //PaymentStatus = PaymentStatus.Unpaid,
             //AccountStatus = AccountStatus.Pending,
-            //CourseStatus = CourseStatus.NotStarted
         };
 
         await _studentRepository.InsertAsync(student, autoSave: true);
@@ -167,5 +169,64 @@ public class StudentAppService : CrudAppService<
         var normalizedEmail = email.ToUpperInvariant();
         var user = await _userRepository.FindByNormalizedEmailAsync(normalizedEmail);
         return user != null;
+    }
+
+    public async Task<List<StudentAttachmentDto>> GetAttachmentsAsync(Guid studentId)
+    {
+        var attachments = await _attachmentRepository.GetListAsync(x => x.StudentId == studentId);
+        return ObjectMapper.Map<List<StudentAttachment>, List<StudentAttachmentDto>>(attachments);
+    }
+
+    public async Task<StudentAttachmentDto> UploadAttachmentAsync(Guid studentId, IFormFile file, string description)
+    {
+        if (file == null || file.Length == 0)
+        {
+            throw new UserFriendlyException("File is empty");
+        }
+
+        // Create upload directory if not exists
+        var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", studentId.ToString());
+        if (!Directory.Exists(uploadDir))
+        {
+            Directory.CreateDirectory(uploadDir);
+        }
+
+        // Generate unique filename
+        var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+        var filePath = Path.Combine(uploadDir, fileName);
+
+        // Save file
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        // Create attachment record
+        var attachment = new StudentAttachment
+        {
+            StudentId = studentId,
+            FileName = file.FileName,
+            FilePath = $"/uploads/students/{studentId}/{fileName}",
+            //Description = description
+        };
+
+        await _attachmentRepository.InsertAsync(attachment, autoSave: true);
+
+        return ObjectMapper.Map<StudentAttachment, StudentAttachmentDto>(attachment);
+    }
+
+    public async Task DeleteAttachmentAsync(Guid attachmentId)
+    {
+        var attachment = await _attachmentRepository.GetAsync(attachmentId);
+        
+        // Delete file
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", attachment.FilePath.TrimStart('/'));
+        if (System.IO.File.Exists(filePath))
+        {
+            System.IO.File.Delete(filePath);
+        }
+
+        // Delete record
+        await _attachmentRepository.DeleteAsync(attachment);
     }
 }
