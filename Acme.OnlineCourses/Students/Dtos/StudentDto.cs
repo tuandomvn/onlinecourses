@@ -14,7 +14,6 @@ public class StudentDto : AuditedEntityDto<Guid>
     public string PhoneNumber { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public string IdentityNumber { get; set; }
-    public DateTime RegistrationDate { get; set; }
     public TestStatus TestStatus { get; set; }
     public PaymentStatus PaymentStatus { get; set; }
     public AccountStatus AccountStatus { get; set; }
@@ -34,4 +33,4 @@ public class StudentAttachmentDto
     public long FileSize { get; set; }
     public DateTime UploadDate { get; set; }
     public string Description { get; set; }
-} 
+}

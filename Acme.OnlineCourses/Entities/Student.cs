@@ -43,8 +43,7 @@ public class Student : AuditedAggregateRoot<Guid>
         Guid? agencyId,
         string agencyName,
         string address,
-        bool agreeToTerms,
-        Guid? assignedAdminId = null
+        bool agreeToTerms
     ) : base(id)
     {
         FirstName = firstName;

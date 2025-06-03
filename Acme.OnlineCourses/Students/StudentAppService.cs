@@ -186,7 +186,7 @@ public class StudentAppService : CrudAppService<
         return ObjectMapper.Map<List<StudentAttachment>, List<StudentAttachmentDto>>(attachments);
     }
 
-    [AllowAnonymous]
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
     [HttpPost]
     [Route("api/app/student/upload")]
     public async Task<StudentAttachmentDto> UploadAttachmentAsync([FromForm] Guid studentId, [FromForm] IFormFile file, [FromForm] string description)
@@ -242,7 +242,7 @@ public class StudentAppService : CrudAppService<
         await _attachmentRepository.DeleteAsync(attachment);
     }
 
-    [AllowAnonymous]
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
     public override async Task<StudentDto> UpdateAsync(Guid id, CreateUpdateStudentDto input)
     {
         var student = await _studentRepository.GetAsync(id);
@@ -256,45 +256,35 @@ public class StudentAppService : CrudAppService<
         student.Address = input.Address;
 
         // Handle attachments
-        if (input.Attachments != null && input.Attachments.Any())
-        {
-            // Delete existing attachments that are not in the new list
-            var existingAttachments = await _attachmentRepository.GetListAsync(x => x.StudentId == id);
-            var attachmentsToDelete = existingAttachments.Where(x => !input.Attachments.Any(a => a.FilePath == x.FilePath));
-            foreach (var attachment in attachmentsToDelete)
-            {
-                await _attachmentRepository.DeleteAsync(attachment);
-            }
+        //if (input.Attachments != null && input.Attachments.Any())
+        //{
+        //    // Delete existing attachments that are not in the new list
+        //    var existingAttachments = await _attachmentRepository.GetListAsync(x => x.StudentId == id);
+        //    var attachmentsToDelete = existingAttachments.Where(x => !input.Attachments.Any(a => a.FilePath == x.FilePath));
+        //    foreach (var attachment in attachmentsToDelete)
+        //    {
+        //        await _attachmentRepository.DeleteAsync(attachment);
+        //    }
 
-            // Add new attachments
-            foreach (var attachmentDto in input.Attachments)
-            {
-                if (!existingAttachments.Any(x => x.FilePath == attachmentDto.FilePath))
-                {
-                    var attachment = new StudentAttachment
-                    {
-                        StudentId = id,
-                        FileName = attachmentDto.FileName,
-                        FilePath = attachmentDto.FilePath,
-                        Description = attachmentDto.Description
-                    };
-                    await _attachmentRepository.InsertAsync(attachment);
-                }
-            }
-        }
+        //    // Add new attachments
+        //    foreach (var attachmentDto in input.Attachments)
+        //    {
+        //        if (!existingAttachments.Any(x => x.FilePath == attachmentDto.FilePath))
+        //        {
+        //            var attachment = new StudentAttachment
+        //            {
+        //                StudentId = id,
+        //                FileName = attachmentDto.FileName,
+        //                FilePath = attachmentDto.FilePath,
+        //                Description = attachmentDto.Description
+        //            };
+        //            await _attachmentRepository.InsertAsync(attachment);
+        //        }
+        //    }
+        //}
 
         await _studentRepository.UpdateAsync(student);
 
         return ObjectMapper.Map<Student, StudentDto>(student);
-    }
-
-    public class UpdateStudentProfileDto
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string PhoneNumber { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public string IdentityNumber { get; set; }
-        public string Address { get; set; }
     }
 }

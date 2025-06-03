@@ -2,7 +2,7 @@
 @using Microsoft.Extensions.Localization
 @using Acme.OnlineCourses.Localization
 @using Acme.OnlineCourses.Web.Pages.Students
-@model Acme.OnlineCourses.Web.Pages.Students.ProfileModel
+@model ProfileModel
 @inject IStringLocalizer<OnlineCoursesResource> L
 @{
     ViewData["Title"] = L["Student:Profile"];
@@ -22,14 +22,24 @@
     </abp-card-header>
     <abp-card-body>
         <form id="ProfileForm">
-            <abp-input asp-for="Student.Id" />
+            <input type="hidden" id="Student_Id" name="Student.Id" value="@Model.Student.Id" />
+            <abp-input asp-for="Student.Email" disabled="true" />
             <abp-input asp-for="Student.FirstName" />
             <abp-input asp-for="Student.LastName" />
-            <abp-input asp-for="Student.Email" />
             <abp-input asp-for="Student.PhoneNumber" />
             <abp-input asp-for="Student.DateOfBirth" type="date" />
             <abp-input asp-for="Student.IdentityNumber" />
             <abp-input asp-for="Student.Address" />
+            <div class="mb-3">
+                <label class="form-label">@L["TestStatus"]</label>
+                <div class="form-control-plaintext">@Model.Student.TestStatus</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">@L["PaymentStatus"]</label>
+                <div class="form-control-plaintext">@Model.Student.PaymentStatus</div>
+            </div>
+            <abp-input asp-for="Student.AccountStatus" disabled="true" />
+            <input type="hidden" id="Agency_Id" name="Agency.Id" value="@Model.Student.AgencyId" />
 
             <div class="mb-3">
                 <label class="form-label">@L["Student:Attachments"]</label>
