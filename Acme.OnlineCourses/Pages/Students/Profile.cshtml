@@ -1,11 +1,11 @@
 @page
 @using Microsoft.Extensions.Localization
 @using Acme.OnlineCourses.Localization
-@using Acme.OnlineCourses.Pages.Students
-@model ProfileModel
+@using Acme.OnlineCourses.Web.Pages.Students
+@model Acme.OnlineCourses.Web.Pages.Students.ProfileModel
 @inject IStringLocalizer<OnlineCoursesResource> L
 @{
-    ViewData["Title"] = L["StudentProfile"];
+    ViewData["Title"] = L["Student:Profile"];
 }
 
 @section scripts {
@@ -14,60 +14,59 @@
 
 <abp-card>
     <abp-card-header>
-        <abp-card-title>@L["StudentProfile"]</abp-card-title>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Student:Profile"]</abp-card-title>
+            </abp-column>
+        </abp-row>
     </abp-card-header>
     <abp-card-body>
         <form id="ProfileForm">
-            <input type="hidden" asp-for="Student.Id" />
-            <abp-input asp-for="Student.FirstName" required="required" />
-            <abp-input asp-for="Student.LastName" required="required" />
-            <abp-input asp-for="Student.Email" required="required" type="email" />
-            <abp-input asp-for="Student.PhoneNumber" required="required" />
-            <abp-input asp-for="Student.DateOfBirth" type="date" required="required" />
-            <abp-input asp-for="Student.IdentityNumber" required="required" />
-            <abp-input asp-for="Student.Address" required="required" />
-            <abp-select asp-for="Student.AgencyId" asp-items="Model.Agencies" required="required" />
-        </form>
-    </abp-card-body>
-    <abp-card-footer>
-        <abp-button button-type="Primary" text="@L["Save"]" id="SaveButton" />
-    </abp-card-footer>
-</abp-card>
+            <abp-input asp-for="Student.Id" />
+            <abp-input asp-for="Student.FirstName" />
+            <abp-input asp-for="Student.LastName" />
+            <abp-input asp-for="Student.Email" />
+            <abp-input asp-for="Student.PhoneNumber" />
+            <abp-input asp-for="Student.DateOfBirth" type="date" />
+            <abp-input asp-for="Student.IdentityNumber" />
+            <abp-input asp-for="Student.Address" />
 
-<abp-card class="mt-4">
-    <abp-card-header>
-        <abp-card-title>@L["Attachments"]</abp-card-title>
-    </abp-card-header>
-    <abp-card-body>
-        <form id="UploadForm" enctype="multipart/form-data">
-            <input type="hidden" name="StudentId" value="@Model.Student.Id" />
-            <div class="form-group">
-                <label for="Files">@L["SelectFiles"]</label>
-                <input type="file" class="form-control-file" id="Files" name="Files" multiple />
+            <div class="mb-3">
+                <label class="form-label">@L["Student:Attachments"]</label>
+                <input type="file" class="form-control" id="Attachments" multiple />
+                <small class="form-text text-muted">@L["Student:AttachmentsHelp"]</small>
             </div>
-            <div class="form-group">
-                <label for="Description">@L["Description"]</label>
-                <textarea class="form-control" id="Description" name="Description" rows="3"></textarea>
-            </div>
-        </form>
 
-        <div class="mt-4">
-            <h5>@L["UploadedFiles"]</h5>
-            <div id="AttachmentsList">
-                @foreach (var attachment in Model.Attachments)
+            <div id="AttachmentsList" class="mb-3">
+                @if (Model.Student!= null && Model.Student.Attachments != null && Model.Student.Attachments.Any())
                 {
-                    <div class="attachment-item mb-2">
-                        <a href="@attachment.FilePath" target="_blank">@attachment.FileName</a>
-                        <small class="text-muted">(@attachment.FileSize bytes)</small>
-                        <button type="button" class="btn btn-sm btn-danger delete-attachment" data-id="@attachment.Id">
-                            <i class="fa fa-trash"></i>
-                        </button>
+                    <div class="list-group">
+                        @foreach (var attachment in Model.Student.Attachments)
+                        {
+                            <div class="list-group-item d-flex justify-content-between align-items-center" data-id="@attachment.Id">
+                                <div>
+                                    <a href="@attachment.FilePath" target="_blank">@attachment.FileName</a>
+                                    @if (!string.IsNullOrEmpty(attachment.Description))
+                                    {
+                                        <small class="d-block text-muted">@attachment.Description</small>
+                                    }
+                                </div>
+                                <button type="button" class="btn btn-danger btn-sm delete-attachment" data-id="@attachment.Id">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        }
                     </div>
                 }
+                else
+                {
+                    <p class="text-muted">@L["Student:NoAttachments"]</p>
+                }
             </div>
-        </div>
+
+            <abp-button button-type="Primary" type="submit">
+                <i class="fa fa-save"></i> @L["Save"]
+            </abp-button>
+        </form>
     </abp-card-body>
-    <abp-card-footer>
-        <abp-button button-type="Primary" text="@L["Upload"]" id="UploadButton" />
-    </abp-card-footer>
 </abp-card> 

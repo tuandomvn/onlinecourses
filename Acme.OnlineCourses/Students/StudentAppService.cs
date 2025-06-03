@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System;
 using Volo.Abp;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Acme.OnlineCourses.Students;
 
@@ -34,6 +36,7 @@ public class StudentAppService : CrudAppService<
     private readonly ILogger<StudentAppService> _logger;
     private readonly IdentityUserManager _userManager;
     private readonly IRepository<StudentAttachment, Guid> _attachmentRepository;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public StudentAppService(
         IRepository<Student, Guid> repository, 
@@ -41,7 +44,8 @@ public class StudentAppService : CrudAppService<
         IIdentityUserRepository userRepository,
         IdentityUserManager userManager,
         ILogger<StudentAppService> logger,
-        IRepository<StudentAttachment, Guid> attachmentRepository)
+        IRepository<StudentAttachment, Guid> attachmentRepository,
+        IHttpContextAccessor httpContextAccessor)
         : base(repository)
     {
         _studentRepository = repository;
@@ -50,6 +54,7 @@ public class StudentAppService : CrudAppService<
         _logger = logger;
         _userManager = userManager;
         _attachmentRepository = attachmentRepository;
+        _httpContextAccessor = httpContextAccessor;
 
         GetPolicyName = OnlineCoursesPermissions.Students.Default;
         GetListPolicyName = OnlineCoursesPermissions.Students.Default;
@@ -153,9 +158,19 @@ public class StudentAppService : CrudAppService<
         return ObjectMapper.Map<Student, StudentDto>(student);
     }
 
+    [Authorize]
     public async Task<StudentDto> GetByEmailAsync(string email)
     {
-        var student = await _studentRepository.FirstOrDefaultAsync(x => x.Email == email);
+        var query = await _studentRepository.GetQueryableAsync();
+        var student = await query
+            .Include(x => x.Attachments)
+            .FirstOrDefaultAsync(x => x.Email == email);
+
+        if (student == null)
+        {
+            throw new UserFriendlyException("Student not found");
+        }
+
         return ObjectMapper.Map<Student, StudentDto>(student);
     }
 
@@ -228,5 +243,44 @@ public class StudentAppService : CrudAppService<
 
         // Delete record
         await _attachmentRepository.DeleteAsync(attachment);
+    }
+
+    [AllowAnonymous]
+    public override async Task<StudentDto> UpdateAsync(Guid id, CreateUpdateStudentDto input)
+    {
+        var student = await _studentRepository.GetAsync(id);
+        
+        // Update only allowed fields
+        student.FirstName = input.FirstName;
+        student.LastName = input.LastName;
+        student.PhoneNumber = input.PhoneNumber;
+        student.DateOfBirth = input.DateOfBirth;
+        student.IdentityNumber = input.IdentityNumber;
+        student.Address = input.Address;
+
+        // Keep other fields unchanged
+        // student.Email = input.Email; // Keep original email
+        // student.AgencyId = input.AgencyId; // Keep original agency
+        // student.TestStatus = input.TestStatus; // Keep original status
+        // student.AgreeToTerms = input.AgreeToTerms; // Keep original value
+        // student.CourseStatus = input.CourseStatus; // Keep original status
+        // student.AccountStatus = input.AccountStatus; // Keep original status
+        // student.PaymentStatus = input.PaymentStatus; // Keep original status
+        // student.AssignedAdminId = input.AssignedAdminId; // Keep original admin
+        // student.RegistrationDate = input.RegistrationDate; // Keep original date
+
+        await _studentRepository.UpdateAsync(student);
+
+        return ObjectMapper.Map<Student, StudentDto>(student);
+    }
+
+    public class UpdateStudentProfileDto
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public string IdentityNumber { get; set; }
+        public string Address { get; set; }
     }
 }

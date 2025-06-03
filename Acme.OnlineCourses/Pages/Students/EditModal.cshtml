@@ -20,14 +20,10 @@
             <abp-input asp-for="Student.PhoneNumber" />
             <abp-input asp-for="Student.DateOfBirth" type="date" />
             <abp-input asp-for="Student.IdentityNumber" />
-            <abp-input asp-for="Student.CourseName" />
-            <abp-input asp-for="Student.RegistrationDate" type="date" />
             <abp-select asp-for="Student.TestStatus" asp-items="@Model.TestStatusList" />
             <abp-select asp-for="Student.PaymentStatus" asp-items="@Model.PaymentStatusList" />
             <abp-select asp-for="Student.AccountStatus" asp-items="@Model.AccountStatusList" />
             <abp-select asp-for="Student.AgencyId" asp-items="@Model.AgencyList" />
-            <abp-select asp-for="Student.AssignedAdminId" asp-items="@Model.AdminList" />
-            <abp-input asp-for="Student.PaymentProofFile" type="file" accept=".jpg,.jpeg,.png,.pdf" />
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
     </abp-modal>

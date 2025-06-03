@@ -14,7 +14,6 @@ public class OnlineCoursesAutoMapperProfile : Profile
     {
         /* Create your AutoMapper object mappings here */
 
-        CreateMap<Student, StudentDto>();
         CreateMap<CreateUpdateStudentDto, Student>();
         CreateMap<StudentDto, CreateUpdateStudentDto>();
 
@@ -31,5 +30,8 @@ public class OnlineCoursesAutoMapperProfile : Profile
         CreateMap<Agency, AgencyDto>();
         CreateMap<CreateUpdateAgencyDto, Agency>();
         CreateMap<AgencyDto, CreateUpdateAgencyDto>();
+
+        CreateMap<Student, StudentDto>()
+            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
     }
 }

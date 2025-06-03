@@ -8,8 +8,6 @@ namespace Acme.OnlineCourses.Students.Dtos;
 public class CreateUpdateStudentDto
 {
     public Guid Id { get; set; }
-    public Guid? AssignedAdminId { get; set; }
-    public string PaymentProofFile { get; set; }
 
     [Required]
     [StringLength(128)]
@@ -35,13 +33,6 @@ public class CreateUpdateStudentDto
     [StringLength(32)]
     public string IdentityNumber { get; set; }
 
-    [Required]
-    [StringLength(256)]
-    public string CourseName { get; set; }
-
-    [Required]
-    public DateTime RegistrationDate { get; set; }
-
     public TestStatus TestStatus { get; set; }
 
     public PaymentStatus PaymentStatus { get; set; }
@@ -58,7 +49,6 @@ public class CreateUpdateStudentDto
     public bool AgreeToTerms { get; set; }
 
     public List<CreateUpdateStudentAttachmentDto> Attachments { get; set; }
-    public CourseStatus CourseStatus { get; set; }
 }
 
 public class CreateUpdateStudentAttachmentDto

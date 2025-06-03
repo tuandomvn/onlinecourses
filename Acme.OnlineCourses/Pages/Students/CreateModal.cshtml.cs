@@ -45,7 +45,6 @@ public class CreateModalModel : OnlineCoursesPageModel
     {
         Student = new CreateUpdateStudentDto
         {
-            RegistrationDate = Clock.Now,
             TestStatus = TestStatus.NotTaken,
             PaymentStatus = PaymentStatus.NotPaid,
             AccountStatus = AccountStatus.NotSent
