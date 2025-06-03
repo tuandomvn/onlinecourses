@@ -1,5 +1,6 @@
 using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Blogs;
+using Acme.OnlineCourses.Courses;
 using Acme.OnlineCourses.Students;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
@@ -114,6 +115,16 @@ public static class OnlineCoursesDbContextModelCreatingExtensions
 
             b.HasIndex(x => x.Code);
             b.HasIndex(x => x.Name);
+        });
+
+        builder.Entity<Course>(b =>
+        {
+            b.ToTable(OnlineCoursesConsts.DbTablePrefix + "Courses", OnlineCoursesConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.Code).IsRequired().HasMaxLength(32);
+            b.Property(x => x.Name).IsRequired().HasMaxLength(256);
+            b.Property(x => x.Description).HasMaxLength(1024);
+            b.Property(x => x.Price).HasPrecision(10, 2);
         });
     }
 } 

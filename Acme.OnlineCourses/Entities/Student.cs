@@ -93,7 +93,7 @@ public class StudentAttachment : Entity<Guid>
 public class StudentCourse : Entity<Guid>
 {
     public Guid StudentId { get; set; }
-    public string CourseName { get; set; }
+    public Guid CourseId { get; set; }
     public DateTime RegistrationDate { get; set; }
     public string CourseNote { get; set; }
     public CourseStatus CourseStatus { get; set; }
@@ -105,12 +105,12 @@ public class StudentCourse : Entity<Guid>
     public StudentCourse(
         Guid id,
         Guid studentId,
-        string courseName,
+        Guid courseId,
         DateTime registrationDate
     ) : base(id)
     {
         StudentId = studentId;
-        CourseName = courseName;
+        CourseId = courseId;
         RegistrationDate = registrationDate;
     }
 }

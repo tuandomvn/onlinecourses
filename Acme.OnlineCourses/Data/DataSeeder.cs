@@ -10,6 +10,7 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.Identity.Localization;
 using Volo.Abp.PermissionManagement.Identity;
 using Acme.OnlineCourses.Permissions;
+using Acme.OnlineCourses.Courses;
 
 namespace Acme.OnlineCourses.Data;
 
@@ -26,6 +27,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
     private readonly IIdentityRoleRepository _roleRepository;
     private readonly IdentityRoleManager _roleManager;
     private readonly IPermissionManager _permissionManager;
+    private readonly IRepository<Course, Guid> _courseRepository;
 
     public DataSeeder(
         IRepository<Agency, Guid> agencyRepository,
@@ -38,6 +40,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         IUnitOfWorkManager unitOfWorkManager,
         IIdentityRoleRepository roleRepository,
         IdentityRoleManager roleManager,
+        IRepository<Course, Guid> courseRepository,
         IPermissionManager permissionManager)
     {
         _agencyRepository = agencyRepository;
@@ -51,6 +54,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         _roleRepository = roleRepository;
         _roleManager = roleManager;
         _permissionManager = permissionManager;
+        _courseRepository = courseRepository;
     }
 
     [UnitOfWork]
@@ -67,6 +71,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 await SeedStudentsAsync();
                 await SeedStudentCoursesAsync();
                 await SeedStudentAttachmentsAsync();
+                await SeedCourseAsync();
 
                 await uow.CompleteAsync();
             }
@@ -405,6 +410,52 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         }
     }
 
+    public async Task SeedCourseAsync()
+    {
+        if (await _courseRepository.GetCountAsync() > 0)
+        {
+            return;
+        }
+
+        await _courseRepository.InsertAsync(
+            new Course
+            {
+                Code = "TESOL-101",
+                Name = "TESOL Foundation",
+                Description = "Basic TESOL course for beginners",
+                Price = 999.99m,
+                Duration = 120,
+                Status = CourseStatusIN.Active
+            },
+            autoSave: true
+        );
+
+        await _courseRepository.InsertAsync(
+            new Course
+            {
+                Code = "TESOL-201",
+                Name = "TESOL Advanced",
+                Description = "Advanced TESOL course for experienced teachers",
+                Price = 1499.99m,
+                Duration = 180,
+                Status = CourseStatusIN.Active
+            },
+            autoSave: true
+        );
+
+        await _courseRepository.InsertAsync(
+            new Course
+            {
+                Code = "TESOL-301",
+                Name = "TESOL Master",
+                Description = "Master level TESOL course for professional teachers",
+                Price = 1999.99m,
+                Duration = 240,
+                Status = CourseStatusIN.ComingSoon
+            },
+            autoSave: true
+        );
+    }
     private async Task SeedStudentCoursesAsync()
     {
         if (await _studentCourseRepository.GetCountAsync() > 0)
