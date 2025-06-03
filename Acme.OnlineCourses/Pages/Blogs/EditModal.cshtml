@@ -10,12 +10,12 @@
 }
 
 <form asp-page="/Blogs/EditModal" asp-route-id="@Model.Id">
-    <abp-modal>
+    <abp-modal size="Large">
         <abp-modal-header title="@L["Edit"].Value"></abp-modal-header>
         <abp-modal-body>
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="Blog.Id" />
-            <abp-input asp-for="Blog.Code" />
+            <abp-input asp-for="Blog.Code" disabled />
             <abp-input asp-for="Blog.Title" />
             <div class="form-group">
                 <label asp-for="Blog.Content">@L["Content"]</label>
@@ -31,15 +31,12 @@
 
 <script src="https://cdn.tiny.cloud/1/r7wvp6swxi0c9v5j13ek6leb1ufare0sojpf7x1kv06qo55b/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-    console.log("EditModal script loaded")
     $(function () {
-        // Đợi một chút để modal render xong
         setTimeout(function () {
-            console.log("EditModal script 111111111111")
             tinymce.remove('#Blog_Content');
             tinymce.init({
                 selector: '#Blog_Content',
-                height: 400,
+                height: 500,
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'print', 'preview', 'anchor',
                     'searchreplace', 'visualblocks', 'code', 'fullscreen',
@@ -49,9 +46,11 @@
                     'alignleft aligncenter alignright alignjustify | ' +
                     'bullist numlist outdent indent | removeformat | help | code | image | table',
                 menubar: 'file edit view insert format tools table help',
-                branding: false
+                branding: false,
+                resize: true,
+                content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; }'
             });
-        }, 1000); // 300ms, có thể tăng lên nếu modal render chậm
+        }, 1000);
     });
 
     $('form').on('submit', function () {
@@ -59,7 +58,6 @@
     });
 
     $(document).on('abp-ajax-beforeSend', function () {
-        console.log("ABp script 111111111111")
         tinymce.triggerSave();
     });
 </script> 

@@ -10,7 +10,7 @@
 }
 
 <form asp-page="/Blogs/CreateModal">
-    <abp-modal>
+    <abp-modal size="Large">
         <abp-modal-header title="@L["NewBlog"].Value"></abp-modal-header>
         <abp-modal-body>
             <abp-input asp-for="Blog.Code" />
@@ -37,7 +37,7 @@
             tinymce.remove('#Blog_Content');
             tinymce.init({
                 selector: '#Blog_Content',
-                height: 400,
+                height: 500,
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'print', 'preview', 'anchor',
                     'searchreplace', 'visualblocks', 'code', 'fullscreen',
@@ -47,9 +47,11 @@
                     'alignleft aligncenter alignright alignjustify | ' +
                     'bullist numlist outdent indent | removeformat | help | code | image | table',
                 menubar: 'file edit view insert format tools table help',
-                branding: false
+                branding: false,
+                resize: true,
+                content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; }'
             });
-        }, 300); // 300ms, có thể tăng lên nếu modal render chậm
+        }, 1000); // 300ms, có thể tăng lên nếu modal render chậm
     });
 
     $('form').on('submit', function () {
