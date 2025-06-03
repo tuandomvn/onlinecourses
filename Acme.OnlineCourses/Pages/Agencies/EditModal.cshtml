@@ -14,8 +14,8 @@
     <abp-modal>
         <abp-modal-header title="@L["Edit"].Value"></abp-modal-header>
         <abp-modal-body>
-            <input asp-for="Agency.Id" />
-            <abp-input asp-for="Agency.Code" />
+            <input type="hidden" asp-for="Id" />
+            <abp-input asp-for="Agency.Code" disabled />
             <abp-input asp-for="Agency.Name" />
             <abp-input asp-for="Agency.Description" />
             <abp-input asp-for="Agency.ContactEmail" />

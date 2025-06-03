@@ -70,7 +70,16 @@ public class AgencyAppService :
     public override async Task<AgencyDto> UpdateAsync(Guid id, CreateUpdateAgencyDto input)
     {
         var agency = await Repository.GetAsync(id);
-        _objectMapper.Map(input, agency);
+        // Map all properties except Id
+        agency.Code = input.Code;
+        agency.Name = input.Name;
+        agency.Description = input.Description;
+        agency.ContactEmail = input.ContactEmail;
+        agency.ContactPhone = input.ContactPhone;
+        agency.Address = input.Address;
+        agency.CommissionPercent = input.CommissionPercent;
+        agency.Status = input.Status;
+        
         agency = await Repository.UpdateAsync(agency);
         return _objectMapper.Map<Agency, AgencyDto>(agency);
     }
