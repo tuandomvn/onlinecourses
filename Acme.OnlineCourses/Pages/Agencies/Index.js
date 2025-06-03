@@ -78,10 +78,6 @@ $(function () {
                         data: "phoneNumber"
                     },
                     {
-                        title: l('CourseName'),
-                        data: "courseName"
-                    },
-                    {
                         title: l('RegistrationDate'),
                         data: "registrationDate",
                         render: function (data) {

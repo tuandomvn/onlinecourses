@@ -6,6 +6,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.ObjectMapping;
+using Acme.OnlineCourses.Permissions;
 
 namespace Acme.OnlineCourses.Agencies;
 
@@ -29,11 +30,11 @@ public class AgencyAppService :
     {
         _objectMapper = objectMapper;
         _studentRepository = studentRepository;
-        //GetPolicyName = "AgencyManagement";
-        //GetListPolicyName = "AgencyManagement";
-        //CreatePolicyName = "AgencyManagement.Create";
-        //UpdatePolicyName = "AgencyManagement.Edit";
-        //DeletePolicyName = "AgencyManagement.Delete";
+        GetPolicyName = OnlineCoursesPermissions.Agencies.Default;
+        GetListPolicyName = OnlineCoursesPermissions.Agencies.Default;
+        CreatePolicyName = OnlineCoursesPermissions.Agencies.Create;
+        UpdatePolicyName = OnlineCoursesPermissions.Agencies.Edit;
+        DeletePolicyName = OnlineCoursesPermissions.Agencies.Delete;
     }
 
     public override async Task<AgencyDto> GetAsync(Guid id)
@@ -105,8 +106,7 @@ public class AgencyAppService :
     public async Task<PagedResultDto<StudentDto>> GetStudentsByAgencyAsync(Guid agencyId, PagedAndSortedResultRequestDto input)
     {
         var query = await _studentRepository.GetQueryableAsync();
-        //TODO
-        //query = query.Where(x => x.AgencyId == agencyId);
+        query = query.Where(x => x.AgencyId == agencyId);
 
         var totalCount = await query.CountAsync();
         var items = await query

@@ -27,11 +27,11 @@ public class BlogAppService :
     public BlogAppService(IRepository<Blog, Guid> repository)
         : base(repository)
     {
-        GetPolicyName = OnlineCoursesPermissions.Students.Default;
-        //GetListPolicyName = OnlineCoursesPermissions.Students.Default;
-        //CreatePolicyName = OnlineCoursesPermissions.Admins.Create;
-        //UpdatePolicyName = OnlineCoursesPermissions.Admins.Edit;
-        //DeletePolicyName = OnlineCoursesPermissions.Admins.Delete;
+        GetPolicyName = OnlineCoursesPermissions.Blogs.Default;
+        GetListPolicyName = OnlineCoursesPermissions.Blogs.Default;
+        CreatePolicyName = OnlineCoursesPermissions.Blogs.Create;
+        UpdatePolicyName = OnlineCoursesPermissions.Blogs.Edit;
+        DeletePolicyName = OnlineCoursesPermissions.Blogs.Delete;
     }
 
     public async Task<List<BlogDto>> GetPublishedBlogsAsync()
