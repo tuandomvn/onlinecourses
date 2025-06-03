@@ -59,10 +59,6 @@ public static class OnlineCoursesDbContextModelCreatingExtensions
             b.ToTable("StudentCourse", OnlineCoursesConsts.DbSchema);
             b.ConfigureByConvention();
 
-            b.Property(x => x.CourseName)
-                .IsRequired()
-                .HasMaxLength(256);
-
             b.HasOne<Student>()
                 .WithMany(x => x.Courses)
                 .HasForeignKey(x => x.StudentId)
@@ -119,7 +115,7 @@ public static class OnlineCoursesDbContextModelCreatingExtensions
 
         builder.Entity<Course>(b =>
         {
-            b.ToTable(OnlineCoursesConsts.DbTablePrefix + "Courses", OnlineCoursesConsts.DbSchema);
+            b.ToTable("Courses", OnlineCoursesConsts.DbSchema);
             b.ConfigureByConvention();
             b.Property(x => x.Code).IsRequired().HasMaxLength(32);
             b.Property(x => x.Name).IsRequired().HasMaxLength(256);

@@ -69,9 +69,10 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 await SeedBlogsAsync();
                 await SeedUsersAsync();
                 await SeedStudentsAsync();
+                await SeedCourseAsync();
+
                 await SeedStudentCoursesAsync();
                 await SeedStudentAttachmentsAsync();
-                await SeedCourseAsync();
 
                 await uow.CompleteAsync();
             }
@@ -464,33 +465,34 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         }
 
         var students = await _studentRepository.GetListAsync();
+        var coursesData = await _courseRepository.GetListAsync();
         var courses = new[]
         {
             new StudentCourse
             {
                 StudentId = students[0].Id,
-                CourseName = "Introduction to Programming",
+                CourseId = coursesData[0].Id,
                 RegistrationDate = DateTime.Now.AddDays(-30),
                 CourseNote = "Basic programming concepts and languages."
             },
             new StudentCourse
             {
                 StudentId = students[0].Id,
-                CourseName = "Web Development Basics",
+                CourseId = coursesData[0].Id,
                 RegistrationDate = DateTime.Now.AddDays(-20),
                 CourseNote= "Learn the fundamentals of web development."
             },
             new StudentCourse
             {
                 StudentId = students[1].Id,
-                CourseName = "Advanced JavaScript",
+                CourseId = coursesData[0].Id,
                 RegistrationDate = DateTime.Now.AddDays(-15),
                 CourseNote = "Deep dive into JavaScript programming."
             },
             new StudentCourse
             {
                 StudentId = students[2].Id,
-                CourseName = "Database Design",
+                CourseId = coursesData[0].Id,
                 RegistrationDate = DateTime.Now.AddDays(-10),
                 CourseNote = "Learn how to design and manage databases."
             }

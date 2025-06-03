@@ -34,6 +34,7 @@ public class RegisterStudentDto
     public string Address { get; set; }
 
     public Guid? AgencyId { get; set; }
+    public Guid? CourseId { get; set; }
 
     [Required]
     public bool AgreeToTerms { get; set; }

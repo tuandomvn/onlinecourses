@@ -89,6 +89,15 @@
     "Close": "Close",
     "BlogNotFound": "Terms and conditions not found",
     "ErrorLoadingTerms": "Error loading terms and conditions",
-    "ViewStudents": "View Students"
+    "ViewStudents": "View Students",
+    "SelectAgency": "Select Agency",
+    "SelectCourse": "Select Course",
+    "Courses": "Courses",
+    "NewCourse": "New Course",
+    "Price": "Price",
+    "Duration": "Duration (hours)",
+    "Enum:CourseStatusIN:0": "Active",
+    "Enum:CourseStatusIN:1": "Inactive",
+    "Enum:CourseStatusIN:2": "Coming Soon"
   }
 } 

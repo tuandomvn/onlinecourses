@@ -2,11 +2,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Agencies.Dtos;
+using Acme.OnlineCourses.Courses;
+using Acme.OnlineCourses.Localization;
 using Acme.OnlineCourses.Students;
 using Acme.OnlineCourses.Students.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Localization;
 using Volo.Abp.Users;
 
 namespace Acme.OnlineCourses.Pages.Students;
@@ -15,30 +18,36 @@ public class RegisterModel : PageModel
 {
     private readonly IStudentAppService _studentAppService;
     private readonly IAgencyAppService _agencyAppService;
+    private readonly ICourseAppService _courseAppService;
     private readonly ICurrentUser _currentUser;
+    private readonly IStringLocalizer<OnlineCoursesResource> _localizer;
 
     public RegisterModel(
         IStudentAppService studentAppService,
         IAgencyAppService agencyAppService,
-        ICurrentUser currentUser)
+        ICourseAppService courseAppService,
+        ICurrentUser currentUser,
+        IStringLocalizer<OnlineCoursesResource> localizer)
     {
         _studentAppService = studentAppService;
         _agencyAppService = agencyAppService;
+        _courseAppService = courseAppService;
         _currentUser = currentUser;
+        _localizer = localizer;
     }
 
     [BindProperty]
     public RegisterStudentDto Student { get; set; }
 
     public List<SelectListItem> Agencies { get; set; }
-
+    public List<SelectListItem> Courses { get; set; }
     public bool IsLoggedIn => _currentUser.IsAuthenticated;
 
     public async Task<IActionResult> OnGetAsync()
     {
         // Get agencies for dropdown
         var agencies = await _agencyAppService.GetListAsync(new GetAgencyListDto());
-        Agencies = new List<SelectListItem>();
+        Agencies = new List<SelectListItem>() { new SelectListItem(_localizer["SelectAgency"], "") };
         foreach (var agency in agencies.Items)
         {
             Agencies.Add(new SelectListItem(agency.Name, agency.Id.ToString()));
@@ -55,6 +64,16 @@ public class RegisterModel : PageModel
         else
         {
             Student = new RegisterStudentDto();
+        }
+
+        var courses = await _courseAppService.GetListAsync();
+        Courses = new List<SelectListItem>
+        {
+            new SelectListItem(_localizer["SelectCourse"], "")
+        };
+        foreach (var course in courses)
+        {
+            Courses.Add(new SelectListItem(course.Name, course.Id.ToString()));
         }
 
         return Page();

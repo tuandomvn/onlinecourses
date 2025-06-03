@@ -5,6 +5,8 @@ using Acme.OnlineCourses.Blogs;
 using Acme.OnlineCourses.Students.Dtos;
 using Acme.OnlineCourses.Students;
 using AutoMapper;
+using Acme.OnlineCourses.Courses;
+using Acme.OnlineCourses.Courses.Dtos;
 
 namespace Acme.OnlineCourses.ObjectMapping;
 
@@ -33,5 +35,7 @@ public class OnlineCoursesAutoMapperProfile : Profile
 
         CreateMap<Student, StudentDto>()
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
+
+        CreateMap<Course, CourseDto>();
     }
 }
