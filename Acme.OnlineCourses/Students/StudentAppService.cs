@@ -1,24 +1,18 @@
-﻿using Acme.OnlineCourses.Students.Dtos;
+﻿using Acme.OnlineCourses.Extensions;
+using Acme.OnlineCourses.Permissions;
+using Acme.OnlineCourses.Students.Dtos;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Volo.Abp;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.Users;
-using static Volo.Abp.Identity.Settings.IdentitySettingNames;
-using System.Linq;
 using Volo.Abp.Identity;
-using Acme.OnlineCourses.Extensions;
-using Microsoft.Extensions.Logging;
-using Acme.OnlineCourses.Agencies;
-using Acme.OnlineCourses.Permissions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using IdentityUser = Volo.Abp.Identity.IdentityUser;
+using Volo.Abp.Users;
 using static Acme.OnlineCourses.OnlineCoursesConsts;
+using IdentityUser = Volo.Abp.Identity.IdentityUser;
 using Microsoft.AspNetCore.Http;
-using System.IO;
-using System;
-using Volo.Abp;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace Acme.OnlineCourses.Students;
 
@@ -192,7 +186,10 @@ public class StudentAppService : CrudAppService<
         return ObjectMapper.Map<List<StudentAttachment>, List<StudentAttachmentDto>>(attachments);
     }
 
-    public async Task<StudentAttachmentDto> UploadAttachmentAsync(Guid studentId, IFormFile file, string description)
+    [AllowAnonymous]
+    [HttpPost]
+    [Route("api/app/student/upload")]
+    public async Task<StudentAttachmentDto> UploadAttachmentAsync([FromForm] Guid studentId, [FromForm] IFormFile file, [FromForm] string description)
     {
         if (file == null || file.Length == 0)
         {
@@ -222,7 +219,7 @@ public class StudentAppService : CrudAppService<
             StudentId = studentId,
             FileName = file.FileName,
             FilePath = $"/uploads/students/{studentId}/{fileName}",
-            //Description = description
+            Description = description
         };
 
         await _attachmentRepository.InsertAsync(attachment, autoSave: true);
@@ -258,16 +255,33 @@ public class StudentAppService : CrudAppService<
         student.IdentityNumber = input.IdentityNumber;
         student.Address = input.Address;
 
-        // Keep other fields unchanged
-        // student.Email = input.Email; // Keep original email
-        // student.AgencyId = input.AgencyId; // Keep original agency
-        // student.TestStatus = input.TestStatus; // Keep original status
-        // student.AgreeToTerms = input.AgreeToTerms; // Keep original value
-        // student.CourseStatus = input.CourseStatus; // Keep original status
-        // student.AccountStatus = input.AccountStatus; // Keep original status
-        // student.PaymentStatus = input.PaymentStatus; // Keep original status
-        // student.AssignedAdminId = input.AssignedAdminId; // Keep original admin
-        // student.RegistrationDate = input.RegistrationDate; // Keep original date
+        // Handle attachments
+        if (input.Attachments != null && input.Attachments.Any())
+        {
+            // Delete existing attachments that are not in the new list
+            var existingAttachments = await _attachmentRepository.GetListAsync(x => x.StudentId == id);
+            var attachmentsToDelete = existingAttachments.Where(x => !input.Attachments.Any(a => a.FilePath == x.FilePath));
+            foreach (var attachment in attachmentsToDelete)
+            {
+                await _attachmentRepository.DeleteAsync(attachment);
+            }
+
+            // Add new attachments
+            foreach (var attachmentDto in input.Attachments)
+            {
+                if (!existingAttachments.Any(x => x.FilePath == attachmentDto.FilePath))
+                {
+                    var attachment = new StudentAttachment
+                    {
+                        StudentId = id,
+                        FileName = attachmentDto.FileName,
+                        FilePath = attachmentDto.FilePath,
+                        Description = attachmentDto.Description
+                    };
+                    await _attachmentRepository.InsertAsync(attachment);
+                }
+            }
+        }
 
         await _studentRepository.UpdateAsync(student);
 

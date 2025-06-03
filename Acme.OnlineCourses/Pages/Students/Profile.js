@@ -31,10 +31,19 @@ $(function () {
             AccountStatus: $('#Student_AccountStatus').val(),
             CourseStatus: $('#Student_CourseStatus').val(),
             AgreeToTerms: $('#Student_AgreeToTerms').is(':checked'),
-            RegistrationDate: $('#Student_RegistrationDate').val() ? new Date($('#Student_RegistrationDate').val()).toISOString() : null
+            RegistrationDate: $('#Student_RegistrationDate').val() ? new Date($('#Student_RegistrationDate').val()).toISOString() : null,
+            Attachments: []
         };
 
-        data.Attachments = [];
+        // Add existing attachments
+        $attachmentsList.find('.list-group-item').each(function() {
+            var $item = $(this);
+            data.Attachments.push({
+                FileName: $item.find('.file-name').text(),
+                FilePath: $item.find('.file-path').text(),
+                Description: $item.find('.file-description').text()
+            });
+        });
 
         abp.ui.block();
         $.ajax({
@@ -59,6 +68,44 @@ $(function () {
                 abp.ui.unblock();
             }
         });
+    });
+
+    // Handle file upload separately
+    $attachments.on('change', function() {
+        var files = this.files;
+        if (files.length > 0) {
+            var studentId = $('#Student_Id').val();
+            var formData = new FormData();
+            
+            // Add studentId to FormData
+            formData.append('studentId', studentId);
+            
+            for (var i = 0; i < files.length; i++) {
+                formData.append('file', files[i]);
+                formData.append('description', 'test'); // Add empty description
+            }
+
+            $.ajax({
+                url: abp.appPath + 'api/app/student/upload',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    console.log(result);
+                    abp.notify.info(l('SuccessfullyUploaded'));
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                    if (error.responseJSON && error.responseJSON.error) {
+                        abp.notify.error(error.responseJSON.error.message);
+                    } else {
+                        abp.notify.error('An error occurred while uploading files');
+                    }
+                }
+            });
+        }
     });
 
     $('.delete-attachment').on('click', function () {
