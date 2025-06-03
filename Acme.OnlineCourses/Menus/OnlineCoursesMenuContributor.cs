@@ -61,8 +61,8 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 l["Menu:Students:List"],
                 url: "/Students",
                 icon: "fas fa-list",
-                order: 3
-                //requiredPermissionName: OnlineCoursesPermissions.Students.Default
+                order: 3,
+                requiredPermissionName: OnlineCoursesPermissions.Students.Default
             )
         );
 
@@ -72,9 +72,8 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 l["Menu:Agencies"],
                 url: "/Agencies",
                 icon: "fas fa-building",
-                order: 4
-            //Phan quyen tren menu, di duoc xem
-            //requiredPermissionName: OnlineCoursesPermissions.Agencies.Default
+                order: 4,
+                requiredPermissionName: OnlineCoursesPermissions.Agencies.Default
             )
         );
 
@@ -84,8 +83,8 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 l["Menu:Blogs"],
                 url: "/Blogs",
                 icon: "fas fa-blog",
-                order: 5
-                //requiredPermissionName: OnlineCoursesPermissions.Admins.Default
+                order: 5,
+                requiredPermissionName: OnlineCoursesPermissions.Blogs.Default
             )
         );
 
