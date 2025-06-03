@@ -67,7 +67,7 @@ public class CreateModalModel : OnlineCoursesPageModel
             .Select(x => new SelectListItem
             {
                 Value = ((int)x).ToString(),
-                Text = _localizer[$"Enum:TestStatus:{x}"]
+                Text = _localizer[$"Enum:TestStatus:{(int)x}"]
             })
             .ToList();
 
@@ -77,7 +77,7 @@ public class CreateModalModel : OnlineCoursesPageModel
             .Select(x => new SelectListItem
             {
                 Value = ((int)x).ToString(),
-                Text = _localizer[$"Enum:PaymentStatus:{x}"]
+                Text = _localizer[$"Enum:PaymentStatus:{(int)x}"]
             })
             .ToList();
 
@@ -87,7 +87,7 @@ public class CreateModalModel : OnlineCoursesPageModel
             .Select(x => new SelectListItem
             {
                 Value = ((int)x).ToString(),
-                Text = _localizer[$"Enum:AccountStatus:{x}"]
+                Text = _localizer[$"Enum:AccountStatus:{(int)x}"]
             })
             .ToList();
 

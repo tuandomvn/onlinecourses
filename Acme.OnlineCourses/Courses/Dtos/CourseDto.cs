@@ -10,5 +10,5 @@ public class CourseDto : EntityDto<Guid>
     public string Description { get; set; }
     public decimal Price { get; set; }
     public int Duration { get; set; }
-    public CourseStatusIN Status { get; set; }
+    public CourseStatus Status { get; set; }
 } 

@@ -96,7 +96,7 @@ public class StudentCourse : Entity<Guid>
     public Guid CourseId { get; set; }
     public DateTime RegistrationDate { get; set; }
     public string CourseNote { get; set; }
-    public CourseStatus CourseStatus { get; set; }
+    public StudentCourseStatus CourseStatus { get; set; }
 
     public StudentCourse()
     {
@@ -115,7 +115,7 @@ public class StudentCourse : Entity<Guid>
     }
 }
 
-public enum CourseStatus
+public enum StudentCourseStatus
 {
     Active = 0,
     Completed = 1,

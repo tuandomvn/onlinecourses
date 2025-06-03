@@ -11,5 +11,5 @@ public class GetStudentListDto : PagedAndSortedResultRequestDto
     public TestStatus? TestStatus { get; set; }
     public PaymentStatus? PaymentStatus { get; set; }
     public AccountStatus? AccountStatus { get; set; }
-    public CourseStatus? CourseStatus { get; set; }
+    public StudentCourseStatus? CourseStatus { get; set; }
 } 

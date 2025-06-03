@@ -426,7 +426,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 Description = "Basic TESOL course for beginners",
                 Price = 999.99m,
                 Duration = 120,
-                Status = CourseStatusIN.Active
+                Status = CourseStatus.Active
             },
             autoSave: true
         );
@@ -439,7 +439,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 Description = "Advanced TESOL course for experienced teachers",
                 Price = 1499.99m,
                 Duration = 180,
-                Status = CourseStatusIN.Active
+                Status = CourseStatus.Active
             },
             autoSave: true
         );
@@ -452,7 +452,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 Description = "Master level TESOL course for professional teachers",
                 Price = 1999.99m,
                 Duration = 240,
-                Status = CourseStatusIN.ComingSoon
+                Status = CourseStatus.ComingSoon
             },
             autoSave: true
         );

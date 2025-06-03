@@ -11,10 +11,10 @@ public class Course : Entity<Guid>
     public string Description { get; set; }
     public decimal Price { get; set; }
     public int Duration { get; set; } // Duration in hours
-    public CourseStatusIN Status { get; set; }
+    public CourseStatus Status { get; set; }
 }
 
-public enum CourseStatusIN
+public enum CourseStatus
 {
     Active,
     Inactive,

@@ -9,5 +9,5 @@ public class StudentCourseDto : AuditedEntityDto<Guid>
     public string CourseName { get; set; }
     public DateTime RegistrationDate { get; set; }
     public string CourseNote { get; set; }
-    public CourseStatus CourseStatus { get; set; }
+    public StudentCourseStatus CourseStatus { get; set; }
 }
