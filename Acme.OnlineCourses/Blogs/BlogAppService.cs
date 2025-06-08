@@ -46,11 +46,13 @@ public class BlogAppService :
     }
 
     [AllowAnonymous]
-    public async Task<BlogDto> GetByCodeAsync(string code)
+    public async Task<BlogDto> GetByCodeAsync(string code, Language? language = null)
     {
         var query = await Repository.GetQueryableAsync();
         var blog = await query
-            .FirstOrDefaultAsync(x => x.Code == code && x.IsPublished);
+            .Where(x => x.Code == code && x.IsPublished)
+            .WhereIf(language.HasValue, x => x.Language == language.Value)
+            .FirstOrDefaultAsync();
 
         return ObjectMapper.Map<Blog, BlogDto>(blog);
     }

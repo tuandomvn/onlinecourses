@@ -234,70 +234,80 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 Title = "Homepage",
                 Content = "Online learning has become increasingly popular in recent years...",
                 PublishedDate = DateTime.Now.AddDays(-10),
-                Code = "BLG001"
+                Code = "BLG001",
+                Language = Language.En
             },
             new Blog
             {
                 Title = "Course-Introduction",
                 Content = "Studying online requires different skills and strategies...",
                 PublishedDate = DateTime.Now.AddDays(-8),
-                Code = "BLG002"
+                Code = "BLG002",
+                Language = Language.En
             },
             new Blog
             {
                 Title = "TermAndCondition",
                 Content = "The education landscape is rapidly evolving...",
                 PublishedDate = DateTime.Now.AddDays(-6),
-                Code = "BLG003"
+                Code = "BLG003",
+                Language = Language.En
             },
             new Blog
             {
                 Title = "AboutUs",
                 Content = "Maintaining motivation in online learning environments can be challenging...",
                 PublishedDate = DateTime.Now.AddDays(-4),
-                Code = "BLG004"
+                Code = "BLG004",
+                Language = Language.En
             },
             new Blog
             {
                 Title = "Contact",
                 Content = "Online education offers numerous advantages for students...",
                 PublishedDate = DateTime.Now.AddDays(-2),
-                Code = "BLG005"
+                Code = "BLG005",
+                Language = Language.En
             },
             new Blog
             {
                 Title = "Building a Successful Online Learning Community",
                 Content = "Creating an engaging online learning community is essential for student success...",
                 PublishedDate = DateTime.Now.AddDays(-1),
-                Code = "BLG006"
+                Code = "BLG006",
+                Language = Language.En
             },
             new Blog
             {
                 Title = "Technology Trends in Education",
                 Content = "Emerging technologies are reshaping the way we learn and teach...",
                 PublishedDate = DateTime.Now,
-                Code = "BLG007"
+                Code = "BLG007",
+                Language = Language.En
             },
             new Blog
             {
                 Title = "Balancing Work and Online Learning",
                 Content = "Many students struggle to balance their professional and academic lives...",
                 PublishedDate = DateTime.Now.AddDays(1),
-                Code = "BLG008"
+                Code = "BLG008",
+                Language = Language.En
             },
             new Blog
             {
                 Title = "The Role of AI in Education",
                 Content = "Artificial Intelligence is transforming educational experiences...",
                 PublishedDate = DateTime.Now.AddDays(2),
-                Code = "BLG009"
+                Code = "BLG009",
+                Language = Language.En
             },
             new Blog
             {
                 Title = "Creating Engaging Online Content",
                 Content = "Learn how to create content that keeps students engaged and motivated...",
                 PublishedDate = DateTime.Now.AddDays(3),
-                Code = "BLG010"
+                Code = "BLG010",
+                Language = Language.En
             }
         };
 

@@ -23,4 +23,6 @@ public class CreateUpdateBlogDto : EntityDto<Guid>
     public DateTime? PublishedDate { get; set; }
 
     public bool IsPublished { get; set; }
+
+    public Language Language { get; set; }
 } 

@@ -29,7 +29,10 @@
             <abp-input asp-for="Student.PhoneNumber" />
             <abp-input asp-for="Student.DateOfBirth" type="date" />
             <abp-input asp-for="Student.Address" />
-            
+            <div class="form-group">
+                <label asp-for="Student.StudentNote">@L["StudentNote"]</label>
+                <textarea asp-for="Student.StudentNote" class="form-control" rows="4"></textarea>
+            </div>
             <div class="mb-3">
                 <label class="form-label">@L["PaymentStatus"]</label>
                 <div class="form-control-plaintext">@Model.Student.PaymentStatus</div>

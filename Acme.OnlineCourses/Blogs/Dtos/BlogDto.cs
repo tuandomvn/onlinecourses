@@ -11,4 +11,5 @@ public class BlogDto : AuditedEntityDto<Guid>
     public string Content { get; set; }
     public DateTime? PublishedDate { get; set; }
     public bool IsPublished { get; set; }
+    public Language Language { get; set; }
 } 

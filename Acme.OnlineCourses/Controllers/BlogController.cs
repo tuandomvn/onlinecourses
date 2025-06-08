@@ -20,8 +20,8 @@ public class BlogController : AbpController
 
     [HttpGet]
     [Route("by-code/{code}")]
-    public async Task<BlogDto> GetByCodeAsync(string code)
+    public async Task<BlogDto> GetByCodeAsync(string code, [FromQuery] Language? language = null)
     {
-        return await _blogAppService.GetByCodeAsync(code);
+        return await _blogAppService.GetByCodeAsync(code, language);
     }
 } 
