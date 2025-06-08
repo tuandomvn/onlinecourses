@@ -33,8 +33,10 @@ public class RegisterStudentDto
     [StringLength(512)]
     public string Address { get; set; }
 
+    public string StudentNote { get; set; }
+
     public Guid? AgencyId { get; set; }
-    public Guid? CourseId { get; set; }
+    public Guid? CourseId { get; set; } //Co the bo di
 
     [Required]
     public bool AgreeToTerms { get; set; }
