@@ -14,6 +14,7 @@ public interface IStudentAppService :
 {
     Task<StudentDto> RegisterStudentAsync([FromForm] RegisterStudentDto input, [FromForm] List<IFormFile> files);
     Task<StudentDto> GetByEmailAsync(string email);
+    Task<ProfileStudentDto> GetProfileStudentByEmailAsync(string email);
     Task<bool> IsUserExistsAsync(string email);
     Task<List<StudentAttachmentDto>> GetAttachmentsAsync(Guid studentId);
     Task<StudentAttachmentDto> UploadAttachmentAsync(Guid studentId, IFormFile file, string description);

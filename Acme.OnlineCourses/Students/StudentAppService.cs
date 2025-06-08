@@ -230,6 +230,22 @@ public class StudentAppService : CrudAppService<
         return ObjectMapper.Map<Student, StudentDto>(student);
     }
 
+    [Authorize]
+    public async Task<ProfileStudentDto> GetProfileStudentByEmailAsync(string email)
+    {
+        var query = await _studentRepository.GetQueryableAsync();
+        var student = await query
+            .Include(x => x.Attachments)
+            .FirstOrDefaultAsync(x => x.Email == email);
+
+        if (student == null)
+        {
+            throw new UserFriendlyException("Student not found");
+        }
+
+        return ObjectMapper.Map<Student, ProfileStudentDto>(student);
+    }
+
     public async Task<bool> IsUserExistsAsync(string email)
     {
         if (string.IsNullOrEmpty(email))

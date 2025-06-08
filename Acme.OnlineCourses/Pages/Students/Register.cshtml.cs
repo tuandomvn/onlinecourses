@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Acme.OnlineCourses.Agencies;
+﻿using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Agencies.Dtos;
 using Acme.OnlineCourses.Courses;
 using Acme.OnlineCourses.Localization;
@@ -45,17 +43,16 @@ public class RegisterModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        // Get agencies for dropdown
-        var agencies = await _agencyAppService.GetListAsync(new GetAgencyListDto());
-        Agencies = new List<SelectListItem>() { new SelectListItem(_localizer["SelectAgency"], "") };
-        foreach (var agency in agencies.Items)
-        {
-            Agencies.Add(new SelectListItem(agency.Name, agency.Id.ToString()));
-        }
-
-        // If user is logged in, set their email
+        // If user is logged in, check if they already have a student profile
+        // TODO: as is chỉ có 1 khóa nên không cần đang kí nhiều.
         if (_currentUser.IsAuthenticated)
         {
+            var existingStudent = await _studentAppService.GetProfileStudentByEmailAsync(_currentUser.Email);
+            if (existingStudent != null)
+            {
+                return RedirectToPage("/Students/Profile");
+            }
+
             Student = new RegisterStudentDto
             {
                 Email = _currentUser.Email
@@ -64,6 +61,14 @@ public class RegisterModel : PageModel
         else
         {
             Student = new RegisterStudentDto();
+        }
+
+        // Get agencies for dropdown
+        var agencies = await _agencyAppService.GetListAsync(new GetAgencyListDto());
+        Agencies = new List<SelectListItem>() { new SelectListItem(_localizer["SelectAgency"], "") };
+        foreach (var agency in agencies.Items)
+        {
+            Agencies.Add(new SelectListItem(agency.Name, agency.Id.ToString()));
         }
 
         var courses = await _courseAppService.GetListAsync();
@@ -78,16 +83,4 @@ public class RegisterModel : PageModel
 
         return Page();
     }
-
-    //Hinh nhu ko dung
-    //public async Task<IActionResult> OnPostAsync()
-    //{
-    //    if (!ModelState.IsValid)
-    //    {
-    //        return Page();
-    //    }
-
-    //    //await _studentAppService.RegisterStudentAsync(Student);
-    //    return RedirectToPage("./Index");
-    //}
 } 

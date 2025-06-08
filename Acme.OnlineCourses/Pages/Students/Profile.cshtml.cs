@@ -30,7 +30,7 @@ public class ProfileModel : PageModel
     }
 
     [BindProperty]
-    public StudentDto Student { get; set; }
+    public ProfileStudentDto Student { get; set; }
 
     public List<SelectListItem> Agencies { get; set; }
 
@@ -44,7 +44,7 @@ public class ProfileModel : PageModel
         }
 
         // Get student by email
-        var student = await _studentAppService.GetByEmailAsync(_currentUser.Email);
+        var student = await _studentAppService.GetProfileStudentByEmailAsync(_currentUser.Email);
         if (student == null)
         {
             return RedirectToPage("/Students/Register");

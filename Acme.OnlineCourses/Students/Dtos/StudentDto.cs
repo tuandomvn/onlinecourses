@@ -6,16 +6,26 @@ using Volo.Abp.Application.Dtos;
 namespace Acme.OnlineCourses.Students.Dtos;
 
 //DTO này dung cho student view only
+public class ProfileStudentDto : StudentDto
+{
+}
+
+//DTO này dung cho admin view
+public class AdminViewStudentDto : StudentDto
+{
+    public string? AdminNote { get; set; }
+}
+
+
+//Share info
 public class StudentDto : AuditedEntityDto<Guid>
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string FullName { get; set; }
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public string IdentityNumber { get; set; }
-    public TestStatus TestStatus { get; set; }
     public PaymentStatus PaymentStatus { get; set; }
     public AccountStatus AccountStatus { get; set; }
     public Guid? AgencyId { get; set; }
