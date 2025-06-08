@@ -54,6 +54,17 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             )
         );
 
+        // Register menu - public access
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                OnlineCoursesMenus.StudentsRegister,
+                l["Menu:Students:Profile"],
+                url: "/Students/Profile",
+                icon: "fas id-card",
+                order: 3
+            )
+        );
+
         // List menu - admin only
         context.Menu.AddItem(
             new ApplicationMenuItem(
