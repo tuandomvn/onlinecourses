@@ -36,7 +36,6 @@ public class RegisterStudentDto
     public string StudentNote { get; set; }
 
     public Guid? AgencyId { get; set; }
-    public Guid? CourseId { get; set; }
 
     [Required]
     public bool AgreeToTerms { get; set; }

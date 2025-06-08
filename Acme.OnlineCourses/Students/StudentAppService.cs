@@ -13,6 +13,7 @@ using IdentityUser = Volo.Abp.Identity.IdentityUser;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
+using Acme.OnlineCourses.Courses;
 
 namespace Acme.OnlineCourses.Students;
 
@@ -31,6 +32,7 @@ public class StudentAppService : CrudAppService<
     private readonly IdentityUserManager _userManager;
     private readonly IRepository<StudentAttachment, Guid> _attachmentRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IRepository<Course, Guid> _courseRepository;
 
     public StudentAppService(
         IRepository<Student, Guid> repository, 
@@ -39,7 +41,8 @@ public class StudentAppService : CrudAppService<
         IdentityUserManager userManager,
         ILogger<StudentAppService> logger,
         IRepository<StudentAttachment, Guid> attachmentRepository,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor,
+        IRepository<Course, Guid> courseRepository)
         : base(repository)
     {
         _studentRepository = repository;
@@ -49,6 +52,7 @@ public class StudentAppService : CrudAppService<
         _userManager = userManager;
         _attachmentRepository = attachmentRepository;
         _httpContextAccessor = httpContextAccessor;
+        _courseRepository = courseRepository;
 
         GetPolicyName = OnlineCoursesPermissions.Students.Default;
         GetListPolicyName = OnlineCoursesPermissions.Students.Default;
@@ -123,7 +127,7 @@ public class StudentAppService : CrudAppService<
     public async Task<StudentDto> RegisterStudentAsync([FromForm] RegisterStudentDto input, [FromForm] List<IFormFile> files)
     {
         var isUserExists = await IsUserExistsAsync(input.Email);
-        if(!isUserExists)
+        if (!isUserExists)
         {
             _logger.LogWarning($"User with email {input.Email} does not exist.");
             var studentUser = new IdentityUser(Guid.NewGuid(), input.Email, input.Email);
@@ -148,6 +152,9 @@ public class StudentAppService : CrudAppService<
         };
 
         await _studentRepository.InsertAsync(student, autoSave: true);
+
+        // Get first course and create StudentCourse record
+        await InsertStudentCourse(student);
 
         // Handle file uploads if any
         if (files != null && files.Any())
@@ -188,6 +195,23 @@ public class StudentAppService : CrudAppService<
         }
 
         return ObjectMapper.Map<Student, StudentDto>(student);
+    }
+
+    private async Task InsertStudentCourse(Student student)
+    {
+        var firstCourse = await _courseRepository.FirstOrDefaultAsync();
+        if (firstCourse != null)
+        {
+            var studentCourse = new StudentCourse
+            {
+                StudentId = student.Id,
+                CourseId = firstCourse.Id,
+                RegistrationDate = DateTime.Now,
+                CourseStatus = StudentCourseStatus.Active
+            };
+            student.Courses.Add(studentCourse);
+            await _studentRepository.UpdateAsync(student);
+        }
     }
 
     [Authorize]

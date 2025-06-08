@@ -25,7 +25,10 @@
             <abp-input asp-for="Student.DateOfBirth" type="date" required="required" />
             <abp-input asp-for="Student.IdentityNumber" required="required" />
             <abp-input asp-for="Student.Address" required="required" />
-            <abp-input asp-for="Student.StudentNote" />
+            <div class="form-group">
+                <label asp-for="Student.StudentNote">@L["StudentNote"]</label>
+                <textarea asp-for="Student.StudentNote" class="form-control" rows="4"></textarea>
+            </div>
             <abp-select asp-for="Student.AgencyId" asp-items="Model.Agencies" required="required" />
             <abp-select asp-for="Student.CourseId" asp-items="Model.Courses" required="required" />
             
