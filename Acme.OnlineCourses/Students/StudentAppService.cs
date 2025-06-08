@@ -240,7 +240,7 @@ public class StudentAppService : CrudAppService<
 
         if (student == null)
         {
-            throw new UserFriendlyException("Student not found");
+            return null;
         }
 
         return ObjectMapper.Map<Student, ProfileStudentDto>(student);

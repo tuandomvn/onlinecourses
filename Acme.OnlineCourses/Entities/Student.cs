@@ -98,7 +98,7 @@ public class StudentCourse : Entity<Guid>
     public Guid StudentId { get; set; }
     public Guid CourseId { get; set; }
     public DateTime RegistrationDate { get; set; }
-    public string CourseNote { get; set; }
+    public string? CourseNote { get; set; }
     public StudentCourseStatus CourseStatus { get; set; }
 
     public StudentCourse()
