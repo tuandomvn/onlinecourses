@@ -20,6 +20,7 @@
                         {
                             <span>@Model.Blog.PublishedDate.Value.ToString("MMMM dd, yyyy")</span>
                         }
+                        <span class="ms-2">(@Model.CurrentLanguage)</span>
                     </p>
 
                     @if (!string.IsNullOrEmpty(Model.Blog.Summary))

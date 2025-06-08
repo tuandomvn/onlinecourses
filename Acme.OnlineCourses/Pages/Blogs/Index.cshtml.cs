@@ -1,8 +1,10 @@
 using Acme.OnlineCourses.Blogs;
 using Acme.OnlineCourses.Blogs.Dtos;
+using Acme.OnlineCourses.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 
@@ -17,8 +19,11 @@ public class IndexModel : PageModel
         _blogAppService = blogAppService;
     }
 
+    public Language CurrentLanguage { get; set; }
+
     public async Task OnGetAsync()
     {
-        // The page will load blogs via AJAX
+        CurrentLanguage = CultureInfo.CurrentCulture.ToLanguage();
+        // The page will load blogs via AJAX with current language
     }
 } 
