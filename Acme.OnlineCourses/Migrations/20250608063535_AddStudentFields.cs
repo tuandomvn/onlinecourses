@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Acme.OnlineCourses.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class AddStudentFields : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -552,7 +552,7 @@ namespace Acme.OnlineCourses.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "OnlineCoursesCourses",
+                name: "Courses",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -568,7 +568,7 @@ namespace Acme.OnlineCourses.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OnlineCoursesCourses", x => x.Id);
+                    table.PrimaryKey("PK_Courses", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -926,6 +926,11 @@ namespace Acme.OnlineCourses.Migrations
                     Address = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     AgreeToTerms = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    StudentNote = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AdminNote = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsValid = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ExtraProperties = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: false)
@@ -1433,7 +1438,7 @@ namespace Acme.OnlineCourses.Migrations
                 name: "Blogs");
 
             migrationBuilder.DropTable(
-                name: "OnlineCoursesCourses");
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictScopes");

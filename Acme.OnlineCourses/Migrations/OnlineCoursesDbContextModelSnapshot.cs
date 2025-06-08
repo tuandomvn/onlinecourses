@@ -196,7 +196,7 @@ namespace Acme.OnlineCourses.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OnlineCoursesCourses", (string)null);
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("Acme.OnlineCourses.Students.Student", b =>
@@ -209,6 +209,9 @@ namespace Acme.OnlineCourses.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AdminNote")
                         .HasColumnType("longtext");
 
                     b.Property<Guid?>("AgencyId")
@@ -254,6 +257,9 @@ namespace Acme.OnlineCourses.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
@@ -274,6 +280,9 @@ namespace Acme.OnlineCourses.Migrations
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("varchar(32)");
+
+                    b.Property<string>("StudentNote")
+                        .HasColumnType("longtext");
 
                     b.Property<int>("TestStatus")
                         .HasColumnType("int");

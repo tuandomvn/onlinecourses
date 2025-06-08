@@ -20,6 +20,9 @@ public class Student : AuditedAggregateRoot<Guid>
     public Guid? AgencyId { get; set; }
     public string Address { get; set; }
     public bool AgreeToTerms { get; set; }
+    public string? StudentNote { get; set; }
+    public string? AdminNote { get; set; }
+    public bool IsValid { get; set; }
     public virtual ICollection<StudentAttachment> Attachments { get; set; }
     public List<StudentCourse> Courses { get; set; }
 

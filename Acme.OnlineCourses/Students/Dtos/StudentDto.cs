@@ -5,6 +5,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Acme.OnlineCourses.Students.Dtos;
 
+//DTO này dung cho student view only
 public class StudentDto : AuditedEntityDto<Guid>
 {
     public string FirstName { get; set; }
@@ -20,6 +21,7 @@ public class StudentDto : AuditedEntityDto<Guid>
     public Guid? AgencyId { get; set; }
     public string Address { get; set; }
     public bool AgreeToTerms { get; set; }
+    public string? StudentNote { get; set; }
     public List<StudentAttachmentDto> Attachments { get; set; }
     public List<StudentCourseDto> Courses { get; set; }
 }

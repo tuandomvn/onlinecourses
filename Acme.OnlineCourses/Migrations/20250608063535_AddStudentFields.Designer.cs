@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Acme.OnlineCourses.Migrations
 {
     [DbContext(typeof(OnlineCoursesDbContext))]
-    [Migration("20250603083904_Initial")]
-    partial class Initial
+    [Migration("20250608063535_AddStudentFields")]
+    partial class AddStudentFields
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -199,7 +199,7 @@ namespace Acme.OnlineCourses.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OnlineCoursesCourses", (string)null);
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("Acme.OnlineCourses.Students.Student", b =>
@@ -212,6 +212,9 @@ namespace Acme.OnlineCourses.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AdminNote")
                         .HasColumnType("longtext");
 
                     b.Property<Guid?>("AgencyId")
@@ -257,6 +260,9 @@ namespace Acme.OnlineCourses.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
@@ -277,6 +283,9 @@ namespace Acme.OnlineCourses.Migrations
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("varchar(32)");
+
+                    b.Property<string>("StudentNote")
+                        .HasColumnType("longtext");
 
                     b.Property<int>("TestStatus")
                         .HasColumnType("int");

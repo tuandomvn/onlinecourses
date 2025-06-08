@@ -32,5 +32,8 @@ public enum AccountStatus
     NotSent = 0,
     
     [Description("Sent")]
-    Sent = 1
+    Sent = 1,
+
+    [Description("suspended")]
+    Suspended = 2,
 } 
