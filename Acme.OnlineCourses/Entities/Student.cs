@@ -13,7 +13,6 @@ public class Student : AuditedAggregateRoot<Guid>
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
     public DateTime? DateOfBirth { get; set; }
-    public string IdentityNumber { get; set; }
     public TestStatus TestStatus { get; set; }
     public PaymentStatus PaymentStatus { get; set; }
     public AccountStatus AccountStatus { get; set; }
@@ -54,7 +53,6 @@ public class Student : AuditedAggregateRoot<Guid>
         Email = email;
         PhoneNumber = phoneNumber;
         DateOfBirth = dateOfBirth;
-        IdentityNumber = identityNumber;
         TestStatus = testStatus;
         PaymentStatus = paymentStatus;
         AccountStatus = accountStatus;

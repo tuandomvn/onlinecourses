@@ -73,8 +73,7 @@ public class StudentAppService : CrudAppService<
                 x.FirstName.Contains(input.Filter) ||
                 x.LastName.Contains(input.Filter) ||
                 x.Email.Contains(input.Filter) ||
-                x.PhoneNumber.Contains(input.Filter) ||
-                x.IdentityNumber.Contains(input.Filter)
+                x.PhoneNumber.Contains(input.Filter)
             );
         }
 
@@ -144,7 +143,6 @@ public class StudentAppService : CrudAppService<
             Email = input.Email,
             PhoneNumber = input.PhoneNumber,
             DateOfBirth = input.DateOfBirth,
-            IdentityNumber = input.IdentityNumber,
             Address = input.Address,
             AgencyId = input.AgencyId,
             AgreeToTerms = input.AgreeToTerms,
@@ -207,7 +205,8 @@ public class StudentAppService : CrudAppService<
                 StudentId = student.Id,
                 CourseId = firstCourse.Id,
                 RegistrationDate = DateTime.Now,
-                CourseStatus = StudentCourseStatus.Active
+                CourseStatus = StudentCourseStatus.Active,
+                CourseNote = "TBD"
             };
             student.Courses.Add(studentCourse);
             await _studentRepository.UpdateAsync(student);
@@ -330,7 +329,6 @@ public class StudentAppService : CrudAppService<
         student.LastName = input.LastName;
         student.PhoneNumber = input.PhoneNumber;
         student.DateOfBirth = input.DateOfBirth;
-        student.IdentityNumber = input.IdentityNumber;
         student.Address = input.Address;
 
         // Handle attachments

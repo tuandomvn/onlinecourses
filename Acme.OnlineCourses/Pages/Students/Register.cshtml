@@ -23,7 +23,6 @@
             <abp-input asp-for="Student.Email" required="required" type="email" readonly="@Model.IsLoggedIn" />
             <abp-input asp-for="Student.PhoneNumber" required="required" />
             <abp-input asp-for="Student.DateOfBirth" type="date" required="required" />
-            <abp-input asp-for="Student.IdentityNumber" required="required" />
             <abp-input asp-for="Student.Address" required="required" />
             <div class="form-group">
                 <label asp-for="Student.StudentNote">@L["StudentNote"]</label>
@@ -35,7 +34,6 @@
                 <label>@L["Attachments"]</label>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" id="attachments" multiple>
-                    <label class="custom-file-label" for="attachments">@L["ChooseFiles"]</label>
                 </div>
                 <div id="fileList" class="mt-2"></div>
             </div>

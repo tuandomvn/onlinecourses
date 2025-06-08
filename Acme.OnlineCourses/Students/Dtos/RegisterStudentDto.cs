@@ -26,10 +26,6 @@ public class RegisterStudentDto
     public DateTime? DateOfBirth { get; set; }
 
     [Required]
-    [StringLength(32)]
-    public string IdentityNumber { get; set; }
-
-    [Required]
     [StringLength(512)]
     public string Address { get; set; }
 

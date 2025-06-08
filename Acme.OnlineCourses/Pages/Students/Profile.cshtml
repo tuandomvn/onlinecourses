@@ -28,14 +28,17 @@
             <abp-input asp-for="Student.LastName" />
             <abp-input asp-for="Student.PhoneNumber" />
             <abp-input asp-for="Student.DateOfBirth" type="date" />
-            <abp-input asp-for="Student.IdentityNumber" />
             <abp-input asp-for="Student.Address" />
             
             <div class="mb-3">
                 <label class="form-label">@L["PaymentStatus"]</label>
                 <div class="form-control-plaintext">@Model.Student.PaymentStatus</div>
             </div>
-            <abp-input asp-for="Student.AccountStatus" disabled="true" />
+            <div class="mb-3">
+                <label class="form-label">@L["AccountStatus"]</label>
+                <div class="form-control-plaintext">@Model.Student.AccountStatus</div>
+            </div>
+
             <input type="hidden" id="Agency_Id" name="Agency.Id" value="@Model.Student.AgencyId" />
 
             <div class="mb-3">

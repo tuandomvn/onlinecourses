@@ -231,35 +231,35 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         {
             new Blog
             {
-                Title = "Getting Started with Online Learning",
+                Title = "Homepage",
                 Content = "Online learning has become increasingly popular in recent years...",
                 PublishedDate = DateTime.Now.AddDays(-10),
                 Code = "BLG001"
             },
             new Blog
             {
-                Title = "Tips for Effective Online Study",
+                Title = "Course-Introduction",
                 Content = "Studying online requires different skills and strategies...",
                 PublishedDate = DateTime.Now.AddDays(-8),
                 Code = "BLG002"
             },
             new Blog
             {
-                Title = "The Future of Education",
+                Title = "TermAndCondition",
                 Content = "The education landscape is rapidly evolving...",
                 PublishedDate = DateTime.Now.AddDays(-6),
                 Code = "BLG003"
             },
             new Blog
             {
-                Title = "How to Stay Motivated While Learning Online",
+                Title = "AboutUs",
                 Content = "Maintaining motivation in online learning environments can be challenging...",
                 PublishedDate = DateTime.Now.AddDays(-4),
                 Code = "BLG004"
             },
             new Blog
             {
-                Title = "The Benefits of Online Education",
+                Title = "Contact",
                 Content = "Online education offers numerous advantages for students...",
                 PublishedDate = DateTime.Now.AddDays(-2),
                 Code = "BLG005"
@@ -368,7 +368,6 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 Email = "john.doe@example.com",
                 PhoneNumber = "1234567890",
                 DateOfBirth = new DateTime(1990, 1, 1),
-                IdentityNumber = "ID123456",
                 Address = "123 Main St, City",
                 TestStatus = TestStatus.NotTaken,
                 PaymentStatus = PaymentStatus.Paid,
@@ -382,7 +381,6 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 Email = "jane.smith@example.com",
                 PhoneNumber = "0987654321",
                 DateOfBirth = new DateTime(1992, 5, 15),
-                IdentityNumber = "ID789012",
                 Address = "456 Oak St, Town",
                 TestStatus = TestStatus.NotTaken,
                 PaymentStatus = PaymentStatus.Paid,
@@ -396,7 +394,6 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 Email = "mike.johnson@example.com",
                 PhoneNumber = "5551234567",
                 DateOfBirth = new DateTime(1988, 12, 25),
-                IdentityNumber = "ID345678",
                 Address = "789 Pine St, Village",
                 TestStatus = TestStatus.NotTaken,
                 PaymentStatus = PaymentStatus.Paid,
@@ -440,19 +437,6 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 Price = 1499.99m,
                 Duration = 180,
                 Status = CourseStatus.Active
-            },
-            autoSave: true
-        );
-
-        await _courseRepository.InsertAsync(
-            new Course
-            {
-                Code = "TESOL-301",
-                Name = "TESOL Master",
-                Description = "Master level TESOL course for professional teachers",
-                Price = 1999.99m,
-                Duration = 240,
-                Status = CourseStatus.ComingSoon
             },
             autoSave: true
         );

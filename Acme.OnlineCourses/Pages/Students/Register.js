@@ -68,7 +68,7 @@ $(function () {
             contentType: false
         }).done(function () {
             abp.notify.info(l('StudentRegisteredSuccessfully'));
-            window.location.href = '/Students';
+            window.location.href = '/Students/Profile';
         }).always(function () {
             abp.ui.clearBusy(_$form);
         });
