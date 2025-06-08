@@ -87,7 +87,7 @@ public class RegisterModel : PageModel
             return Page();
         }
 
-        await _studentAppService.RegisterStudentAsync(Student);
+        //await _studentAppService.RegisterStudentAsync(Student);
         return RedirectToPage("./Index");
     }
 } 

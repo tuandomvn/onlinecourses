@@ -1,4 +1,6 @@
 using Acme.OnlineCourses.Students.Dtos;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Application.Services;
 
 namespace Acme.OnlineCourses.Students;
@@ -10,7 +12,7 @@ public interface IStudentAppService :
         GetStudentListDto,
         CreateUpdateStudentDto>
 {
-    Task<StudentDto> RegisterStudentAsync(RegisterStudentDto input);
+    Task<StudentDto> RegisterStudentAsync([FromForm] RegisterStudentDto input, [FromForm] List<IFormFile> files);
     Task<StudentDto> GetByEmailAsync(string email);
     Task<bool> IsUserExistsAsync(string email);
     Task<List<StudentAttachmentDto>> GetAttachmentsAsync(Guid studentId);

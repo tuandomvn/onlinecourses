@@ -118,7 +118,9 @@ public class StudentAppService : CrudAppService<
     }
 
     [AllowAnonymous]
-    public async Task<StudentDto> RegisterStudentAsync(RegisterStudentDto input)
+    [HttpPost]
+    [Route("api/app/student/register-student")]
+    public async Task<StudentDto> RegisterStudentAsync([FromForm] RegisterStudentDto input, [FromForm] List<IFormFile> files)
     {
         var isUserExists = await IsUserExistsAsync(input.Email);
         if(!isUserExists)
@@ -142,12 +144,48 @@ public class StudentAppService : CrudAppService<
             Address = input.Address,
             AgencyId = input.AgencyId,
             AgreeToTerms = input.AgreeToTerms,
-            //TestStatus = TestStatus.NotStarted,
-            //PaymentStatus = PaymentStatus.Unpaid,
-            //AccountStatus = AccountStatus.Pending,
+            StudentNote = input.StudentNote,
         };
 
         await _studentRepository.InsertAsync(student, autoSave: true);
+
+        // Handle file uploads if any
+        if (files != null && files.Any())
+        {
+            foreach (var file in files)
+            {
+                if (file.Length > 0)
+                {
+                    // Create upload directory if not exists
+                    var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString());
+                    if (!Directory.Exists(uploadDir))
+                    {
+                        Directory.CreateDirectory(uploadDir);
+                    }
+
+                    // Generate unique filename
+                    var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+                    var filePath = Path.Combine(uploadDir, fileName);
+
+                    // Save file
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    // Create attachment record
+                    var studentAttachment = new StudentAttachment
+                    {
+                        StudentId = student.Id,
+                        FileName = file.FileName,
+                        FilePath = $"/uploads/students/{student.Id}/{fileName}",
+                        Description = "Uploaded during registration"
+                    };
+
+                    await _attachmentRepository.InsertAsync(studentAttachment, autoSave: true);
+                }
+            }
+        }
 
         return ObjectMapper.Map<Student, StudentDto>(student);
     }

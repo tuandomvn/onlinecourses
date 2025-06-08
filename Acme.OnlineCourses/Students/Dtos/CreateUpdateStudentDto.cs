@@ -5,6 +5,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Acme.OnlineCourses.Students.Dtos;
 
+//Admin site
 public class CreateUpdateStudentDto
 {
     public Guid Id { get; set; }
