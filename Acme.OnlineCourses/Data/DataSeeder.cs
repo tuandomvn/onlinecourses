@@ -159,7 +159,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
             OnlineCoursesPermissions.Blogs.Edit,
             OnlineCoursesPermissions.Blogs.Delete,
 
-            // Blog permissions - using constants
+            // Report permissions - using constants
             OnlineCoursesPermissions.Reports.Default,
             OnlineCoursesPermissions.Reports.Create,
             OnlineCoursesPermissions.Reports.Edit,
