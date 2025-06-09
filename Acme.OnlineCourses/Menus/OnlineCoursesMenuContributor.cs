@@ -59,7 +59,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 OnlineCoursesMenus.StudentsProfile,
                 l["Menu:Students:Profile"],
                 url: "/Students/Profile",
-                icon: "fas id-card",
+                icon: "fa-solid fa-address-card",
                 order: 3
             )
         );
@@ -71,7 +71,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 l["Menu:Students:List"],
                 url: "/Students",
                 icon: "fas fa-list",
-                order: 3,
+                order: 4,
                 requiredPermissionName: OnlineCoursesPermissions.Students.Default
             )
         );
@@ -82,7 +82,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 l["Menu:Agencies"],
                 url: "/Agencies",
                 icon: "fas fa-building",
-                order: 4,
+                order: 5,
                 requiredPermissionName: OnlineCoursesPermissions.Agencies.Default
             )
         );
@@ -93,7 +93,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 l["Menu:Blogs"],
                 url: "/Blogs",
                 icon: "fas fa-blog",
-                order: 5,
+                order: 6,
                 requiredPermissionName: OnlineCoursesPermissions.Blogs.Default
             )
         );
@@ -104,7 +104,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 l["Menu:Report"],
                 url: "/Reports",
                 icon: "fa-solid fa-file-chart-column",
-                order: 5,
+                order: 7,
                 requiredPermissionName: OnlineCoursesPermissions.Reports.Default
             )
         );

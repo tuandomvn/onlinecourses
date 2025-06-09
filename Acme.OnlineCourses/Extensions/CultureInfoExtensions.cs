@@ -9,9 +9,9 @@ public static class CultureInfoExtensions
     {
         return culture.TwoLetterISOLanguageName.ToLower() switch
         {
-            "vi" => Language.Vi,
-            "en" => Language.En,
-            _ => Language.En // Default to English
+            "vi" => Language.vi,
+            "en" => Language.en,
+            _ => Language.en // Default to English
         };
     }
 } 

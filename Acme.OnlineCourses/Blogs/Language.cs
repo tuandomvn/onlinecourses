@@ -2,6 +2,6 @@ namespace Acme.OnlineCourses.Blogs;
 
 public enum Language
 {
-    Vi,
-    En
+    en = 0,
+    vi = 1
 } 
