@@ -62,7 +62,6 @@ public class StudentAppService : CrudAppService<
     }
 
     [Authorize(OnlineCoursesPermissions.Students.Default)]
-    [Authorize(OnlineCoursesPermissions.Students.Delete)]
     protected override async Task<IQueryable<Student>> CreateFilteredQueryAsync(GetStudentListDto input)
     {
         var query = await base.CreateFilteredQueryAsync(input);

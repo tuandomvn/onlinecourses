@@ -28,6 +28,18 @@
         </abp-row>
     </abp-card-header>
     <abp-card-body>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label for="CourseStatusFilter">@L["FilterByCourseStatus"]</label>
+                <select id="CourseStatusFilter" class="form-control">
+                    <option value="">@L["AllCourseStatuses"]</option>
+                    <option value="0">@L["Enum:StudentCourseStatus:0"]</option>
+                    <option value="1">@L["Enum:StudentCourseStatus:1"]</option>
+                    <option value="2">@L["Enum:StudentCourseStatus:2"]</option>
+                    <option value="3">@L["Enum:StudentCourseStatus:3"]</option>
+                </select>
+            </div>
+        </div>
         <abp-table striped-rows="true" id="StudentsTable">
             <thead>
                 <tr>

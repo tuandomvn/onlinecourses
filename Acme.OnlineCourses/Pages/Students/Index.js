@@ -6,7 +6,11 @@ $(function () {
             paging: true,
             order: [[4, "desc"]], // Sort by registration date by default
             searching: false,
-            ajax: abp.libs.datatables.createAjax(acme.onlineCourses.students.student.getList),
+            ajax: abp.libs.datatables.createAjax(acme.onlineCourses.students.student.getList, function () {
+                return {
+                    courseStatus: $('#CourseStatusFilter').val()
+                };
+            }),
             columnDefs: [
                 {
                     title: l('FullName'),
@@ -94,5 +98,9 @@ $(function () {
     $('#NewStudentButton').click(function (e) {
         e.preventDefault();
         createModal.open();
+    });
+
+    $('#CourseStatusFilter').change(function () {
+        dataTable.ajax.reload();
     });
 }); 

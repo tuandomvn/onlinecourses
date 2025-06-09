@@ -180,6 +180,8 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         {
             await _permissionManager.SetForRoleAsync(adminRole.Name, permission, true);
         }
+
+        await _permissionManager.SetForRoleAsync(agencyRole.Name, OnlineCoursesPermissions.Students.Default, true);
     }
 
     private async Task SeedAgenciesAsync()

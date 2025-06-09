@@ -115,6 +115,8 @@
     "Year": "Year",
     "Month": "Month",
     "GenerateReport": "Generate Report",
-    "ErrorGeneratingReport": "Error generating report"
+    "ErrorGeneratingReport": "Error generating report",
+    "FilterByCourseStatus": "Filter by Course Status",
+    "AllCourseStatuses": "All Course Statuses"
   }
 } 

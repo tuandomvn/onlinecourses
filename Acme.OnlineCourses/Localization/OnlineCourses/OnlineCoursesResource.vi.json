@@ -112,6 +112,8 @@
     "Year": "Năm",
     "Month": "Tháng",
     "GenerateReport": "Tạo báo cáo",
-    "ErrorGeneratingReport": "Lỗi khi tạo báo cáo"
+    "ErrorGeneratingReport": "Lỗi khi tạo báo cáo",
+    "FilterByCourseStatus": "Lọc theo trạng thái khóa học",
+    "AllCourseStatuses": "Tất cả trạng thái"
   }
 } 
