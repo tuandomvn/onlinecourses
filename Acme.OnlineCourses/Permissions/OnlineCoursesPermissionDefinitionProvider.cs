@@ -26,6 +26,11 @@ public class OnlineCoursesPermissionDefinitionProvider : PermissionDefinitionPro
         blogsPermission.AddChild(OnlineCoursesPermissions.Blogs.Create, L("Permission:Blogs.Create"));
         blogsPermission.AddChild(OnlineCoursesPermissions.Blogs.Edit, L("Permission:Blogs.Edit"));
         blogsPermission.AddChild(OnlineCoursesPermissions.Blogs.Delete, L("Permission:Blogs.Delete"));
+
+        var reportPermission = onlineCoursesGroup.AddPermission(OnlineCoursesPermissions.Reports.Default, L("Permission:Reports"));
+        reportPermission.AddChild(OnlineCoursesPermissions.Reports.Create, L("Permission:Reports.Create"));
+        reportPermission.AddChild(OnlineCoursesPermissions.Reports.Edit, L("Permission:Reports.Edit"));
+        reportPermission.AddChild(OnlineCoursesPermissions.Reports.Delete, L("Permission:Reports.Delete"));
     }
 
     private static LocalizableString L(string name)

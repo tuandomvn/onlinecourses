@@ -103,7 +103,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 OnlineCoursesMenus.Report,
                 l["Menu:Report"],
                 url: "/Reports",
-                icon: "fa-solid fa-file-chart-column",
+                icon: "fa-solid fa-file-excel",
                 order: 7,
                 requiredPermissionName: OnlineCoursesPermissions.Reports.Default
             )
