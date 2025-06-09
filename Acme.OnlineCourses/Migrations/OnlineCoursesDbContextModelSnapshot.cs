@@ -138,6 +138,9 @@ namespace Acme.OnlineCourses.Migrations
                     b.Property<bool>("IsPublished")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<int>("Language")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
@@ -253,10 +256,6 @@ namespace Acme.OnlineCourses.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
-                    b.Property<string>("IdentityNumber")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<bool>("IsValid")
                         .HasColumnType("tinyint(1)");
 
@@ -337,7 +336,6 @@ namespace Acme.OnlineCourses.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("CourseNote")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("CourseStatus")

@@ -6,6 +6,6 @@ abp install-libs --working-directory "C:\WORK\onlinecourses"
 cd Acme.OnlineCourses && dotnet ef migrations remove
 
 
-dotnet ef migrations add AddStudentFields --project Acme.OnlineCourses
+dotnet ef migrations add Init --project Acme.OnlineCourses
 
 dotnet ef database update --project Acme.OnlineCourses

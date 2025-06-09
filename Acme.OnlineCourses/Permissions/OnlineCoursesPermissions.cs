@@ -30,4 +30,9 @@ public static class OnlineCoursesPermissions
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
     }
+
+    public static class Reports
+    {
+        public const string Default = GroupName + ".Reports";
+    }
 } 

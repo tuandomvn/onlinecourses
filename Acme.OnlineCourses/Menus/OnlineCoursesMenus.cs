@@ -9,6 +9,8 @@ public class OnlineCoursesMenus
     public const string StudentsMenu = GroupName + ".Students";
     public const string StudentsList = GroupName + ".Students.List";
     public const string StudentsRegister = GroupName + ".Students.Register";
+    public const string StudentsProfile = GroupName + ".Students.Profile";
     public const string Agencies = GroupName + ".Agencies";
     public const string Blogs = GroupName + ".Blogs";
+    public const string Report = GroupName + ".Report";
 }

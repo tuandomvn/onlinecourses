@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Acme.OnlineCourses.Migrations
 {
     /// <inheritdoc />
-    public partial class AddStudentFields : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -536,6 +536,7 @@ namespace Acme.OnlineCourses.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PublishedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsPublished = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Language = table.Column<int>(type: "int", nullable: false),
                     ExtraProperties = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: false)
@@ -917,8 +918,6 @@ namespace Acme.OnlineCourses.Migrations
                     PhoneNumber = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DateOfBirth = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IdentityNumber = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     TestStatus = table.Column<int>(type: "int", nullable: false),
                     PaymentStatus = table.Column<int>(type: "int", nullable: false),
                     AccountStatus = table.Column<int>(type: "int", nullable: false),
@@ -1046,7 +1045,7 @@ namespace Acme.OnlineCourses.Migrations
                     StudentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CourseId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     RegistrationDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CourseNote = table.Column<string>(type: "longtext", nullable: false)
+                    CourseNote = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CourseStatus = table.Column<int>(type: "int", nullable: false)
                 },

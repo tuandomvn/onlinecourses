@@ -9,6 +9,7 @@
     "Menu:Blogs": "Blogs",
     "Menu:Students:Register": "Register",
     "Menu:Students:List": "Students List",
+    "Menu:Students:Profile": "Profile",
     "Welcome": "Welcome",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
     "Permission:Agencies": "Agency Management",
@@ -63,7 +64,6 @@
     "Enum:TestStatus:0": "Not Taken",
     "Enum:TestStatus:1": "Taken",
     "Enum:TestStatus:2": "Passed",
-	"Enum:TestStatus:2": "Failed",
     "Enum:PaymentStatus:0": "Not Paid",
     "Enum:PaymentStatus:1": "Paid",
     "Enum:AccountStatus:0": "Active",
@@ -102,9 +102,14 @@
     "Enum:StudentCourseStatus:0": "Active",
     "Enum:StudentCourseStatus:1": "Completed",
     "Enum:StudentCourseStatus:2": "Cancelled",
-	"Enum:StudentCourseStatus:3": "OnHold",
+    "Enum:StudentCourseStatus:3": "OnHold",
     "Enum:BlogStatus:0": "Draft",
     "Enum:BlogStatus:1": "Published",
-    "Enum:BlogStatus:2": "Archived"
+    "Enum:BlogStatus:2": "Archived",
+    "Reports": "Reports",
+    "Year": "Year",
+    "Month": "Month",
+    "GenerateReport": "Generate Report",
+    "ErrorGeneratingReport": "Error generating report"
   }
 } 

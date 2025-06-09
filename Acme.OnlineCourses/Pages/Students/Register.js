@@ -106,9 +106,13 @@ $(function () {
 
     function loadTermsContent() {
         console.log('loadTermsContent...')
+        var currentLanguage = abp.localization.currentCulture.name === 'vi-VN' ? 1 : 0; // 0: En, 1: Vi
         abp.ajax({
             url: abp.appPath + 'api/app/blog/by-code/BLG003',
-            type: 'GET'
+            type: 'GET',
+            data: {
+                language: currentLanguage
+            }
         }).done(function (result) {
             if (result) {
                 _$termsContent.html(result.content);

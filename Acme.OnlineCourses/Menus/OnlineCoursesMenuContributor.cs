@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Acme.OnlineCourses.Localization;
+﻿using Acme.OnlineCourses.Localization;
 using Acme.OnlineCourses.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
@@ -57,7 +56,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
         // Register menu - public access
         context.Menu.AddItem(
             new ApplicationMenuItem(
-                OnlineCoursesMenus.StudentsRegister,
+                OnlineCoursesMenus.StudentsProfile,
                 l["Menu:Students:Profile"],
                 url: "/Students/Profile",
                 icon: "fas id-card",
@@ -96,6 +95,17 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 icon: "fas fa-blog",
                 order: 5,
                 requiredPermissionName: OnlineCoursesPermissions.Blogs.Default
+            )
+        );
+
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                OnlineCoursesMenus.Report,
+                l["Menu:Report"],
+                url: "/Reports",
+                icon: "fa-solid fa-file-chart-column",
+                order: 5,
+                requiredPermissionName: OnlineCoursesPermissions.Reports.Default
             )
         );
 

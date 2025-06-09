@@ -239,11 +239,27 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
             },
             new Blog
             {
+                Title = "Trang chủ",
+                Content = "Học trực tuyến đã trở nên ngày càng phổ biến trong những năm gần đây...",
+                PublishedDate = DateTime.Now.AddDays(-10),
+                Code = "BLG001",
+                Language = Language.Vi
+            },
+            new Blog
+            {
                 Title = "Course-Introduction",
                 Content = "Studying online requires different skills and strategies...",
                 PublishedDate = DateTime.Now.AddDays(-8),
                 Code = "BLG002",
                 Language = Language.En
+            },
+            new Blog
+            {
+                Title = "Giới thiệu khóa học",
+                Content = "Học trực tuyến đòi hỏi những kỹ năng và chiến lược khác nhau...",
+                PublishedDate = DateTime.Now.AddDays(-8),
+                Code = "BLG002",
+                Language = Language.Vi
             },
             new Blog
             {
@@ -255,11 +271,27 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
             },
             new Blog
             {
+                Title = "Điều khoản và điều kiện",
+                Content = "Bối cảnh giáo dục đang phát triển nhanh chóng...",
+                PublishedDate = DateTime.Now.AddDays(-6),
+                Code = "BLG003",
+                Language = Language.Vi
+            },
+            new Blog
+            {
                 Title = "AboutUs",
                 Content = "Maintaining motivation in online learning environments can be challenging...",
                 PublishedDate = DateTime.Now.AddDays(-4),
                 Code = "BLG004",
                 Language = Language.En
+            },
+            new Blog
+            {
+                Title = "Về chúng tôi",
+                Content = "Duy trì động lực trong môi trường học trực tuyến có thể là một thách thức...",
+                PublishedDate = DateTime.Now.AddDays(-4),
+                Code = "BLG004",
+                Language = Language.Vi
             },
             new Blog
             {
@@ -271,11 +303,27 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
             },
             new Blog
             {
+                Title = "Liên hệ",
+                Content = "Giáo dục trực tuyến mang lại nhiều lợi ích cho học viên...",
+                PublishedDate = DateTime.Now.AddDays(-2),
+                Code = "BLG005",
+                Language = Language.Vi
+            },
+            new Blog
+            {
                 Title = "Building a Successful Online Learning Community",
                 Content = "Creating an engaging online learning community is essential for student success...",
                 PublishedDate = DateTime.Now.AddDays(-1),
                 Code = "BLG006",
                 Language = Language.En
+            },
+            new Blog
+            {
+                Title = "Xây dựng cộng đồng học trực tuyến thành công",
+                Content = "Tạo một cộng đồng học trực tuyến hấp dẫn là điều cần thiết cho sự thành công của học viên...",
+                PublishedDate = DateTime.Now.AddDays(-1),
+                Code = "BLG006",
+                Language = Language.Vi
             },
             new Blog
             {
@@ -287,11 +335,27 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
             },
             new Blog
             {
+                Title = "Xu hướng công nghệ trong giáo dục",
+                Content = "Các công nghệ mới đang định hình lại cách chúng ta học và dạy...",
+                PublishedDate = DateTime.Now,
+                Code = "BLG007",
+                Language = Language.Vi
+            },
+            new Blog
+            {
                 Title = "Balancing Work and Online Learning",
                 Content = "Many students struggle to balance their professional and academic lives...",
                 PublishedDate = DateTime.Now.AddDays(1),
                 Code = "BLG008",
                 Language = Language.En
+            },
+            new Blog
+            {
+                Title = "Cân bằng giữa công việc và học trực tuyến",
+                Content = "Nhiều học viên gặp khó khăn trong việc cân bằng giữa công việc và học tập...",
+                PublishedDate = DateTime.Now.AddDays(1),
+                Code = "BLG008",
+                Language = Language.Vi
             },
             new Blog
             {
@@ -303,11 +367,27 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
             },
             new Blog
             {
+                Title = "Vai trò của AI trong giáo dục",
+                Content = "Trí tuệ nhân tạo đang thay đổi trải nghiệm giáo dục...",
+                PublishedDate = DateTime.Now.AddDays(2),
+                Code = "BLG009",
+                Language = Language.Vi
+            },
+            new Blog
+            {
                 Title = "Creating Engaging Online Content",
                 Content = "Learn how to create content that keeps students engaged and motivated...",
                 PublishedDate = DateTime.Now.AddDays(3),
                 Code = "BLG010",
                 Language = Language.En
+            },
+            new Blog
+            {
+                Title = "Tạo nội dung trực tuyến hấp dẫn",
+                Content = "Học cách tạo nội dung giúp học viên luôn hứng thú và có động lực...",
+                PublishedDate = DateTime.Now.AddDays(3),
+                Code = "BLG010",
+                Language = Language.Vi
             }
         };
 

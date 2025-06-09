@@ -6,6 +6,7 @@
     "Menu:Students": "Học viên",
     "Menu:Blogs": "Bài viết",
     "Welcome": "Chào mừng",
+    "Menu:Students:Profile": "Hồ sơ",
     "LongWelcomeMessage": "Chào mừng đến với ứng dụng. Đây là một dự án khởi đầu dựa trên framework ABP. Để biết thêm thông tin, hãy truy cập abp.io.",
     "Permission:Agencies": "Quản lý đại lý",
     "Permission:Agencies.Create": "Tạo đại lý mới",
@@ -102,6 +103,11 @@
     "Courses": "Khóa học",
     "AddCourse": "Thêm khóa học",
     "RemoveCourse": "Xóa khóa học",
-    "CourseNote": "Ghi chú khóa học"
+    "CourseNote": "Ghi chú khóa học",
+    "Reports": "Báo cáo",
+    "Year": "Năm",
+    "Month": "Tháng",
+    "GenerateReport": "Tạo báo cáo",
+    "ErrorGeneratingReport": "Lỗi khi tạo báo cáo"
   }
 } 
