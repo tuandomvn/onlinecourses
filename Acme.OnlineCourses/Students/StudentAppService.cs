@@ -205,7 +205,7 @@ public class StudentAppService : CrudAppService<
                 StudentId = student.Id,
                 CourseId = firstCourse.Id,
                 RegistrationDate = DateTime.Now,
-                CourseStatus = StudentCourseStatus.Active,
+                CourseStatus = StudentCourseStatus.Inprogress,
                 CourseNote = "TBD"
             };
             student.Courses.Add(studentCourse);
