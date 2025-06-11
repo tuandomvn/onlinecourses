@@ -1,4 +1,8 @@
 ﻿/* Getting-Started */
+body {
+    background-color: #0f2b4c;
+}
+
 .card-bg-image {
     position: absolute;
     width: 630px;
@@ -6,5 +10,90 @@
     bottom: 0;
     right: 0;
     z-index: 1;
+}
+
+.abp-application-layout > .container {
+    max-width: 100% !important;
+}
+
+.header {
+    text-align: center;
+    padding: 20px 20px;
+    color: #fff;
+}
+
+    .header h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+        color: #fff;
+    }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 40px;
+    background-color: #0f2b4c;
+    color: #fff;
+}
+
+.grid-item {
+    background-color: #23aeb1;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+    .grid-item img {
+        width: 100px;
+        height: 100px;
+        max-width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .grid-item h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #fff;
+    }
+
+    .grid-item p {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #fff;
+    }
+
+@media (max-width: 992px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 20px;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .grid-item img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .grid-item h3 {
+        font-size: 16px;
+    }
+
+    .grid-item p {
+        font-size: 13px;
+    }
 }
 /* Getting-Started End */
