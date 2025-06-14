@@ -117,6 +117,8 @@
     "GenerateReport": "Generate Report",
     "ErrorGeneratingReport": "Error generating report",
     "FilterByCourseStatus": "Filter by Course Status",
-    "AllCourseStatuses": "All Course Statuses"
+    "AllCourseStatuses": "All Course Statuses",
+    "FilterByAgency": "Filter by Agency",
+    "AllAgencies": "All Agencies"
   }
 } 

@@ -8,7 +8,8 @@ $(function () {
             searching: false,
             ajax: abp.libs.datatables.createAjax(acme.onlineCourses.students.student.getList, function () {
                 return {
-                    courseStatus: $('#CourseStatusFilter').val()
+                    courseStatus: $('#CourseStatusFilter').val(),
+                    agencyId: $('#AgencyFilter').val(),
                 };
             }),
             columnDefs: [
@@ -101,6 +102,10 @@ $(function () {
     });
 
     $('#CourseStatusFilter').change(function () {
+        dataTable.ajax.reload();
+    });
+
+    $('#AgencyFilter').change(function () {
         dataTable.ajax.reload();
     });
 }); 

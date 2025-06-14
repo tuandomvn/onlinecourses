@@ -154,15 +154,15 @@ $(function () {
                         rowAction: {
                             items:
                                 [
-                                    {
-                                        text: l('ViewStudents'),
-                                        action: function (data) {
-                                            console.log('Opening modal for agency:', data.record.id);
-                                            modalManager.open({
-                                                agencyId: data.record.id
-                                            });
-                                        }
-                                    },
+                                    //{
+                                    //    text: l('ViewStudents'),
+                                    //    action: function (data) {
+                                    //        console.log('Opening modal for agency:', data.record.id);
+                                    //        modalManager.open({
+                                    //            agencyId: data.record.id
+                                    //        });
+                                    //    }
+                                    //},
                                     {
                                         text: l('Edit'),
                                         action: function (data) {

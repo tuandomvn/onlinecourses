@@ -1,3 +1,5 @@
+using Acme.OnlineCourses.Agencies;
+using Acme.OnlineCourses.Agencies.Dtos;
 using Acme.OnlineCourses.Students;
 using Acme.OnlineCourses.Students.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -11,15 +13,20 @@ namespace Acme.OnlineCourses.Pages.Students;
 public class IndexModel : PageModel
 {
     private readonly IStudentAppService _studentAppService;
+    private readonly IAgencyAppService _agencyAppService;
 
-    public IndexModel(IStudentAppService studentAppService)
+    public List<AgencyDto> Agencies { get; set; } = new();
+    public IndexModel(IStudentAppService studentAppService,
+        IAgencyAppService agencyAppService)
     {
         _studentAppService = studentAppService;
+        _agencyAppService = agencyAppService;
     }
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task OnGetAsync()
     {
-        return Page();
+        var agencies = (await _agencyAppService.GetListAsync(new GetAgencyListDto())).Items.ToList();
+        Agencies = agencies;
     }
 
     [HttpGet]

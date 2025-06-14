@@ -77,24 +77,26 @@ public class StudentAppService : CrudAppService<
         }
 
         //filter by user logged in and agency if applicable
-        if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email)
-            && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email))
         {
-            // Lấy agencyId
-            if (_currentUser != null && _userRepository != null)
+            if(_currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
             {
-                var agencyId = _currentUser.GetAgencyIdAsync(_userRepository);
-                if (agencyId != null)
+                // Lấy agencyId
+                if (_currentUser != null && _userRepository != null)
                 {
-                    query = query.Where(x => x.AgencyId == agencyId);
+                    var agencyId = _currentUser.GetAgencyIdAsync(_userRepository);
+                    if (agencyId != null)
+                    {
+                        query = query.Where(x => x.AgencyId == agencyId);
+                    }
                 }
             }
         }
-        else
-        {
-            //No result
-            query = query.Where(x => x.AgencyId == Guid.NewGuid());
-        }
+        //else
+        //{
+        //    //No result
+        //    query = query.Where(x => x.AgencyId == Guid.NewGuid());
+        //}
 
         if (input.AgencyId.HasValue)
         {

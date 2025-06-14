@@ -1,4 +1,5 @@
 @page
+@using Acme.OnlineCourses
 @using Microsoft.Extensions.Localization
 @using Acme.OnlineCourses.Localization
 @using Acme.OnlineCourses.Pages.Students
@@ -39,6 +40,21 @@
                     <option value="3">@L["Enum:StudentCourseStatus:3"]</option>
                 </select>
             </div>
+
+            @if (User.IsInRole(OnlineCoursesConsts.Roles.Administrator))
+            {
+                <div class="col-md-3">
+                    <label for="AgencyFilter">@L["FilterByAgency"]</label>
+                    <select id="AgencyFilter" class="form-control">
+                        <option value="">@L["AllAgencies"]</option>
+                        @foreach (var agency in Model.Agencies)
+                        {
+                            <option value="@agency.Id">@agency.Name</option>
+                        }
+                    </select>
+                </div>
+            }
+
         </div>
         <abp-table striped-rows="true" id="StudentsTable">
             <thead>

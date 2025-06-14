@@ -114,6 +114,8 @@
     "GenerateReport": "Tạo báo cáo",
     "ErrorGeneratingReport": "Lỗi khi tạo báo cáo",
     "FilterByCourseStatus": "Lọc theo trạng thái khóa học",
-    "AllCourseStatuses": "Tất cả trạng thái"
+    "AllCourseStatuses": "Tất cả trạng thái",
+    "FilterByAgency": "Lọc theo đại lý",
+    "AllAgencies": "Tất cả đại lý"
   }
 } 
