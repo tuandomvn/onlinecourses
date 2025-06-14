@@ -35,8 +35,8 @@ public class StudentAppService : CrudAppService<
     private readonly IRepository<Course, Guid> _courseRepository;
 
     public StudentAppService(
-        IRepository<Student, Guid> repository, 
-        ICurrentUser currentUser, 
+        IRepository<Student, Guid> repository,
+        ICurrentUser currentUser,
         IIdentityUserRepository userRepository,
         IdentityUserManager userManager,
         ILogger<StudentAppService> logger,
@@ -77,11 +77,11 @@ public class StudentAppService : CrudAppService<
         }
 
         //filter by user logged in and agency if applicable
-        if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email) 
+        if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email)
             && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
         {
             // Lấy agencyId
-            if(_currentUser!= null && _userRepository!=null)
+            if (_currentUser != null && _userRepository != null)
             {
                 var agencyId = _currentUser.GetAgencyIdAsync(_userRepository);
                 if (agencyId != null)
@@ -114,6 +114,11 @@ public class StudentAppService : CrudAppService<
         if (input.AccountStatus.HasValue)
         {
             query = query.Where(x => x.AccountStatus == input.AccountStatus.Value);
+        }
+
+        if (input.CourseStatus.HasValue)
+        {
+            query = query.Where(x => x.Courses.Any(c => c.CourseStatus == input.CourseStatus.Value));
         }
 
         return query;
@@ -306,7 +311,7 @@ public class StudentAppService : CrudAppService<
     public async Task DeleteAttachmentAsync(Guid attachmentId)
     {
         var attachment = await _attachmentRepository.GetAsync(attachmentId);
-        
+
         // Delete file
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", attachment.FilePath.TrimStart('/'));
         if (System.IO.File.Exists(filePath))
@@ -322,7 +327,7 @@ public class StudentAppService : CrudAppService<
     public override async Task<StudentDto> UpdateAsync(Guid id, CreateUpdateStudentDto input)
     {
         var student = await _studentRepository.GetAsync(id);
-        
+
         // Update only allowed fields
         student.FirstName = input.FirstName;
         student.LastName = input.LastName;
