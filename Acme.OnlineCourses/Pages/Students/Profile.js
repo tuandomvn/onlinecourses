@@ -15,58 +15,42 @@ $(function () {
             return;
         }
 
-        // Create data object with PascalCase properties to match C# DTO
-        var data = {
-            Id: studentId,
-            FirstName: $('#Student_FirstName').val(),
-            LastName: $('#Student_LastName').val(),
-            PhoneNumber: $('#Student_PhoneNumber').val() || null,
-            DateOfBirth: $('#Student_DateOfBirth').val() ? new Date($('#Student_DateOfBirth').val()).toISOString() : null,
-            IdentityNumber: $('#Student_IdentityNumber').val() || null,
-            Address: $('#Student_Address').val() || null,
-            Email: $('#Student_Email').val(),
-            AgencyId: $('#Student_AgencyId').val() || null,
-            TestStatus: $('#Student_TestStatus').val(),
-            PaymentStatus: $('#Student_PaymentStatus').val(),
-            AccountStatus: $('#Student_AccountStatus').val(),
-            CourseStatus: $('#Student_CourseStatus').val(),
-            AgreeToTerms: $('#Student_AgreeToTerms').is(':checked'),
-            RegistrationDate: $('#Student_RegistrationDate').val() ? new Date($('#Student_RegistrationDate').val()).toISOString() : null,
-            Attachments: []
-        };
+        var formData = new FormData();
 
-        // Add existing attachments
-        $attachmentsList.find('.list-group-item').each(function() {
-            var $item = $(this);
-            data.Attachments.push({
-                FileName: $item.find('.file-name').text(),
-                FilePath: $item.find('.file-path').text(),
-                Description: $item.find('.file-description').text()
-            });
-        });
-
-        abp.ui.block();
-        $.ajax({
-            url: abp.appPath + 'api/app/student/' + studentId,
-            type: 'PUT',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            success: function (result) {
-                console.log(result);
-                abp.notify.info(l('SuccessfullyUpdated'));
-                location.reload();
-            },
-            error: function (error) {
-                console.log(error);
-                if (error.responseJSON && error.responseJSON.error) {
-                    abp.notify.error(error.responseJSON.error.message);
-                } else {
-                    abp.notify.error('An error occurred while updating the profile');
-                }
-            },
-            complete: function () {
-                abp.ui.unblock();
+        // Add form fields to FormData
+        formData.append('Id', studentId);
+        formData.append('FirstName', $('#Student_FirstName').val());
+        formData.append('LastName', $('#Student_LastName').val());
+        formData.append('Email', $('#Student_Email').val());
+        formData.append('PhoneNumber', $('#Student_PhoneNumber').val());
+        formData.append('DateOfBirth', $('#Student_DateOfBirth').val());
+        formData.append('IdentityNumber', $('#Student_IdentityNumber').val());
+        formData.append('Address', $('#Student_Address').val());
+        formData.append('StudentNote', $('#Student_StudentNote').val() || '');
+      //  formData.append('AgencyId', $('#Student_AgencyId').val());
+        formData.append('CourseId', $('#Student_CourseId').val());
+   
+        // Add files to formData
+        var fileInput = $attachments[0];
+        if (fileInput.files.length > 0) {
+            for (var i = 0; i < fileInput.files.length; i++) {
+                formData.append('files', fileInput.files[i]);
             }
+        }
+
+        abp.ui.setBusy($form);
+
+        abp.ajax({
+            url: '/api/app/student/update',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).done(function () {
+            abp.notify.info(l('StudentRegisteredSuccessfully'));
+            window.location.href = '/Students/Profile';
+        }).always(function () {
+            abp.ui.clearBusy($form);
         });
     });
 
@@ -85,26 +69,26 @@ $(function () {
                 formData.append('description', 'test'); // Add empty description
             }
 
-            $.ajax({
-                url: abp.appPath + 'api/app/student/upload',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (result) {
-                    console.log(result);
-                    abp.notify.info(l('SuccessfullyUploaded'));
-                    location.reload();
-                },
-                error: function (error) {
-                    console.log(error);
-                    if (error.responseJSON && error.responseJSON.error) {
-                        abp.notify.error(error.responseJSON.error.message);
-                    } else {
-                        abp.notify.error('An error occurred while uploading files');
-                    }
-                }
-            });
+            //$.ajax({
+            //    url: abp.appPath + 'api/app/student/upload',
+            //    type: 'POST',
+            //    data: formData,
+            //    processData: false,
+            //    contentType: false,
+            //    success: function (result) {
+            //        console.log(result);
+            //        abp.notify.info(l('SuccessfullyUploaded'));
+            //        location.reload();
+            //    },
+            //    error: function (error) {
+            //        console.log(error);
+            //        if (error.responseJSON && error.responseJSON.error) {
+            //            abp.notify.error(error.responseJSON.error.message);
+            //        } else {
+            //            abp.notify.error('An error occurred while uploading files');
+            //        }
+            //    }
+            //});
         }
     });
 

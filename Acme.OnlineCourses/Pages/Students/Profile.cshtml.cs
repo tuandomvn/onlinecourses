@@ -15,6 +15,7 @@ namespace Acme.OnlineCourses.Pages.Students;
 [Authorize]
 public class ProfileModel : PageModel
 {
+
     private readonly IStudentAppService _studentAppService;
     private readonly IAgencyAppService _agencyAppService;
     private readonly ICurrentUser _currentUser;
@@ -30,7 +31,7 @@ public class ProfileModel : PageModel
     }
 
     [BindProperty]
-    public ProfileStudentDto Student { get; set; }
+    public StudentDto Student { get; set; }
 
     public List<SelectListItem> Agencies { get; set; }
 
@@ -38,30 +39,49 @@ public class ProfileModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        if (!_currentUser.IsAuthenticated)
+        //if (!_currentUser.IsAuthenticated)
+        //{
+        //    return RedirectToPage("/Account/Login");
+        //}
+
+        //// Get student by email
+        //var student = await _studentAppService.GetProfileStudentByEmailAsync(_currentUser.Email);
+        //if (student == null)
+        //{
+        //    return RedirectToPage("/Students/Register");
+        //}
+
+        //Student = student;
+
+        //// Get agencies for dropdown
+        //var agencies = await _agencyAppService.GetListAsync(new GetAgencyListDto());
+        //Agencies = new List<SelectListItem>();
+        //foreach (var agency in agencies.Items)
+        //{
+        //    Agencies.Add(new SelectListItem(agency.Name, agency.Id.ToString()));
+        //}
+
+        //// Get attachments
+        //Attachments = await _studentAppService.GetAttachmentsAsync(student.Id);
+
+        //return Page();
+
+        if (!User.Identity.IsAuthenticated)
         {
             return RedirectToPage("/Account/Login");
         }
 
-        // Get student by email
-        var student = await _studentAppService.GetProfileStudentByEmailAsync(_currentUser.Email);
-        if (student == null)
+        var email = _currentUser.Email;
+        if (string.IsNullOrEmpty(email))
         {
-            return RedirectToPage("/Students/Register");
+            return RedirectToPage("/Account/Login");
         }
 
-        Student = student;
-
-        // Get agencies for dropdown
-        var agencies = await _agencyAppService.GetListAsync(new GetAgencyListDto());
-        Agencies = new List<SelectListItem>();
-        foreach (var agency in agencies.Items)
+        Student = await _studentAppService.GetByEmailAsync(email);
+        if (Student == null)
         {
-            Agencies.Add(new SelectListItem(agency.Name, agency.Id.ToString()));
+            return RedirectToPage("/Account/Login");
         }
-
-        // Get attachments
-        Attachments = await _studentAppService.GetAttachmentsAsync(student.Id);
 
         return Page();
     }

@@ -1,7 +1,7 @@
 @page
 @using Microsoft.Extensions.Localization
 @using Acme.OnlineCourses.Localization
-@using Acme.OnlineCourses.Web.Pages.Students
+@using Acme.OnlineCourses.Pages.Students
 @model ProfileModel
 @inject IStringLocalizer<OnlineCoursesResource> L
 @{
@@ -21,7 +21,7 @@
         </abp-row>
     </abp-card-header>
     <abp-card-body>
-        <form id="ProfileForm">
+        <form id="ProfileForm" enctype="multipart/form-data">
             <input type="hidden" id="Student_Id" name="Student.Id" value="@Model.Student.Id" />
             <abp-input asp-for="Student.Email" disabled="true" />
             <abp-input asp-for="Student.FirstName" />

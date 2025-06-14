@@ -362,4 +362,62 @@ public class StudentAppService : CrudAppService<
 
         return ObjectMapper.Map<Student, StudentDto>(student);
     }
+
+    //[Authorize]
+    [HttpPost]
+    [Route("api/app/student/update")]
+    public async Task<StudentDto> UpdateStudentAsync([FromForm] UpdateStudentDto input, [FromForm] List<IFormFile> files)
+    {
+        var student = await _studentRepository.GetAsync(input.Id);
+
+        // Update only allowed fields
+        student.FirstName = input.FirstName;
+        student.LastName = input.LastName;
+        student.PhoneNumber = input.PhoneNumber;
+        student.DateOfBirth = input.DateOfBirth;
+        student.Address = input.Address;
+
+        await _studentRepository.UpdateAsync(student);
+
+        // Handle file uploads if any
+        if (files != null && files.Any())
+        {
+            foreach (var file in files)
+            {
+                if (file.Length > 0)
+                {
+                    // Create upload directory if not exists
+                    var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString());
+                    if (!Directory.Exists(uploadDir))
+                    {
+                        Directory.CreateDirectory(uploadDir);
+                    }
+
+                    // Generate unique filename
+                    var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+                    var filePath = Path.Combine(uploadDir, fileName);
+
+                    // Save file
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    // Create attachment record
+                    var studentAttachment = new StudentAttachment
+                    {
+                        StudentId = student.Id,
+                        FileName = file.FileName,
+                        FilePath = $"/uploads/students/{student.Id}/{fileName}",
+                        Description = "Uploaded during registration"
+                    };
+
+                    await _attachmentRepository.InsertAsync(studentAttachment, autoSave: true);
+                }
+            }
+        }
+
+        return ObjectMapper.Map<Student, StudentDto>(student);
+    }
+
 }
