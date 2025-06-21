@@ -1,6 +1,158 @@
 /* Your Global Styles */
 
-:root .lpx-brand-logo {
-    --lpx-logo: url('/images/logo/leptonx/logo-light.png');
-    --lpx-logo-icon: url('/images/logo/leptonx/logo-light-thumbnail.png');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+body {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
+
+#main-navbar {
+    background: #E7F1FF !important;
+}
+
+.nav-link > i {
+    display: none;
+}
+
+.custom-navbar {
+    background: #eaf4fb;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.custom-navbar-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1.5rem 0.25rem 1rem;
+    background: #eaf4fb;
+}
+
+.custom-navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.brand-logo {
+    width: 48px;
+    height: 48px;
+    margin-right: 0.75rem;
+}
+
+.brand-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #003366;
+}
+
+.brand-subtitle {
+    font-size: 0.85rem;
+    color: #222;
+    margin-top: -2px;
+}
+
+
+.custom-navbar-bottom {
+    display: flex;
+    align-items: center;
+    background: #003366;
+    padding: 0 1rem;
+    min-height: 2.5rem;
+}
+
+.custom-navbar-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+}
+
+    .custom-navbar-menu li {
+        margin: 0 1rem;
+    }
+
+        .custom-navbar-menu li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            display: block;
+            transition: color 0.2s;
+        }
+
+            .custom-navbar-menu li.active a,
+            .custom-navbar-menu li a:hover {
+                color: #00b8e6;
+            }
+
+.custom-navbar-lang {
+    position: relative;
+    margin-left: 1rem;
+}
+
+.lang-btn {
+    background: #fff;
+    border: none;
+    border-radius: 1.5rem;
+    padding: 0.15rem 0.8rem 0.15rem 0.5rem;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    min-width: 56px;
+    transition: background 0.2s;
+}
+
+    .lang-btn:hover, .lang-btn:focus {
+        background: #f0f0f0;
+    }
+
+.lang-flag {
+    font-size: 1.1rem;
+    margin-right: 0.3rem;
+}
+
+.lang-text {
+    margin-right: 0.3rem;
+    color: #003366;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.lang-caret {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.lang-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 110%;
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    min-width: 90px;
+    z-index: 100;
+    padding: 0.3rem 0;
+}
+
+.custom-navbar-lang:hover .lang-dropdown,
+.custom-navbar-lang:focus-within .lang-dropdown {
+    display: block;
+}
+
+.lang-option {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 1rem;
+    color: #003366;
+    text-decoration: none;
+    font-size: 0.98rem;
+    transition: background 0.2s;
+}
+
+    .lang-option:hover {
+        background: #eaf4fb;
+    }

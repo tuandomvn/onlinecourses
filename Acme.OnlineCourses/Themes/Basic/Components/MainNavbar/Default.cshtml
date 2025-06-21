@@ -1,0 +1,93 @@
+﻿@* ﻿@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Brand *@
+@using System.Globalization
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Menu
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Toolbar
+@*<nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm flex-column flex-md-row mb-4" id="main-navbar" style="min-height: 4rem;">
+    <div class="container">
+        @(await Component.InvokeAsync<MainNavbarBrandViewComponent>())
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#main-navbar-collapse" aria-controls="main-navbar-collapse"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-navbar-collapse">
+            <ul class="navbar-nav mx-auto">
+                @(await Component.InvokeAsync<MainNavbarMenuViewComponent>())
+            </ul>
+            <ul class="navbar-nav">
+                @(await Component.InvokeAsync<MainNavbarToolbarViewComponent>())
+            </ul>
+        </div>
+    </div>
+</nav>*@
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isVietnamese = currentCulture == "vi";
+    var langFlag = isVietnamese ? "https://www.flaticon.com/free-icons/vietnam" : "🇬🇧";
+    var langText = isVietnamese ? "VN" : "EN";
+}
+<nav class="custom-navbar">
+    <div class="custom-navbar-top">
+        <a href="/" class="custom-navbar-brand" style="text-decoration: none;">
+            <img src="/images/logo/logo.png" alt="Logo" class="brand-logo" />
+            <div>
+                <span class="brand-title">TESOL Channel</span>
+                <div class="brand-subtitle">Nhà phân phối chính thức của LTi Australia</div>
+            </div>
+        </a>
+    </div>
+    <div class="custom-navbar-bottom">
+        <ul class="custom-navbar-menu" style="justify-content: center; flex: 1;">
+            @(await Component.InvokeAsync<MainNavbarMenuViewComponent>())
+        </ul>
+     @*    <ul class="navbar-nav">
+            @(await Component.InvokeAsync<MainNavbarToolbarViewComponent>())
+        </ul> *@
+        <div class="custom-navbar-lang">
+            <button class="lang-btn" type="button" onclick="toggleLangDropdown(event)">
+                @if (isVietnamese)
+                {
+                    <img src="https://cdn-icons-png.flaticon.com/512/197/197473.png" alt="Vietnam Flag" class="lang-flag" 
+                    style="width: 1.1em; height: 1.1em; margin-right: 0.3rem;" />
+                }
+                else
+                {
+                    <img src="https://cdn-icons-png.flaticon.com/512/197/197374.png" alt="UK Flag" 
+                    class="lang-flag" style="width: 1.1em; height: 1.1em; margin-right: 0.3rem;" />
+                }
+                <span class="lang-text">@langText</span>
+                <span class="lang-caret">▼</span>
+            </button>
+            <div class="lang-dropdown" id="langDropdown" style="display: none;">
+                <a href="/Abp/Languages/Switch?culture=vi&uiCulture=vi&returnUrl=%2F" class="lang-option">
+                    <span class="lang-flag">
+                        <img src="https://cdn-icons-png.flaticon.com/512/197/197473.png" alt="Vietnam Flag" class="lang-flag"
+                             style="width: 1.1em; height: 1.1em; margin-right: 0.3rem;" />
+                    </span> VN
+                </a>
+                <a href="/Abp/Languages/Switch?culture=en&uiCulture=en&returnUrl=%2F" class="lang-option">
+                    <span class="lang-flag">
+                        <img src="https://cdn-icons-png.flaticon.com/512/197/197374.png" alt="UK Flag"
+                             class="lang-flag" style="width: 1.1em; height: 1.1em; margin-right: 0.3rem;" />
+                    </span> EN
+                </a>
+            </div>
+            <script>
+                function toggleLangDropdown(event) {
+                    event.stopPropagation();
+                    var dropdown = document.getElementById('langDropdown');
+                    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                }
+                document.addEventListener('click', function (e) {
+                    var dropdown = document.getElementById('langDropdown');
+                    if (dropdown && dropdown.style.display === 'block') {
+                        dropdown.style.display = 'none';
+                    }
+                });
+                document.getElementById('langDropdown').addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            </script>
+        </div>
+    </div>
+</nav>

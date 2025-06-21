@@ -13,6 +13,7 @@ using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
@@ -210,7 +211,8 @@ public class OnlineCoursesModule : AbpModule
         Configure<AbpBundlingOptions>(options =>
         {
             options.StyleBundles.Configure(
-                LeptonXLiteThemeBundles.Styles.Global,
+                BasicThemeBundles.Styles.Global,
+                //LeptonXLiteThemeBundles.Styles.Global,
                 bundle =>
                 {
                     bundle.AddFiles("/global-styles.css");
