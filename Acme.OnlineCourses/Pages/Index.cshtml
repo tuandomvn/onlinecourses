@@ -11,46 +11,43 @@
     <abp-script src="/Pages/Index.cshtml.js" />
 }
 
-<div class="home-page">
-    <header class="header">
-        <h1>Why study TESOL with us?</h1>
-        <p>Choosing the right TESOL Course is important - so is choosing the right training provider.</p>
-    </header>
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Trở thành Giáo viên<br>Tiếng Anh Chuyên Nghiệp</h1>
+        <p class="subtitle">
+            Nhận chứng chỉ TESOL quốc tế từ LTi Australia<br>
+            chỉ sau <b>200 giờ học và thực hành</b>
+        </p>
+        <button class="hero-btn">Đăng ký ngay</button>
+    </div>
+    <div class="hero-media">
+        <div class="video-stats-wrapper">
+            <div class="video-container" id="open-video-modal" style="cursor:pointer;">
+                <img src="~/images/tesol-video-thumbnail.png" alt="TESOL Video" class="video-thumb" />
+                <span class="play-btn">&#9658;</span>
+            </div>
+            <div class="hero-stats">
+                <div><b>+16.000</b><br><span>Học viên đã tốt nghiệp</span></div>
+                <div><b>+28 năm</b><br><span>Kinh nghiệm</span></div>
+                <div><b>+93%</b><br><span>Học viên hài lòng</span></div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <div class="container">
-
-        <section class="grid-container">
-            <div class="grid-item">  
-                <img src="~/images/home/quality-white_22.png" alt="TESOL experience" class="image-box">  
-                <h3>28 years in TESOL:</h3>  
-                <p>Get certified by an Australian institution that has been a trusted global TESOL training organization since 1996.</p>  
-            </div>
-            <div class="grid-item">
-                <img src="~/images/home/support-white_16.png" alt="Expert support" class="image-box">
-                <h3>Expert support:</h3>
-                <p>We connect you with a highly qualified and experienced Trainer to support you from start to finish, at no extra cost.</p>
-            </div>
-            <div class="grid-item">
-                <img src="~/images/home/stackable_15.png" alt="Future proof" class="image-box">
-                <h3>Future proof your TESOL qualification:</h3>
-                <p>Our accredited TESOL qualifications are stackable, with credit given when upskilling between our courses.</p>
-            </div>
-
-            <div class="grid-item">
-                <img src="~/images/home/prac-white_16.png" alt="Classroom training">
-                <h3>Classroom training:</h3>
-                <p>Face-to-face training opportunities are available, making learning more engaging and practical.</p>
-            </div>
-            <div class="grid-item">
-                <img src="~/images/home/nfp-white_14.png" alt="Online learning">
-                <h3>Online learning:</h3>
-                <p>Flexible online courses allow you to learn at your own pace, anytime, anywhere.</p>
-            </div>
-            <div class="grid-item">
-                <img src="~/images/home/resources-online-white_27.png" alt="Student care">
-                <h3>Student care:</h3>
-                <p>We care about your learning experience and success, supporting you with resources and guidance.</p>
-            </div>
-        </section>
+<!-- Video Modal -->
+<div id="video-modal" class="video-modal">
+    <div class="video-modal-content">
+        <span class="video-modal-close" id="close-video-modal">&times;</span>
+        <iframe
+            id="video-iframe"
+            width="800"
+            height="450"
+            src=""
+            title="TESOL Video"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+        </iframe>
     </div>
 </div>
