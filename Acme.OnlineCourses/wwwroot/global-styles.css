@@ -10,6 +10,12 @@ body {
     background: #E7F1FF !important;
 }
 
+.abp-application-layout > .container{
+   max-width: 100%;
+   padding: 0 !important;
+   overflow-x:hidden;
+}
+
 .nav-link > i {
     display: none;
 }
