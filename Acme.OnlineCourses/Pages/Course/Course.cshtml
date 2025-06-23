@@ -1,0 +1,151 @@
+﻿@page "/Course"
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Acme.OnlineCourses.Localization
+@inject IHtmlLocalizer<OnlineCoursesResource> L
+@model Acme.OnlineCourses.Pages.Course.CourseModel
+
+@section styles {
+    <abp-style src="/Pages/Course/Course.cshtml.css" />
+}
+@section scripts {
+    <abp-script src="/Pages/Course/Course.cshtml.js" />
+}
+
+<!-- Course Hero Section -->
+<div class="container course-hero">
+    <div class="row align-items-center">
+        <div class="col-lg-7 col-md-12">
+            <div class="course-label">TESOL có gì ?</div>
+            <h1 class="course-title">
+                Tổng quan về khóa TESOL<br>
+                Online Chứng chỉ Quốc tế
+            </h1>
+            <p class="course-description">
+                Khóa học TESOL Chứng chỉ Quốc tế của LTi Australia giúp học viên đạt chứng chỉ quốc tế và
+                phát triển kỹ năng giảng dạy toàn diện, trang bị cho giáo viên những kiến thức và kỹ năng
+                cần thiết để thành công trong môi trường giảng dạy đa dạng.
+            </p>
+        </div>
+        <div class="col-lg-5 col-md-12">
+            <div class="course-video-container" id="open-video-modal">
+                <img src="~/images/tesol-video-thumbnail.png" alt="TESOL Course Overview" class="course-thumbnail" />
+                <div class="play-button">
+                    <i class="fa fa-play"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Video Modal -->
+<div id="video-modal" class="video-modal">
+    <div class="video-modal-content">
+        <span class="video-modal-close" id="close-video-modal">&times;</span>
+        <iframe id="video-iframe"
+                width="800"
+                height="450"
+                src=""
+                title="TESOL Video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+        </iframe>
+    </div>
+</div>
+
+<!-- Course Benefits Section -->
+<section class="course-benefits-section">
+    <div class="container">
+        <div class="row">
+            <!-- Benefit Card 1 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fa fa-book"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">Giáo trình 100% tiếng Anh</h3>
+                        <p class="benefit-text">
+                            Toàn bộ giáo trình được biên soạn bởi LTi Australia, cập nhật kiến thức hiện đại, phù hợp với xu hướng giảng dạy toàn cầu.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benefit Card 2 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fa fa-user-tie"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">Giảng viên nước ngoài</h3>
+                        <p class="benefit-text">
+                            Đội ngũ giáo viên là người bản xứ, giàu kinh nghiệm, trực tiếp giảng dạy online và hỗ trợ học viên trong suốt quá trình học.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benefit Card 3 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fa fa-headset"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">Hỗ trợ cá nhân 1:1</h3>
+                        <p class="benefit-text">
+                            Học viên được hướng dẫn, giải đáp thắc mắc riêng biệt, giúp nắm vững kiến thức và kỹ năng cần thiết.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benefit Card 4 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fa fa-award"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">Chứng chỉ quốc tế</h3>
+                        <p class="benefit-text">
+                            Sau khi hoàn thành khóa học, học viên sẽ nhận được chứng chỉ TESOL do LTi Australia cấp, được công nhận rộng rãi trên thế giới.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benefit Card 5 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fa fa-file-pdf"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">Tài liệu học miễn phí</h3>
+                        <p class="benefit-text">
+                            Học viên nhận một quyển sách hỗ trợ học tập TESOL bìa cứng 335 trang do Lti biên soạn. Hỗ trợ hiệu quả cho quá trình học tập và giảng dạy sau này.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benefit Card 6 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fa fa-infinity"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">Tài khoản học trọn đời</h3>
+                        <p class="benefit-text">
+                            Học viên được cấp tài khoản học online trọn đời, có thể truy cập và ôn luyện bất cứ lúc nào.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

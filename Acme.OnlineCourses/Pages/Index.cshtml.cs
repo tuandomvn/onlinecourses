@@ -12,7 +12,7 @@ public class IndexModel : AbpPageModel
 {
     private readonly IBlogAppService _blogAppService;
 
-    public BlogDto FeaturedBlog { get; set; }
+    //public BlogDto FeaturedBlog { get; set; }
     public Language CurrentLanguage { get; set; }
 
     public IndexModel(IBlogAppService blogAppService)
@@ -23,6 +23,6 @@ public class IndexModel : AbpPageModel
     public async Task OnGetAsync()
     {
         CurrentLanguage = CultureInfo.CurrentCulture.ToLanguage();
-        FeaturedBlog = await _blogAppService.GetByCodeAsync("BLG001", CurrentLanguage);
+        //FeaturedBlog = await _blogAppService.GetByCodeAsync("BLG001", CurrentLanguage);
     }
 }
