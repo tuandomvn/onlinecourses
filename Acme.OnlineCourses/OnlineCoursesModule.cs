@@ -1,6 +1,7 @@
 ﻿using Acme.OnlineCourses.Data;
 using Acme.OnlineCourses.Localization;
 using Acme.OnlineCourses.Menus;
+using Acme.OnlineCourses.ScriptContributors;
 using Acme.OnlineCourses.Students;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -17,6 +18,7 @@ using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Bundling;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.Autofac;
@@ -219,6 +221,15 @@ public class OnlineCoursesModule : AbpModule
                 }
             );
         });
+
+        Configure<AbpBundlingOptions>(options =>
+        {
+            options.ScriptBundles.Configure(
+                StandardBundles.Scripts.Global,
+                bundle => { bundle.AddContributors(typeof(GlobalScriptContributor)); }
+            );
+        });
+
     }
 
     private void ConfigureLocalization()
