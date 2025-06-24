@@ -91,3 +91,98 @@
         </div>
     </div>
 </nav>
+
+
+<style>
+    /* Active menu item styling */
+    .custom-navbar-menu a.active {
+        color: white; 
+        font-weight: bold;
+        position: relative;
+        color: #48C8D4;
+    }
+
+        .custom-navbar-menu a.active::after {
+            display: none; 
+        }
+
+    .custom-navbar-menu a:hover:not(.active) {
+        transition: all 0.3s ease;
+    }
+
+    .custom-navbar-menu a {
+        padding: 6px 12px;
+        margin: 0 3px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set active class based on current URL
+        setActiveMenuItem();
+        
+        // Add click event listeners to menu items
+        var menuItems = document.querySelectorAll('.custom-navbar-menu a');
+        menuItems.forEach(function(item) {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                menuItems.forEach(function(menuItem) {
+                    menuItem.classList.remove('active');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Store active menu item path in localStorage
+                localStorage.setItem('activeMenuPath', this.getAttribute('href'));
+            });
+        });
+    });
+    
+    function setActiveMenuItem() {
+        var currentPath = window.location.pathname;
+        var menuItems = document.querySelectorAll('.custom-navbar-menu a');
+        
+        // First try to match exact path
+        var activeFound = false;
+        menuItems.forEach(function(item) {
+            var href = item.getAttribute('href');
+            if (href === currentPath) {
+                item.classList.add('active');
+                activeFound = true;
+            }
+        });
+        
+        // If no exact match, try to match the beginning of the path
+        if (!activeFound) {
+            menuItems.forEach(function(item) {
+                var href = item.getAttribute('href');
+                if (href !== '/' && currentPath.startsWith(href) && href.length > 1) {
+                    item.classList.add('active');
+                    activeFound = true;
+                }
+            });
+        }
+        
+        // If still no match and we have a stored active item, use that
+        if (!activeFound) {
+            var storedPath = localStorage.getItem('activeMenuPath');
+            if (storedPath) {
+                menuItems.forEach(function(item) {
+                    if (item.getAttribute('href') === storedPath) {
+                        item.classList.add('active');
+                    }
+                });
+            } else if (currentPath === '/') {
+                // If we're on the home page and no stored path, set home link as active
+                var homeLink = document.querySelector('.custom-navbar-menu a[href="/"]');
+                if (homeLink) {
+                    homeLink.classList.add('active');
+                }
+            }
+        }
+    }
+</script>
