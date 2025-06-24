@@ -1,12 +1,8 @@
 ﻿<footer class="site-footer">
     <div class="footer-content container">
-        <div class="footer-brand">
-            <img src="~/images/logo-white.svg" alt="TESOL Channel" class="footer-logo" />
-            <div>
-                <div class="footer-title">TESOL Channel</div>
-                <div class="footer-desc">Nhà phân phối chính thức của LTi Australia</div>
-            </div>
-        </div>
+        <a href="/" class="footer-brand">
+            <img src="~/images/logo/white-logo.png" alt="TESOL Channel" class="footer-logo" />
+        </a>
         <nav class="footer-nav">
             <a href="/">Trang chủ</a>
             <a href="/Courses">Chương trình học</a>
@@ -16,17 +12,19 @@
             <a href="/About">Về chúng tôi</a>
             <a href="/Contact">Liên hệ</a>
         </nav>
-        <div class="footer-social">
-            <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
-                <img src="~/images/getting-started/fb.svg" alt="Facebook" />
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
-                <img src="~/images/getting-started/youtube.svg" alt="YouTube" />
-            </a>
-            <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok">
-                <img src="~/images/getting-started/tiktok.svg" alt="TikTok" />
-            </a>
-        </div>
+       
+    </div>
+
+    <div class="footer-social container">
+        <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
+            <img src="~/images/getting-started/fb.svg" alt="Facebook" />
+        </a>
+        <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
+            <img src="~/images/getting-started/youtube.svg" alt="YouTube" />
+        </a>
+        <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok">
+            <img src="~/images/getting-started/tiktok.svg" alt="TikTok" />
+        </a>
     </div>
     <div class="footer-copyright">
         Copyright by TESOL Channel all rights reserved
@@ -48,7 +46,7 @@
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
-        padding: 18px 0 8px 0;
+        padding: 20px 0 25px 0;
     }
 
     .footer-brand {
@@ -58,8 +56,9 @@
     }
 
     .footer-logo {
-        width: 48px;
-        height: 48px;
+        /*    width: 48px;
+            height: 48px; */
+        max-width: 350px;
         object-fit: contain;
     }
 
@@ -95,6 +94,7 @@
         display: flex;
         gap: 18px;
         align-items: center;
+        justify-content: flex-end;
     }
 
         .footer-social img {
@@ -119,21 +119,18 @@
     }
 
     @@media (max-width: 900px) {
-        .footer-content
+        .footer-content {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 18px;
+        }
 
-    {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 18px;
-    }
+        .footer-nav {
+            gap: 14px;
+        }
 
-    .footer-nav {
-        gap: 14px;
-    }
-
-    .footer-social {
-        margin-top: 8px;
-    }
-
+        .footer-social {
+            margin-top: 8px;
+        }
     }
 </style>

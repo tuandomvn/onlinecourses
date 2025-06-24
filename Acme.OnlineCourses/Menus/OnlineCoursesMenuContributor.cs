@@ -75,7 +75,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             new ApplicationMenuItem(
                 OnlineCoursesMenus.About,
                 l["Menu:About"],
-                "~/About",
+                "~/About-Us",
                 order: 5
             )
         );

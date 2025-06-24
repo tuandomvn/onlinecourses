@@ -1,0 +1,330 @@
+﻿.about-hero {
+    padding: 80px 0;
+    position: relative;
+    background-color: #ffffff;
+}
+
+.about-hero-content {
+    padding-right: 40px;
+}
+
+.about-label {
+    color: #1eb6c1;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    position: relative;
+    display: inline-block;
+}
+
+    .about-label:before {
+        content: '';
+        width: 30px;
+        height: 2px;
+        background-color: #1eb6c1;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+.about-title {
+    color: #113366;
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 24px;
+    line-height: 1.1;
+}
+
+.about-description {
+    color: #333;
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 0;
+    line-height: 1.6;
+}
+
+.about-hero-image {
+    position: relative;
+}
+
+
+/* About Vision Section */
+.about-vision {
+    padding: 80px 0;
+    background-color: #f8fcff;
+}
+
+.vision-content {
+    padding-right: 30px;
+}
+
+.vision-title {
+    color: #113366;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.vision-description {
+    color: #333;
+    font-size: 1.15rem;
+    line-height: 1.7;
+}
+
+/* TESOL Definition styling */
+.tesol-definition {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.definition-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(19, 98, 108, 0.85);
+    color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.definition-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.definition-text {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.definition-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+
+/* About Mission Section */
+.about-mission {
+    padding: 80px 0;
+    background-color: #ffffff;
+    position: relative;
+}
+
+
+.mission-image {
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    max-width: 100%;
+}
+
+.mission-content {
+    padding-left: 20px;
+    position: relative;
+}
+
+.mission-title {
+    color: #113366;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.mission-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+    .mission-list li {
+        position: relative;
+        padding-left: 26px;
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+        .mission-list li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #1eb6c1;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+/* Core Values Section */
+.about-values {
+    padding: 80px 0;
+    background-color: #f8fbff;
+    position: relative;
+}
+
+.values-title {
+    color: #113366;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.values-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+    .values-list li {
+        position: relative;
+        padding-left: 24px;
+        margin-bottom: 24px;
+        color: #333;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+        .values-list li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #113366;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .values-list li strong {
+            color: #113366;
+            font-weight: 700;
+        }
+
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .about-hero {
+        padding: 60px 0;
+    }
+
+    .about-hero-content {
+        padding-right: 0;
+        margin-bottom: 40px;
+    }
+
+    .about-title {
+        font-size: 3rem;
+    }
+
+    .about-vision {
+        padding: 60px 0;
+    }
+
+    .vision-content {
+        padding-right: 0;
+    }
+
+    .vision-title {
+        font-size: 2.5rem;
+    }
+
+    .definition-title {
+        font-size: 3rem;
+    }
+
+    .definition-text {
+        font-size: 1.8rem;
+    }
+
+    .about-mission {
+        padding: 60px 0;
+    }
+
+
+
+    .mission-content {
+        padding-left: 0;
+    }
+
+    .mission-title {
+        font-size: 2.5rem;
+        margin-bottom: 24px;
+    }
+
+
+    .about-values {
+        padding: 60px 0;
+    }
+
+    .values-title {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 767px) {
+    .about-hero {
+        padding: 40px 0;
+    }
+
+    .about-title {
+        font-size: 2.5rem;
+    }
+
+    .about-description {
+        font-size: 1.1rem;
+    }
+
+    .about-vision {
+        padding: 40px 0;
+    }
+
+    .definition-overlay {
+        padding: 20px;
+    }
+
+    .definition-title {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .definition-text {
+        font-size: 1.5rem;
+    }
+
+    .about-mission {
+        padding: 40px 0;
+    }
+
+    .mission-title {
+        font-size: 2.3rem;
+    }
+
+    .mission-list li {
+        font-size: 1rem;
+    }
+
+    .about-values {
+        padding: 40px 0;
+    }
+
+    .values-title {
+        font-size: 2.2rem;
+        margin-bottom: 25px;
+    }
+
+    .values-list li {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+}
