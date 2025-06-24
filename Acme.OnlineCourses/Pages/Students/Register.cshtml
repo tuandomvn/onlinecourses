@@ -1,4 +1,4 @@
-@page
+﻿@page
 @using Microsoft.Extensions.Localization
 @using Acme.OnlineCourses.Localization
 @using Acme.OnlineCourses.Pages.Students
@@ -8,15 +8,105 @@
     ViewData["Title"] = L["RegisterStudent"];
 }
 
+@section styles {
+    <abp-style src="/Pages/Students/Register.cshtml.css" />
+}
 @section scripts {
     <abp-script src="/Pages/Students/Register.js" />
 }
 
 
+<!-- Section 1-->
+<section class="pricing-section animate fade-in">
+    <div class="container">
+        <div class="text-center">
+            <span class="pricing-badge">Chi phí khóa học</span>
+            <h1 class="pricing-title animate fade-in delay-200">Học phí trọn khoá</h1>
+            <p class="pricing-subtitle animate fade-in delay-200">
+                Khóa học TESOL Chứng chỉ Quốc tế của LTi Australia giúp học viên đạt chứng chỉ quốc tế
+                và phát triển kỹ năng giảng dạy toàn diện với mức học phí siêu ưu đãi.
+            </p>
+        </div>
+
+        <div class="animate fade-in delay-200">
+            <div class="pricing-card">
+                <div class="pricing-label">Học phí trọn gói</div>
+                <div>
+                    <span class="price-amount">15,500,000</span>
+                    <span class="price-currency">VND</span>
+                </div>
+
+                <div class="price-divider"></div>
+
+                <div class="price-duration">
+                    <i class="fas fa-clock"></i> Thời gian học: 200 tiếng
+                </div>
+
+                <ul class="price-features">
+                    <li>
+                        <i class="fas fa-check-circle check-icon"></i>
+                        <span>Tài liệu học miễn phí</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle check-icon"></i>
+                        <span>Giáo trình 100% tiếng Anh</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle check-icon"></i>
+                        <span>Giảng viên nước ngoài</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle check-icon"></i>
+                        <span>Hỗ trợ cá nhân 1:1</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle check-icon"></i>
+                        <span>Chứng chỉ quốc tế</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle check-icon"></i>
+                        <span>Tài khoản học trọn đời</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 2: Requirements -->
+<section class="requirements-section animate fade-in delay-200">
+    <div class="container">
+        <div class="requirements-container">
+            <h2 class="requirements-title">Yêu cầu đăng ký khóa TESOL Online</h2>
+            <ul class="requirements-list">
+                <li class="animate fade-in delay-200">
+                    <i class="fas fa-circle"></i>
+                    <span>Đáp ứng tiêu chí năng lực tiếng Anh cơ bản (có thể cần làm bài kiểm tra đầu vào nếu cần thiết).</span>
+                </li>
+                <li class="animate fade-in delay-200">
+                    <i class="fas fa-circle"></i>
+                    <span>Cam kết hoàn thành đầy đủ chương trình học và thực hành.</span>
+                </li>
+                <li class="animate fade-in delay-200">
+                    <i class="fas fa-circle"></i>
+                    <span>Đồng ý với tất cả các chính sách của LTi Australia.</span>
+                </li>
+                <li class="animate fade-in delay-200">
+                    <i class="fas fa-circle"></i>
+                    <span>Học phí được thu theo quy định của LTi Australia, đảm bảo minh bạch.</span>
+                </li>
+                <li class="animate fade-in delay-200">
+                    <i class="fas fa-circle"></i>
+                    <span>Tesol Chanel hỗ trợ thu phí và hướng dẫn học viên trong quá trình đăng ký và học.</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
 
 
 
-
+<!-- Section 3-->
 <abp-card>      
     <abp-card-header>
         <abp-card-title>@L["RegisterStudent"]</abp-card-title>
@@ -78,3 +168,4 @@
         </div>
     </div>
 </div> 
+
