@@ -146,6 +146,14 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             )
         );
 
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                OnlineCoursesMenus.EmploymentSupportAdmin,
+                l["Menu:EmploymentSupportAdmin"],
+                url: "/EmploymentSupportAdmin"
+            )
+        );
+
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 2);
     }
