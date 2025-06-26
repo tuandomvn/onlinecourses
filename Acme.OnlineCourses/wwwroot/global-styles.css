@@ -9,7 +9,9 @@ body {
 #main-navbar {
     background: #E7F1FF !important;
 }
-
+.nav-link:hover, .nav-link:focus {
+    color: #fff !important;
+}
 .abp-application-layout > .container{
    max-width: 100%;
    padding: 0 !important;

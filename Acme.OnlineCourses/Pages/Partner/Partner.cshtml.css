@@ -1,0 +1,151 @@
+﻿.partner-page {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background with contour lines, similar to the image */
+.partner-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/images/contour-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.05;
+    z-index: -1;
+}
+
+.section-title {
+    margin-bottom: 30px;
+}
+
+.subtitle {
+    color: #1eb6c1;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    position: relative;
+    display: inline-block;
+}
+
+    .subtitle::before {
+        content: '';
+        width: 25px;
+        height: 2px;
+        background-color: #1eb6c1;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+.main-heading {
+    color: #003366;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 25px;
+}
+
+.description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.partner-filter {
+    max-width: 400px;
+}
+
+.form-select {
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    font-size: 16px;
+}
+
+.partner-table-container {
+    margin-top: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    font-weight: 600;
+    background-color: #f8f9fa;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.table td, .table th {
+    padding: 12px;
+    vertical-align: middle;
+}
+
+.vietnam-map {
+    max-width: 100%;
+    padding: 20px;
+}
+
+.vietnam-map img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Responsive styles */
+@media (max-width: 991.98px) {
+    .main-heading {
+        font-size: 36px;
+    }
+    
+    .vietnam-map {
+        margin-top: 40px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .main-heading {
+        font-size: 28px;
+    }
+    
+    .partner-page {
+        padding: 20px 0;
+    }
+    
+    .partner-table-container {
+        max-height: 300px;
+    }
+    
+    .vietnam-map {
+        max-width: 70%;
+        margin: 30px auto 0;
+    }
+}
+
+/* Animation for the map */
+.vietnam-map {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
