@@ -122,5 +122,18 @@ public static class OnlineCoursesDbContextModelCreatingExtensions
             b.Property(x => x.Description).HasMaxLength(1024);
             b.Property(x => x.Price).HasPrecision(10, 2);
         });
+
+        builder.Entity<EmploymentSupport>(b =>
+        {
+            b.ToTable("EmploymentSupports", OnlineCoursesConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.FullName).IsRequired().HasMaxLength(256);
+            b.Property(x => x.DateOfBirth).IsRequired();
+            b.Property(x => x.PhoneNumber).HasMaxLength(32);
+            b.Property(x => x.Email).HasMaxLength(256);
+            b.Property(x => x.Address).HasMaxLength(512);
+            b.Property(x => x.CourseCompletionDate).IsRequired();
+            b.Property(x => x.Message).HasMaxLength(1024);
+        });
     }
 } 

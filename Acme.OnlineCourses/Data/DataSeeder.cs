@@ -11,6 +11,7 @@ using Volo.Abp.Identity.Localization;
 using Volo.Abp.PermissionManagement.Identity;
 using Acme.OnlineCourses.Permissions;
 using Acme.OnlineCourses.Courses;
+using Acme.OnlineCourses;
 
 namespace Acme.OnlineCourses.Data;
 
@@ -28,6 +29,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
     private readonly IdentityRoleManager _roleManager;
     private readonly IPermissionManager _permissionManager;
     private readonly IRepository<Course, Guid> _courseRepository;
+    private readonly IRepository<EmploymentSupport, Guid> _employmentSupportRepository;
 
     public DataSeeder(
         IRepository<Agency, Guid> agencyRepository,
@@ -41,7 +43,8 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         IIdentityRoleRepository roleRepository,
         IdentityRoleManager roleManager,
         IRepository<Course, Guid> courseRepository,
-        IPermissionManager permissionManager)
+        IPermissionManager permissionManager,
+        IRepository<EmploymentSupport, Guid> employmentSupportRepository)
     {
         _agencyRepository = agencyRepository;
         _blogRepository = blogRepository;
@@ -55,6 +58,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         _roleManager = roleManager;
         _permissionManager = permissionManager;
         _courseRepository = courseRepository;
+        _employmentSupportRepository = employmentSupportRepository;
     }
 
     [UnitOfWork]
@@ -73,6 +77,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
 
                 await SeedStudentCoursesAsync();
                 await SeedStudentAttachmentsAsync();
+                await SeedEmploymentSupportsAsync();
 
                 await uow.CompleteAsync();
             }
@@ -630,6 +635,41 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         {
             attachment.Description = "Uploaded by data seeder";
             await _studentAttachmentRepository.InsertAsync(attachment, autoSave: true);
+        }
+    }
+
+    private async Task SeedEmploymentSupportsAsync()
+    {
+        if (await _employmentSupportRepository.GetCountAsync() > 0)
+        {
+            return;
+        }
+        var supports = new[]
+        {
+            new EmploymentSupport
+            {
+                FullName = "Nguyen Van A",
+                DateOfBirth = new DateTime(1995, 5, 20),
+                PhoneNumber = "0912345678",
+                Email = "vana@example.com",
+                Address = "123 Đường A, Quận B, TP. C",
+                CourseCompletionDate = new DateTime(2024, 6, 1),
+                Message = "Tôi cần hỗ trợ việc làm sau khi hoàn thành khóa học."
+            },
+            new EmploymentSupport
+            {
+                FullName = "Tran Thi B",
+                DateOfBirth = new DateTime(1998, 8, 15),
+                PhoneNumber = "0987654321",
+                Email = "thib@example.com",
+                Address = "456 Đường X, Quận Y, TP. Z",
+                CourseCompletionDate = new DateTime(2024, 6, 5),
+                Message = "Xin tư vấn về các cơ hội việc làm phù hợp."
+            }
+        };
+        foreach (var support in supports)
+        {
+            await _employmentSupportRepository.InsertAsync(support, autoSave: true);
         }
     }
 }
