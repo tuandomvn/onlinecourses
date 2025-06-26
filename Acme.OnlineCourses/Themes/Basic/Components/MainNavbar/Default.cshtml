@@ -73,26 +73,11 @@
                     </span> EN
                 </a>
             </div>
-            <script>
-                function toggleLangDropdown(event) {
-                    event.stopPropagation();
-                    var dropdown = document.getElementById('langDropdown');
-                    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-                }
-                document.addEventListener('click', function (e) {
-                    var dropdown = document.getElementById('langDropdown');
-                    if (dropdown && dropdown.style.display === 'block') {
-                        dropdown.style.display = 'none';
-                    }
-                });
-                document.getElementById('langDropdown').addEventListener('click', function (e) {
-                    e.stopPropagation();
-                });
-            </script>
         </div>
     </div>
 </nav>
 
+<div class="sticky-spacer" id="navbar-spacer"></div>
 
 <style>
     /* Active menu item styling */
@@ -103,9 +88,9 @@
         color: #48C8D4;
     }
 
-        .custom-navbar-menu a.active::after {
-            display: none; 
-        }
+    .custom-navbar-menu a.active::after {
+        display: none; 
+    }
 
     .custom-navbar-menu a:hover:not(.active) {
         transition: all 0.3s ease;
@@ -117,6 +102,49 @@
         border-radius: 4px;
         transition: all 0.3s ease;
         text-decoration: none;
+    }
+    
+    /* Sticky navbar styles */
+    .custom-navbar {
+        width: 100%;
+        z-index: 1000;
+    }
+    
+    .custom-navbar-bottom {
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    
+    .sticky {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        animation: slideDown 0.3s forwards;
+        z-index: 1000;
+    }
+    
+    /* Animation for sticky navbar */
+    @@keyframes slideDown {
+        from {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    /* Create space when navbar becomes sticky */
+    .sticky-spacer {
+        display: none;
+        width: 100%;
+    }
+    
+    .sticky-spacer.active {
+        display: block;
     }
 </style>
 
@@ -141,6 +169,40 @@
                 localStorage.setItem('activeMenuPath', this.getAttribute('href'));
             });
         });
+        
+        // Sticky navbar functionality
+        var navbar = document.querySelector('.custom-navbar-bottom');
+        var navbarSpacer = document.getElementById('navbar-spacer');
+        var navbarOffsetTop = navbar.offsetTop;
+        var navbarHeight = navbar.offsetHeight;
+        
+        // Update spacer height when window is resized
+        function updateSpacerHeight() {
+            navbarHeight = navbar.offsetHeight;
+            navbarSpacer.style.height = navbarHeight + 'px';
+        }
+        
+        // Handle scroll event to add/remove sticky class
+        function handleScroll() {
+            if (window.pageYOffset > navbarOffsetTop) {
+                if (!navbar.classList.contains('sticky')) {
+                    navbar.classList.add('sticky');
+                    navbarSpacer.classList.add('active');
+                    updateSpacerHeight();
+                }
+            } else {
+                navbar.classList.remove('sticky');
+                navbarSpacer.classList.remove('active');
+            }
+        }
+        
+        // Add event listeners
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', updateSpacerHeight);
+        
+        // Initialize once on page load
+        updateSpacerHeight();
+        handleScroll();
     });
     
     function setActiveMenuItem() {
@@ -186,4 +248,26 @@
             }
         }
     }
+    
+    function toggleLangDropdown(event) {
+        event.stopPropagation();
+        var dropdown = document.getElementById('langDropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+    
+    document.addEventListener('click', function (e) {
+        var dropdown = document.getElementById('langDropdown');
+        if (dropdown && dropdown.style.display === 'block') {
+            dropdown.style.display = 'none';
+        }
+    });
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        var langDropdown = document.getElementById('langDropdown');
+        if (langDropdown) {
+            langDropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        }
+    });
 </script>

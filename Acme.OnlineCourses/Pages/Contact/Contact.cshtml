@@ -1,0 +1,59 @@
+﻿@page "/Contact"
+@model Acme.OnlineCourses.Pages.Contact.ContactModel
+@{
+    ViewData["Title"] = "Liên hệ";
+}
+
+@section styles {
+    <abp-style src="/Pages/Contact/Contact.cshtml.css" />
+}   
+@section scripts {
+    <abp-script src="/Pages/Contact/Contact.cshtml.js" />
+}
+
+<div class="contact-page">
+    <div class="container text-center py-5">
+        <div class="section-title">
+            <span class="subtitle">Liên hệ ngay</span>
+        </div>
+        <div class=" mb-3 d-flex align-items-center justify-content-center">
+            <div class="tesol-logo me-3">
+                <img src="~/images/logo-contact.png" alt="TESOL Logo" class="img-fluid" />
+            </div>
+
+            <h1 class="brand-name mb-0">TESOL Channel</h1>
+        </div>
+        
+        <p>
+            <strong class="subtitle-text mb-5">
+                TESOL Chanel – Nhà phân phối chính thức LTI Australia
+            </strong>
+        </p>
+  
+        
+        <div class="action-buttons">
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-4">
+                    <a href="/Students/Register" class="btn btn-primary btn-register w-100">Đăng ký học</a>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-5">
+                    <a href="/Partner" class="btn btn-primary btn-distributor w-100">Đăng ký làm nhà phân phối</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-info">
+            <p class="mb-2"><span>Số điện thoại:</span> 0123 456 789</p>
+            <p class="mb-2"><span>Email:</span> abc123@gmail.com</p>
+            <p class="mb-2"><span>Website:</span> abc123.com</p>
+            <p class="mb-4">
+                <span>Địa chỉ:</span> B07-04 Tòa nhà Lavida Plus, Phường Tân Phong, 
+                <br>Quận 7, TP. Hồ Chí Minh, Việt Nam.
+            </p>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_Footer")
