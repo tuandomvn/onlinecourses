@@ -1,0 +1,35 @@
+@page
+@model Acme.OnlineCourses.Pages.AgentRegisterAdmin.IndexModel
+@{
+    ViewData["Title"] = "Agent Register Admin";
+}
+
+<h2>Agent Register Admin</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Họ và tên</th>
+            <th>Số điện thoại</th>
+            <th>Email</th>
+            <th>Địa chỉ</th>
+            <th>Tổ chức</th>
+            <th>Chức vụ</th>
+            <th>Tin nhắn</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.AgentRegisters)
+    {
+        <tr>
+            <td>@item.FullName</td>
+            <td>@item.PhoneNumber</td>
+            <td>@item.Email</td>
+            <td>@item.Address</td>
+            <td>@item.OrganizationName</td>
+            <td>@item.Position</td>
+            <td>@item.Message</td>
+        </tr>
+    }
+    </tbody>
+</table> 
