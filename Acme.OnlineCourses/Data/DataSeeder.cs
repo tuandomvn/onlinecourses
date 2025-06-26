@@ -30,6 +30,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
     private readonly IPermissionManager _permissionManager;
     private readonly IRepository<Course, Guid> _courseRepository;
     private readonly IRepository<EmploymentSupport, Guid> _employmentSupportRepository;
+    private readonly IRepository<AgentRegister, Guid> _agentRegisterRepository;
 
     public DataSeeder(
         IRepository<Agency, Guid> agencyRepository,
@@ -44,7 +45,8 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         IdentityRoleManager roleManager,
         IRepository<Course, Guid> courseRepository,
         IPermissionManager permissionManager,
-        IRepository<EmploymentSupport, Guid> employmentSupportRepository)
+        IRepository<EmploymentSupport, Guid> employmentSupportRepository,
+        IRepository<AgentRegister, Guid> agentRegisterRepository)
     {
         _agencyRepository = agencyRepository;
         _blogRepository = blogRepository;
@@ -59,6 +61,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         _permissionManager = permissionManager;
         _courseRepository = courseRepository;
         _employmentSupportRepository = employmentSupportRepository;
+        _agentRegisterRepository = agentRegisterRepository;
     }
 
     [UnitOfWork]
@@ -78,6 +81,7 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 await SeedStudentCoursesAsync();
                 await SeedStudentAttachmentsAsync();
                 await SeedEmploymentSupportsAsync();
+                await SeedAgentRegistersAsync();
 
                 await uow.CompleteAsync();
             }
@@ -670,6 +674,41 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         foreach (var support in supports)
         {
             await _employmentSupportRepository.InsertAsync(support, autoSave: true);
+        }
+    }
+
+    private async Task SeedAgentRegistersAsync()
+    {
+        if (await _agentRegisterRepository.GetCountAsync() > 0)
+        {
+            return;
+        }
+        var agents = new[]
+        {
+            new AgentRegister
+            {
+                FullName = "Nguyen Van C",
+                PhoneNumber = "0901234567",
+                Email = "c.agent@example.com",
+                Address = "789 Đường Z, Quận W, TP. Q",
+                OrganizationName = "Tổ chức ABC",
+                Position = "Trưởng phòng",
+                Message = "Tôi muốn đăng ký làm đại lý."
+            },
+            new AgentRegister
+            {
+                FullName = "Le Thi D",
+                PhoneNumber = "0934567890",
+                Email = "d.agent@example.com",
+                Address = "321 Đường M, Quận N, TP. P",
+                OrganizationName = "Tổ chức XYZ",
+                Position = "Nhân viên",
+                Message = "Xin tư vấn về chương trình đại lý."
+            }
+        };
+        foreach (var agent in agents)
+        {
+            await _agentRegisterRepository.InsertAsync(agent, autoSave: true);
         }
     }
 }
