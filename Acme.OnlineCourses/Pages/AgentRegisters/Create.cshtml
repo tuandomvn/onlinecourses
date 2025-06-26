@@ -1,0 +1,46 @@
+@page
+@model Acme.OnlineCourses.Pages.AgentRegisters.CreateModel
+@{
+    ViewData["Title"] = "Đăng ký đại lý mới";
+}
+
+<h2>Đăng ký đại lý mới</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label>Họ và tên</label>
+        <input asp-for="AgentRegister.FullName" class="form-control" />
+        <span asp-validation-for="AgentRegister.FullName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Số điện thoại</label>
+        <input asp-for="AgentRegister.PhoneNumber" class="form-control" />
+        <span asp-validation-for="AgentRegister.PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input asp-for="AgentRegister.Email" class="form-control" />
+        <span asp-validation-for="AgentRegister.Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Địa chỉ</label>
+        <input asp-for="AgentRegister.Address" class="form-control" />
+        <span asp-validation-for="AgentRegister.Address" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Tổ chức</label>
+        <input asp-for="AgentRegister.OrganizationName" class="form-control" />
+        <span asp-validation-for="AgentRegister.OrganizationName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Chức vụ</label>
+        <input asp-for="AgentRegister.Position" class="form-control" />
+        <span asp-validation-for="AgentRegister.Position" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Tin nhắn</label>
+        <textarea asp-for="AgentRegister.Message" class="form-control"></textarea>
+        <span asp-validation-for="AgentRegister.Message" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Đăng ký</button>
+</form> 
