@@ -2,6 +2,7 @@
     <div class="footer-content container">
         <a href="/" class="footer-brand">
             <img src="~/images/logo/white-logo.png" alt="TESOL Channel" class="footer-logo" />
+            <div class="footer-tagline">Nhà phân phối chính thức của LTi Australia</div>
         </a>
         <nav class="footer-nav">
             <a href="/">Trang chủ</a>
@@ -12,9 +13,9 @@
             <a href="/About">Về chúng tôi</a>
             <a href="/Contact">Liên hệ</a>
         </nav>
+
        
     </div>
-
     <div class="footer-social container">
         <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
             <img src="~/images/getting-started/fb.svg" alt="Facebook" />
@@ -26,11 +27,11 @@
             <img src="~/images/getting-started/tiktok.svg" alt="TikTok" />
         </a>
     </div>
+
     <div class="footer-copyright">
         Copyright by TESOL Channel all rights reserved
     </div>
 </footer>
-
 
 <style>
     .site-footer {
@@ -53,13 +54,18 @@
         display: flex;
         align-items: center;
         gap: 16px;
+        text-decoration: none;
     }
 
     .footer-logo {
-        /*    width: 48px;
-            height: 48px; */
         max-width: 350px;
         object-fit: contain;
+    }
+
+    .footer-tagline {
+        display: none; /* Hidden on desktop */
+        color: #e0eaf6;
+        font-size: 0.9rem;
     }
 
     .footer-title {
@@ -92,6 +98,7 @@
 
     .footer-social {
         display: flex;
+        justify-content:flex-end;
         gap: 18px;
         align-items: center;
         justify-content: flex-end;
@@ -119,19 +126,73 @@
     }
 
     @@media (max-width: 900px) {
-        .footer-content {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 18px;
-        }
+        .footer-content
 
-        .footer-nav {
-            gap: 14px;
-        }
-
-        .footer-social {
-            margin-top: 8px;
-        }
+    {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
     }
-</style>
 
+    .footer-nav {
+        gap: 14px;
+    }
+
+    .footer-social {
+        margin-top: 8px;
+    }
+
+    }
+
+    /* Mobile specific styles */
+    @@media (max-width: 768px) {
+        .site-footer
+
+    {
+        padding: 30px 0 16px 0;
+        text-align: center;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        padding: 0;
+    }
+
+    .footer-brand {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .footer-logo {
+        max-width: 350px;
+    }
+
+    .footer-tagline {
+        display: none; /* Show on mobile */
+        margin-bottom: 10px;
+    }
+
+    .footer-nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .footer-social {
+        justify-content: center;
+        gap: 25px;
+        margin: 20px 0 10px;
+    }
+
+        .footer-social img {
+            width: 40px;
+            height: 40px;
+        }
+
+    }</style>
