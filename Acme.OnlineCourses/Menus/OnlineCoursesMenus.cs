@@ -9,6 +9,7 @@ public class OnlineCoursesMenus
     public const string Partner = GroupName + ".Partner";
     public const string EmploymentSupport = GroupName + ".EmploymentSupport";
     public const string EmploymentSupportAdmin = GroupName + ".EmploymentSupportAdmin";
+    public const string AgentRegisterAdmin = GroupName + ".AgentRegisterAdmin";
     public const string About = GroupName + ".About";
     public const string Contact = GroupName + ".Contact";
     public const string StudentsMenu = GroupName + ".Students";

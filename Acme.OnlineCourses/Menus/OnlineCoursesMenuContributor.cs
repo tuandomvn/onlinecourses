@@ -66,7 +66,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             new ApplicationMenuItem(
                 OnlineCoursesMenus.EmploymentSupport,
                 l["Menu:EmploymentSupport"],
-                "~/Employment-Support",
+                "~/EmploymentSupports",
                 order: 4
             )
         );
@@ -151,6 +151,14 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 OnlineCoursesMenus.EmploymentSupportAdmin,
                 l["Menu:EmploymentSupportAdmin"],
                 url: "/EmploymentSupportAdmin"
+            )
+        );
+
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                OnlineCoursesMenus.AgentRegisterAdmin,
+                l["Menu:AgentRegisterAdmin"],
+                url: "/AgentRegisterAdmin"
             )
         );
 
