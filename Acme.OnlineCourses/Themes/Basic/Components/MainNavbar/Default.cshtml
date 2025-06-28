@@ -1,26 +1,7 @@
-﻿@* ﻿@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Brand *@
-@using System.Globalization
+﻿@using System.Globalization
 @using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Menu
 @using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Toolbar
 
-@*<nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm flex-column flex-md-row mb-4" id="main-navbar" style="min-height: 4rem;">
-    <div class="container">
-        @(await Component.InvokeAsync<MainNavbarBrandViewComponent>())
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#main-navbar-collapse" aria-controls="main-navbar-collapse"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="main-navbar-collapse">
-            <ul class="navbar-nav mx-auto">
-                @(await Component.InvokeAsync<MainNavbarMenuViewComponent>())
-            </ul>
-            <ul class="navbar-nav">
-                @(await Component.InvokeAsync<MainNavbarToolbarViewComponent>())
-            </ul>
-        </div>
-    </div>
-</nav>*@
 @{
     var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
     var isVietnamese = currentCulture == "vi";
@@ -31,33 +12,28 @@
     <div class="custom-navbar-top">
         <a href="/" class="custom-navbar-brand" style="text-decoration: none;">
             <img src="/images/logo/logo.png" alt="Logo" class="brand-logo" />
-           @*  <div>
-                <span class="brand-title">TESOL Channel</span>
-                <div class="brand-subtitle">Nhà phân phối chính thức của LTi Australia</div>
-            </div> *@
         </a>
     </div>
     <div class="custom-navbar-bottom">
-        <ul class="custom-navbar-menu" style="justify-content: center; flex: 1;">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <ul class="custom-navbar-menu" id="mobileMenu" style="justify-content: center; flex: 1;">
             @(await Component.InvokeAsync<MainNavbarMenuViewComponent>())
+            <button class="menu-close" id="mobileMenuClose">×</button>
         </ul>
-     @*    <ul class="navbar-nav">
-            @(await Component.InvokeAsync<MainNavbarToolbarViewComponent>())
-        </ul> *@
+
+        <div class="menu-overlay" id="menuOverlay"></div>
+        
         <div class="custom-navbar-lang">
-            <button class="lang-btn" type="button" onclick="toggleLangDropdown(event)">
-                @if (isVietnamese)
-                {
-                    <img src="https://cdn-icons-png.flaticon.com/512/197/197473.png" alt="Vietnam Flag" class="lang-flag" 
-                    style="width: 1.1em; height: 1.1em; margin-right: 0.3rem;" />
-                }
-                else
-                {
-                    <img src="https://cdn-icons-png.flaticon.com/512/197/197374.png" alt="UK Flag" 
-                    class="lang-flag" style="width: 1.1em; height: 1.1em; margin-right: 0.3rem;" />
-                }
-                <span class="lang-text">@langText</span>
-                <span class="lang-caret">▼</span>
+            <button class="lang-btn lang-btn-mobile" type="button" onclick="toggleLangDropdown(event)">
+                <div class="lang-circle">
+                    <span class="lang-text-mobile">@langText</span>
+                </div>
+                <span class="lang-caret d-none d-md-inline">▼</span>
             </button>
             <div class="lang-dropdown" id="langDropdown" style="display: none;">
                 <a href="/Abp/Languages/Switch?culture=vi&uiCulture=vi" class="lang-option">
@@ -114,7 +90,10 @@
         transition: all 0.3s ease;
         width: 100%;
     }
-    
+
+    #mobileMenuClose{
+        visibility: hidden;
+    }
     .sticky {
         position: fixed;
         top: 0;
@@ -145,6 +124,166 @@
     
     .sticky-spacer.active {
         display: block;
+    }
+    /* Mobile navbar styles */
+    .custom-navbar-bottom {
+        background-color: #003366;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+    }
+
+    .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 100;
+    }
+
+        .mobile-menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+    .mobile-brand {
+        display: none;
+    }
+
+    .lang-btn-mobile {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+
+    .lang-circle {
+        background-color: #e4181b;
+        color: white;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .lang-text-mobile {
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    /* Responsive styles */
+    @@media (max-width: 768px) {
+        #mobileMenuClose {
+            visibility: visible;
+        }
+        .mobile-menu-toggle {
+            display: block;
+        }
+
+        .mobile-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-title {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .mobile-subtitle {
+            font-size: 0.7rem;
+        }
+
+        .custom-navbar-menu {
+            display: none;
+            position: fixed;
+            top: 62px;
+            left: 0;
+            width: 80%;
+            max-width: 330px;
+            height: 100vh;
+            background-color: #f0f6ff;
+            z-index: 1100;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        .custom-navbar-menu.show {
+            display: block;
+            transform: translateX(0);
+        }
+
+        @@keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        /* Close button */
+        .custom-navbar-menu.show .menu-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            z-index: 1200;
+            background: none;
+            border: none;
+        }
+
+        /* Menu items styling */
+        .custom-navbar-menu.show a {
+            display: block;
+            padding: 15px 20px;
+            color: #333;
+            font-weight: 500;
+            border-bottom: 1px solid #e0e0e0;
+            margin: 0;
+            text-align: left;
+        }
+
+        .custom-navbar-menu.show a:first-child {
+            margin-top: 40px;
+        }
+
+        .custom-navbar-menu.show a.active {
+            color: #003366;
+            font-weight: 600;
+            background-color: rgba(0, 51, 102, 0.05);
+        }
+
+        /* Overlay for the rest of the screen */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 62px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #011939CC;
+            z-index: 1090;
+        }
+
+        .menu-overlay.show {
+            display: block;
+        }
     }
 </style>
 
@@ -269,5 +408,46 @@
                 e.stopPropagation();
             });
         }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu functionality
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+        const menuOverlay = document.getElementById('menuOverlay');
+        
+        function openMobileMenu() {
+            mobileMenu.classList.add('show');
+            menuOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+        
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('show');
+            menuOverlay.classList.remove('show');
+            document.body.style.overflow = ''; // Enable scrolling
+        }
+        
+        // Event listeners for mobile menu
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', openMobileMenu);
+        }
+        
+        if (mobileMenuClose) {
+            mobileMenuClose.addEventListener('click', closeMobileMenu);
+        }
+        
+        if (menuOverlay) {
+            menuOverlay.addEventListener('click', closeMobileMenu);
+        }
+        
+        // Close menu when clicking menu items
+        const menuItems = document.querySelectorAll('.custom-navbar-menu a');
+        menuItems.forEach(function(item) {
+            item.addEventListener('click', function() {
+                closeMobileMenu();
+            });
+        });
     });
 </script>
