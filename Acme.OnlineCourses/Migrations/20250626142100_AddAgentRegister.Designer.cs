@@ -4,6 +4,7 @@ using Acme.OnlineCourses.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Acme.OnlineCourses.Migrations
 {
     [DbContext(typeof(OnlineCoursesDbContext))]
-    partial class OnlineCoursesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250626142100_AddAgentRegister")]
+    partial class AddAgentRegister
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

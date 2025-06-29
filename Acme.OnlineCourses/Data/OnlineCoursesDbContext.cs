@@ -19,6 +19,8 @@ public class OnlineCoursesDbContext : AbpDbContext<OnlineCoursesDbContext>
     public DbSet<Student> Students { get; set; }
     public DbSet<Agency> Agencies { get; set; }
     public DbSet<Course> Courses { get; set; }
+    public DbSet<EmploymentSupport> EmploymentSupports { get; set; }
+    public DbSet<AgentRegister> AgentRegisters { get; set; }
 
     public OnlineCoursesDbContext(DbContextOptions<OnlineCoursesDbContext> options)
         : base(options)

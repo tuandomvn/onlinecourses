@@ -11,6 +11,7 @@ using Volo.Abp.Identity.Localization;
 using Volo.Abp.PermissionManagement.Identity;
 using Acme.OnlineCourses.Permissions;
 using Acme.OnlineCourses.Courses;
+using Acme.OnlineCourses;
 
 namespace Acme.OnlineCourses.Data;
 
@@ -28,6 +29,8 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
     private readonly IdentityRoleManager _roleManager;
     private readonly IPermissionManager _permissionManager;
     private readonly IRepository<Course, Guid> _courseRepository;
+    private readonly IRepository<EmploymentSupport, Guid> _employmentSupportRepository;
+    private readonly IRepository<AgentRegister, Guid> _agentRegisterRepository;
 
     public DataSeeder(
         IRepository<Agency, Guid> agencyRepository,
@@ -41,7 +44,9 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         IIdentityRoleRepository roleRepository,
         IdentityRoleManager roleManager,
         IRepository<Course, Guid> courseRepository,
-        IPermissionManager permissionManager)
+        IPermissionManager permissionManager,
+        IRepository<EmploymentSupport, Guid> employmentSupportRepository,
+        IRepository<AgentRegister, Guid> agentRegisterRepository)
     {
         _agencyRepository = agencyRepository;
         _blogRepository = blogRepository;
@@ -55,6 +60,8 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         _roleManager = roleManager;
         _permissionManager = permissionManager;
         _courseRepository = courseRepository;
+        _employmentSupportRepository = employmentSupportRepository;
+        _agentRegisterRepository = agentRegisterRepository;
     }
 
     [UnitOfWork]
@@ -73,6 +80,8 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
 
                 await SeedStudentCoursesAsync();
                 await SeedStudentAttachmentsAsync();
+                await SeedEmploymentSupportsAsync();
+                await SeedAgentRegistersAsync();
 
                 await uow.CompleteAsync();
             }
@@ -630,6 +639,76 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         {
             attachment.Description = "Uploaded by data seeder";
             await _studentAttachmentRepository.InsertAsync(attachment, autoSave: true);
+        }
+    }
+
+    private async Task SeedEmploymentSupportsAsync()
+    {
+        if (await _employmentSupportRepository.GetCountAsync() > 0)
+        {
+            return;
+        }
+        var supports = new[]
+        {
+            new EmploymentSupport
+            {
+                FullName = "Nguyen Van A",
+                DateOfBirth = new DateTime(1995, 5, 20),
+                PhoneNumber = "0912345678",
+                Email = "vana@example.com",
+                Address = "123 Đường A, Quận B, TP. C",
+                CourseCompletionDate = new DateTime(2024, 6, 1),
+                Message = "Tôi cần hỗ trợ việc làm sau khi hoàn thành khóa học."
+            },
+            new EmploymentSupport
+            {
+                FullName = "Tran Thi B",
+                DateOfBirth = new DateTime(1998, 8, 15),
+                PhoneNumber = "0987654321",
+                Email = "thib@example.com",
+                Address = "456 Đường X, Quận Y, TP. Z",
+                CourseCompletionDate = new DateTime(2024, 6, 5),
+                Message = "Xin tư vấn về các cơ hội việc làm phù hợp."
+            }
+        };
+        foreach (var support in supports)
+        {
+            await _employmentSupportRepository.InsertAsync(support, autoSave: true);
+        }
+    }
+
+    private async Task SeedAgentRegistersAsync()
+    {
+        if (await _agentRegisterRepository.GetCountAsync() > 0)
+        {
+            return;
+        }
+        var agents = new[]
+        {
+            new AgentRegister
+            {
+                FullName = "Nguyen Van C",
+                PhoneNumber = "0901234567",
+                Email = "c.agent@example.com",
+                Address = "789 Đường Z, Quận W, TP. Q",
+                OrganizationName = "Tổ chức ABC",
+                Position = "Trưởng phòng",
+                Message = "Tôi muốn đăng ký làm đại lý."
+            },
+            new AgentRegister
+            {
+                FullName = "Le Thi D",
+                PhoneNumber = "0934567890",
+                Email = "d.agent@example.com",
+                Address = "321 Đường M, Quận N, TP. P",
+                OrganizationName = "Tổ chức XYZ",
+                Position = "Nhân viên",
+                Message = "Xin tư vấn về chương trình đại lý."
+            }
+        };
+        foreach (var agent in agents)
+        {
+            await _agentRegisterRepository.InsertAsync(agent, autoSave: true);
         }
     }
 }

@@ -66,7 +66,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             new ApplicationMenuItem(
                 OnlineCoursesMenus.EmploymentSupport,
                 l["Menu:EmploymentSupport"],
-                "~/Employment-Support",
+                "~/EmploymentSupports",
                 order: 4
             )
         );
@@ -143,6 +143,22 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 // icon: "fa-solid fa-file-excel",
                 order: 10,
                 requiredPermissionName: OnlineCoursesPermissions.Reports.Default
+            )
+        );
+
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                OnlineCoursesMenus.EmploymentSupportAdmin,
+                l["Menu:EmploymentSupportAdmin"],
+                url: "/EmploymentSupportAdmin"
+            )
+        );
+
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                OnlineCoursesMenus.AgentRegisterAdmin,
+                l["Menu:AgentRegisterAdmin"],
+                url: "/AgentRegisterAdmin"
             )
         );
 
