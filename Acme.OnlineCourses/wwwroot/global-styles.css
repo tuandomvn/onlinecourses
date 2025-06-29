@@ -38,11 +38,10 @@ body {
 .custom-navbar-brand {
     display: flex;
     align-items: center;
+    outline: none;
 }
 
 .brand-logo {
-/*    width: 48px;
-    height: 48px;*/
     margin-right: 0.75rem;
 }
 
@@ -239,4 +238,10 @@ body {
 
 .float-animation {
     animation: float 4s ease-in-out infinite;
+}
+
+@media (max-width: 700px) {
+    .brand-logo {
+        height: 40px;
+    }
 }

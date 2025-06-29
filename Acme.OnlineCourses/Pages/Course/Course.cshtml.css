@@ -1,6 +1,7 @@
 ﻿/* Course page specific styles */
 .course-hero {
-    padding: 60px 0 40px 0;
+    margin-top: 60px;
+    margin-bottom: 40px;
 }
 
 .course-label {
@@ -8,10 +9,19 @@
     font-weight: 700;
     font-size: 1.1rem;
     margin-bottom: 12px;
-    border-left: 3px solid #1eb6c1;
     padding-left: 12px;
     display: inline-block;
 }
+
+    .course-label:before {
+        content: '';
+        width: 30px;
+        height: 2px;
+        background-color: #1eb6c1;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
 
 .course-title {
     font-size: 3rem;
@@ -497,9 +507,7 @@
 }
 
 @media (max-width: 767px) {
-    .course-hero {
-        padding: 40px 0 30px 0;
-    }
+
 
     .course-title {
         font-size: 2rem;
@@ -579,5 +587,4 @@
         margin-bottom: 10px;
         margin-right: 0;
     }
-
 }
