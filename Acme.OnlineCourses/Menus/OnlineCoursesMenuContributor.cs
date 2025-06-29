@@ -150,7 +150,8 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             new ApplicationMenuItem(
                 OnlineCoursesMenus.EmploymentSupportAdmin,
                 l["Menu:EmploymentSupportAdmin"],
-                url: "/EmploymentSupportAdmin"
+                url: "/EmploymentSupportAdmin",
+                   order: 11
             )
         );
 
@@ -158,9 +159,20 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             new ApplicationMenuItem(
                 OnlineCoursesMenus.AgentRegisterAdmin,
                 l["Menu:AgentRegisterAdmin"],
-                url: "/AgentRegisterAdmin"
+                url: "/AgentRegisterAdmin",
+                  order: 12
             )
         );
+
+
+        context.Menu.AddItem(
+           new ApplicationMenuItem(
+               OnlineCoursesMenus.Home,
+               l["Menu:Login"],
+               url: "/Account/Login",
+               order: 20
+           )
+       );
 
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 2);
