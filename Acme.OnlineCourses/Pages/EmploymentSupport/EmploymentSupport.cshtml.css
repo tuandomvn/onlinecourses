@@ -1,0 +1,53 @@
+.employment-support-page {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #ffffff;
+}
+
+.subtitle {
+    color: #1eb6c1;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    position: relative;
+    display: inline-block;
+}
+
+    .subtitle::before {
+        content: '';
+        width: 30px;
+        height: 2px;
+        background-color: #1eb6c1;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+.main-heading {
+    color: #003366;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 25px;
+}
+
+p {
+    color: #333;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+@media (max-width: 991.98px) {
+    .main-heading {
+        font-size: 36px;
+    }
+    
+    p {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .main-heading {
+        font-size: 30px;
+    }
+}
