@@ -20,10 +20,12 @@
                 height: 36px;
             }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css" rel="stylesheet">
 }
 @section scripts {
     <abp-script src="/Pages/Partner/Partner.cshtml.js" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#locationFilter').select2({
@@ -31,10 +33,80 @@
                 allowClear: false,
                 width: '100%'
             });
-            
+
             // When select2 changes, submit the form
             $('#locationFilter').on('change', function() {
                 $('#filterForm').submit();
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#partnerForm').submit(function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                var formData = {
+                    PartnerApplication: {
+                        FullName: $('#fullName').val(),
+                        PhoneNumber: $('#phone').val(),
+                        Email: $('#email').val(),
+                        Address: $('#address').val(),
+                        OrganizationName: $('#orgName').val(),
+                        Position: $('#position').val(),
+                        Message: $('#message').val()
+                    }
+                };
+                
+                // Show loading state
+                var $btn = $('.btn-register').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...');
+                
+                // Send AJAX request
+                $.ajax({
+                    url: '/Partner?handler=Register',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Show success message
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: 'Đăng ký đối tác thành công. Chúng tôi sẽ liên hệ với bạn sớm.',
+                                icon: 'success',
+                                confirmButtonText: 'Đóng'
+                            });
+                            
+                            // Reset form
+                            $('#partnerForm')[0].reset();
+                        } else {
+                            // Show error message
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: response.message || 'Có lỗi xảy ra, vui lòng thử lại.',
+                                icon: 'error',
+                                confirmButtonText: 'Đóng'
+                            });
+                        }
+                    },
+                    error: function() {
+                        // Show error message
+                        Swal.fire({
+                            title: 'Lỗi!',
+                            text: 'Có lỗi xảy ra khi gửi thông tin, vui lòng thử lại.',
+                            icon: 'error',
+                            confirmButtonText: 'Đóng'
+                        });
+                    },
+                    complete: function() {
+                        // Restore button state
+                        $btn.prop('disabled', false).text('Đăng ký ngay');
+                    }
+                });
             });
         });
     </script>
@@ -105,5 +177,157 @@
         </div>
     </div>
 </div>
+
+
+<div class="become-partner-page">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="text-center mb-4">
+                    <p class="subtitle">Trở thành một phần của chúng tôi</p>
+                    <h1 class="main-title">Trở thành đối tác của chúng tôi</h1>
+                </div>
+
+                <div class="description text-center mb-5">
+                    <p>TESOL Channel mong muốn hợp tác với các trung tâm, trường học uy tín, tập trung vào chất lượng để phân phối các chương trình TESOL Online của LTI Australia không chỉ trên khắp Việt Nam mà còn vươn xa hơn nữa. Bằng cách làm việc cùng nhau, chúng ta tạo ra những cơ hội để phát triển, thích nghi và thành công trong lĩnh vực giáo dục tiếng Anh đầy biến động.</p>
+                </div>
+
+                <div class="partner-form-container">
+                    <form id="partnerForm" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Họ & Tên</label>
+                            <input type="text" class="form-control" id="fullName" placeholder="Nhập Họ & Tên" required>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="phone" class="form-label">Số điện thoại</label>
+                                <input type="tel" class="form-control" id="phone" placeholder="Nhập tên tổ chức" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Nhập tên chức vụ của bạn" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Địa chỉ</label>
+                            <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ" required>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="orgName" class="form-label">Tên tổ chức</label>
+                                <input type="text" class="form-control" id="orgName" placeholder="Nhập tên tổ chức" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="position" class="form-label">Chức vụ</label>
+                                <input type="text" class="form-control" id="position" placeholder="Nhập tên chức vụ của bạn" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="message" class="form-label">Tin nhắn</label>
+                            <textarea class="form-control" id="message" rows="5" placeholder="Nhập nội dung" required></textarea>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-register">Đăng ký ngay</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .become-partner-page {
+        background-color: #f0f7ff;
+        min-height: calc(100vh - 180px);
+        padding: 40px 0;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .main-title {
+        color: #0a2463;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+    }
+
+    .description {
+        color: #465670;
+        line-height: 1.7;
+        font-size: 1rem;
+    }
+
+    .partner-form-container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #343a40;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        padding: 0.75rem 1rem;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+
+        .form-control:focus {
+            border-color: #0056b3;
+            box-shadow: 0 0 0 0.2rem rgba(0, 86, 179, 0.15);
+        }
+
+    .btn-register {
+        background-color: #0a3b7d;
+        border: none;
+        padding: 0.75rem 2.5rem;
+        font-weight: 600;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-register:hover {
+            background-color: #072c5e;
+            transform: translateY(-2px);
+        }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .main-title {
+            font-size: 2rem;
+        }
+
+        .partner-form-container {
+            padding: 20px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .main-title {
+            font-size: 1.75rem;
+        }
+
+        .become-partner-page {
+            padding: 20px 0;
+        }
+    }
+</style>
+
+
 
 @await Html.PartialAsync("_Footer")

@@ -19,6 +19,10 @@ public class PartnerModel : AbpPageModel
 
     [BindProperty(SupportsGet = true)]
     public string SelectedLocationId { get; set; }
+
+    [BindProperty]
+    public PartnerApplicationViewModel PartnerApplication { get; set; }
+
     public async Task OnGetAsync()
     {
         Locations = new List<SelectListItem>
@@ -112,4 +116,56 @@ public class PartnerModel : AbpPageModel
         }
 
     }
+
+    public async Task<JsonResult> OnPostRegisterAsync([FromBody] PartnerRegistrationRequest request)
+    {
+        try
+        {
+            var agency = new Agency
+            {
+                Name = request.PartnerApplication.OrganizationName,
+                Description = request.PartnerApplication.Message,
+                ContactEmail = request.PartnerApplication.Email,
+                ContactPhone = request.PartnerApplication.PhoneNumber,
+                Address = request.PartnerApplication.Address,
+                Status = AgencyStatus.Inactive, // Set as pending until approved
+                CommissionPercent = 0,
+                Code = GenerateAgencyCode(request.PartnerApplication.OrganizationName)
+            };
+            
+            await _agencytRepository.InsertAsync(agency);
+
+            return new JsonResult(new { success = true });
+        }
+        catch (System.Exception ex)
+        {
+            return new JsonResult(new
+            {
+                success = false,
+                message = ex.Message
+            });
+        }
+    }
+
+    private string GenerateAgencyCode(string organizationName)
+    {
+        // Generate a unique code for the agency based on the organization name
+        return $"{organizationName.Substring(0, Math.Min(5, organizationName.Length)).ToUpper()}-{Guid.NewGuid().ToString().Substring(0, 8)}";
+    }
+}
+
+public class PartnerApplicationViewModel
+{
+    public string FullName { get; set; }
+    public string PhoneNumber { get; set; }
+    public string Email { get; set; }
+    public string Address { get; set; }
+    public string OrganizationName { get; set; }
+    public string Position { get; set; }
+    public string Message { get; set; }
+}
+
+public class PartnerRegistrationRequest
+{
+    public PartnerApplicationViewModel PartnerApplication { get; set; }
 }
