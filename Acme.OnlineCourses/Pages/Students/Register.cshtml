@@ -10,9 +10,129 @@
 
 @section styles {
     <abp-style src="/Pages/Students/Register.cshtml.css" />
+    <style>
+        /* Registration form styling - Section 3 */
+        .registration-section {
+            background-color: #f0f8ff;
+            padding: 60px 0;
+        }
+
+        .registration-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .registration-title {
+            color: #103c6d;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .registration-subtitle {
+            color: #555;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .registration-form {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                font-weight: 500;
+                display: block;
+                margin-bottom: 8px;
+                color: #333;
+            }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #d0d0d0;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+        }
+
+        .file-upload-button {
+            background-color: #34b4a1;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            margin: 15px 0;
+        }
+
+            .terms-checkbox input {
+                margin-top: 5px;
+                margin-right: 8px;
+            }
+
+        .submit-button {
+            background-color: #34b4a1;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            display: block;
+            width: 100%;
+            cursor: pointer;
+        }
+
+            
+    </style>
 }
 @section scripts {
     <abp-script src="/Pages/Students/Register.js" />
+
+    <script>
+                $(document).ready(function() {
+            // File upload button functionality
+            $("#fileUploadBtn").click(function() {
+                $("#attachments").click();
+            });
+
+            // Display selected files
+            $("#attachments").change(function() {
+                let fileNames = "";
+                for (let i = 0; i < this.files.length; i++) {
+                    fileNames += '<div>' + this.files[i].name + '</div>';
+                }
+                $("#fileList").html(fileNames);
+            });
+        });
+    </script>
 }
 
 
@@ -107,7 +227,7 @@
 
 
 <!-- Section 3-->
-<abp-card>      
+@* <abp-card>      
     <abp-card-header>
         <abp-card-title>@L["RegisterStudent"]</abp-card-title>
     </abp-card-header>
@@ -168,4 +288,141 @@
         </div>
     </div>
 </div> 
+ *@
 
+
+
+<!-- Section 3: Registration Form -->
+<section class="registration-section">
+    <div class="container registration-container">
+        <div class="registration-header">
+            <h2 class="registration-title">Đăng ký ngay</h2>
+            <p class="registration-subtitle">Đăng ký ngay tại đây hoặc liên hệ trung tâm đối tác gần nhất để được tư vấn và hỗ trợ đăng ký nhanh chóng.</p>
+        </div>
+
+        <div class="registration-form">
+            <form id="RegisterForm" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Student.FirstName">@L["FullName"]</label>
+                            <input asp-for="Student.FirstName" class="form-control" placeholder="Nhập Họ & Tên" required="required" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Student.DateOfBirth">@L["DateOfBirth"]</label>
+                            <input asp-for="Student.DateOfBirth" class="form-control" type="date" placeholder="Nhập ngày sinh" required="required" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Student.PhoneNumber">@L["PhoneNumber"]</label>
+                            <input asp-for="Student.PhoneNumber" class="form-control" placeholder="Nhập tên tổ chức" required="required" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Student.Email">@L["Email"]</label>
+                            <input asp-for="Student.Email" class="form-control" type="email" placeholder="Nhập tên chức vụ của bạn" required="required" readonly="@Model.IsLoggedIn" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Student.Address">@L["Address"]</label>
+                            <input asp-for="Student.Address" class="form-control" placeholder="Nhập địa chỉ" required="required" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Student.AgencyId">@L["Center"]</label>
+                            <select asp-for="Student.AgencyId" asp-items="Model.Agencies" class="form-control" required="required">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Student.StudentNote">@L["Note"]</label>
+                            <textarea asp-for="Student.StudentNote" class="form-control" rows="4" placeholder="Nhập nội dung"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>@L["Attachments"]</label>
+                            <div class="file-upload-area">
+                                <i class="fas fa-paperclip"></i> File đính kèm
+                                <div class="mt-2">
+                                    <button type="button" class="file-upload-button" id="fileUploadBtn">Chọn file</button>
+                                    <input type="file" class="custom-file-input d-none" id="attachments" multiple>
+                                </div>
+                            </div>
+                            <div id="fileList" class="mt-2"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="terms-checkbox">
+                            <input type="checkbox" id="AgreeToTermsCheckbox" class="form-check-input">
+                            <label class="form-check-label" for="AgreeToTermsCheckbox">Điều khoản & điều kiện: Click để xem/Click để đồng ý. <a href="javascript:void(0);" id="TermsLink" class="text-primary">Chi tiết</a></label>
+                        </div>
+                        <input type="hidden" asp-for="Student.AgreeToTerms" id="AgreeToTerms" />
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-6 col-xs-12 text-center">
+                        <button type="button" id="SaveButton" class="submit-button">Đăng ký ngay</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Terms Modal remains unchanged -->
+<div id="TermsModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@L["TermsAndConditions"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="TermsContent"></div>
+                <div class="form-group mt-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="AgreeToTermsCheckbox">
+                        <label class="custom-control-label" for="AgreeToTermsCheckbox">@L["IAgreeToTerms"]</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@L["Close"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_Footer")              
