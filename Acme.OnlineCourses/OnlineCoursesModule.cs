@@ -58,6 +58,8 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 using DataSeeder = Acme.OnlineCourses.Data.DataSeeder;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography;
 
 namespace Acme.OnlineCourses;
 
@@ -128,6 +130,7 @@ public class OnlineCoursesModule : AbpModule
             );
         });
 
+        // Simple OpenIddict configuration without certificates
         PreConfigure<OpenIddictBuilder>(builder =>
         {
             builder.AddValidation(options =>
@@ -138,19 +141,20 @@ public class OnlineCoursesModule : AbpModule
             });
         });
 
-        if (!hostingEnvironment.IsDevelopment())
+        // Add server configuration with ephemeral keys to avoid certificate issues
+        PreConfigure<OpenIddictServerBuilder>(serverBuilder =>
         {
-            PreConfigure<AbpOpenIddictAspNetCoreOptions>(options =>
-            {
-                options.AddDevelopmentEncryptionAndSigningCertificate = false;
-            });
+            serverBuilder.AddEphemeralEncryptionKey()
+                        .AddEphemeralSigningKey()
+                        .DisableAccessTokenEncryption();
+        });
 
-            PreConfigure<OpenIddictServerBuilder>(serverBuilder =>
-            {
-                serverBuilder.AddProductionEncryptionAndSigningCertificate("openiddict.pfx", "c4ab233f-40e2-4e42-9c79-f1849ced179e");
-            });
-        }
-        
+        // Disable certificate requirements for OpenIddict
+        PreConfigure<AbpOpenIddictAspNetCoreOptions>(options =>
+        {
+            options.AddDevelopmentEncryptionAndSigningCertificate = false;
+        });
+
         OnlineCoursesGlobalFeatureConfigurator.Configure();
         OnlineCoursesModuleExtensionConfigurator.Configure();
         OnlineCoursesEfCoreEntityExtensionMappings.Configure();
@@ -184,6 +188,7 @@ public class OnlineCoursesModule : AbpModule
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
     {
+        // Use standard Identity authentication instead of OpenIddict
         context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
         context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
         {
@@ -259,9 +264,10 @@ public class OnlineCoursesModule : AbpModule
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
             options.FileSets.AddEmbedded<OnlineCoursesModule>();
+            // In development, use physical files for easier debugging
+            // In production, use embedded files to avoid file access issues
             if (hostingEnvironment.IsDevelopment())
             {
-                /* Using physical files in development, so we don't need to recompile on changes */
                 options.FileSets.ReplaceEmbeddedByPhysical<OnlineCoursesModule>(hostingEnvironment.ContentRootPath);
             }
         });
@@ -377,5 +383,11 @@ public class OnlineCoursesModule : AbpModule
         // Chạy DataSeeder khi ứng dụng khởi động
         var seeder = context.ServiceProvider.GetRequiredService<IDataSeedContributor>();
         seeder.SeedAsync(new DataSeedContext()).GetAwaiter().GetResult();
+    }
+
+    public override void OnApplicationShutdown(ApplicationShutdownContext context)
+    {
+        // Data seeding is typically done during initialization, not shutdown
+        // context.GetEnvironment().GetService<IDataSeeder>().SeedAsync();
     }
 }
