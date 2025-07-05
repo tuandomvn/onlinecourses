@@ -264,12 +264,8 @@ public class OnlineCoursesModule : AbpModule
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
             options.FileSets.AddEmbedded<OnlineCoursesModule>();
-            // In development, use physical files for easier debugging
-            // In production, use embedded files to avoid file access issues
-            if (hostingEnvironment.IsDevelopment())
-            {
-                options.FileSets.ReplaceEmbeddedByPhysical<OnlineCoursesModule>(hostingEnvironment.ContentRootPath);
-            }
+            // Use physical files in both development and production to ensure localization works
+            options.FileSets.ReplaceEmbeddedByPhysical<OnlineCoursesModule>(hostingEnvironment.ContentRootPath);
         });
     }
 
