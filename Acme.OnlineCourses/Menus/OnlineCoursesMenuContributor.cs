@@ -3,9 +3,6 @@ using Acme.OnlineCourses.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.UI.Navigation;
-using Volo.Abp.Identity;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 using Volo.Abp.Users;
 
 namespace Acme.OnlineCourses.Menus;
@@ -35,8 +32,6 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 order: 0
             )
         );
-
-
 
         // About Us menu - chỉ hiển thị cho anonymous và student
         var currentUser = context.ServiceProvider.GetRequiredService<ICurrentUser>();
@@ -227,7 +222,9 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             );
         }
 
-        administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
-        administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 2);
+        //administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
+        //administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 2);
+        // Ẩn hoàn toàn menu Administration cho tất cả role
+        //administration.Items.Clear();
     }
 }
