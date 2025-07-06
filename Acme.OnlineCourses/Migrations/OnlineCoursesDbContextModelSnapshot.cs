@@ -346,14 +346,8 @@ namespace Acme.OnlineCourses.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("AccountStatus")
-                        .HasColumnType("int");
-
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("AdminNote")
                         .HasColumnType("longtext");
 
                     b.Property<Guid?>("AgencyId")
@@ -390,10 +384,10 @@ namespace Acme.OnlineCourses.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
-                    b.Property<string>("FirstName")
+                    b.Property<string>("Fullname")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("tinyint(1)");
@@ -406,24 +400,10 @@ namespace Acme.OnlineCourses.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<int>("PaymentStatus")
-                        .HasColumnType("int");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("varchar(32)");
-
-                    b.Property<string>("StudentNote")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("TestStatus")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -471,13 +451,19 @@ namespace Acme.OnlineCourses.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("AdminNote")
+                        .HasColumnType("longtext");
+
                     b.Property<Guid>("CourseId")
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("CourseNote")
-                        .HasColumnType("longtext");
-
                     b.Property<int>("CourseStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ExpectedStudyDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("PaymentStatus")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("RegistrationDate")
@@ -485,6 +471,12 @@ namespace Acme.OnlineCourses.Migrations
 
                     b.Property<Guid>("StudentId")
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("StudentNote")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("TestStatus")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

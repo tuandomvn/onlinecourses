@@ -69,8 +69,7 @@ public class StudentAppService : CrudAppService<
         if (!string.IsNullOrWhiteSpace(input.Filter))
         {
             query = query.Where(x =>
-                x.FirstName.Contains(input.Filter) ||
-                x.LastName.Contains(input.Filter) ||
+                x.Fullname.Contains(input.Filter) ||
                 x.Email.Contains(input.Filter) ||
                 x.PhoneNumber.Contains(input.Filter)
             );
@@ -103,20 +102,15 @@ public class StudentAppService : CrudAppService<
             query = query.Where(x => x.AgencyId == input.AgencyId.Value);
         }
 
-        if (input.TestStatus.HasValue)
-        {
-            query = query.Where(x => x.TestStatus == input.TestStatus.Value);
-        }
+        //if (input.TestStatus.HasValue)
+        //{
+        //    query = query.Where(x => x.TestStatus == input.TestStatus.Value);
+        //}
 
-        if (input.PaymentStatus.HasValue)
-        {
-            query = query.Where(x => x.PaymentStatus == input.PaymentStatus.Value);
-        }
-
-        if (input.AccountStatus.HasValue)
-        {
-            query = query.Where(x => x.AccountStatus == input.AccountStatus.Value);
-        }
+        //if (input.PaymentStatus.HasValue)
+        //{
+        //    query = query.Where(x => x.PaymentStatus == input.PaymentStatus.Value);
+        //}
 
         if (input.CourseStatus.HasValue)
         {
@@ -144,21 +138,19 @@ public class StudentAppService : CrudAppService<
 
         var student = new Student
         {
-            FirstName = input.FirstName,
-            LastName = input.LastName,
+            Fullname = input.FirstName + " " + input.LastName,
             Email = input.Email,
             PhoneNumber = input.PhoneNumber,
             DateOfBirth = input.DateOfBirth,
             Address = input.Address,
             AgencyId = input.AgencyId,
-            AgreeToTerms = input.AgreeToTerms,
-            StudentNote = input.StudentNote,
+            AgreeToTerms = input.AgreeToTerms
         };
 
         await _studentRepository.InsertAsync(student, autoSave: true);
 
         // Get first course and create StudentCourse record
-        await InsertStudentCourse(student);
+        await InsertStudentCourse(student, input);
 
         // Handle file uploads if any
         if (files != null && files.Any())
@@ -201,7 +193,7 @@ public class StudentAppService : CrudAppService<
         return ObjectMapper.Map<Student, StudentDto>(student);
     }
 
-    private async Task InsertStudentCourse(Student student)
+    private async Task InsertStudentCourse(Student student, RegisterStudentDto input)
     {
         var firstCourse = await _courseRepository.FirstOrDefaultAsync();
         if (firstCourse != null)
@@ -211,8 +203,9 @@ public class StudentAppService : CrudAppService<
                 StudentId = student.Id,
                 CourseId = firstCourse.Id,
                 RegistrationDate = DateTime.Now,
+                ExpectedStudyDate = input.ExpectedStudyDate.HasValue ? input.ExpectedStudyDate.Value : DateTime.MinValue,
                 CourseStatus = StudentCourseStatus.Inprogress,
-                CourseNote = "TBD"
+                StudentNote = input.StudentNote ?? "TBD"
             };
             student.Courses.Add(studentCourse);
             await _studentRepository.UpdateAsync(student);
@@ -331,8 +324,7 @@ public class StudentAppService : CrudAppService<
         var student = await _studentRepository.GetAsync(id);
 
         // Update only allowed fields
-        student.FirstName = input.FirstName;
-        student.LastName = input.LastName;
+        student.Fullname = input.FirstName + " " + input.LastName;
         student.PhoneNumber = input.PhoneNumber;
         student.DateOfBirth = input.DateOfBirth;
         student.Address = input.Address;
@@ -378,8 +370,7 @@ public class StudentAppService : CrudAppService<
         var student = await _studentRepository.GetAsync(input.Id);
 
         // Update only allowed fields
-        student.FirstName = input.FirstName;
-        student.LastName = input.LastName;
+        student.Fullname = input.FirstName + " " + input.LastName;
         student.PhoneNumber = input.PhoneNumber;
         student.DateOfBirth = input.DateOfBirth;
         student.Address = input.Address;
@@ -426,5 +417,4 @@ public class StudentAppService : CrudAppService<
 
         return ObjectMapper.Map<Student, StudentDto>(student);
     }
-
 }

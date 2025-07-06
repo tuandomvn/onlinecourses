@@ -34,13 +34,10 @@ public class OnlineCoursesAutoMapperProfile : Profile
         CreateMap<AgencyDto, CreateUpdateAgencyDto>();
 
         CreateMap<Student, StudentDto>()
-            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
             ;
         CreateMap<Student, ProfileStudentDto>()
-            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
             ;
         CreateMap<Student, AdminViewStudentDto>()
-            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
             ;
 
         CreateMap<Course, CourseDto>();

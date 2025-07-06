@@ -36,13 +36,9 @@ public static class OnlineCoursesDbContextModelCreatingExtensions
             b.ToTable("Students", OnlineCoursesConsts.DbSchema);
             b.ConfigureByConvention();
 
-            b.Property(x => x.FirstName)
+            b.Property(x => x.Fullname)
                 .IsRequired()
-                .HasMaxLength(128);
-
-            b.Property(x => x.LastName)
-                .IsRequired()
-                .HasMaxLength(128);
+                .HasMaxLength(500);
 
             b.Property(x => x.Email)
                 .IsRequired()

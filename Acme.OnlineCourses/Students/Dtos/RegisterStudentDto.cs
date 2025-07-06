@@ -24,6 +24,7 @@ public class RegisterStudentDto
     public string PhoneNumber { get; set; }
 
     public DateTime? DateOfBirth { get; set; }
+    public DateTime? ExpectedStudyDate { get; set; }
 
     [Required]
     [StringLength(512)]
