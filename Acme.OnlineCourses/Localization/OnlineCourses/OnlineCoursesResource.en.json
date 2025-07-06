@@ -12,6 +12,8 @@
     "Menu:Partner": "Partners",
     "Menu:Contact": "Contact",
     "Menu:EmploymentSupport": "Employment Support",
+    "Menu:EmploymentSupportAdmin": "EmploymentSupportAdmin",
+    "Menu:AgentRegisterAdmin": "AgentRegisterAdmin",
     "Menu:Students:Register": "Register",
     "Menu:Students:List": "Students List",
     "Menu:Students:Profile": "Profile",

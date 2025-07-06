@@ -3,6 +3,10 @@ using Acme.OnlineCourses.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.UI.Navigation;
+using Volo.Abp.Identity;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Volo.Abp.Users;
 
 namespace Acme.OnlineCourses.Menus;
 
@@ -32,62 +36,84 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             )
         );
 
-        context.Menu.AddItem(
-           new ApplicationMenuItem(
-               OnlineCoursesMenus.Course,
-               l["Menu:Course"],
-               "~/Course",
-               order: 2
-           )
-       );
-
-        // Register menu - public access
-        context.Menu.AddItem(
-            new ApplicationMenuItem(
-                OnlineCoursesMenus.StudentsRegister,
-                l["Menu:Students:Register"],
-                url: "/Students/Register",
-                //icon: "fas fa-user-plus",
-                order: 3
-            )
-        );
-
-        context.Menu.AddItem(
-            new ApplicationMenuItem(
-                OnlineCoursesMenus.Partner,
-                l["Menu:Partner"],
-                "~/Partner",
-                order: 4
-            )
-        );
 
 
-        context.Menu.AddItem(
-            new ApplicationMenuItem(
-                OnlineCoursesMenus.EmploymentSupport,
-                l["Menu:EmploymentSupport"],
-                "~/EmploymentSupports",
-                order: 4
-            )
-        );
+        // About Us menu - chỉ hiển thị cho anonymous và student
+        var currentUser = context.ServiceProvider.GetRequiredService<ICurrentUser>();
+        
+        bool shouldShowAboutMenu = true;
+        
+        if (currentUser.IsAuthenticated)
+        {
+            // Ẩn menu homepage role admin hoặc agency
+            if (currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency)
+                || currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Administrator))
+            {
+                shouldShowAboutMenu = false;
+            }
+        }
+        
+        
+        if (shouldShowAboutMenu)
+        {
+            context.Menu.AddItem(
+               new ApplicationMenuItem(
+                   OnlineCoursesMenus.Course,
+                   l["Menu:Course"],
+                   "~/Course",
+                   order: 2
+               )
+            );
 
-        context.Menu.AddItem(
-            new ApplicationMenuItem(
-                OnlineCoursesMenus.About,
-                l["Menu:About"],
-                "~/About-Us",
-                order: 5
-            )
-        );
+            // Register menu - public access
+            context.Menu.AddItem(
+                new ApplicationMenuItem(
+                    OnlineCoursesMenus.StudentsRegister,
+                    l["Menu:Students:Register"],
+                    url: "/Students/Register",
+                    //icon: "fas fa-user-plus",
+                    order: 3
+                )
+            );
 
-        context.Menu.AddItem(
-           new ApplicationMenuItem(
-               OnlineCoursesMenus.Contact,
-               l["Menu:Contact"],
-               "~/Contact",
-               order: 6
-           )
-       );
+            context.Menu.AddItem(
+                new ApplicationMenuItem(
+                    OnlineCoursesMenus.Partner,
+                    l["Menu:Partner"],
+                    "~/Partner",
+                    order: 4
+                )
+            );
+
+            context.Menu.AddItem(
+                new ApplicationMenuItem(
+                    OnlineCoursesMenus.About,
+                    l["Menu:About"],
+                    "~/About-Us",
+                    order: 5
+                )
+            );
+
+            context.Menu.AddItem(
+                new ApplicationMenuItem(
+                    OnlineCoursesMenus.EmploymentSupport,
+                    l["Menu:EmploymentSupport"],
+                    "~/EmploymentSupports",
+                    order: 6
+                )
+            );
+
+            context.Menu.AddItem(
+               new ApplicationMenuItem(
+                   OnlineCoursesMenus.Contact,
+                   l["Menu:Contact"],
+                   "~/Contact",
+                   order: 7
+               )
+            );
+        }
+
+
 
         // Register menu - public access
         context.Menu.AddItem(
@@ -96,8 +122,8 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 l["Menu:Students:Profile"],
                 url: "/Students/Profile",
                 // icon: "fa-solid fa-address-card",
-                order: 6,
-                   requiredPermissionName: OnlineCoursesPermissions.Students.Default
+                order: 8,
+                requiredPermissionName: OnlineCoursesPermissions.Students.Default
             )
         );
 
@@ -108,7 +134,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 l["Menu:Students:List"],
                 url: "/Students",
                 // icon: "fas fa-list",
-                order: 7,
+                order: 9,
                 requiredPermissionName: OnlineCoursesPermissions.Students.Default
             )
         );
@@ -119,7 +145,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 l["Menu:Agencies"],
                 url: "/Agencies",
                 // icon: "fas fa-building",
-                order: 8,
+                order: 10,
                 requiredPermissionName: OnlineCoursesPermissions.Agencies.Default
             )
         );
@@ -130,7 +156,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 l["Menu:Blogs"],
                 url: "/Blogs",
                 // icon: "fas fa-blog",
-                order: 9,
+                order: 11,
                 requiredPermissionName: OnlineCoursesPermissions.Blogs.Default
             )
         );
@@ -141,7 +167,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 l["Menu:Report"],
                 url: "/Reports",
                 // icon: "fa-solid fa-file-excel",
-                order: 10,
+                order: 12,
                 requiredPermissionName: OnlineCoursesPermissions.Reports.Default
             )
         );
@@ -151,7 +177,8 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 OnlineCoursesMenus.EmploymentSupportAdmin,
                 l["Menu:EmploymentSupportAdmin"],
                 url: "/EmploymentSupportAdmin",
-                   order: 11
+                order: 13,
+                requiredPermissionName: OnlineCoursesPermissions.Reports.Default
             )
         );
 
@@ -160,7 +187,8 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 OnlineCoursesMenus.AgentRegisterAdmin,
                 l["Menu:AgentRegisterAdmin"],
                 url: "/AgentRegisterAdmin",
-                  order: 12
+                order: 14,
+                requiredPermissionName: OnlineCoursesPermissions.Reports.Default
             )
         );
 
@@ -170,7 +198,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                OnlineCoursesMenus.Home,
                l["Menu:Login"],
                url: "/Account/Login",
-               order: 20
+               order: 15
            )
        );
 
