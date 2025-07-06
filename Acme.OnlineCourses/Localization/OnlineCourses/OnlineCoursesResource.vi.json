@@ -126,6 +126,9 @@
     "AllCourseStatuses": "Tất cả trạng thái",
     "CourseStatus": "Trạng thái khóa học",
     "FilterByAgency": "Lọc theo đại lý",
-    "AllAgencies": "Tất cả đại lý"
+    "AllAgencies": "Tất cả đại lý",
+    "PleaseAgreeToTerms": "Vui lòng đồng ý với điều khoản và điều kiện trước khi đăng ký!",
+    "Notification": "Thông báo",
+    "StudentRegisteredSuccessfully": "Đăng ký học viên thành công!"
   }
 } 

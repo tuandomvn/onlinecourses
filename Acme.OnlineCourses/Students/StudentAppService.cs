@@ -107,9 +107,9 @@ public class StudentAppService : CrudAppService<
         };
 
         await _studentRepository.InsertAsync(student, autoSave: true);
+        var firstCourse = await _courseRepository.FirstOrDefaultAsync();
 
         // Get first course and create StudentCourse record
-        var firstCourse = await _courseRepository.FirstOrDefaultAsync();
         await InsertStudentCourse(student, input, firstCourse);
 
         // Handle file uploads if any

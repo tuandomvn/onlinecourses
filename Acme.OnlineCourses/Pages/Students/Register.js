@@ -35,19 +35,23 @@ $(function () {
             return;
         }
 
+        // Kiểm tra đồng ý điều khoản
+        if (!_$agreeToTermsCheckbox.is(':checked')) {
+            toastr.error(l('PleaseAgreeToTerms'), l('Notification'));
+            return;
+        }
+
         var formData = new FormData();
         
         // Add form fields to FormData
-        formData.append('FirstName', $('#Student_FirstName').val());
-        formData.append('LastName', $('#Student_LastName').val());
+        formData.append('Fullname', $('#Student_Fullname').val());
         formData.append('Email', $('#Student_Email').val());
         formData.append('PhoneNumber', $('#Student_PhoneNumber').val());
         formData.append('DateOfBirth', $('#Student_DateOfBirth').val());
-        formData.append('IdentityNumber', $('#Student_IdentityNumber').val());
+        formData.append('ExpectedStudyDate', $('#Student_ExpectedStudyDate').val() || '');
         formData.append('Address', $('#Student_Address').val());
         formData.append('StudentNote', $('#Student_StudentNote').val() || '');
         formData.append('AgencyId', $('#Student_AgencyId').val());
-        formData.append('CourseId', $('#Student_CourseId').val());
         formData.append('AgreeToTerms', _$agreeToTerms.val());
         
         // Add files to formData
@@ -67,8 +71,11 @@ $(function () {
             processData: false,
             contentType: false
         }).done(function () {
-            abp.notify.info(l('StudentRegisteredSuccessfully'));
-            window.location.href = '/Students/Profile';
+            toastr.success(l('StudentRegisteredSuccessfully'), l('Notification'));
+            // Delay redirect để user có thể thấy thông báo
+            setTimeout(function() {
+                window.location.href = '/Students/Profile';
+            }, 2000);
         }).always(function () {
             abp.ui.clearBusy(_$form);
         });

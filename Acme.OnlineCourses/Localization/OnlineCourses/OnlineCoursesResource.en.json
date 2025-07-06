@@ -130,6 +130,9 @@
     "AllCourseStatuses": "All Course Statuses",
     "CourseStatus": "Course Status",
     "FilterByAgency": "Filter by Agency",
-    "AllAgencies": "All Agencies"
+    "AllAgencies": "All Agencies",
+    "PleaseAgreeToTerms": "Please agree to the terms and conditions before registering!",
+    "Notification": "Notification",
+    "StudentRegisteredSuccessfully": "Student registered successfully!"
   }
 } 

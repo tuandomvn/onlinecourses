@@ -114,10 +114,16 @@
     </style>
 }
 @section scripts {
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
     <abp-script src="/Pages/Students/Register.js" />
 
     <script>
-                $(document).ready(function() {
+        $(document).ready(function() {
             // File upload button functionality
             $("#fileUploadBtn").click(function() {
                 $("#attachments").click();
