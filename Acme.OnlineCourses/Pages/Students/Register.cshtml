@@ -305,17 +305,23 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label asp-for="Student.FirstName">@L["FullName"]</label>
-                            <input asp-for="Student.FirstName" class="form-control" placeholder="Nhập Họ & Tên" required="required" />
+                            <label asp-for="Student.Fullname">@L["FullName"]</label>
+                            <input asp-for="Student.Fullname" class="form-control" placeholder="Nhập Họ & Tên" required="required" />
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Student.DateOfBirth">@L["DateOfBirth"]</label>
                             <input asp-for="Student.DateOfBirth" class="form-control" type="date" placeholder="Nhập ngày sinh" required="required" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Student.ExpectedStudyDate">@L["ExpectedStudyDate"]</label>
+                            <input asp-for="Student.ExpectedStudyDate" class="form-control" type="date" placeholder="Chọn ngày bắt đầu học" />
                         </div>
                     </div>
                 </div>

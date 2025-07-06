@@ -97,7 +97,7 @@ public class StudentAppService : CrudAppService<
 
         var student = new Student
         {
-            Fullname = input.FirstName + " " + input.LastName,
+            Fullname = input.Fullname,
             Email = input.Email,
             PhoneNumber = input.PhoneNumber,
             DateOfBirth = input.DateOfBirth,
@@ -109,7 +109,8 @@ public class StudentAppService : CrudAppService<
         await _studentRepository.InsertAsync(student, autoSave: true);
 
         // Get first course and create StudentCourse record
-        await InsertStudentCourse(student, input);
+        var firstCourse = await _courseRepository.FirstOrDefaultAsync();
+        await InsertStudentCourse(student, input, firstCourse);
 
         // Handle file uploads if any
         if (files != null && files.Any())
@@ -119,7 +120,7 @@ public class StudentAppService : CrudAppService<
                 if (file.Length > 0)
                 {
                     // Create upload directory if not exists
-                    var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString());
+                    var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString(), firstCourse.Id.ToString().Substring(0, 4));
                     if (!Directory.Exists(uploadDir))
                     {
                         Directory.CreateDirectory(uploadDir);
@@ -152,9 +153,8 @@ public class StudentAppService : CrudAppService<
         return ObjectMapper.Map<Student, StudentDto>(student);
     }
 
-    private async Task InsertStudentCourse(Student student, RegisterStudentDto input)
+    private async Task InsertStudentCourse(Student student, RegisterStudentDto input, Course firstCourse)
     {
-        var firstCourse = await _courseRepository.FirstOrDefaultAsync();
         if (firstCourse != null)
         {
             var studentCourse = new StudentCourse

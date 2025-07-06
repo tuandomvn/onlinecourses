@@ -62,6 +62,7 @@
     "Email": "Email",
     "PhoneNumber": "Phone Number",
     "DateOfBirth": "Date of Birth",
+    "ExpectedStudyDate": "Expected Study Date",
     "IdentityNumber": "Identity Number",
     "CourseName": "Course Name",
     "RegistrationDate": "Registration Date",
