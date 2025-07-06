@@ -7,6 +7,7 @@ using Acme.OnlineCourses.Students;
 using AutoMapper;
 using Acme.OnlineCourses.Courses;
 using Acme.OnlineCourses.Courses.Dtos;
+using System.Linq;
 
 namespace Acme.OnlineCourses.ObjectMapping;
 

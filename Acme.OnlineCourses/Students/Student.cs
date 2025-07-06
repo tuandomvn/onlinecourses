@@ -1,3 +1,4 @@
+using Acme.OnlineCourses.Courses;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -83,6 +84,7 @@ public class StudentCourse : Entity<Guid>
 {
     public Guid StudentId { get; set; }
     public Guid CourseId { get; set; }
+    public Course Course { get; set; }
     public DateTime RegistrationDate { get; set; }
     public DateTime ExpectedStudyDate { get; set; }
     public StudentCourseStatus CourseStatus { get; set; }

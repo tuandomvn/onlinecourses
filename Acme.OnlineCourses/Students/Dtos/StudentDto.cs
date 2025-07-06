@@ -5,15 +5,22 @@ using Volo.Abp.Application.Dtos;
 
 namespace Acme.OnlineCourses.Students.Dtos;
 
-//DTO n�y dung cho student view only
+//DTO này dung cho student view only
 public class ProfileStudentDto : StudentDto
 {
 }
 
-//DTO n�y dung cho admin view
+//DTO này dung cho admin view
 public class AdminViewStudentDto : StudentDto
 {
     public string? AdminNote { get; set; }
+    // Thêm các field từ StudentCourse để hiển thị trên index
+    public string? CourseName { get; set; }
+    public DateTime? RegistrationDate { get; set; }
+    public StudentCourseStatus? CourseStatus { get; set; }
+    public TestStatus? TestStatus { get; set; }
+    public PaymentStatus? CoursePaymentStatus { get; set; }
+    public string? CourseNote { get; set; }
 }
 
 
@@ -34,6 +41,18 @@ public class StudentDto : AuditedEntityDto<Guid>
     public string? StudentNote { get; set; }
     public List<StudentAttachmentDto> Attachments { get; set; }
     public List<StudentCourseDto> Courses { get; set; }
+
+    // Thêm các field từ StudentCourse để hiển thị trên index
+    [Obsolete]
+    public DateTime? RegistrationDate { get; set; }
+    [Obsolete]
+    public StudentCourseStatus? CourseStatus { get; set; }
+    [Obsolete]
+    public TestStatus? TestStatus { get; set; }
+    [Obsolete]
+    public PaymentStatus? CoursePaymentStatus { get; set; }
+    [Obsolete]
+    public string? CourseNote { get; set; }
 }
 
 public class StudentAttachmentDto

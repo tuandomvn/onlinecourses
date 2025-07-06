@@ -97,6 +97,7 @@
     "TermsAndConditions": "Terms and Conditions",
     "IAgreeToTerms": "I agree to the terms and conditions",
     "PleaseAgreeToTerms": "Please agree to the terms and conditions",
+    "AgreeToTerms": "Agree to Terms",
     "Accept": "Accept",
     "Close": "Close",
     "BlogNotFound": "Terms and conditions not found",
@@ -125,6 +126,7 @@
     "ErrorGeneratingReport": "Error generating report",
     "FilterByCourseStatus": "Filter by Course Status",
     "AllCourseStatuses": "All Course Statuses",
+    "CourseStatus": "Course Status",
     "FilterByAgency": "Filter by Agency",
     "AllAgencies": "All Agencies"
   }

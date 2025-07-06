@@ -31,6 +31,7 @@
     "Permission:Reports.Create": "Tạo báo cáo mới",
     "Permission:Reports.Edit": "Chỉnh sửa báo cáo",
     "Permission:Reports.Delete": "Xóa báo cáo",
+    "Permission:About": "Truy cập trang Giới thiệu",
     "Agencies": "Đại lý",
     "NewAgency": "Đại lý mới",
     "Code": "Mã",
@@ -122,6 +123,7 @@
     "ErrorGeneratingReport": "Lỗi khi tạo báo cáo",
     "FilterByCourseStatus": "Lọc theo trạng thái khóa học",
     "AllCourseStatuses": "Tất cả trạng thái",
+    "CourseStatus": "Trạng thái khóa học",
     "FilterByAgency": "Lọc theo đại lý",
     "AllAgencies": "Tất cả đại lý"
   }

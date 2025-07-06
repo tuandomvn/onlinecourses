@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using Acme.OnlineCourses.Courses;
+using Volo.Abp.Application.Dtos;
 
 namespace Acme.OnlineCourses.Students;
 
@@ -73,48 +74,6 @@ public class StudentAppService : CrudAppService<
                 x.Email.Contains(input.Filter) ||
                 x.PhoneNumber.Contains(input.Filter)
             );
-        }
-
-        //filter by user logged in and agency if applicable
-        if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email))
-        {
-            if(_currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
-            {
-                // Lấy agencyId
-                if (_currentUser != null && _userRepository != null)
-                {
-                    var agencyId = _currentUser.GetAgencyIdAsync(_userRepository);
-                    if (agencyId != null)
-                    {
-                        query = query.Where(x => x.AgencyId == agencyId);
-                    }
-                }
-            }
-        }
-        //else
-        //{
-        //    //No result
-        //    query = query.Where(x => x.AgencyId == Guid.NewGuid());
-        //}
-
-        if (input.AgencyId.HasValue)
-        {
-            query = query.Where(x => x.AgencyId == input.AgencyId.Value);
-        }
-
-        //if (input.TestStatus.HasValue)
-        //{
-        //    query = query.Where(x => x.TestStatus == input.TestStatus.Value);
-        //}
-
-        //if (input.PaymentStatus.HasValue)
-        //{
-        //    query = query.Where(x => x.PaymentStatus == input.PaymentStatus.Value);
-        //}
-
-        if (input.CourseStatus.HasValue)
-        {
-            query = query.Where(x => x.Courses.Any(c => c.CourseStatus == input.CourseStatus.Value));
         }
 
         return query;
@@ -319,50 +278,6 @@ public class StudentAppService : CrudAppService<
     }
 
     [Authorize(OnlineCoursesPermissions.Students.Default)]
-    public override async Task<StudentDto> UpdateAsync(Guid id, CreateUpdateStudentDto input)
-    {
-        var student = await _studentRepository.GetAsync(id);
-
-        // Update only allowed fields
-        student.Fullname = input.FirstName + " " + input.LastName;
-        student.PhoneNumber = input.PhoneNumber;
-        student.DateOfBirth = input.DateOfBirth;
-        student.Address = input.Address;
-
-        // Handle attachments
-        //if (input.Attachments != null && input.Attachments.Any())
-        //{
-        //    // Delete existing attachments that are not in the new list
-        //    var existingAttachments = await _attachmentRepository.GetListAsync(x => x.StudentId == id);
-        //    var attachmentsToDelete = existingAttachments.Where(x => !input.Attachments.Any(a => a.FilePath == x.FilePath));
-        //    foreach (var attachment in attachmentsToDelete)
-        //    {
-        //        await _attachmentRepository.DeleteAsync(attachment);
-        //    }
-
-        //    // Add new attachments
-        //    foreach (var attachmentDto in input.Attachments)
-        //    {
-        //        if (!existingAttachments.Any(x => x.FilePath == attachmentDto.FilePath))
-        //        {
-        //            var attachment = new StudentAttachment
-        //            {
-        //                StudentId = id,
-        //                FileName = attachmentDto.FileName,
-        //                FilePath = attachmentDto.FilePath,
-        //                Description = attachmentDto.Description
-        //            };
-        //            await _attachmentRepository.InsertAsync(attachment);
-        //        }
-        //    }
-        //}
-
-        await _studentRepository.UpdateAsync(student);
-
-        return ObjectMapper.Map<Student, StudentDto>(student);
-    }
-
-    //[Authorize]
     [HttpPost]
     [Route("api/app/student/update")]
     public async Task<StudentDto> UpdateStudentAsync([FromForm] UpdateStudentDto input, [FromForm] List<IFormFile> files)
@@ -416,5 +331,107 @@ public class StudentAppService : CrudAppService<
         }
 
         return ObjectMapper.Map<Student, StudentDto>(student);
+    }
+
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
+    public async Task<PagedResultDto<AdminViewStudentDto>> GetStudentsWithCoursesAsync(GetStudentListDto input)
+    {
+        var query = await _studentRepository.GetQueryableAsync();
+
+        // Include StudentCourse và Course để lấy thông tin khóa học
+        query = query.Include(x => x.Courses).ThenInclude(c => c.Course);
+
+        if (!string.IsNullOrWhiteSpace(input.Filter))
+        {
+            query = query.Where(x =>
+                x.Fullname.Contains(input.Filter) ||
+                x.Email.Contains(input.Filter) ||
+                x.PhoneNumber.Contains(input.Filter)
+            );
+        }
+
+        //filter by user logged in and agency if applicable
+        if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email))
+        {
+            if(_currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+            {
+                // Lấy agencyId
+                if (_currentUser != null && _userRepository != null)
+                {
+                    var agencyId = _currentUser.GetAgencyIdAsync(_userRepository);
+                    if (agencyId != null)
+                    {
+                        query = query.Where(x => x.AgencyId == agencyId);
+                    }
+                }
+            }
+        }
+
+        if (input.AgencyId.HasValue)
+        {
+            query = query.Where(x => x.AgencyId == input.AgencyId.Value);
+        }
+
+        if (input.CourseStatus.HasValue)
+        {
+            query = query.Where(x => x.Courses.Any(c => c.CourseStatus == input.CourseStatus.Value));
+        }
+
+        var totalCount = await query.CountAsync();
+        var students = await query
+            .Skip(input.SkipCount)
+            .Take(input.MaxResultCount)
+            .ToListAsync();
+
+        var dtos = new List<AdminViewStudentDto>();
+        foreach (var student in students)
+        {
+            if(student.Courses.Count > 0)
+            {
+                foreach (var course in student.Courses)
+                {
+                    dtos.Add(new AdminViewStudentDto
+                    {
+                        Id = student.Id,
+                        FullName = student.Fullname,
+                        Email = student.Email,
+                        PhoneNumber = student.PhoneNumber,
+                        Address = student.Address,
+                        DateOfBirth = student.DateOfBirth,
+                        AgreeToTerms = student.AgreeToTerms,
+                        RegistrationDate = course.RegistrationDate,
+                        CourseName = course.Course?.Name,
+                        CourseStatus = course.CourseStatus,
+                        TestStatus = course.TestStatus,
+                        PaymentStatus = course.PaymentStatus,
+                        CourseNote = course.StudentNote,
+                        AgencyId = student.AgencyId,
+                        CreationTime = student.CreationTime
+                    });
+                }
+            }
+            else
+            {
+                // Nếu student không có course nào, vẫn hiển thị với thông tin cơ bản
+                dtos.Add(new AdminViewStudentDto
+                {
+                    Id = student.Id,
+                    FullName = student.Fullname,
+                    Email = student.Email,
+                    PhoneNumber = student.PhoneNumber,
+                    Address = student.Address,
+                    DateOfBirth = student.DateOfBirth,
+                    AgreeToTerms = student.AgreeToTerms,
+                    AgencyId = student.AgencyId,
+                    CreationTime = student.CreationTime
+                });
+            }
+        }
+
+        return new PagedResultDto<AdminViewStudentDto>
+        {
+            TotalCount = totalCount,
+            Items = dtos
+        };
     }
 }
