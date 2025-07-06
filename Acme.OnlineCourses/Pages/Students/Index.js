@@ -6,7 +6,7 @@ $(function () {
             paging: true,
             order: [[4, "desc"]], // Sort by registration date by default
             searching: false,
-            ajax: abp.libs.datatables.createAjax(acme.onlineCourses.students.student.getList, function () {
+            ajax: abp.libs.datatables.createAjax(acme.onlineCourses.students.student.getStudentsWithCourses, function () {
                 return {
                     courseStatus: $('#CourseStatusFilter').val(),
                     agencyId: $('#AgencyFilter').val(),
@@ -29,28 +29,32 @@ $(function () {
                     title: l('RegistrationDate'),
                     data: "registrationDate",
                     render: function (data) {
-                        return moment(data).format('L');
+                        return data ? moment(data).format('L') : '';
+                    }
+                },
+                {
+                    title: l('CourseName'),
+                    data: "courseName"
+                },
+                {
+                    title: l('CourseStatus'),
+                    data: "courseStatus",
+                    render: function (data) {
+                        return data !== null ? l('Enum:StudentCourseStatus:' + data) : '';
                     }
                 },
                 {
                     title: l('TestStatus'),
                     data: "testStatus",
                     render: function (data) {
-                        return l('Enum:TestStatus:' + data);
+                        return data !== null ? l('Enum:TestStatus:' + data) : '';
                     }
                 },
                 {
                     title: l('PaymentStatus'),
                     data: "paymentStatus",
                     render: function (data) {
-                        return l('Enum:PaymentStatus:' + data);
-                    }
-                },
-                {
-                    title: l('AccountStatus'),
-                    data: "accountStatus",
-                    render: function (data) {
-                        return l('Enum:AccountStatus:' + data);
+                        return data !== null ? l('Enum:PaymentStatus:' + data) : '';
                     }
                 },
                 {
@@ -61,23 +65,26 @@ $(function () {
                                 {
                                     text: l('Edit'),
                                     action: function (data) {
-                                        editModal.open({ id: data.record.id });
+                                        editModal.open({ 
+                                            studentId: data.record.id, 
+                                            courseId: data.record.courseId 
+                                        });
                                     }
                                 },
-                                {
-                                    text: l('Delete'),
-                                    confirmMessage: function (data) {
-                                        return l('StudentDeletionConfirmationMessage', data.record.fullName);
-                                    },
-                                    action: function (data) {
-                                        acme.onlineCourses.students.student
-                                            .delete(data.record.id)
-                                            .then(function() {
-                                                abp.notify.info(l('SuccessfullyDeleted'));
-                                                dataTable.ajax.reload();
-                                            });
-                                    }
-                                }
+                                //{
+                                //    text: l('Delete'),
+                                //    confirmMessage: function (data) {
+                                //        return l('StudentDeletionConfirmationMessage', data.record.fullName);
+                                //    },
+                                //    action: function (data) {
+                                //        acme.onlineCourses.students.student
+                                //            .delete(data.record.id)
+                                //            .then(function() {
+                                //                abp.notify.info(l('SuccessfullyDeleted'));
+                                //                dataTable.ajax.reload();
+                                //            });
+                                //    }
+                                //}
                             ]
                     }
                 }

@@ -114,10 +114,16 @@
     </style>
 }
 @section scripts {
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
     <abp-script src="/Pages/Students/Register.js" />
 
     <script>
-                $(document).ready(function() {
+        $(document).ready(function() {
             // File upload button functionality
             $("#fileUploadBtn").click(function() {
                 $("#attachments").click();
@@ -226,69 +232,7 @@
 
 
 
-<!-- Section 3-->
-@* <abp-card>      
-    <abp-card-header>
-        <abp-card-title>@L["RegisterStudent"]</abp-card-title>
-    </abp-card-header>
-    <abp-card-body>
-        <form id="RegisterForm" enctype="multipart/form-data">
-            <abp-input asp-for="Student.FirstName" required="required" />
-            <abp-input asp-for="Student.LastName" required="required" />
-            <abp-input asp-for="Student.Email" required="required" type="email" readonly="@Model.IsLoggedIn" />
-            <abp-input asp-for="Student.PhoneNumber" required="required" />
-            <abp-input asp-for="Student.DateOfBirth" type="date" required="required" />
-            <abp-input asp-for="Student.Address" required="required" />
-            <div class="form-group">
-                <label asp-for="Student.StudentNote">@L["StudentNote"]</label>
-                <textarea asp-for="Student.StudentNote" class="form-control" rows="4"></textarea>
-            </div>
-            <abp-select asp-for="Student.AgencyId" asp-items="Model.Agencies" required="required" />
-            
-            <div class="form-group">
-                <label>@L["Attachments"]</label>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="attachments" multiple>
-                </div>
-                <div id="fileList" class="mt-2"></div>
-            </div>
 
-            <div class="form-group">
-                <a href="javascript:void(0);" id="TermsLink">@L["ReadTermsAndConditions"]</a>
-            </div>
-            <input type="hidden" asp-for="Student.AgreeToTerms" id="AgreeToTerms" />
-        </form>
-    </abp-card-body>
-    <abp-card-footer>
-        <abp-button button-type="Primary" text="@L["Save"]" id="SaveButton" />
-    </abp-card-footer>
-</abp-card>
-
-<div id="TermsModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">@L["TermsAndConditions"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="TermsContent"></div>
-                <div class="form-group mt-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="AgreeToTermsCheckbox">
-                        <label class="custom-control-label" for="AgreeToTermsCheckbox">@L["IAgreeToTerms"]</label>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@L["Close"]</button>
-            </div>
-        </div>
-    </div>
-</div> 
- *@
 
 
 
@@ -305,17 +249,23 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label asp-for="Student.FirstName">@L["FullName"]</label>
-                            <input asp-for="Student.FirstName" class="form-control" placeholder="Nhập Họ & Tên" required="required" />
+                            <label asp-for="Student.Fullname">@L["FullName"]</label>
+                            <input asp-for="Student.Fullname" class="form-control" placeholder="Nhập Họ & Tên" required="required" />
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Student.DateOfBirth">@L["DateOfBirth"]</label>
                             <input asp-for="Student.DateOfBirth" class="form-control" type="date" placeholder="Nhập ngày sinh" required="required" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Student.ExpectedStudyDate">@L["ExpectedStudyDate"]</label>
+                            <input asp-for="Student.ExpectedStudyDate" class="form-control" type="date" placeholder="Chọn ngày bắt đầu học" />
                         </div>
                     </div>
                 </div>
@@ -405,7 +355,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">@L["TermsAndConditions"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" id="ModalCloseBtn" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -413,13 +363,13 @@
                 <div id="TermsContent"></div>
                 <div class="form-group mt-3">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="AgreeToTermsCheckbox">
-                        <label class="custom-control-label" for="AgreeToTermsCheckbox">@L["IAgreeToTerms"]</label>
+                        <input type="checkbox" class="custom-control-input" id="ModalAgreeToTermsCheckbox">
+                        <label class="custom-control-label" for="ModalAgreeToTermsCheckbox">@L["IAgreeToTerms"]</label>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@L["Close"]</button>
+                <button type="button" class="btn btn-secondary" id="ModalFooterCloseBtn" data-dismiss="modal">@L["Close"]</button>
             </div>
         </div>
     </div>

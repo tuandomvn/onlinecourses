@@ -30,7 +30,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             new ApplicationMenuItem(
                 OnlineCoursesMenus.Home,
                 l["Menu:Home"],
-                "~/",
+                "~/Index",
                 // icon: "fas fa-home",
                 order: 0
             )
@@ -41,7 +41,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
         // About Us menu - chỉ hiển thị cho anonymous và student
         var currentUser = context.ServiceProvider.GetRequiredService<ICurrentUser>();
         
-        bool shouldShowAboutMenu = true;
+        bool shouldShowPublicMenu = true;
         
         if (currentUser.IsAuthenticated)
         {
@@ -49,12 +49,12 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             if (currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency)
                 || currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Administrator))
             {
-                shouldShowAboutMenu = false;
+                shouldShowPublicMenu = false;
             }
         }
         
         
-        if (shouldShowAboutMenu)
+        if (shouldShowPublicMenu)
         {
             context.Menu.AddItem(
                new ApplicationMenuItem(
@@ -111,21 +111,18 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                    order: 7
                )
             );
+
+            context.Menu.AddItem(
+                new ApplicationMenuItem(
+                    OnlineCoursesMenus.StudentsProfile,
+                    l["Menu:Students:Profile"],
+                    url: "/Students/Profile",
+                    // icon: "fa-solid fa-address-card",
+                    order: 8,
+                    requiredPermissionName: OnlineCoursesPermissions.Students.Default
+                )
+            );
         }
-
-
-
-        // Register menu - public access
-        context.Menu.AddItem(
-            new ApplicationMenuItem(
-                OnlineCoursesMenus.StudentsProfile,
-                l["Menu:Students:Profile"],
-                url: "/Students/Profile",
-                // icon: "fa-solid fa-address-card",
-                order: 8,
-                requiredPermissionName: OnlineCoursesPermissions.Students.Default
-            )
-        );
 
         // List menu - admin only
         context.Menu.AddItem(
@@ -182,25 +179,53 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             )
         );
 
-        context.Menu.AddItem(
-            new ApplicationMenuItem(
-                OnlineCoursesMenus.AgentRegisterAdmin,
-                l["Menu:AgentRegisterAdmin"],
-                url: "/AgentRegisterAdmin",
-                order: 14,
-                requiredPermissionName: OnlineCoursesPermissions.Reports.Default
-            )
-        );
+        //Remove luon menu nay
+        //context.Menu.AddItem(
+        //    new ApplicationMenuItem(
+        //        OnlineCoursesMenus.AgentRegisterAdmin,
+        //        l["Menu:AgentRegisterAdmin"],
+        //        url: "/AgentRegisterAdmin",
+        //        order: 14,
+        //        requiredPermissionName: OnlineCoursesPermissions.Reports.Default
+        //    )
+        //);
 
 
-        context.Menu.AddItem(
-           new ApplicationMenuItem(
-               OnlineCoursesMenus.Home,
-               l["Menu:Login"],
-               url: "/Account/Login",
-               order: 15
-           )
-       );
+        // Login/Logout menu - hiển thị dựa trên trạng thái đăng nhập
+        if (currentUser.IsAuthenticated)
+        {
+            // User đã đăng nhập - hiển thị Hello message và menu Logout
+            var fullName = currentUser.Name ?? currentUser.UserName ?? "User";
+            context.Menu.AddItem(
+                new ApplicationMenuItem(
+                    "HelloUser",
+                    $"{l["Hello"]}, {fullName}",
+                    url: "#",
+                    order: 14
+                )
+            );
+
+            context.Menu.AddItem(
+                new ApplicationMenuItem(
+                    "Logout",
+                    l["Menu:Logout"],
+                    url: "/Account/Logout",
+                    order: 15
+                )
+            );
+        }
+        else
+        {
+            // User chưa đăng nhập - hiển thị menu Login
+            context.Menu.AddItem(
+                new ApplicationMenuItem(
+                    "Login",
+                    l["Menu:Login"],
+                    url: "/Account/Login",
+                    order: 15
+                )
+            );
+        }
 
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 2);

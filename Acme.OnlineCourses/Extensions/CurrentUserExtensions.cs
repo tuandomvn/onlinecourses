@@ -19,14 +19,14 @@ public static class CurrentUserExtensions
         return await userRepository.FindAsync(currentUser.Id.Value);
     }
 
-    public static Guid? GetAgencyIdAsync(this ICurrentUser currentUser, IIdentityUserRepository userRepository)
+    public static async Task<Guid?> GetAgencyIdAsync(this ICurrentUser currentUser, IIdentityUserRepository userRepository)
     {
         if (currentUser == null || userRepository == null)
         {
             return null;
         }
 
-        var user = currentUser.GetUserAsync(userRepository).Result;
+        var user = await currentUser.GetUserAsync(userRepository);
         if (user == null)
         {
             return null;

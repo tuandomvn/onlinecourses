@@ -15,15 +15,13 @@
     <abp-modal>
         <abp-modal-header title="@L["Edit"].Value"></abp-modal-header>
         <abp-modal-body>
-            <input asp-for="Student.Id" />
-            <abp-input asp-for="Student.Email" />
-            <abp-input asp-for="Student.PhoneNumber" />
-            <abp-input asp-for="Student.DateOfBirth" type="date" />
-            <abp-input asp-for="Student.IdentityNumber" />
-            <abp-select asp-for="Student.TestStatus" asp-items="@Model.TestStatusList" />
-            <abp-select asp-for="Student.PaymentStatus" asp-items="@Model.PaymentStatusList" />
-            <abp-select asp-for="Student.AccountStatus" asp-items="@Model.AccountStatusList" />
-            <abp-select asp-for="Student.AgencyId" asp-items="@Model.AgencyList" />
+            <input asp-for="StudentCourse.StudentId" type="hidden" />
+            <input asp-for="StudentCourse.CourseId" type="hidden" />
+            <abp-select asp-for="StudentCourse.CourseStatus" asp-items="@Model.CourseStatusList" />
+            <abp-select asp-for="StudentCourse.TestStatus" asp-items="@Model.TestStatusList" />
+            <abp-select asp-for="StudentCourse.PaymentStatus" asp-items="@Model.PaymentStatusList" />
+            <abp-input asp-for="StudentCourse.StudentNote" />
+            <abp-input asp-for="StudentCourse.AdminNote" />
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
     </abp-modal>

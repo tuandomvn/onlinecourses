@@ -470,41 +470,29 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
         {
             new Student
             {
-                FirstName = "John",
-                LastName = "Doe",
+                Fullname = "John Doe",
                 Email = "john.doe@example.com",
                 PhoneNumber = "1234567890",
                 DateOfBirth = new DateTime(1990, 1, 1),
                 Address = "123 Main St, City",
-                TestStatus = TestStatus.NotTaken,
-                PaymentStatus = PaymentStatus.Paid,
-                AccountStatus = AccountStatus.NotSent,
                 AgreeToTerms = true
             },
             new Student
             {
-                FirstName = "Jane",
-                LastName = "Smith",
+                Fullname = "Jane Smith",
                 Email = "jane.smith@example.com",
                 PhoneNumber = "0987654321",
                 DateOfBirth = new DateTime(1992, 5, 15),
                 Address = "456 Oak St, Town",
-                TestStatus = TestStatus.NotTaken,
-                PaymentStatus = PaymentStatus.Paid,
-                AccountStatus = AccountStatus.NotSent,
                 AgreeToTerms = true
             },
             new Student
             {
-                FirstName = "Mike",
-                LastName = "Johnson",
+                Fullname = "Mike Johnson",
                 Email = "mike.johnson@example.com",
                 PhoneNumber = "5551234567",
                 DateOfBirth = new DateTime(1988, 12, 25),
                 Address = "789 Pine St, Village",
-                TestStatus = TestStatus.NotTaken,
-                PaymentStatus = PaymentStatus.Paid,
-                AccountStatus = AccountStatus.NotSent,
                 AgreeToTerms = true
             }
         };
@@ -564,29 +552,28 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
                 StudentId = students[0].Id,
                 CourseId = coursesData[0].Id,
                 RegistrationDate = DateTime.Now.AddDays(-30),
-                CourseNote = "Basic programming concepts and languages."
-            },
-            new StudentCourse
-            {
-                StudentId = students[0].Id,
-                CourseId = coursesData[0].Id,
-                RegistrationDate = DateTime.Now.AddDays(-20),
-                CourseNote= "Learn the fundamentals of web development."
+                StudentNote = "Basic programming concepts and languages.",
+                TestStatus = TestStatus.NotTaken,
+                PaymentStatus = PaymentStatus.Paid,
             },
             new StudentCourse
             {
                 StudentId = students[1].Id,
-                CourseId = coursesData[0].Id,
-                RegistrationDate = DateTime.Now.AddDays(-15),
-                CourseNote = "Deep dive into JavaScript programming."
+                CourseId = coursesData[1].Id,
+                RegistrationDate = DateTime.Now.AddDays(-20),
+                StudentNote= "Learn the fundamentals of web development.",
+                TestStatus = TestStatus.NotTaken,
+                PaymentStatus = PaymentStatus.Paid,
             },
             new StudentCourse
             {
                 StudentId = students[2].Id,
-                CourseId = coursesData[0].Id,
-                RegistrationDate = DateTime.Now.AddDays(-10),
-                CourseNote = "Learn how to design and manage databases."
-            }
+                CourseId = coursesData[1].Id,
+                RegistrationDate = DateTime.Now.AddDays(-15),
+                StudentNote = "Deep dive into JavaScript programming.",
+                TestStatus = TestStatus.NotTaken,
+                PaymentStatus = PaymentStatus.Paid,
+            },
         };
 
         foreach (var course in courses)

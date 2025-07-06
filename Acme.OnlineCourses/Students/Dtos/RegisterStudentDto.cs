@@ -7,11 +7,11 @@ public class RegisterStudentDto
 {
     [Required]
     [StringLength(128)]
-    public string FirstName { get; set; }
+    public string Fullname { get; set; }
 
-    [Required]
-    [StringLength(128)]
-    public string LastName { get; set; }
+    //[Required]
+    //[StringLength(128)]
+    //public string LastName { get; set; }
 
     [Required]
     [EmailAddress]
@@ -24,6 +24,7 @@ public class RegisterStudentDto
     public string PhoneNumber { get; set; }
 
     public DateTime? DateOfBirth { get; set; }
+    public DateTime? ExpectedStudyDate { get; set; }
 
     [Required]
     [StringLength(512)]

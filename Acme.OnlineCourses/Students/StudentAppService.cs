@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using Acme.OnlineCourses.Courses;
+using Volo.Abp.Application.Dtos;
 
 namespace Acme.OnlineCourses.Students;
 
@@ -69,58 +70,10 @@ public class StudentAppService : CrudAppService<
         if (!string.IsNullOrWhiteSpace(input.Filter))
         {
             query = query.Where(x =>
-                x.FirstName.Contains(input.Filter) ||
-                x.LastName.Contains(input.Filter) ||
+                x.Fullname.Contains(input.Filter) ||
                 x.Email.Contains(input.Filter) ||
                 x.PhoneNumber.Contains(input.Filter)
             );
-        }
-
-        //filter by user logged in and agency if applicable
-        if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email))
-        {
-            if(_currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
-            {
-                // Lấy agencyId
-                if (_currentUser != null && _userRepository != null)
-                {
-                    var agencyId = _currentUser.GetAgencyIdAsync(_userRepository);
-                    if (agencyId != null)
-                    {
-                        query = query.Where(x => x.AgencyId == agencyId);
-                    }
-                }
-            }
-        }
-        //else
-        //{
-        //    //No result
-        //    query = query.Where(x => x.AgencyId == Guid.NewGuid());
-        //}
-
-        if (input.AgencyId.HasValue)
-        {
-            query = query.Where(x => x.AgencyId == input.AgencyId.Value);
-        }
-
-        if (input.TestStatus.HasValue)
-        {
-            query = query.Where(x => x.TestStatus == input.TestStatus.Value);
-        }
-
-        if (input.PaymentStatus.HasValue)
-        {
-            query = query.Where(x => x.PaymentStatus == input.PaymentStatus.Value);
-        }
-
-        if (input.AccountStatus.HasValue)
-        {
-            query = query.Where(x => x.AccountStatus == input.AccountStatus.Value);
-        }
-
-        if (input.CourseStatus.HasValue)
-        {
-            query = query.Where(x => x.Courses.Any(c => c.CourseStatus == input.CourseStatus.Value));
         }
 
         return query;
@@ -144,21 +97,20 @@ public class StudentAppService : CrudAppService<
 
         var student = new Student
         {
-            FirstName = input.FirstName,
-            LastName = input.LastName,
+            Fullname = input.Fullname,
             Email = input.Email,
             PhoneNumber = input.PhoneNumber,
             DateOfBirth = input.DateOfBirth,
             Address = input.Address,
             AgencyId = input.AgencyId,
-            AgreeToTerms = input.AgreeToTerms,
-            StudentNote = input.StudentNote,
+            AgreeToTerms = input.AgreeToTerms
         };
 
         await _studentRepository.InsertAsync(student, autoSave: true);
+        var firstCourse = await _courseRepository.FirstOrDefaultAsync();
 
         // Get first course and create StudentCourse record
-        await InsertStudentCourse(student);
+        await InsertStudentCourse(student, input, firstCourse);
 
         // Handle file uploads if any
         if (files != null && files.Any())
@@ -168,7 +120,7 @@ public class StudentAppService : CrudAppService<
                 if (file.Length > 0)
                 {
                     // Create upload directory if not exists
-                    var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString());
+                    var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString(), firstCourse.Id.ToString().Substring(0, 4));
                     if (!Directory.Exists(uploadDir))
                     {
                         Directory.CreateDirectory(uploadDir);
@@ -201,9 +153,8 @@ public class StudentAppService : CrudAppService<
         return ObjectMapper.Map<Student, StudentDto>(student);
     }
 
-    private async Task InsertStudentCourse(Student student)
+    private async Task InsertStudentCourse(Student student, RegisterStudentDto input, Course firstCourse)
     {
-        var firstCourse = await _courseRepository.FirstOrDefaultAsync();
         if (firstCourse != null)
         {
             var studentCourse = new StudentCourse
@@ -211,8 +162,9 @@ public class StudentAppService : CrudAppService<
                 StudentId = student.Id,
                 CourseId = firstCourse.Id,
                 RegistrationDate = DateTime.Now,
+                ExpectedStudyDate = input.ExpectedStudyDate.HasValue ? input.ExpectedStudyDate.Value : DateTime.MinValue,
                 CourseStatus = StudentCourseStatus.Inprogress,
-                CourseNote = "TBD"
+                StudentNote = input.StudentNote ?? "TBD"
             };
             student.Courses.Add(studentCourse);
             await _studentRepository.UpdateAsync(student);
@@ -274,6 +226,12 @@ public class StudentAppService : CrudAppService<
     [Route("api/app/student/upload")]
     public async Task<StudentAttachmentDto> UploadAttachmentAsync([FromForm] Guid studentId, [FromForm] IFormFile file, [FromForm] string description)
     {
+        // Kiểm tra role - Agency không được phép upload
+        if (_currentUser.IsAuthenticated && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        {
+            throw new UserFriendlyException("Agency users are not allowed to upload attachments.");
+        }
+
         if (file == null || file.Length == 0)
         {
             throw new UserFriendlyException("File is empty");
@@ -310,8 +268,15 @@ public class StudentAppService : CrudAppService<
         return ObjectMapper.Map<StudentAttachment, StudentAttachmentDto>(attachment);
     }
 
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
     public async Task DeleteAttachmentAsync(Guid attachmentId)
     {
+        // Kiểm tra role - Agency không được phép delete
+        if (_currentUser.IsAuthenticated && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        {
+            throw new UserFriendlyException("Agency users are not allowed to delete attachments.");
+        }
+
         var attachment = await _attachmentRepository.GetAsync(attachmentId);
 
         // Delete file
@@ -326,60 +291,20 @@ public class StudentAppService : CrudAppService<
     }
 
     [Authorize(OnlineCoursesPermissions.Students.Default)]
-    public override async Task<StudentDto> UpdateAsync(Guid id, CreateUpdateStudentDto input)
-    {
-        var student = await _studentRepository.GetAsync(id);
-
-        // Update only allowed fields
-        student.FirstName = input.FirstName;
-        student.LastName = input.LastName;
-        student.PhoneNumber = input.PhoneNumber;
-        student.DateOfBirth = input.DateOfBirth;
-        student.Address = input.Address;
-
-        // Handle attachments
-        //if (input.Attachments != null && input.Attachments.Any())
-        //{
-        //    // Delete existing attachments that are not in the new list
-        //    var existingAttachments = await _attachmentRepository.GetListAsync(x => x.StudentId == id);
-        //    var attachmentsToDelete = existingAttachments.Where(x => !input.Attachments.Any(a => a.FilePath == x.FilePath));
-        //    foreach (var attachment in attachmentsToDelete)
-        //    {
-        //        await _attachmentRepository.DeleteAsync(attachment);
-        //    }
-
-        //    // Add new attachments
-        //    foreach (var attachmentDto in input.Attachments)
-        //    {
-        //        if (!existingAttachments.Any(x => x.FilePath == attachmentDto.FilePath))
-        //        {
-        //            var attachment = new StudentAttachment
-        //            {
-        //                StudentId = id,
-        //                FileName = attachmentDto.FileName,
-        //                FilePath = attachmentDto.FilePath,
-        //                Description = attachmentDto.Description
-        //            };
-        //            await _attachmentRepository.InsertAsync(attachment);
-        //        }
-        //    }
-        //}
-
-        await _studentRepository.UpdateAsync(student);
-
-        return ObjectMapper.Map<Student, StudentDto>(student);
-    }
-
-    //[Authorize]
     [HttpPost]
     [Route("api/app/student/update")]
     public async Task<StudentDto> UpdateStudentAsync([FromForm] UpdateStudentDto input, [FromForm] List<IFormFile> files)
     {
+        // Kiểm tra role - Agency không được phép update
+        if (_currentUser.IsAuthenticated && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        {
+            throw new UserFriendlyException("Agency users are not allowed to update student information.");
+        }
+
         var student = await _studentRepository.GetAsync(input.Id);
 
         // Update only allowed fields
-        student.FirstName = input.FirstName;
-        student.LastName = input.LastName;
+        student.Fullname = input.FirstName + " " + input.LastName;
         student.PhoneNumber = input.PhoneNumber;
         student.DateOfBirth = input.DateOfBirth;
         student.Address = input.Address;
@@ -427,4 +352,174 @@ public class StudentAppService : CrudAppService<
         return ObjectMapper.Map<Student, StudentDto>(student);
     }
 
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
+    public async Task<PagedResultDto<AdminViewStudentDto>> GetStudentsWithCoursesAsync(GetStudentListDto input)
+    {
+        var query = await _studentRepository.GetQueryableAsync();
+
+        // Include StudentCourse và Course để lấy thông tin khóa học
+        query = query.Include(x => x.Courses).ThenInclude(c => c.Course);
+
+        if (!string.IsNullOrWhiteSpace(input.Filter))
+        {
+            query = query.Where(x =>
+                x.Fullname.Contains(input.Filter) ||
+                x.Email.Contains(input.Filter) ||
+                x.PhoneNumber.Contains(input.Filter)
+            );
+        }
+
+        //filter by user logged in and agency if applicable
+        if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email))
+        {
+            if(_currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+            {
+                // Lấy agencyId
+                if (_currentUser != null && _userRepository != null)
+                {
+                    var agencyId = await _currentUser.GetAgencyIdAsync(_userRepository);
+                    if (agencyId.HasValue)
+                    {
+                        query = query.Where(x => x.AgencyId == agencyId.Value);
+                    }
+                }
+            }
+        }
+
+        if (input.AgencyId.HasValue)
+        {
+            query = query.Where(x => x.AgencyId == input.AgencyId.Value);
+        }
+
+        if (input.CourseStatus.HasValue)
+        {
+            query = query.Where(x => x.Courses.Any(c => c.CourseStatus == input.CourseStatus.Value));
+        }
+
+        var totalCount = await query.CountAsync();
+        var students = await query
+            .Skip(input.SkipCount)
+            .Take(input.MaxResultCount)
+            .ToListAsync();
+
+        var dtos = new List<AdminViewStudentDto>();
+        foreach (var student in students)
+        {
+            if(student.Courses.Count > 0)
+            {
+                foreach (var course in student.Courses)
+                {
+                    dtos.Add(new AdminViewStudentDto
+                    {
+                        Id = student.Id,
+                        FullName = student.Fullname,
+                        Email = student.Email,
+                        PhoneNumber = student.PhoneNumber,
+                        Address = student.Address,
+                        DateOfBirth = student.DateOfBirth,
+                        AgreeToTerms = student.AgreeToTerms,
+                        RegistrationDate = course.RegistrationDate,
+                        CourseId = course.CourseId,
+                        CourseName = course.Course?.Name,
+                        CourseStatus = course.CourseStatus,
+                        TestStatus = course.TestStatus,
+                        CoursePaymentStatus = course.PaymentStatus,
+                        CourseNote = course.StudentNote,
+                        AgencyId = student.AgencyId,
+                        CreationTime = student.CreationTime
+                    });
+                }
+            }
+            else
+            {
+                // Nếu student không có course nào, vẫn hiển thị với thông tin cơ bản
+                dtos.Add(new AdminViewStudentDto
+                {
+                    Id = student.Id,
+                    FullName = student.Fullname,
+                    Email = student.Email,
+                    PhoneNumber = student.PhoneNumber,
+                    Address = student.Address,
+                    DateOfBirth = student.DateOfBirth,
+                    AgreeToTerms = student.AgreeToTerms,
+                    AgencyId = student.AgencyId,
+                    CreationTime = student.CreationTime
+                });
+            }
+        }
+
+        _logger.LogInformation($"GetStudentsWithCoursesAsync - TotalCount: {totalCount}, ItemsCount: {dtos.Count}");
+        
+        return new PagedResultDto<AdminViewStudentDto>
+        {
+            TotalCount = totalCount,
+            Items = dtos
+        };
+    }
+
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
+    public async Task<UpdateStudentCourseDto> GetStudentCourseAsync(Guid studentId, Guid courseId)
+    {
+        var query = await _studentRepository.GetQueryableAsync();
+        var student = await query
+            .Include(x => x.Courses)
+            .FirstOrDefaultAsync(x => x.Id == studentId);
+
+        if (student == null)
+        {
+            throw new UserFriendlyException("Student not found");
+        }
+
+        var studentCourse = student.Courses.FirstOrDefault(x => x.CourseId == courseId);
+        if (studentCourse == null)
+        {
+            throw new UserFriendlyException("Student course not found");
+        }
+
+        return new UpdateStudentCourseDto
+        {
+            StudentId = studentId,
+            CourseId = courseId,
+            CourseStatus = studentCourse.CourseStatus,
+            TestStatus = studentCourse.TestStatus,
+            PaymentStatus = studentCourse.PaymentStatus,
+            StudentNote = studentCourse.StudentNote,
+            AdminNote = studentCourse.AdminNote
+        };
+    }
+
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
+    public async Task UpdateStudentCourseAsync(UpdateStudentCourseDto input)
+    {
+        // Kiểm tra role - Agency không được phép update
+        if (_currentUser.IsAuthenticated && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        {
+            throw new UserFriendlyException("Agency users are not allowed to update student course information.");
+        }
+
+        var query = await _studentRepository.GetQueryableAsync();
+        var student = await query
+            .Include(x => x.Courses)
+            .FirstOrDefaultAsync(x => x.Id == input.StudentId);
+
+        if (student == null)
+        {
+            throw new UserFriendlyException("Student not found");
+        }
+
+        var studentCourse = student.Courses.FirstOrDefault(x => x.CourseId == input.CourseId);
+        if (studentCourse == null)
+        {
+            throw new UserFriendlyException("Student course not found");
+        }
+
+        // Cập nhật chỉ thông tin trong StudentCourse
+        studentCourse.CourseStatus = input.CourseStatus;
+        studentCourse.TestStatus = input.TestStatus;
+        studentCourse.PaymentStatus = input.PaymentStatus;
+        studentCourse.StudentNote = input.StudentNote;
+        studentCourse.AdminNote = input.AdminNote;
+
+        await _studentRepository.UpdateAsync(student);
+    }
 }

@@ -32,7 +32,7 @@ public class IndexModel : PageModel
     [HttpGet]
     public async Task<JsonResult> OnGetListAsync(GetStudentListDto input)
     {
-        var result = await _studentAppService.GetListAsync(input);
+        var result = await _studentAppService.GetStudentsWithCoursesAsync(input);
         return new JsonResult(result);
     }
 }

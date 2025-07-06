@@ -1,26 +1,24 @@
+using Acme.OnlineCourses.Courses;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.Identity;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Acme.OnlineCourses.Students;
 
 public class Student : AuditedAggregateRoot<Guid>
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+    public string Fullname { get; set; }
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
     public DateTime? DateOfBirth { get; set; }
-    public TestStatus TestStatus { get; set; }
-    public PaymentStatus PaymentStatus { get; set; }
-    public AccountStatus AccountStatus { get; set; }
+
     public Guid? AgencyId { get; set; }
     public string Address { get; set; }
     public bool AgreeToTerms { get; set; }
-    public string? StudentNote { get; set; }
-    public string? AdminNote { get; set; }
     public bool IsValid { get; set; }
     public virtual ICollection<StudentAttachment> Attachments { get; set; }
     public List<StudentCourse> Courses { get; set; }
@@ -31,37 +29,28 @@ public class Student : AuditedAggregateRoot<Guid>
         Courses = new List<StudentCourse>();
     }
 
-    public Student(
-        Guid id,
-        string firstName,
-        string lastName,
-        string email,
-        string phoneNumber,
-        DateTime? dateOfBirth,
-        string identityNumber,
-        TestStatus testStatus,
-        PaymentStatus paymentStatus,
-        AccountStatus accountStatus,
-        Guid? agencyId,
-        string agencyName,
-        string address,
-        bool agreeToTerms
-    ) : base(id)
-    {
-        FirstName = firstName;
-        LastName = lastName;
-        Email = email;
-        PhoneNumber = phoneNumber;
-        DateOfBirth = dateOfBirth;
-        TestStatus = testStatus;
-        PaymentStatus = paymentStatus;
-        AccountStatus = accountStatus;
-        AgencyId = agencyId;
-        Address = address;
-        AgreeToTerms = agreeToTerms;
-        Courses = new List<StudentCourse>();
-        Attachments = new List<StudentAttachment>();
-    }
+    //public Student(
+    //    Guid id,
+    //    string fullname,
+    //    string email,
+    //    string phoneNumber,
+    //    DateTime? dateOfBirth,
+    //    Guid? agencyId,
+    //    string agencyName,
+    //    string address,
+    //    bool agreeToTerms
+    //) : base(id)
+    //{
+    //    Fullname = fullname;
+    //    Email = email;
+    //    PhoneNumber = phoneNumber;
+    //    DateOfBirth = dateOfBirth;
+    //    AgencyId = agencyId;
+    //    Address = address;
+    //    AgreeToTerms = agreeToTerms;
+    //    Courses = new List<StudentCourse>();
+    //    Attachments = new List<StudentAttachment>();
+    //}
 }
 
 public class StudentAttachment : Entity<Guid>
@@ -95,25 +84,37 @@ public class StudentCourse : Entity<Guid>
 {
     public Guid StudentId { get; set; }
     public Guid CourseId { get; set; }
+    public Course Course { get; set; }
     public DateTime RegistrationDate { get; set; }
-    public string? CourseNote { get; set; }
+    public DateTime ExpectedStudyDate { get; set; }
     public StudentCourseStatus CourseStatus { get; set; }
+    public TestStatus TestStatus { get; set; }
+    public PaymentStatus PaymentStatus { get; set; }
+    public string? StudentNote { get; set; }
+
+    public string? AdminNote { get; set; }
 
     public StudentCourse()
     {
     }
 
-    public StudentCourse(
-        Guid id,
-        Guid studentId,
-        Guid courseId,
-        DateTime registrationDate
-    ) : base(id)
-    {
-        StudentId = studentId;
-        CourseId = courseId;
-        RegistrationDate = registrationDate;
-    }
+    //public StudentCourse(
+    //    Guid id,
+    //    Guid studentId,
+    //    Guid courseId,
+    //    DateTime registrationDate,
+    //    DateTime expectedStudyDate,
+    //    TestStatus testStatus,
+    //    PaymentStatus paymentStatus
+    //) : base(id)
+    //{
+    //    StudentId = studentId;
+    //    CourseId = courseId;
+    //    RegistrationDate = registrationDate;
+    //    ExpectedStudyDate = expectedStudyDate;
+    //    TestStatus = testStatus;
+    //    PaymentStatus = paymentStatus;
+    //}
 }
 
 public enum StudentCourseStatus
