@@ -15,7 +15,7 @@
     <abp-modal>
         <abp-modal-header title="@L["Edit"].Value"></abp-modal-header>
         <abp-modal-body>
-            <input asp-for="Student.Id" />
+            <input asp-for="Student.Id" readonly />
             <abp-input asp-for="Student.Email" />
             <abp-input asp-for="Student.PhoneNumber" />
             <abp-input asp-for="Student.DateOfBirth" type="date" />
