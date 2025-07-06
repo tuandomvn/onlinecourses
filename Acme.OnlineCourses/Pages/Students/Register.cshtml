@@ -53,7 +53,7 @@
         }
 
             .form-group label {
-                font-weight: 500;
+                font-weight: bold;
                 display: block;
                 margin-bottom: 8px;
                 color: #333;
@@ -110,7 +110,22 @@
             cursor: pointer;
         }
 
-            
+        /* Validation styles */
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+        
+        .is-valid {
+            border-color: #28a745 !important;
+        }
+        
+        .invalid-feedback {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 80%;
+            color: #dc3545;
+        }
     </style>
 }
 @section scripts {
@@ -119,6 +134,10 @@
     
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
+    <!-- Validation scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
     
     <abp-script src="/Pages/Students/Register.js" />
 
@@ -137,6 +156,42 @@
                 }
                 $("#fileList").html(fileNames);
             });
+
+            // Handle form submission
+            $("#SaveButton").click(function(e) {
+                e.preventDefault();
+                
+                // Force validation of all fields before checking
+                $("#RegisterForm").validate().form();
+                
+                // Check terms agreement
+                if(!$("#AgreeToTermsCheckbox").is(":checked")) {
+                    toastr.error("Vui lòng đồng ý với điều khoản và điều kiện");
+                    return false;
+                }
+                
+                // Set hidden field value
+                $("#AgreeToTerms").val($("#AgreeToTermsCheckbox").is(":checked"));
+                
+                // Validate form and show errors
+                if($("#RegisterForm").valid()) {
+                    // Submit form
+                    $("#RegisterForm").submit();
+                } else {
+                    // Show general error message
+                    toastr.error("Vui lòng điền đầy đủ thông tin bắt buộc");
+                    
+                    // Scroll to first error
+                    var firstError = $(".is-invalid:first");
+                    if(firstError.length) {
+                        $('html, body').animate({
+                            scrollTop: firstError.offset().top - 100
+                        }, 500);
+                    }
+                }
+            });
+            
+          
         });
     </script>
 }
@@ -230,12 +285,6 @@
     </div>
 </section>
 
-
-
-
-
-
-
 <!-- Section 3: Registration Form -->
 <section class="registration-section">
     <div class="container registration-container">
@@ -249,7 +298,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label asp-for="Student.Fullname">@L["FullName"]</label>
+                            <label asp-for="Student.Fullname">@L["FullName"] *</label>
                             <input asp-for="Student.Fullname" class="form-control" placeholder="Nhập Họ & Tên" required="required" />
                         </div>
                     </div>
@@ -258,7 +307,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="Student.DateOfBirth">@L["DateOfBirth"]</label>
+                            <label asp-for="Student.DateOfBirth">@L["DateOfBirth"] *</label>
                             <input asp-for="Student.DateOfBirth" class="form-control" type="date" placeholder="Nhập ngày sinh" required="required" />
                         </div>
                     </div>
@@ -273,13 +322,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="Student.PhoneNumber">@L["PhoneNumber"]</label>
+                            <label asp-for="Student.PhoneNumber">@L["PhoneNumber"] *</label>
                             <input asp-for="Student.PhoneNumber" class="form-control" placeholder="Nhập tên tổ chức" required="required" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="Student.Email">@L["Email"]</label>
+                            <label asp-for="Student.Email">@L["Email"] *</label>
                             <input asp-for="Student.Email" class="form-control" type="email" placeholder="Nhập tên chức vụ của bạn" required="required" readonly="@Model.IsLoggedIn" />
                         </div>
                     </div>
@@ -288,7 +337,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label asp-for="Student.Address">@L["Address"]</label>
+                            <label asp-for="Student.Address">@L["Address"] *</label>
                             <input asp-for="Student.Address" class="form-control" placeholder="Nhập địa chỉ" required="required" />
                         </div>
                     </div>
@@ -297,7 +346,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label asp-for="Student.AgencyId">@L["Center"]</label>
+                            <label asp-for="Student.AgencyId">@L["Center"] *</label>
                             <select asp-for="Student.AgencyId" asp-items="Model.Agencies" class="form-control" required="required">
                             </select>
                         </div>
@@ -321,7 +370,7 @@
                                 <i class="fas fa-paperclip"></i> File đính kèm
                                 <div class="mt-2">
                                     <button type="button" class="file-upload-button" id="fileUploadBtn">Chọn file</button>
-                                    <input type="file" class="custom-file-input d-none" id="attachments" multiple>
+                                    <input type="file" class="custom-file-input d-none" id="attachments" multiple accept=".csv,.txt,text/csv,text/plain">
                                 </div>
                             </div>
                             <div id="fileList" class="mt-2"></div>

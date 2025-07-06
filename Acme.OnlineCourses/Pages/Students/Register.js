@@ -18,7 +18,7 @@ $(function () {
 
     // Disable save button initially
     var _$saveButton = $('#SaveButton');
-    _$saveButton.prop('disabled', true);
+    //_$saveButton.prop('disabled', true);
 
     // Enable save button when terms are agreed (main form checkbox)
     _$agreeToTermsCheckbox.change(function () {
@@ -37,9 +37,9 @@ $(function () {
     });
 
     // Add click handler for Save button
-    _$saveButton.click(function() {
-        _$form.submit();
-    });
+    //_$saveButton.click(function() {
+    //    _$form.submit();
+    //});
 
     _$form.on('submit', function (e) {
         e.preventDefault();
@@ -50,7 +50,7 @@ $(function () {
 
         // Kiểm tra đồng ý điều khoản
         if (!_$agreeToTermsCheckbox.is(':checked')) {
-            toastr.error(l('PleaseAgreeToTerms'), l('Notification'));
+            //toastr.error(l('PleaseAgreeToTerms'), l('Notification'));
             return;
         }
 
@@ -84,7 +84,7 @@ $(function () {
             processData: false,
             contentType: false
         }).done(function () {
-            toastr.success(l('StudentRegisteredSuccessfully'), l('Notification'));
+            toastr.success(l('StudentRegisteredSuccessfully'));
             
             // Kiểm tra xem user đã đăng nhập chưa
             var currentUser = abp.currentUser;
@@ -99,7 +99,6 @@ $(function () {
                 setTimeout(function() {
                     _$form[0].reset();
                     _$agreeToTermsCheckbox.prop('checked', false);
-                    _$saveButton.prop('disabled', true);
                     fileList.empty();
                     attachments = [];
                 }, 2000);

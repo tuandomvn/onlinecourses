@@ -30,7 +30,7 @@ public class RegisterStudentDto
     [StringLength(512)]
     public string Address { get; set; }
 
-    public string StudentNote { get; set; }
+    public string? StudentNote { get; set; }
 
     public Guid? AgencyId { get; set; }
 

@@ -115,10 +115,29 @@ public class StudentAppService : CrudAppService<
         // Handle file uploads if any
         if (files != null && files.Any())
         {
+            // Define allowed extensions and max file size (10MB)
+            var allowedExtensions = new[] { ".txt", ".csv", ".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png" };
+            const int maxFileSize = 10 * 1024 * 1024; // 10MB
+            
             foreach (var file in files)
             {
                 if (file.Length > 0)
                 {
+                    // Validate file extension
+                    //var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+                    //if (!allowedExtensions.Contains(extension))
+                    //{
+                    //    _logger.LogWarning($"Invalid file extension: {extension}");
+                    //    throw new UserFriendlyException($"File type not allowed. Allowed types: {string.Join(", ", allowedExtensions)}");
+                    //}
+
+                    //// Validate file size
+                    //if (file.Length > maxFileSize)
+                    //{
+                    //    _logger.LogWarning($"File too large: {file.Length} bytes");
+                    //    throw new UserFriendlyException($"File is too large. Maximum size allowed is 10MB.");
+                    //}
+                    
                     // Create upload directory if not exists
                     var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString(), firstCourse.Id.ToString().Substring(0, 4));
                     if (!Directory.Exists(uploadDir))
