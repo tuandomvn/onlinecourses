@@ -12,6 +12,7 @@
     "Menu:EmploymentSupport": "Hỗ trợ việc làm",
     "Menu:About": "Về chúng tôi",
     "Menu:Login": "Đăng nhập",
+    "Menu:Logout": "Đăng xuất",
     "Welcome": "Chào mừng",
     "Menu:Students:Profile": "Hồ sơ",
     "LongWelcomeMessage": "Chào mừng đến với ứng dụng. Đây là một dự án khởi đầu dựa trên framework ABP. Để biết thêm thông tin, hãy truy cập abp.io.",
@@ -129,6 +130,17 @@
     "AllAgencies": "Tất cả đại lý",
     "PleaseAgreeToTerms": "Vui lòng đồng ý với điều khoản và điều kiện trước khi đăng ký!",
     "Notification": "Thông báo",
-    "StudentRegisteredSuccessfully": "Đăng ký học viên thành công!"
+    "StudentRegisteredSuccessfully": "Đăng ký học viên thành công!",
+    "ReadTermsAndConditions": "Đọc điều khoản và điều kiện",
+    "IAgreeToTerms": "Tôi đồng ý với điều khoản và điều kiện",
+    "Close": "Đóng",
+    "Note": "Ghi chú",
+    "Center": "Trung tâm",
+    "RegisterStudent": "Đăng ký học viên",
+    "Save": "Lưu",
+    "BlogNotFound": "Không tìm thấy bài viết",
+    "ErrorLoadingTerms": "Lỗi khi tải điều khoản",
+    "Hello": "Xin chào",
+    "CloseModalMessage": "Bạn có thể đóng modal bằng nút X hoặc nhấn ESC"
   }
 } 

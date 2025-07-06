@@ -1,9 +1,17 @@
 $(function () {
     var l = abp.localization.getResource('OnlineCourses');
+    
+    // Test if Bootstrap modal is available
+    if (typeof $.fn.modal === 'undefined') {
+        console.error('Bootstrap modal is not loaded!');
+        return;
+    }
+    
     var _$form = $('#RegisterForm');
     var _$termsModal = $('#TermsModal');
     var _$termsContent = $('#TermsContent');
     var _$agreeToTermsCheckbox = $('#AgreeToTermsCheckbox');
+    var _$modalAgreeToTermsCheckbox = $('#ModalAgreeToTermsCheckbox');
     var _$agreeToTerms = $('#AgreeToTerms');
     var fileList = $('#fileList');
     var attachments = [];
@@ -12,15 +20,20 @@ $(function () {
     var _$saveButton = $('#SaveButton');
     _$saveButton.prop('disabled', true);
 
-    // Enable save button when terms are agreed
+    // Enable save button when terms are agreed (main form checkbox)
     _$agreeToTermsCheckbox.change(function () {
         _$saveButton.prop('disabled', !$(this).is(':checked'));
         _$agreeToTerms.val($(this).is(':checked'));
+        
+        // Sync with modal checkbox
+        _$modalAgreeToTermsCheckbox.prop('checked', $(this).is(':checked'));
+    });
 
-        // Close modal if checkbox is checked
-        if ($(this).is(':checked')) {
-            _$termsModal.modal('hide');
-        }
+    // Sync modal checkbox with main form checkbox
+    _$modalAgreeToTermsCheckbox.change(function () {
+        _$agreeToTermsCheckbox.prop('checked', $(this).is(':checked'));
+        _$saveButton.prop('disabled', !$(this).is(':checked'));
+        _$agreeToTerms.val($(this).is(':checked'));
     });
 
     // Add click handler for Save button
@@ -72,10 +85,25 @@ $(function () {
             contentType: false
         }).done(function () {
             toastr.success(l('StudentRegisteredSuccessfully'), l('Notification'));
-            // Delay redirect để user có thể thấy thông báo
-            setTimeout(function() {
-                window.location.href = '/Students/Profile';
-            }, 2000);
+            
+            // Kiểm tra xem user đã đăng nhập chưa
+            var currentUser = abp.currentUser;
+            if (currentUser && currentUser.isAuthenticated) {
+                // User đã đăng nhập - redirect đến Profile sau 2 giây
+                setTimeout(function() {
+                    window.location.href = '/Students/Profile';
+                }, 2000);
+            } else {
+                // User chưa đăng nhập - giữ nguyên ở trang Register
+                // Reset form để user có thể đăng ký thêm
+                setTimeout(function() {
+                    _$form[0].reset();
+                    _$agreeToTermsCheckbox.prop('checked', false);
+                    _$saveButton.prop('disabled', true);
+                    fileList.empty();
+                    attachments = [];
+                }, 2000);
+            }
         }).always(function () {
             abp.ui.clearBusy(_$form);
         });
@@ -106,9 +134,43 @@ $(function () {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
-    $('#TermsLink').click(function () {
+
+
+    $('#TermsLink').click(function (e) {
+        e.preventDefault();
+        console.log('TermsLink clicked');
+        
+        // Load content first
         loadTermsContent();
+        
+        // Then open modal
         $('#TermsModal').modal('show');
+    });
+
+    // Handle modal close button click
+    $('#ModalCloseBtn').click(function() {
+        console.log('Modal close button clicked');
+        $('#TermsModal').modal('hide');
+    });
+
+    // Handle modal footer close button click
+    $('#ModalFooterCloseBtn').click(function() {
+        console.log('Modal footer close button clicked');
+        $('#TermsModal').modal('hide');
+    });
+
+    // Handle close buttons using event delegation (in case buttons are added dynamically)
+    $(document).on('click', '[data-dismiss="modal"], .close', function() {
+        console.log('Close button clicked via delegation');
+        $('#TermsModal').modal('hide');
+    });
+
+    // Handle backdrop click to close modal
+    $('#TermsModal').on('click', function(e) {
+        if (e.target === this) {
+            console.log('Backdrop clicked');
+            $('#TermsModal').modal('hide');
+        }
     });
 
     function loadTermsContent() {
@@ -124,10 +186,12 @@ $(function () {
             if (result) {
                 _$termsContent.html(result.content);
             } else {
-                _$termsContent.html('<div class="alert alert-warning">@L["BlogNotFound"]</div>');
+                _$termsContent.html('<div class="alert alert-warning">' + l('BlogNotFound') + '</div>');
             }
         }).fail(function () {
-            _$termsContent.html('<div class="alert alert-danger">@L["ErrorLoadingTerms"]</div>');
+            _$termsContent.html('<div class="alert alert-danger">' + l('ErrorLoadingTerms') + '</div>');
         });
     }
+
+
 }); 
