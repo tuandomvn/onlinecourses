@@ -400,6 +400,7 @@ public class StudentAppService : CrudAppService<
                         DateOfBirth = student.DateOfBirth,
                         AgreeToTerms = student.AgreeToTerms,
                         RegistrationDate = course.RegistrationDate,
+                        CourseId = course.CourseId,
                         CourseName = course.Course?.Name,
                         CourseStatus = course.CourseStatus,
                         TestStatus = course.TestStatus,
@@ -433,5 +434,65 @@ public class StudentAppService : CrudAppService<
             TotalCount = totalCount,
             Items = dtos
         };
+    }
+
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
+    public async Task<UpdateStudentCourseDto> GetStudentCourseAsync(Guid studentId, Guid courseId)
+    {
+        var query = await _studentRepository.GetQueryableAsync();
+        var student = await query
+            .Include(x => x.Courses)
+            .FirstOrDefaultAsync(x => x.Id == studentId);
+
+        if (student == null)
+        {
+            throw new UserFriendlyException("Student not found");
+        }
+
+        var studentCourse = student.Courses.FirstOrDefault(x => x.CourseId == courseId);
+        if (studentCourse == null)
+        {
+            throw new UserFriendlyException("Student course not found");
+        }
+
+        return new UpdateStudentCourseDto
+        {
+            StudentId = studentId,
+            CourseId = courseId,
+            CourseStatus = studentCourse.CourseStatus,
+            TestStatus = studentCourse.TestStatus,
+            PaymentStatus = studentCourse.PaymentStatus,
+            StudentNote = studentCourse.StudentNote,
+            AdminNote = studentCourse.AdminNote
+        };
+    }
+
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
+    public async Task UpdateStudentCourseAsync(UpdateStudentCourseDto input)
+    {
+        var query = await _studentRepository.GetQueryableAsync();
+        var student = await query
+            .Include(x => x.Courses)
+            .FirstOrDefaultAsync(x => x.Id == input.StudentId);
+
+        if (student == null)
+        {
+            throw new UserFriendlyException("Student not found");
+        }
+
+        var studentCourse = student.Courses.FirstOrDefault(x => x.CourseId == input.CourseId);
+        if (studentCourse == null)
+        {
+            throw new UserFriendlyException("Student course not found");
+        }
+
+        // Cập nhật chỉ thông tin trong StudentCourse
+        studentCourse.CourseStatus = input.CourseStatus;
+        studentCourse.TestStatus = input.TestStatus;
+        studentCourse.PaymentStatus = input.PaymentStatus;
+        studentCourse.StudentNote = input.StudentNote;
+        studentCourse.AdminNote = input.AdminNote;
+
+        await _studentRepository.UpdateAsync(student);
     }
 }

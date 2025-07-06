@@ -76,6 +76,7 @@
     "Enum:TestStatus:0": "Not Taken",
     "Enum:TestStatus:1": "Taken",
     "Enum:TestStatus:2": "Passed",
+    "Enum:TestStatus:3": "Failed",
     "Enum:PaymentStatus:0": "Not Paid",
     "Enum:PaymentStatus:1": "Paid",
     "Enum:AccountStatus:0": "Active",

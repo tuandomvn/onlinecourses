@@ -65,23 +65,26 @@ $(function () {
                                 {
                                     text: l('Edit'),
                                     action: function (data) {
-                                        editModal.open({ id: data.record.id });
+                                        editModal.open({ 
+                                            studentId: data.record.id, 
+                                            courseId: data.record.courseId 
+                                        });
                                     }
                                 },
-                                {
-                                    text: l('Delete'),
-                                    confirmMessage: function (data) {
-                                        return l('StudentDeletionConfirmationMessage', data.record.fullName);
-                                    },
-                                    action: function (data) {
-                                        acme.onlineCourses.students.student
-                                            .delete(data.record.id)
-                                            .then(function() {
-                                                abp.notify.info(l('SuccessfullyDeleted'));
-                                                dataTable.ajax.reload();
-                                            });
-                                    }
-                                }
+                                //{
+                                //    text: l('Delete'),
+                                //    confirmMessage: function (data) {
+                                //        return l('StudentDeletionConfirmationMessage', data.record.fullName);
+                                //    },
+                                //    action: function (data) {
+                                //        acme.onlineCourses.students.student
+                                //            .delete(data.record.id)
+                                //            .then(function() {
+                                //                abp.notify.info(l('SuccessfullyDeleted'));
+                                //                dataTable.ajax.reload();
+                                //            });
+                                //    }
+                                //}
                             ]
                     }
                 }

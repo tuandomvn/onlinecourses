@@ -22,4 +22,6 @@ public interface IStudentAppService :
     Task DeleteAttachmentAsync(Guid attachmentId);
     Task<StudentDto> UpdateAsync(Guid id, CreateUpdateStudentDto input);
     Task<PagedResultDto<AdminViewStudentDto>> GetStudentsWithCoursesAsync(GetStudentListDto input);
+    Task<UpdateStudentCourseDto> GetStudentCourseAsync(Guid studentId, Guid courseId);
+    Task UpdateStudentCourseAsync(UpdateStudentCourseDto input);
 } 
