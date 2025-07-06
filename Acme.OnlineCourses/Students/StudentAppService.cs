@@ -226,6 +226,12 @@ public class StudentAppService : CrudAppService<
     [Route("api/app/student/upload")]
     public async Task<StudentAttachmentDto> UploadAttachmentAsync([FromForm] Guid studentId, [FromForm] IFormFile file, [FromForm] string description)
     {
+        // Kiểm tra role - Agency không được phép upload
+        if (_currentUser.IsAuthenticated && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        {
+            throw new UserFriendlyException("Agency users are not allowed to upload attachments.");
+        }
+
         if (file == null || file.Length == 0)
         {
             throw new UserFriendlyException("File is empty");
@@ -262,8 +268,15 @@ public class StudentAppService : CrudAppService<
         return ObjectMapper.Map<StudentAttachment, StudentAttachmentDto>(attachment);
     }
 
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
     public async Task DeleteAttachmentAsync(Guid attachmentId)
     {
+        // Kiểm tra role - Agency không được phép delete
+        if (_currentUser.IsAuthenticated && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        {
+            throw new UserFriendlyException("Agency users are not allowed to delete attachments.");
+        }
+
         var attachment = await _attachmentRepository.GetAsync(attachmentId);
 
         // Delete file
@@ -282,6 +295,12 @@ public class StudentAppService : CrudAppService<
     [Route("api/app/student/update")]
     public async Task<StudentDto> UpdateStudentAsync([FromForm] UpdateStudentDto input, [FromForm] List<IFormFile> files)
     {
+        // Kiểm tra role - Agency không được phép update
+        if (_currentUser.IsAuthenticated && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        {
+            throw new UserFriendlyException("Agency users are not allowed to update student information.");
+        }
+
         var student = await _studentRepository.GetAsync(input.Id);
 
         // Update only allowed fields
@@ -358,10 +377,10 @@ public class StudentAppService : CrudAppService<
                 // Lấy agencyId
                 if (_currentUser != null && _userRepository != null)
                 {
-                    var agencyId = _currentUser.GetAgencyIdAsync(_userRepository);
-                    if (agencyId != null)
+                    var agencyId = await _currentUser.GetAgencyIdAsync(_userRepository);
+                    if (agencyId.HasValue)
                     {
-                        query = query.Where(x => x.AgencyId == agencyId);
+                        query = query.Where(x => x.AgencyId == agencyId.Value);
                     }
                 }
             }
@@ -404,7 +423,7 @@ public class StudentAppService : CrudAppService<
                         CourseName = course.Course?.Name,
                         CourseStatus = course.CourseStatus,
                         TestStatus = course.TestStatus,
-                        PaymentStatus = course.PaymentStatus,
+                        CoursePaymentStatus = course.PaymentStatus,
                         CourseNote = course.StudentNote,
                         AgencyId = student.AgencyId,
                         CreationTime = student.CreationTime
@@ -429,6 +448,8 @@ public class StudentAppService : CrudAppService<
             }
         }
 
+        _logger.LogInformation($"GetStudentsWithCoursesAsync - TotalCount: {totalCount}, ItemsCount: {dtos.Count}");
+        
         return new PagedResultDto<AdminViewStudentDto>
         {
             TotalCount = totalCount,
@@ -470,6 +491,12 @@ public class StudentAppService : CrudAppService<
     [Authorize(OnlineCoursesPermissions.Students.Default)]
     public async Task UpdateStudentCourseAsync(UpdateStudentCourseDto input)
     {
+        // Kiểm tra role - Agency không được phép update
+        if (_currentUser.IsAuthenticated && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        {
+            throw new UserFriendlyException("Agency users are not allowed to update student course information.");
+        }
+
         var query = await _studentRepository.GetQueryableAsync();
         var student = await query
             .Include(x => x.Courses)

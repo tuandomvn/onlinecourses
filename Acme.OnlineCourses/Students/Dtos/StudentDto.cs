@@ -22,6 +22,8 @@ public class AdminViewStudentDto : StudentDto
     public TestStatus? TestStatus { get; set; }
     public PaymentStatus? CoursePaymentStatus { get; set; }
     public string? CourseNote { get; set; }
+    // Thêm role của user hiện tại
+    public string? CurrentUserRole { get; set; }
 }
 
 //DTO mới cho việc cập nhật StudentCourse
@@ -61,8 +63,6 @@ public class StudentDto : AuditedEntityDto<Guid>
     public StudentCourseStatus? CourseStatus { get; set; }
     [Obsolete]
     public TestStatus? TestStatus { get; set; }
-    [Obsolete]
-    public PaymentStatus? CoursePaymentStatus { get; set; }
     [Obsolete]
     public string? CourseNote { get; set; }
 }

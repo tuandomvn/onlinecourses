@@ -41,7 +41,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
         // About Us menu - chỉ hiển thị cho anonymous và student
         var currentUser = context.ServiceProvider.GetRequiredService<ICurrentUser>();
         
-        bool shouldShowAboutMenu = true;
+        bool shouldShowPublicMenu = true;
         
         if (currentUser.IsAuthenticated)
         {
@@ -49,12 +49,12 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             if (currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency)
                 || currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Administrator))
             {
-                shouldShowAboutMenu = false;
+                shouldShowPublicMenu = false;
             }
         }
         
         
-        if (shouldShowAboutMenu)
+        if (shouldShowPublicMenu)
         {
             context.Menu.AddItem(
                new ApplicationMenuItem(
@@ -111,21 +111,18 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                    order: 7
                )
             );
+
+            context.Menu.AddItem(
+                new ApplicationMenuItem(
+                    OnlineCoursesMenus.StudentsProfile,
+                    l["Menu:Students:Profile"],
+                    url: "/Students/Profile",
+                    // icon: "fa-solid fa-address-card",
+                    order: 8,
+                    requiredPermissionName: OnlineCoursesPermissions.Students.Default
+                )
+            );
         }
-
-
-
-        // Register menu - public access
-        context.Menu.AddItem(
-            new ApplicationMenuItem(
-                OnlineCoursesMenus.StudentsProfile,
-                l["Menu:Students:Profile"],
-                url: "/Students/Profile",
-                // icon: "fa-solid fa-address-card",
-                order: 8,
-                requiredPermissionName: OnlineCoursesPermissions.Students.Default
-            )
-        );
 
         // List menu - admin only
         context.Menu.AddItem(
