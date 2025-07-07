@@ -1,5 +1,8 @@
 $(function () {
     var l = abp.localization.getResource('OnlineCourses');
+
+    var isAdmin = abp.currentUser.roles && abp.currentUser.roles.indexOf('admin') >= 0;
+
     var dataTable = $('#StudentsTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({
             serverSide: true,
@@ -58,6 +61,7 @@ $(function () {
                     }
                 },
                 {
+                    visible: isAdmin,
                     title: l('Actions'),
                     rowAction: {
                         items:
