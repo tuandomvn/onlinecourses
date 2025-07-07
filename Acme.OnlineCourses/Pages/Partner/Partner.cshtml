@@ -55,6 +55,7 @@
                         Address: $('#address').val(),
                         OrganizationName: $('#orgName').val(),
                         Position: $('#position').val(),
+                        CityCode: $('#location').val(),
                         Message: $('#message').val()
                     }
                 };
@@ -226,6 +227,17 @@
                                 <input type="text" class="form-control" id="position" placeholder="Nhập tên chức vụ của bạn" required>
                             </div>
                         </div>
+                        
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Địa điểm</label>
+                            <select class="form-select" id="location" required>
+                                <option value="">Chọn địa điểm</option>
+                                @foreach (var location in Model.Locations)
+                                {
+                                    <option value="@location.Value">@location.Text</option>
+                                }
+                            </select>
+                        </div>
 
                         <div class="mb-4">
                             <label for="message" class="form-label">Tin nhắn</label>
@@ -276,7 +288,7 @@
     }
 
     .form-label {
-        font-weight: 500;
+        font-weight: bold;
         color: #343a40;
         margin-bottom: 0.5rem;
     }

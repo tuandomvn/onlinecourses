@@ -104,7 +104,6 @@ public class PartnerModel : AbpPageModel
             }
             else
             {
-                //todo
                 Agencies = (await _agencytRepository.GetListAsync())
                     .Where(x => x.Status == AgencyStatus.Active && x.CityCode == SelectedLocationId)
                     .ToList();
