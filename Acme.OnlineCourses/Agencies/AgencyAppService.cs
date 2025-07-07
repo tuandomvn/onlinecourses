@@ -79,7 +79,8 @@ public class AgencyAppService :
         agency.Address = input.Address;
         agency.CommissionPercent = input.CommissionPercent;
         agency.Status = input.Status;
-        
+        agency.CityCode = input.CityCode; // Optional, can be null
+
         agency = await Repository.UpdateAsync(agency);
         return _objectMapper.Map<Agency, AgencyDto>(agency);
     }

@@ -105,7 +105,9 @@ public class PartnerModel : AbpPageModel
             else
             {
                 //todo
-                Agencies = (await _agencytRepository.GetListAsync()).Where(x => x.Status == AgencyStatus.Active).Take(2).ToList();
+                Agencies = (await _agencytRepository.GetListAsync())
+                    .Where(x => x.Status == AgencyStatus.Active && x.CityCode == SelectedLocationId)
+                    .ToList();
             }
 
             var selectedItem = Locations.Find(l => l.Value == SelectedLocationId);
@@ -130,7 +132,8 @@ public class PartnerModel : AbpPageModel
                 Address = request.PartnerApplication.Address,
                 Status = AgencyStatus.Inactive, // Set as pending until approved
                 CommissionPercent = 0,
-                Code = GenerateAgencyCode(request.PartnerApplication.OrganizationName)
+                Code = GenerateAgencyCode(request.PartnerApplication.OrganizationName),
+                CityCode = request.PartnerApplication.CityCode,
             };
             
             await _agencytRepository.InsertAsync(agency);
@@ -163,6 +166,7 @@ public class PartnerApplicationViewModel
     public string OrganizationName { get; set; }
     public string Position { get; set; }
     public string Message { get; set; }
+    public string? CityCode { get; set; } // Optional, can be null
 }
 
 public class PartnerRegistrationRequest

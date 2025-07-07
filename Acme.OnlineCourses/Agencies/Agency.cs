@@ -13,6 +13,7 @@ public class Agency : AuditedAggregateRoot<Guid>
     public string ContactEmail { get; set; }
     public string ContactPhone { get; set; }
     public string Address { get; set; }
+    public string? CityCode { get; set; }
     public decimal CommissionPercent { get; set; }
     public AgencyStatus Status { get; set; }
     public ICollection<Student> Students { get; set; }
@@ -23,4 +24,4 @@ public enum AgencyStatus
     Active,
     Inactive,
     Suspended
-} 
+}
