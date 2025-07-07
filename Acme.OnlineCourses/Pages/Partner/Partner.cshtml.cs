@@ -1,6 +1,7 @@
 ﻿using Acme.OnlineCourses.Agencies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;
 using Volo.Abp.Domain.Repositories;
 
@@ -158,13 +159,18 @@ public class PartnerModel : AbpPageModel
 
 public class PartnerApplicationViewModel
 {
+    [Required]
     public string FullName { get; set; }
+    [Required]
     public string PhoneNumber { get; set; }
+    [Required]
     public string Email { get; set; }
+    [Required]
     public string Address { get; set; }
     public string OrganizationName { get; set; }
     public string Position { get; set; }
     public string Message { get; set; }
+    [Required]
     public string? CityCode { get; set; } // Optional, can be null
 }
 

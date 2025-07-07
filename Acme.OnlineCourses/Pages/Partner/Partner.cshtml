@@ -19,6 +19,31 @@
             .select2-container--default .select2-selection--single .select2-selection__arrow {
                 height: 36px;
             }
+            
+        /* Validation styles */
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+        
+        .is-valid {
+            border-color: #28a745 !important;
+        }
+        
+        .invalid-feedback {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 80%;
+            color: #dc3545;
+        }
+        
+        .select2-container--default.is-invalid .select2-selection--single {
+            border-color: #dc3545 !important;
+        }
+        
+        .select2-container--default.is-valid .select2-selection--single {
+            border-color: #28a745 !important;
+        }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css" rel="stylesheet">
 }
@@ -26,6 +51,10 @@
     <abp-script src="/Pages/Partner/Partner.cshtml.js" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
+    <!-- Add jQuery validate -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+    
     <script>
         $(document).ready(function() {
             $('#locationFilter').select2({
@@ -38,13 +67,141 @@
             $('#locationFilter').on('change', function() {
                 $('#filterForm').submit();
             });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('#partnerForm').submit(function(e) {
+            
+            // Initialize select2 for location dropdown in partner form
+            $('#location').select2({
+                placeholder: "Chọn địa điểm",
+                allowClear: true,
+                width: '100%'
+            });
+            
+            // Add validation rules
+            $.validator.setDefaults({
+                ignore: [] // Don't ignore hidden fields (important for select2)
+            });
+            
+            // Initialize validation
+            var validator = $('#partnerForm').validate({
+                rules: {
+                    fullName: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 100
+                    },
+                    phone: {
+                        required: true,
+                        digits: true,
+                        minlength: 10,
+                        maxlength: 15
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    address: {
+                        required: true,
+                        minlength: 5
+                    },
+                    orgName: {
+                        required: true,
+                        minlength: 2
+                    },
+                    position: {
+                        required: true
+                    },
+                    location: {
+                        required: true
+                    },
+                    message: {
+                        required: false,
+                        minlength: 1
+                    }
+                },
+                messages: {
+                    fullName: {
+                        required: "Vui lòng nhập họ tên",
+                        minlength: "Họ tên phải có ít nhất 2 ký tự",
+                        maxlength: "Họ tên không được vượt quá 100 ký tự"
+                    },
+                    phone: {
+                        required: "Vui lòng nhập số điện thoại",
+                        digits: "Số điện thoại chỉ được chứa số",
+                        minlength: "Số điện thoại phải có ít nhất 10 số",
+                        maxlength: "Số điện thoại không được vượt quá 15 số"
+                    },
+                    email: {
+                        required: "Vui lòng nhập email",
+                        email: "Vui lòng nhập email hợp lệ"
+                    },
+                    address: {
+                        required: "Vui lòng nhập địa chỉ",
+                        minlength: "Địa chỉ phải có ít nhất 5 ký tự"
+                    },
+                    orgName: {
+                        required: "Vui lòng nhập tên tổ chức",
+                        minlength: "Tên tổ chức phải có ít nhất 2 ký tự"
+                    },
+                    position: {
+                        required: "Vui lòng nhập chức vụ"
+                    },
+                    location: {
+                        required: "Vui lòng chọn địa điểm"
+                    }
+                },
+                errorElement: 'div',
+                errorClass: 'invalid-feedback',
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid').removeClass('is-valid');
+                    
+                    // For Select2 elements
+                    if ($(element).hasClass('select2-hidden-accessible')) {
+                        $(element).next('span.select2').addClass('is-invalid').removeClass('is-valid');
+                    }
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-valid').removeClass('is-invalid');
+                    
+                    // For Select2 elements
+                    if ($(element).hasClass('select2-hidden-accessible')) {
+                        $(element).next('span.select2').addClass('is-valid').removeClass('is-invalid');
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    if (element.hasClass('select2-hidden-accessible')) {
+                        error.insertAfter(element.next('span.select2'));
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+            
+            // Handle form submission
+            $('#partnerForm').on('submit', function(e) {
                 e.preventDefault();
+                
+                // Force validate all fields
+                validator.form();
+                
+                // Check if form is valid
+                if (!validator.valid()) {
+                    // Show error message
+                    Swal.fire({
+                        title: 'Lỗi!',
+                        text: 'Vui lòng điền đầy đủ thông tin bắt buộc',
+                        icon: 'error',
+                        confirmButtonText: 'Đóng'
+                    });
+                    
+                    // Scroll to first error
+                    var firstError = $(".is-invalid:first");
+                    if (firstError.length) {
+                        $('html, body').animate({
+                            scrollTop: firstError.offset().top - 100
+                        }, 500);
+                    }
+                    
+                    return false;
+                }
                 
                 // Get form data
                 var formData = {
@@ -82,8 +239,10 @@
                                 confirmButtonText: 'Đóng'
                             });
                             
-                            // Reset form
+                            // Reset form and validation
                             $('#partnerForm')[0].reset();
+                            $('#partnerForm').find('.is-valid').removeClass('is-valid');
+                            $('#location').val('').trigger('change');
                         } else {
                             // Show error message
                             Swal.fire({
@@ -197,40 +356,40 @@
                     <form id="partnerForm" method="post">
                         @Html.AntiForgeryToken()
                         <div class="mb-3">
-                            <label for="fullName" class="form-label">Họ & Tên</label>
-                            <input type="text" class="form-control" id="fullName" placeholder="Nhập Họ & Tên" required>
+                            <label for="fullName" class="form-label">Họ & Tên *</label>
+                            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Nhập Họ & Tên" required="required">
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6 mb-3 mb-md-0">
-                                <label for="phone" class="form-label">Số điện thoại</label>
-                                <input type="tel" class="form-control" id="phone" placeholder="Nhập tên tổ chức" required>
+                                <label for="phone" class="form-label">Số điện thoại *</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Nhập số điện thoại" required="required">
                             </div>
                             <div class="col-md-6">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="Nhập tên chức vụ của bạn" required>
+                                <label for="email" class="form-label">Email *</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email" required="required">
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="address" class="form-label">Địa chỉ</label>
-                            <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ" required>
+                            <label for="address" class="form-label">Địa chỉ *</label>
+                            <input type="text" class="form-control" id="address" name="address" placeholder="Nhập địa chỉ" required="required">
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6 mb-3 mb-md-0">
-                                <label for="orgName" class="form-label">Tên tổ chức</label>
-                                <input type="text" class="form-control" id="orgName" placeholder="Nhập tên tổ chức" required>
+                                <label for="orgName" class="form-label">Tên tổ chức *</label>
+                                <input type="text" class="form-control" id="orgName" name="orgName" placeholder="Nhập tên tổ chức" required="required">
                             </div>
                             <div class="col-md-6">
-                                <label for="position" class="form-label">Chức vụ</label>
-                                <input type="text" class="form-control" id="position" placeholder="Nhập tên chức vụ của bạn" required>
+                                <label for="position" class="form-label">Chức vụ *</label>
+                                <input type="text" class="form-control" id="position" name="position" placeholder="Nhập chức vụ của bạn" required="required">
                             </div>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="location" class="form-label">Địa điểm</label>
-                            <select class="form-select" id="location" required>
+                            <label for="location" class="form-label">Địa điểm *</label>
+                            <select class="form-select" id="location" name="location" required="required">
                                 <option value="">Chọn địa điểm</option>
                                 @foreach (var location in Model.Locations)
                                 {
@@ -241,7 +400,7 @@
 
                         <div class="mb-4">
                             <label for="message" class="form-label">Tin nhắn</label>
-                            <textarea class="form-control" id="message" rows="5" placeholder="Nhập nội dung" required></textarea>
+                            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Nhập nội dung"></textarea>
                         </div>
 
                         <div class="text-center">
