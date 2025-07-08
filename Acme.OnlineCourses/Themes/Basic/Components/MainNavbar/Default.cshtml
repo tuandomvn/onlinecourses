@@ -1,6 +1,11 @@
 ﻿@using System.Globalization
+@using Acme.OnlineCourses.Localization
+@using Microsoft.Extensions.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Menu
 @using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Toolbar
+@using Volo.Abp.Users
+@inject ICurrentUser CurrentUser
+@inject IStringLocalizer<OnlineCoursesResource> L
 
 @{
     var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
@@ -20,34 +25,72 @@
             <span></span>
             <span></span>
         </button>
-        
+
         <ul class="custom-navbar-menu" id="mobileMenu" style="justify-content: center; flex: 1;">
             @(await Component.InvokeAsync<MainNavbarMenuViewComponent>())
             <button class="menu-close" id="mobileMenuClose">×</button>
         </ul>
 
         <div class="menu-overlay" id="menuOverlay"></div>
-        
-        <div class="custom-navbar-lang">
-            <button class="lang-btn lang-btn-mobile" type="button" onclick="toggleLangDropdown(event)">
-                <div class="lang-circle">
-                    <span class="lang-text-mobile">@langText</span>
+
+        <div class="navbar-right-section">
+            @if (CurrentUser.IsAuthenticated)
+            {
+                <div class="user-greeting-container">
+                    <button class="greeting-text" type="button" onclick="toggleUserDropdown(event)">
+                        <i class="fas fa-user-circle greeting-icon"></i>
+                        @L["Hello"], @(CurrentUser.Name ?? CurrentUser.UserName ?? "User")
+                        <i class="fas fa-chevron-down user-caret"></i>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown" style="display: none;">
+                        <div class="user-dropdown-header">
+                            <div class="user-avatar">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="user-info">
+                                <div class="user-name">@(CurrentUser.Name ?? CurrentUser.UserName ?? "User")</div>
+                                <div class="user-email">@(CurrentUser.Email ?? "")</div>
+                            </div>
+                        </div>
+                        <div class="user-dropdown-divider"></div>
+                        <div class="user-dropdown-content">
+                            @if (CurrentUser.IsInRole("Student"))
+                            {
+                                <a href="/Students/Profile" class="user-dropdown-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Hồ sơ cá nhân</span>
+                                </a>
+                            }
+                            <a href="/Account/Logout" class="user-dropdown-item logout-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Đăng xuất</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <span class="lang-caret d-none d-md-inline">▼</span>
-            </button>
-            <div class="lang-dropdown" id="langDropdown" style="display: none;">
-                <a href="/Abp/Languages/Switch?culture=vi&uiCulture=vi" class="lang-option">
-                    <span class="lang-flag">
-                        <img src="https://cdn-icons-png.flaticon.com/512/197/197473.png" alt="Vietnam Flag" class="lang-flag"
-                             style="width: 1.1em; height: 1.1em; margin-right: 0.3rem;" />
-                    </span> VN
-                </a>
-                <a href="/Abp/Languages/Switch?culture=en&uiCulture=en" class="lang-option">
-                    <span class="lang-flag">
-                        <img src="https://cdn-icons-png.flaticon.com/512/197/197374.png" alt="UK Flag"
-                             class="lang-flag" style="width: 1.1em; height: 1.1em; margin-right: 0.3rem;" />
-                    </span> EN
-                </a>
+            }
+
+            <div class="custom-navbar-lang">
+                <button class="lang-btn lang-btn-mobile" type="button" onclick="toggleLangDropdown(event)">
+                    <div class="lang-circle">
+                        <span class="lang-text-mobile">@langText</span>
+                    </div>
+                    <span class="lang-caret d-none d-md-inline">▼</span>
+                </button>
+                <div class="lang-dropdown" id="langDropdown" style="display: none;">
+                    <a href="/Abp/Languages/Switch?culture=vi&uiCulture=vi" class="lang-option">
+                        <span class="lang-flag">
+                            <img src="https://cdn-icons-png.flaticon.com/512/197/197473.png" alt="Vietnam Flag" class="lang-flag"
+                                 style="width: 1.1em; height: 1.1em; margin-right: 0.3rem;" />
+                        </span> VN
+                    </a>
+                    <a href="/Abp/Languages/Switch?culture=en&uiCulture=en" class="lang-option">
+                        <span class="lang-flag">
+                            <img src="https://cdn-icons-png.flaticon.com/512/197/197374.png" alt="UK Flag"
+                                 class="lang-flag" style="width: 1.1em; height: 1.1em; margin-right: 0.3rem;" />
+                        </span> EN
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -56,17 +99,161 @@
 <div class="sticky-spacer" id="navbar-spacer"></div>
 
 <style>
+    /* User greeting and dropdown styles */
+    .navbar-right-section {
+        display: flex;
+        align-items: center;
+    }
+
+    .user-greeting-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .greeting-text {
+        color: white;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .greeting-text:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+            color: white;
+        }
+
+    .greeting-icon {
+        font-size: 1.1rem;
+        color: #48C8D4;
+    }
+
+    .user-caret {
+        font-size: 0.7rem;
+        transition: transform 0.3s ease;
+        margin-left: 4px;
+    }
+
+    .greeting-text.active .user-caret {
+        transform: rotate(180deg);
+    }
+
+    /* User Dropdown Styles */
+    .user-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 280px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+    }
+
+        .user-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+    .user-dropdown-header {
+        padding: 20px;
+        background: linear-gradient(135deg, #003366 0%, #004080 100%);
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .user-avatar {
+        font-size: 2.5rem;
+        color: #48C8D4;
+    }
+
+    .user-info {
+        flex: 1;
+    }
+
+    .user-name {
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 4px;
+    }
+
+    .user-email {
+        font-size: 0.85rem;
+        opacity: 0.8;
+        word-break: break-all;
+    }
+
+    .user-dropdown-divider {
+        height: 1px;
+        background: #eee;
+    }
+
+    .user-dropdown-content {
+        padding: 8px 0;
+    }
+
+    .user-dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 20px;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
+    }
+
+        .user-dropdown-item:hover {
+            background: #f8f9fa;
+            color: #003366;
+            text-decoration: none;
+        }
+
+        .user-dropdown-item i {
+            width: 16px;
+            text-align: center;
+            color: #666;
+        }
+
+    .logout-item:hover {
+        background: #fff2f2;
+        color: #dc3545;
+    }
+
+        .logout-item:hover i {
+            color: #dc3545;
+        }
+
     /* Active menu item styling */
     .custom-navbar-menu a.active {
-        color: white; 
+        color: white;
         font-weight: bold;
         position: relative;
         color: #48C8D4;
     }
 
-    .custom-navbar-menu a.active::after {
-        display: none; 
-    }
+        .custom-navbar-menu a.active::after {
+            display: none;
+        }
 
     .custom-navbar-menu a:hover:not(.active) {
         transition: all 0.3s ease;
@@ -79,21 +266,22 @@
         transition: all 0.3s ease;
         text-decoration: none;
     }
-    
+
     /* Sticky navbar styles */
     .custom-navbar {
         width: 100%;
         z-index: 1000;
     }
-    
+
     .custom-navbar-bottom {
         transition: all 0.3s ease;
         width: 100%;
     }
 
-    #mobileMenuClose{
+    #mobileMenuClose {
         visibility: hidden;
     }
+
     .sticky {
         position: fixed;
         top: 0;
@@ -103,28 +291,32 @@
         animation: slideDown 0.3s forwards;
         z-index: 1000;
     }
-    
+
     /* Animation for sticky navbar */
     @@keyframes slideDown {
-        from {
-            transform: translateY(-100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
+        from
+
+    {
+        transform: translateY(-100%);
+        opacity: 0;
     }
-    
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    }
+
     /* Create space when navbar becomes sticky */
     .sticky-spacer {
         display: none;
         width: 100%;
     }
-    
-    .sticky-spacer.active {
-        display: block;
-    }
+
+        .sticky-spacer.active {
+            display: block;
+        }
     /* Mobile navbar styles */
     .custom-navbar-bottom {
         background-color: #003366;
@@ -183,115 +375,207 @@
 
     /* Responsive styles */
     @@media (max-width: 768px) {
-        #mobileMenuClose {
-            visibility: visible;
-        }
-        .mobile-menu-toggle {
-            display: block;
-        }
+        #mobileMenuClose
 
-        .mobile-brand {
-            display: flex;
-            flex-direction: column;
-        }
+    {
+        visibility: visible;
+    }
 
-        .mobile-title {
-            font-weight: bold;
-            font-size: 1rem;
-        }
+    .mobile-menu-toggle {
+        display: block;
+    }
 
-        .mobile-subtitle {
-            font-size: 0.7rem;
-        }
+    .mobile-brand {
+        display: flex;
+        flex-direction: column;
+    }
 
-        .custom-navbar-menu {
-            display: none;
-            position: fixed;
-            top: 52px;
-            left: 0;
-            width: 80%;
-            max-width: 330px;
-            height: 100vh;
-            background-color: #f0f6ff;
-            z-index: 1100;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-            overflow-y: auto;
-            padding: 0;
-        }
+    .mobile-title {
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .mobile-subtitle {
+        font-size: 0.7rem;
+    }
+
+    /* Mobile user greeting */
+    .navbar-right-section {
+        gap: 10px;
+    }
+
+    .user-greeting-container {
+        order: -1; /* Move greeting before language on mobile */
+    }
+
+    .greeting-text {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        border-radius: 15px;
+        gap: 6px;
+    }
+
+    .greeting-icon {
+        font-size: 1rem;
+    }
+
+    .user-caret {
+        font-size: 0.6rem;
+    }
+
+    /* Mobile user dropdown */
+    .user-dropdown {
+        min-width: 260px;
+        right: -20px;
+    }
+
+    .user-dropdown-header {
+        padding: 16px;
+    }
+
+    .user-avatar {
+        font-size: 2rem;
+    }
+
+    .user-name {
+        font-size: 0.9rem;
+    }
+
+    .user-email {
+        font-size: 0.8rem;
+    }
+
+    /* Hide greeting text on very small screens, show only icon */
+    @@media (max-width: 480px) {
+        .greeting-text
+
+    {
+        padding: 6px 8px;
+        gap: 4px;
+    }
+
+    .greeting-text span:not(.greeting-icon):not(.user-caret) {
+        display: none;
+    }
+
+    .greeting-icon {
+        font-size: 1.2rem;
+    }
+
+    .user-dropdown {
+        min-width: 240px;
+        right: -40px;
+    }
+
+    }
+
+    .custom-navbar-menu {
+        display: none;
+        position: fixed;
+        top: 52px;
+        left: 0;
+        width: 80%;
+        max-width: 330px;
+        height: 100vh;
+        background-color: #f0f6ff;
+        z-index: 1100;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        overflow-y: auto;
+        padding: 0;
+    }
 
         .custom-navbar-menu.show {
             display: block;
             transform: translateX(0);
         }
 
-        @@keyframes slideIn {
-            from {
-                transform: translateX(-100%);
-            }
-            to {
-                transform: translateX(0);
-            }
-        }
+    @@keyframes slideIn {
+        from
+    {
+        transform: translateX(-100%);
+    }
 
-        /* Close button */
-        .custom-navbar-menu.show .menu-close {
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #666;
-            z-index: 1200;
-            background: none;
-            border: none;
-        }
+    to {
+        transform: translateX(0);
+    }
 
-        /* Menu items styling */
-        .custom-navbar-menu.show a {
-            display: block;
-            padding: 15px 20px;
-            color: #333;
-            font-weight: 500;
-            border-bottom: 1px solid #e0e0e0;
-            margin: 0;
-            text-align: left;
-        }
+    }
 
- /*        .custom-navbar-menu.show a:first-child {
-            margin-top: 40px;
-        }
- */
+    /* Close button */
+    .custom-navbar-menu.show .menu-close {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+        z-index: 1200;
+        background: none;
+        border: none;
+    }
+
+    /* Menu items styling */
+    .custom-navbar-menu.show a {
+        display: block;
+        padding: 15px 20px;
+        color: #333;
+        font-weight: 500;
+        border-bottom: 1px solid #e0e0e0;
+        margin: 0;
+        text-align: left;
+    }
+
         .custom-navbar-menu.show a.active {
             color: #003366;
             font-weight: 600;
             background-color: rgba(0, 51, 102, 0.05);
         }
 
-        /* Overlay for the rest of the screen */
-        .menu-overlay {
-            display: none;
-            position: fixed;
-            top: 52px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #011939CC;
-            z-index: 1090;
-        }
+    /* Overlay for the rest of the screen */
+    .menu-overlay {
+        display: none;
+        position: fixed;
+        top: 52px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #011939CC;
+        z-index: 1090;
+    }
 
         .menu-overlay.show {
             display: block;
         }
+
     }
-</style>
+
+    /* Extra small screens - stack greeting and language vertically */
+    @@media (max-width: 350px) {
+        .navbar-right-section
+
+    {
+        flex-direction: column;
+        gap: 5px;
+        align-items: flex-end;
+    }
+
+    .user-greeting-container {
+        order: 0;
+    }
+
+    .user-dropdown {
+        right: -60px;
+    }
+
+    }</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Set active class based on current URL
         setActiveMenuItem();
-        
+
         // Add click event listeners to menu items
         var menuItems = document.querySelectorAll('.custom-navbar-menu a');
         menuItems.forEach(function(item) {
@@ -300,27 +584,27 @@
                 menuItems.forEach(function(menuItem) {
                     menuItem.classList.remove('active');
                 });
-                
+
                 // Add active class to clicked item
                 this.classList.add('active');
-                
+
                 // Store active menu item path in localStorage
                 localStorage.setItem('activeMenuPath', this.getAttribute('href'));
             });
         });
-        
+
         // Sticky navbar functionality
         var navbar = document.querySelector('.custom-navbar-bottom');
         var navbarSpacer = document.getElementById('navbar-spacer');
         var navbarOffsetTop = navbar.offsetTop;
         var navbarHeight = navbar.offsetHeight;
-        
+
         // Update spacer height when window is resized
         function updateSpacerHeight() {
             navbarHeight = navbar.offsetHeight;
             navbarSpacer.style.height = navbarHeight + 'px';
         }
-        
+
         // Handle scroll event to add/remove sticky class
         function handleScroll() {
             if (window.pageYOffset > navbarOffsetTop) {
@@ -334,20 +618,20 @@
                 navbarSpacer.classList.remove('active');
             }
         }
-        
+
         // Add event listeners
         window.addEventListener('scroll', handleScroll);
         window.addEventListener('resize', updateSpacerHeight);
-        
+
         // Initialize once on page load
         updateSpacerHeight();
         handleScroll();
     });
-    
+
     function setActiveMenuItem() {
         var currentPath = window.location.pathname;
         var menuItems = document.querySelectorAll('.custom-navbar-menu a');
-        
+
         // First try to match exact path
         var activeFound = false;
         menuItems.forEach(function(item) {
@@ -357,7 +641,7 @@
                 activeFound = true;
             }
         });
-        
+
         // If no exact match, try to match the beginning of the path
         if (!activeFound) {
             menuItems.forEach(function(item) {
@@ -368,7 +652,7 @@
                 }
             });
         }
-        
+
         // If still no match and we have a stored active item, use that
         if (!activeFound) {
             var storedPath = localStorage.getItem('activeMenuPath');
@@ -387,22 +671,73 @@
             }
         }
     }
-    
+
+    // User dropdown functionality
+    function toggleUserDropdown(event) {
+        event.stopPropagation();
+        var dropdown = document.getElementById('userDropdown');
+        var button = event.currentTarget;
+
+        // Close language dropdown if open
+        var langDropdown = document.getElementById('langDropdown');
+        if (langDropdown && langDropdown.style.display === 'block') {
+            langDropdown.style.display = 'none';
+        }
+
+        if (dropdown.classList.contains('show')) {
+            dropdown.classList.remove('show');
+            button.classList.remove('active');
+        } else {
+            dropdown.classList.add('show');
+            button.classList.add('active');
+        }
+    }
+
+    // Language dropdown functionality
     function toggleLangDropdown(event) {
         event.stopPropagation();
         var dropdown = document.getElementById('langDropdown');
+
+        // Close user dropdown if open
+        var userDropdown = document.getElementById('userDropdown');
+        var userButton = document.querySelector('.greeting-text');
+        if (userDropdown && userDropdown.classList.contains('show')) {
+            userDropdown.classList.remove('show');
+            if (userButton) userButton.classList.remove('active');
+        }
+
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
-    
+
+    // Close dropdowns when clicking outside
     document.addEventListener('click', function (e) {
-        var dropdown = document.getElementById('langDropdown');
-        if (dropdown && dropdown.style.display === 'block') {
-            dropdown.style.display = 'none';
+        var userDropdown = document.getElementById('userDropdown');
+        var langDropdown = document.getElementById('langDropdown');
+        var userButton = document.querySelector('.greeting-text');
+
+        // Close user dropdown
+        if (userDropdown && userDropdown.classList.contains('show')) {
+            userDropdown.classList.remove('show');
+            if (userButton) userButton.classList.remove('active');
+        }
+
+        // Close language dropdown
+        if (langDropdown && langDropdown.style.display === 'block') {
+            langDropdown.style.display = 'none';
         }
     });
-    
+
+    // Prevent dropdown closing when clicking inside
     document.addEventListener('DOMContentLoaded', function() {
+        var userDropdown = document.getElementById('userDropdown');
         var langDropdown = document.getElementById('langDropdown');
+
+        if (userDropdown) {
+            userDropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        }
+
         if (langDropdown) {
             langDropdown.addEventListener('click', function (e) {
                 e.stopPropagation();
@@ -416,32 +751,32 @@
         const mobileMenu = document.getElementById('mobileMenu');
         const mobileMenuClose = document.getElementById('mobileMenuClose');
         const menuOverlay = document.getElementById('menuOverlay');
-        
+
         function openMobileMenu() {
             mobileMenu.classList.add('show');
             menuOverlay.classList.add('show');
             document.body.style.overflow = 'hidden'; // Prevent scrolling
         }
-        
+
         function closeMobileMenu() {
             mobileMenu.classList.remove('show');
             menuOverlay.classList.remove('show');
             document.body.style.overflow = ''; // Enable scrolling
         }
-        
+
         // Event listeners for mobile menu
         if (mobileMenuToggle) {
             mobileMenuToggle.addEventListener('click', openMobileMenu);
         }
-        
+
         if (mobileMenuClose) {
             mobileMenuClose.addEventListener('click', closeMobileMenu);
         }
-        
+
         if (menuOverlay) {
             menuOverlay.addEventListener('click', closeMobileMenu);
         }
-        
+
         // Close menu when clicking menu items
         const menuItems = document.querySelectorAll('.custom-navbar-menu a');
         menuItems.forEach(function(item) {

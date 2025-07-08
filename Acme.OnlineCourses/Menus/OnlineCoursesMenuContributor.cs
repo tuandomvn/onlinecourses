@@ -47,8 +47,18 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 shouldShowPublicMenu = false;
             }
         }
-        
-        
+        else
+        {
+            context.Menu.AddItem(
+               new ApplicationMenuItem(
+                   "Login",
+                   l["Menu:Login"],
+                   url: "/Account/Login",
+                   order: 15
+               )
+           );
+        }
+
         if (shouldShowPublicMenu)
         {
             context.Menu.AddItem(
@@ -187,40 +197,40 @@ public class OnlineCoursesMenuContributor : IMenuContributor
 
 
         // Login/Logout menu - hiển thị dựa trên trạng thái đăng nhập
-        if (currentUser.IsAuthenticated)
-        {
-            // User đã đăng nhập - hiển thị Hello message và menu Logout
-            var fullName = currentUser.Name ?? currentUser.UserName ?? "User";
-            context.Menu.AddItem(
-                new ApplicationMenuItem(
-                    "HelloUser",
-                    $"{l["Hello"]}, {fullName}",
-                    url: "#",
-                    order: 14
-                )
-            );
+        //if (currentUser.IsAuthenticated)
+        //{
+        //    // User đã đăng nhập - hiển thị Hello message và menu Logout
+        //    var fullName = currentUser.Name ?? currentUser.UserName ?? "User";
+        //    context.Menu.AddItem(
+        //        new ApplicationMenuItem(
+        //            "HelloUser",
+        //            $"{l["Hello"]}, {fullName}",
+        //            url: "#",
+        //            order: 14
+        //        )
+        //    );
 
-            context.Menu.AddItem(
-                new ApplicationMenuItem(
-                    "Logout",
-                    l["Menu:Logout"],
-                    url: "/Account/Logout",
-                    order: 15
-                )
-            );
-        }
-        else
-        {
-            // User chưa đăng nhập - hiển thị menu Login
-            context.Menu.AddItem(
-                new ApplicationMenuItem(
-                    "Login",
-                    l["Menu:Login"],
-                    url: "/Account/Login",
-                    order: 15
-                )
-            );
-        }
+        //    context.Menu.AddItem(
+        //        new ApplicationMenuItem(
+        //            "Logout",
+        //            l["Menu:Logout"],
+        //            url: "/Account/Logout",
+        //            order: 15
+        //        )
+        //    );
+        //}
+        //else
+        //{
+        //    // User chưa đăng nhập - hiển thị menu Login
+        //    context.Menu.AddItem(
+        //        new ApplicationMenuItem(
+        //            "Login",
+        //            l["Menu:Login"],
+        //            url: "/Account/Login",
+        //            order: 15
+        //        )
+        //    );
+        //}
 
         //administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
         //administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 2);
