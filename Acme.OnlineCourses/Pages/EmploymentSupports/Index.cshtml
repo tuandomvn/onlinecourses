@@ -30,45 +30,80 @@
     </div>
 </div>
 
+<div class="form-section">
+    <div class="container">
+        <div class="row justify-content-center">
 
-<form method="post">
-    <div class="form-group">
-        <label asp-for="EmploymentSupport.FullName">Họ và tên</label>
-        <input asp-for="EmploymentSupport.FullName" class="form-control" />
-        <span asp-validation-for="EmploymentSupport.FullName" class="text-danger"></span>
+            <div class="form-header">
+                <div class="form-subtitle">Hướng dẫn đăng ký</div>
+                <h2 class="form-title">Cách Đăng ký</h2>
+                <p class="form-description">
+                    Nếu bạn cần hỗ trợ bất kỳ hỗ trợ nào liên quan đến việc làm sau khóa học,<br>
+                    vui lòng liên hệ để lại thông tin cho chúng tôi.
+                </p>
+            </div>
+
+            <div class="col-lg-8 col-xl-7">
+                <div class="form-wrapper">
+                   
+
+                    <form method="post" class="registration-form">
+                        <div class="form-group">
+                            <label asp-for="EmploymentSupport.FullName" class="form-label">Họ & Tên</label>
+                            <input asp-for="EmploymentSupport.FullName" class="form-control" placeholder="Nhập Họ & Tên" />
+                            <span asp-validation-for="EmploymentSupport.FullName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="EmploymentSupport.DateOfBirth" class="form-label">Ngày sinh</label>
+                            <input asp-for="EmploymentSupport.DateOfBirth" type="date" class="form-control" placeholder="dd/mm/yyyy" />
+                            <span asp-validation-for="EmploymentSupport.DateOfBirth" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="EmploymentSupport.PhoneNumber" class="form-label">Số điện thoại</label>
+                                    <input asp-for="EmploymentSupport.PhoneNumber" class="form-control" placeholder="Nhập tên tổ chức" />
+                                    <span asp-validation-for="EmploymentSupport.PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="EmploymentSupport.Email" class="form-label">Email</label>
+                                    <input asp-for="EmploymentSupport.Email" type="email" class="form-control" placeholder="Nhập tên chức vụ của bạn" />
+                                    <span asp-validation-for="EmploymentSupport.Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="EmploymentSupport.Address" class="form-label">Địa chỉ</label>
+                            <input asp-for="EmploymentSupport.Address" class="form-control" placeholder="Nhập địa chỉ" />
+                            <span asp-validation-for="EmploymentSupport.Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="EmploymentSupport.CourseCompletionDate" class="form-label">Ngày hoàn thành khóa học</label>
+                            <input asp-for="EmploymentSupport.CourseCompletionDate" type="date" class="form-control" placeholder="dd/mm/yyyy" />
+                            <span asp-validation-for="EmploymentSupport.CourseCompletionDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="EmploymentSupport.Message" class="form-label">Tin nhắn</label>
+                            <textarea asp-for="EmploymentSupport.Message" class="form-control form-textarea" rows="4" placeholder="Nhập nội dung"></textarea>
+                            <span asp-validation-for="EmploymentSupport.Message" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-submit">
+                            <button type="submit" class="btn btn-submit">Đăng ký ngay</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="EmploymentSupport.DateOfBirth">Ngày sinh</label>
-        <input asp-for="EmploymentSupport.DateOfBirth" type="date" class="form-control" />
-        <span asp-validation-for="EmploymentSupport.DateOfBirth" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="EmploymentSupport.PhoneNumber">Số điện thoại</label>
-        <input asp-for="EmploymentSupport.PhoneNumber" class="form-control" />
-        <span asp-validation-for="EmploymentSupport.PhoneNumber" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="EmploymentSupport.Email">Email</label>
-        <input asp-for="EmploymentSupport.Email" class="form-control" />
-        <span asp-validation-for="EmploymentSupport.Email" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="EmploymentSupport.Address">Địa chỉ</label>
-        <input asp-for="EmploymentSupport.Address" class="form-control" />
-        <span asp-validation-for="EmploymentSupport.Address" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="EmploymentSupport.CourseCompletionDate">Ngày hoàn thành khóa học</label>
-        <input asp-for="EmploymentSupport.CourseCompletionDate" type="date" class="form-control" />
-        <span asp-validation-for="EmploymentSupport.CourseCompletionDate" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="EmploymentSupport.Message">Tin nhắn</label>
-        <textarea asp-for="EmploymentSupport.Message" class="form-control"></textarea>
-        <span asp-validation-for="EmploymentSupport.Message" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Gửi</button>
-</form> 
+</div>
 
 
 @await Html.PartialAsync("_Footer")
