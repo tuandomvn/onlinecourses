@@ -37,12 +37,12 @@
             @if (CurrentUser.IsAuthenticated)
             {
                 <div class="user-greeting-container">
-                    <button class="greeting-text" type="button" onclick="toggleUserDropdown(event)">
+                    <button class="greeting-text" type="button" id="userDropdownToggle">
                         <i class="fas fa-user-circle greeting-icon"></i>
                         @L["Hello"], @(CurrentUser.Name ?? CurrentUser.UserName ?? "User")
                         <i class="fas fa-chevron-down user-caret"></i>
                     </button>
-                    <div class="user-dropdown" id="userDropdown" style="display: none;">
+                    <div class="user-dropdown" id="userDropdown">
                         <div class="user-dropdown-header">
                             <div class="user-avatar">
                                 <i class="fas fa-user-circle"></i>
@@ -71,7 +71,7 @@
             }
 
             <div class="custom-navbar-lang">
-                <button class="lang-btn lang-btn-mobile" type="button" onclick="toggleLangDropdown(event)">
+                <button class="lang-btn lang-btn-mobile" type="button" id="langDropdownToggle">
                     <div class="lang-circle">
                         <span class="lang-text-mobile">@langText</span>
                     </div>
@@ -164,6 +164,7 @@
         visibility: hidden;
         transform: translateY(-10px);
         transition: all 0.3s ease;
+        display: block !important;
     }
 
         .user-dropdown.show {
@@ -294,18 +295,14 @@
 
     /* Animation for sticky navbar */
     @@keyframes slideDown {
-        from
-
-    {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-
+        from {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
     }
 
     /* Create space when navbar becomes sticky */
@@ -375,201 +372,190 @@
 
     /* Responsive styles */
     @@media (max-width: 768px) {
-        #mobileMenuClose
-
-    {
-        visibility: visible;
-    }
-
-    .mobile-menu-toggle {
-        display: block;
-    }
-
-    .mobile-brand {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .mobile-title {
-        font-weight: bold;
-        font-size: 1rem;
-    }
-
-    .mobile-subtitle {
-        font-size: 0.7rem;
-    }
-
-    /* Mobile user greeting */
-    .navbar-right-section {
-        gap: 10px;
-    }
-
-    .user-greeting-container {
-        order: -1; /* Move greeting before language on mobile */
-    }
-
-    .greeting-text {
-        font-size: 0.8rem;
-        padding: 6px 10px;
-        border-radius: 15px;
-        gap: 6px;
-    }
-
-    .greeting-icon {
-        font-size: 1rem;
-    }
-
-    .user-caret {
-        font-size: 0.6rem;
-    }
-
-    /* Mobile user dropdown */
-    .user-dropdown {
-        min-width: 260px;
-        right: -20px;
-    }
-
-    .user-dropdown-header {
-        padding: 16px;
-    }
-
-    .user-avatar {
-        font-size: 2rem;
-    }
-
-    .user-name {
-        font-size: 0.9rem;
-    }
-
-    .user-email {
-        font-size: 0.8rem;
-    }
-
-    /* Hide greeting text on very small screens, show only icon */
-    @@media (max-width: 480px) {
-        .greeting-text
-
-    {
-        padding: 6px 8px;
-        gap: 4px;
-    }
-
-    .greeting-text span:not(.greeting-icon):not(.user-caret) {
-        display: none;
-    }
-
-    .greeting-icon {
-        font-size: 1.2rem;
-    }
-
-    .user-dropdown {
-        min-width: 240px;
-        right: -40px;
-    }
-
-    }
-
-    .custom-navbar-menu {
-        display: none;
-        position: fixed;
-        top: 52px;
-        left: 0;
-        width: 80%;
-        max-width: 330px;
-        height: 100vh;
-        background-color: #f0f6ff;
-        z-index: 1100;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-        overflow-y: auto;
-        padding: 0;
-    }
-
-        .custom-navbar-menu.show {
-            display: block;
-            transform: translateX(0);
+        #mobileMenuClose {
+            visibility: visible;
         }
 
-    @@keyframes slideIn {
-        from
-    {
-        transform: translateX(-100%);
-    }
-
-    to {
-        transform: translateX(0);
-    }
-
-    }
-
-    /* Close button */
-    .custom-navbar-menu.show .menu-close {
-        position: absolute;
-        top: 2px;
-        right: 2px;
-        font-size: 24px;
-        cursor: pointer;
-        color: #666;
-        z-index: 1200;
-        background: none;
-        border: none;
-    }
-
-    /* Menu items styling */
-    .custom-navbar-menu.show a {
-        display: block;
-        padding: 15px 20px;
-        color: #333;
-        font-weight: 500;
-        border-bottom: 1px solid #e0e0e0;
-        margin: 0;
-        text-align: left;
-    }
-
-        .custom-navbar-menu.show a.active {
-            color: #003366;
-            font-weight: 600;
-            background-color: rgba(0, 51, 102, 0.05);
-        }
-
-    /* Overlay for the rest of the screen */
-    .menu-overlay {
-        display: none;
-        position: fixed;
-        top: 52px;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #011939CC;
-        z-index: 1090;
-    }
-
-        .menu-overlay.show {
+        .mobile-menu-toggle {
             display: block;
         }
 
+        .mobile-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-title {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .mobile-subtitle {
+            font-size: 0.7rem;
+        }
+
+        /* Mobile user greeting */
+        .navbar-right-section {
+            gap: 10px;
+        }
+
+        .user-greeting-container {
+            order: -1; /* Move greeting before language on mobile */
+        }
+
+        .greeting-text {
+            font-size: 0.8rem;
+            padding: 6px 10px;
+            border-radius: 15px;
+            gap: 6px;
+        }
+
+        .greeting-icon {
+            font-size: 1rem;
+        }
+
+        .user-caret {
+            font-size: 0.6rem;
+        }
+
+        /* Mobile user dropdown */
+        .user-dropdown {
+            min-width: 260px;
+            right: -20px;
+        }
+
+        .user-dropdown-header {
+            padding: 16px;
+        }
+
+        .user-avatar {
+            font-size: 2rem;
+        }
+
+        .user-name {
+            font-size: 0.9rem;
+        }
+
+        .user-email {
+            font-size: 0.8rem;
+        }
+
+        /* Hide greeting text on very small screens, show only icon */
+        @@media (max-width: 480px) {
+            .greeting-text {
+                padding: 6px 8px;
+                gap: 4px;
+            }
+
+            .greeting-text span:not(.greeting-icon):not(.user-caret) {
+                display: none;
+            }
+
+            .greeting-icon {
+                font-size: 1.2rem;
+            }
+
+            .user-dropdown {
+                min-width: 240px;
+                right: -40px;
+            }
+        }
+
+        .custom-navbar-menu {
+            display: none;
+            position: fixed;
+            top: 52px;
+            left: 0;
+            width: 80%;
+            max-width: 330px;
+            height: 100vh;
+            background-color: #f0f6ff;
+            z-index: 1100;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+            .custom-navbar-menu.show {
+                display: block;
+                transform: translateX(0);
+            }
+
+        @@keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        /* Close button */
+        .custom-navbar-menu.show .menu-close {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            z-index: 1200;
+            background: none;
+            border: none;
+        }
+
+        /* Menu items styling */
+        .custom-navbar-menu.show a {
+            display: block;
+            padding: 15px 20px;
+            color: #333;
+            font-weight: 500;
+            border-bottom: 1px solid #e0e0e0;
+            margin: 0;
+            text-align: left;
+        }
+
+            .custom-navbar-menu.show a.active {
+                color: #003366;
+                font-weight: 600;
+                background-color: rgba(0, 51, 102, 0.05);
+            }
+
+        /* Overlay for the rest of the screen */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 52px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #011939CC;
+            z-index: 1090;
+        }
+
+            .menu-overlay.show {
+                display: block;
+            }
     }
 
     /* Extra small screens - stack greeting and language vertically */
     @@media (max-width: 350px) {
-        .navbar-right-section
+        .navbar-right-section {
+            flex-direction: column;
+            gap: 5px;
+            align-items: flex-end;
+        }
 
-    {
-        flex-direction: column;
-        gap: 5px;
-        align-items: flex-end;
+        .user-greeting-container {
+            order: 0;
+        }
+
+        .user-dropdown {
+            right: -60px;
+        }
     }
-
-    .user-greeting-container {
-        order: 0;
-    }
-
-    .user-dropdown {
-        right: -60px;
-    }
-
-    }</style>
+</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -626,6 +612,112 @@
         // Initialize once on page load
         updateSpacerHeight();
         handleScroll();
+
+        // User dropdown functionality
+        var userDropdownToggle = document.getElementById('userDropdownToggle');
+        var userDropdown = document.getElementById('userDropdown');
+        
+        if (userDropdownToggle && userDropdown) {
+            userDropdownToggle.addEventListener('click', function(event) {
+                event.stopPropagation();
+                
+                // Close language dropdown if open
+                var langDropdown = document.getElementById('langDropdown');
+                if (langDropdown && langDropdown.style.display === 'block') {
+                    langDropdown.style.display = 'none';
+                }
+
+                // Toggle user dropdown
+                if (userDropdown.classList.contains('show')) {
+                    userDropdown.classList.remove('show');
+                    userDropdownToggle.classList.remove('active');
+                } else {
+                    userDropdown.classList.add('show');
+                    userDropdownToggle.classList.add('active');
+                }
+            });
+
+            // Prevent dropdown closing when clicking inside
+            userDropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        }
+
+        // Language dropdown functionality
+        var langDropdownToggle = document.getElementById('langDropdownToggle');
+        var langDropdown = document.getElementById('langDropdown');
+        
+        if (langDropdownToggle && langDropdown) {
+            langDropdownToggle.addEventListener('click', function(event) {
+                event.stopPropagation();
+                
+                // Close user dropdown if open
+                if (userDropdown && userDropdown.classList.contains('show')) {
+                    userDropdown.classList.remove('show');
+                    if (userDropdownToggle) userDropdownToggle.classList.remove('active');
+                }
+
+                // Toggle language dropdown
+                langDropdown.style.display = langDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+
+            // Prevent dropdown closing when clicking inside
+            langDropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function (e) {
+            // Close user dropdown
+            if (userDropdown && userDropdown.classList.contains('show')) {
+                userDropdown.classList.remove('show');
+                if (userDropdownToggle) userDropdownToggle.classList.remove('active');
+            }
+
+            // Close language dropdown
+            if (langDropdown && langDropdown.style.display === 'block') {
+                langDropdown.style.display = 'none';
+            }
+        });
+
+        // Mobile menu functionality
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        function openMobileMenu() {
+            mobileMenu.classList.add('show');
+            menuOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('show');
+            menuOverlay.classList.remove('show');
+            document.body.style.overflow = ''; // Enable scrolling
+        }
+
+        // Event listeners for mobile menu
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', openMobileMenu);
+        }
+
+        if (mobileMenuClose) {
+            mobileMenuClose.addEventListener('click', closeMobileMenu);
+        }
+
+        if (menuOverlay) {
+            menuOverlay.addEventListener('click', closeMobileMenu);
+        }
+
+        // Close menu when clicking menu items
+        menuItems.forEach(function(item) {
+            item.addEventListener('click', function() {
+                closeMobileMenu();
+            });
+        });
     });
 
     function setActiveMenuItem() {
@@ -671,118 +763,4 @@
             }
         }
     }
-
-    // User dropdown functionality
-    function toggleUserDropdown(event) {
-        event.stopPropagation();
-        var dropdown = document.getElementById('userDropdown');
-        var button = event.currentTarget;
-
-        // Close language dropdown if open
-        var langDropdown = document.getElementById('langDropdown');
-        if (langDropdown && langDropdown.style.display === 'block') {
-            langDropdown.style.display = 'none';
-        }
-
-        if (dropdown.classList.contains('show')) {
-            dropdown.classList.remove('show');
-            button.classList.remove('active');
-        } else {
-            dropdown.classList.add('show');
-            button.classList.add('active');
-        }
-    }
-
-    // Language dropdown functionality
-    function toggleLangDropdown(event) {
-        event.stopPropagation();
-        var dropdown = document.getElementById('langDropdown');
-
-        // Close user dropdown if open
-        var userDropdown = document.getElementById('userDropdown');
-        var userButton = document.querySelector('.greeting-text');
-        if (userDropdown && userDropdown.classList.contains('show')) {
-            userDropdown.classList.remove('show');
-            if (userButton) userButton.classList.remove('active');
-        }
-
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', function (e) {
-        var userDropdown = document.getElementById('userDropdown');
-        var langDropdown = document.getElementById('langDropdown');
-        var userButton = document.querySelector('.greeting-text');
-
-        // Close user dropdown
-        if (userDropdown && userDropdown.classList.contains('show')) {
-            userDropdown.classList.remove('show');
-            if (userButton) userButton.classList.remove('active');
-        }
-
-        // Close language dropdown
-        if (langDropdown && langDropdown.style.display === 'block') {
-            langDropdown.style.display = 'none';
-        }
-    });
-
-    // Prevent dropdown closing when clicking inside
-    document.addEventListener('DOMContentLoaded', function() {
-        var userDropdown = document.getElementById('userDropdown');
-        var langDropdown = document.getElementById('langDropdown');
-
-        if (userDropdown) {
-            userDropdown.addEventListener('click', function (e) {
-                e.stopPropagation();
-            });
-        }
-
-        if (langDropdown) {
-            langDropdown.addEventListener('click', function (e) {
-                e.stopPropagation();
-            });
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Mobile menu functionality
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileMenuClose = document.getElementById('mobileMenuClose');
-        const menuOverlay = document.getElementById('menuOverlay');
-
-        function openMobileMenu() {
-            mobileMenu.classList.add('show');
-            menuOverlay.classList.add('show');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
-        }
-
-        function closeMobileMenu() {
-            mobileMenu.classList.remove('show');
-            menuOverlay.classList.remove('show');
-            document.body.style.overflow = ''; // Enable scrolling
-        }
-
-        // Event listeners for mobile menu
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', openMobileMenu);
-        }
-
-        if (mobileMenuClose) {
-            mobileMenuClose.addEventListener('click', closeMobileMenu);
-        }
-
-        if (menuOverlay) {
-            menuOverlay.addEventListener('click', closeMobileMenu);
-        }
-
-        // Close menu when clicking menu items
-        const menuItems = document.querySelectorAll('.custom-navbar-menu a');
-        menuItems.forEach(function(item) {
-            item.addEventListener('click', function() {
-                closeMobileMenu();
-            });
-        });
-    });
 </script>
