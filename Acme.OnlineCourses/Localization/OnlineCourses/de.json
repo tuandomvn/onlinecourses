@@ -1,9 +1,0 @@
-{
-  "culture": "de",
-  "texts": {
-    "AppName": "OnlineCourses",
-    "Welcome_Title": "Willkommen",
-    "Welcome_Text": "Dies ist eine minimalistische, einschichtige Anwendungsstartvorlage für das ABP-Framework.",
-    "Menu:Home": "Home"
-  }
-}
