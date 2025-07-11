@@ -141,6 +141,63 @@
     "BlogNotFound": "Không tìm thấy bài viết",
     "ErrorLoadingTerms": "Lỗi khi tải điều khoản",
     "Hello": "Xin chào",
-    "CloseModalMessage": "Bạn có thể đóng modal bằng nút X hoặc nhấn ESC"
+    "CloseModalMessage": "Bạn có thể đóng modal bằng nút X hoặc nhấn ESC",
+
+
+
+    //Home Page
+    // Home Page - Hero Section
+    "Home.Hero.Title": "Trở thành Giáo viên<br>tiếng Anh Chuyên Nghiệp",
+    "Home.Hero.Subtitle": "Nhận chứng chỉ TESOL quốc tế từ LTi Australia chỉ sau 200 giờ học và thực hành",
+    "Home.Hero.RegisterButton": "Đăng ký ngay",
+    "Home.Hero.VideoAlt": "TESOL Video",
+    "Home.Hero.VideoTitle": "TESOL Video",
+    "Home.Hero.Stats.Students.Number": "+16.000",
+    "Home.Hero.Stats.Students.Label": "Học viên đã tốt nghiệp",
+    "Home.Hero.Stats.Experience.Number": "+28 năm",
+    "Home.Hero.Stats.Experience.Label": "Kinh nghiệm",
+    "Home.Hero.Stats.Satisfaction.Number": "+93%",
+    "Home.Hero.Stats.Satisfaction.Label": "Học viên hài lòng",
+
+    // Home Page - About Section
+    "Home.About.Label": "Về chúng tôi",
+    "Home.About.Title": "Giới thiệu về LTi Australia",
+    "Home.About.Description": "<b>LTi Australia</b> là một tổ chức hàng đầu trong lĩnh vực đào tạo TESOL, được công nhận là xuất sắc và đổi mới trong giáo dục ngôn ngữ.",
+    "Home.About.Highlight": "<b>Những điểm nổi bật về LTi:</b>",
+    "Home.About.LogoAlt": "LTi Australia Logo",
+    "Home.About.Features.Founded.Title": "Thành lập",
+    "Home.About.Features.Founded.Description": "LTi là đơn vị tiên phong trong đào tạo TESOL tại Úc, là tổ chức đầu tiên nhận được chứng nhận của chính phủ cho Chứng chỉ TESOL vào năm 1996.",
+    "Home.About.Features.Registration.Title": "Đăng ký",
+    "Home.About.Features.Registration.Description": "Chính thức đăng ký là Tổ chức Đào tạo được Chính phủ Úc công nhận (RTO số 30173) từ năm 1998.",
+    "Home.About.Features.Experience.Title": "Kinh nghiệm",
+    "Home.About.Features.Experience.Description": "Hơn 28 năm xây dựng uy tín cả trong và ngoài nước trong lĩnh vực đào tạo TESOL.",
+    "Home.About.Features.Partners.Title": "Tổ chức đối tác",
+    "Home.About.Features.Partners.Description": "50 tổ chức đã sử dụng các khóa học và tài liệu TESOL của LTi.",
+    "Home.About.Features.Impact.Title": "Tầm ảnh hưởng",
+    "Home.About.Features.Impact.Description": "Đào tạo hơn 16.000 học viên trên toàn thế giới, bao gồm cả giáo viên bản ngữ và không bản ngữ",
+    "Home.About.Features.Subsidiary.Title": "Đơn vị trực thuộc",
+    "Home.About.Features.Subsidiary.Description": "LTi là một bộ phận của Universal Education and Training Ltd. (ABN: 75 090 720 086).",
+    "Home.About.Footer": "Tại Việt Nam, <b style=\"color:#0a3978;\">TESOL Channel</b> tự hào là nhà phân phối chính thức của LTi Australia, mang đến các chương trình TESOL Online chất lượng cao và kết nối với các trung tâm tiếng Anh, trường đại học trên toàn quốc. Chúng tôi cam kết đồng hành cùng bạn trên hành trình trở thành giáo viên tiếng Anh chuyên nghiệp với chứng chỉ quốc tế.",
+
+    // Home Page - Schedule Section
+    "Home.Schedule.Label": "Thời gian học",
+    "Home.Schedule.Title": "Lịch học linh động,<br>phù hợp với mọi đối tượng",
+    "Home.Schedule.Description": "Chương trình TESOL Online của LTi cung cấp lịch học linh hoạt, bạn có thể học vào các khung giờ sáng, chiều, tối tùy theo nhu cầu và lịch trình của mình. Ngoài ra, bạn sẽ được cấp tài khoản sử dụng vĩnh viễn, giúp bạn có thể ôn luyện và tham khảo tài liệu bất cứ lúc nào.",
+    "Home.Schedule.Morning.Title": "Sáng",
+    "Home.Schedule.Morning.Time": "8:00am – 12:00pm",
+    "Home.Schedule.Afternoon.Title": "Chiều",
+    "Home.Schedule.Afternoon.Time": "1:30pm – 5:30pm",
+    "Home.Schedule.Evening.Title": "Tối",
+    "Home.Schedule.Evening.Time": "6:00pm – 10:00pm",
+
+    // Home Page - Teachers Section
+    "Home.Teachers.Label": "Giáo viên của chúng tôi",
+    "Home.Teachers.Title": "Giáo viên chuyên nghiệp<br>từ LTi Australia",
+    "Home.Teachers.ImageAlt": "Giáo viên LTi Australia",
+    "Home.Teachers.Feature1": "Chương trình được giảng dạy trực tiếp bởi đội ngũ giáo viên chuyên nghiệp, giàu kinh nghiệm từ LTi Australia.",
+    "Home.Teachers.Feature2": "Các giáo viên sẽ hướng dẫn và hỗ trợ bạn suốt quá trình học tập, đảm bảo bạn tiếp thu kiến thức một cách hiệu quả.",
+    "Home.Teachers.Feature3": "Với lịch học linh hoạt và sự hướng dẫn chuyên nghiệp từ LTi Australia, chương trình TESOL Online chắc chắn sẽ mang lại cho bạn trải nghiệm học tập tuyệt vời.",
+    "Home.Teachers.RegisterButton": "Đăng ký ngay"
+    //
   }
 } 
