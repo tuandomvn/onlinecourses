@@ -91,22 +91,24 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             );
 
             context.Menu.AddItem(
+               new ApplicationMenuItem(
+                   OnlineCoursesMenus.EmploymentSupport,
+                   l["Menu:EmploymentSupport"],
+                   "~/EmploymentSupports",
+                   order: 5
+               )
+           );
+
+            context.Menu.AddItem(
                 new ApplicationMenuItem(
                     OnlineCoursesMenus.About,
                     l["Menu:About"],
                     "~/About-Us",
-                    order: 5
-                )
-            );
-
-            context.Menu.AddItem(
-                new ApplicationMenuItem(
-                    OnlineCoursesMenus.EmploymentSupport,
-                    l["Menu:EmploymentSupport"],
-                    "~/EmploymentSupports",
                     order: 6
                 )
             );
+
+           
 
             context.Menu.AddItem(
                new ApplicationMenuItem(

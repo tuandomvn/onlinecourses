@@ -254,6 +254,193 @@
     "Course.Practical.VideoAlt": "Video thực hành {0}",
     //
 
+    // Register Page - Pricing Section
+    "Register.Pricing.Badge": "Chi phí khóa học",
+    "Register.Pricing.Title": "Học phí trọn khoá",
+    "Register.Pricing.Subtitle": "Khóa học TESOL Chứng chỉ Quốc tế của LTi Australia giúp học viên đạt chứng chỉ quốc tế và phát triển kỹ năng giảng dạy toàn diện với mức học phí siêu ưu đãi.",
+    "Register.Pricing.Label": "Học phí trọn gói",
+    "Register.Pricing.Duration": "Thời gian học: 200 tiếng",
+    "Register.Pricing.Feature1": "Tài liệu học miễn phí",
+    "Register.Pricing.Feature2": "Giáo trình 100% tiếng Anh",
+    "Register.Pricing.Feature3": "Giảng viên nước ngoài",
+    "Register.Pricing.Feature4": "Hỗ trợ cá nhân 1:1",
+    "Register.Pricing.Feature5": "Chứng chỉ quốc tế",
+    "Register.Pricing.Feature6": "Tài khoản học trọn đời",
+
+    // Register Page - Requirements Section
+    "Register.Requirements.Title": "Yêu cầu đăng ký khóa TESOL Online",
+    "Register.Requirements.Requirement1": "Đáp ứng tiêu chí năng lực tiếng Anh cơ bản (có thể cần làm bài kiểm tra đầu vào nếu cần thiết).",
+    "Register.Requirements.Requirement2": "Cam kết hoàn thành đầy đủ chương trình học và thực hành.",
+    "Register.Requirements.Requirement3": "Đồng ý với tất cả các chính sách của LTi Australia.",
+    "Register.Requirements.Requirement4": "Học phí được thu theo quy định của LTi Australia, đảm bảo minh bạch.",
+    "Register.Requirements.Requirement5": "Tesol Channel hỗ trợ thu phí và hướng dẫn học viên trong quá trình đăng ký và học.",
+
+    // Register Page - Form Section
+    "Register.Form.Title": "Đăng ký ngay",
+    "Register.Form.Subtitle": "Đăng ký ngay tại đây hoặc liên hệ trung tâm đối tác gần nhất để được tư vấn và hỗ trợ đăng ký nhanh chóng.",
+    "Register.Form.FullnamePlaceholder": "Nhập Họ & Tên",
+    "Register.Form.DateOfBirthPlaceholder": "Nhập ngày sinh",
+    "Register.Form.ExpectedStudyDatePlaceholder": "Chọn ngày bắt đầu học",
+    "Register.Form.PhoneNumberPlaceholder": "Nhập số điện thoại",
+    "Register.Form.EmailPlaceholder": "Nhập địa chỉ email",
+    "Register.Form.AddressPlaceholder": "Nhập địa chỉ",
+    "Register.Form.NotePlaceholder": "Nhập nội dung",
+    "Register.Form.Attachments": "File đính kèm",
+    "Register.Form.ChooseFile": "Chọn file",
+    "Register.Form.TermsLabel": "Điều khoản & điều kiện: Click để xem/Click để đồng ý.",
+    "Register.Form.TermsLink": "Chi tiết",
+    "Register.Form.SubmitButton": "Đăng ký ngay",
+    "Register.Form.TermsRequired": "Vui lòng đồng ý với điều khoản và điều kiện",
+    "Register.Form.FillRequired": "Vui lòng điền đầy đủ thông tin bắt buộc",
+    //
+
+    // Partner List Section
+    "Partner.List.Subtitle": "Đối tác của chúng tôi",
+    "Partner.List.Title": "Đối tác của chúng tôi",
+    "Partner.List.Description1": "Chúng tôi tự hào phân phối chương trình trên toàn quốc, kết nối với các trung tâm đối tác đáng tin cậy để mang đến sự hỗ trợ tốt nhất cho bạn. Với mạng lưới rộng khắp, đội ngũ chuyên nghiệp của chúng tôi luôn sẵn sàng lắng nghe và giúp đỡ bạn trong quá trình học tập.",
+    "Partner.List.Description2": "Hãy liên hệ với chúng tôi, chúng tôi cam kết đồng hành cùng bạn trên hành trình học tập và phát triển.",
+    "Partner.LocationFilter.Label": "Chọn địa điểm",
+    "Partner.LocationFilter.Placeholder": "Tìm kiếm",
+    "Partner.LocationFilter.AllLocations": "Tất cả địa điểm",
+    "Partner.Table.PartnerName": "Tên đối tác",
+    "Partner.Table.Address": "Địa chỉ",
+    "Partner.Table.NoPartnersFound": "Không tìm thấy đối tác nào",
+    "Partner.Map.Alt": "Bản đồ Việt Nam",
+
+    // Become Partner Section
+    "Partner.Become.Subtitle": "Trở thành một phần của chúng tôi",
+    "Partner.Become.Title": "Trở thành đối tác của chúng tôi",
+    "Partner.Become.Description": "TESOL Channel mong muốn hợp tác với các trung tâm, trường học uy tín, tập trung vào chất lượng để phân phối các chương trình TESOL Online của LTI Australia không chỉ trên khắp Việt Nam mà còn vươn xa hơn nữa. Bằng cách làm việc cùng nhau, chúng ta tạo ra những cơ hội để phát triển, thích nghi và thành công trong lĩnh vực giáo dục tiếng Anh đầy biến động.",
+
+    // Form Fields
+    "Partner.Form.FullName.Label": "Họ & Tên *",
+    "Partner.Form.FullName.Placeholder": "Nhập Họ & Tên",
+    "Partner.Form.Phone.Label": "Số điện thoại *",
+    "Partner.Form.Phone.Placeholder": "Nhập số điện thoại",
+    "Partner.Form.Email.Label": "Email *",
+    "Partner.Form.Email.Placeholder": "Nhập email",
+    "Partner.Form.Address.Label": "Địa chỉ *",
+    "Partner.Form.Address.Placeholder": "Nhập địa chỉ",
+    "Partner.Form.OrgName.Label": "Tên tổ chức *",
+    "Partner.Form.OrgName.Placeholder": "Nhập tên tổ chức",
+    "Partner.Form.Position.Label": "Chức vụ *",
+    "Partner.Form.Position.Placeholder": "Nhập chức vụ của bạn",
+    "Partner.Form.Location.Label": "Địa điểm *",
+    "Partner.Form.Location.Placeholder": "Chọn địa điểm",
+    "Partner.Form.Message.Label": "Tin nhắn",
+    "Partner.Form.Message.Placeholder": "Nhập nội dung",
+    "Partner.Form.SubmitButton": "Đăng ký ngay",
+    "Partner.Form.Processing": "Đang xử lý...",
+
+    // Form Validation Messages
+    "Partner.Validation.FullName.Required": "Vui lòng nhập họ tên",
+    "Partner.Validation.FullName.MinLength": "Họ tên phải có ít nhất 2 ký tự",
+    "Partner.Validation.FullName.MaxLength": "Họ tên không được vượt quá 100 ký tự",
+    "Partner.Validation.Phone.Required": "Vui lòng nhập số điện thoại",
+    "Partner.Validation.Phone.Digits": "Số điện thoại chỉ được chứa số",
+    "Partner.Validation.Phone.MinLength": "Số điện thoại phải có ít nhất 10 số",
+    "Partner.Validation.Phone.MaxLength": "Số điện thoại không được vượt quá 15 số",
+    "Partner.Validation.Email.Required": "Vui lòng nhập email",
+    "Partner.Validation.Email.Invalid": "Vui lòng nhập email hợp lệ",
+    "Partner.Validation.Address.Required": "Vui lòng nhập địa chỉ",
+    "Partner.Validation.Address.MinLength": "Địa chỉ phải có ít nhất 5 ký tự",
+    "Partner.Validation.OrgName.Required": "Vui lòng nhập tên tổ chức",
+    "Partner.Validation.OrgName.MinLength": "Tên tổ chức phải có ít nhất 2 ký tự",
+    "Partner.Validation.Position.Required": "Vui lòng nhập chức vụ",
+    "Partner.Validation.Location.Required": "Vui lòng chọn địa điểm",
+
+    // Form Messages
+    "Partner.Form.Error.Title": "Lỗi!",
+    "Partner.Form.Error.RequiredFields": "Vui lòng điền đầy đủ thông tin bắt buộc",
+    "Partner.Form.Error.Generic": "Có lỗi xảy ra, vui lòng thử lại.",
+    "Partner.Form.Error.Submit": "Có lỗi xảy ra khi gửi thông tin, vui lòng thử lại.",
+    "Partner.Form.Success.Title": "Thành công!",
+    "Partner.Form.Success.Message": "Đăng ký đối tác thành công. Chúng tôi sẽ liên hệ với bạn sớm.",
+
+
+
+    // Employment Support Page
+    "Employment.Title": "Hỗ trợ việc làm",
+
+    // Hero Section
+    "Employment.Hero.Subtitle": "Công việc sau khi học?",
+    "Employment.Hero.Title": "Hỗ trợ tìm việc sau khóa học",
+    "Employment.Hero.Description1": "Tesol Channel cam kết sẽ hỗ trợ bạn ngay cả sau khi hoàn thành khóa học.",
+    "Employment.Hero.Description2": "Tesol Channel sẽ kết nối bạn với các cơ hội việc làm tại các công ty, trung tâm Anh ngữ và trường học trong nước và quốc tế. Chúng tôi có mạng lưới đối tác rộng khắp, sẵn sàng giới thiệu bạn đến các vị trí phù hợp.",
+    "Employment.Hero.ImageAlt": "Hỗ trợ việc làm",
+
+    // Form Section
+    "Employment.Form.Subtitle": "Hướng dẫn đăng ký",
+    "Employment.Form.Title": "Cách Đăng ký",
+    "Employment.Form.Description": "Nếu bạn cần hỗ trợ bất kỳ hỗ trợ nào liên quan đến việc làm sau khóa học, vui lòng liên hệ để lại thông tin cho chúng tôi.",
+
+    // Form Fields
+    "Employment.Form.FullName": "Họ & Tên",
+    "Employment.Form.FullNamePlaceholder": "Nhập Họ & Tên",
+    "Employment.Form.DateOfBirth": "Ngày sinh",
+    "Employment.Form.DateFormat": "dd/mm/yyyy",
+    "Employment.Form.PhoneNumber": "Số điện thoại",
+    "Employment.Form.PhoneNumberPlaceholder": "Nhập số điện thoại",
+    "Employment.Form.Email": "Email",
+    "Employment.Form.EmailPlaceholder": "Nhập địa chỉ email",
+    "Employment.Form.Address": "Địa chỉ",
+    "Employment.Form.AddressPlaceholder": "Nhập địa chỉ",
+    "Employment.Form.CourseCompletionDate": "Ngày hoàn thành khóa học",
+    "Employment.Form.Message": "Tin nhắn",
+    "Employment.Form.MessagePlaceholder": "Nhập nội dung",
+    "Employment.Form.SubmitButton": "Đăng ký ngay",
+    //
+
+
+    // About Us Page - Hero Section
+    "AboutUs.Hero.Label": "TESOL Channel là gì ?",
+    "AboutUs.Hero.Title": "TESOL Channel",
+    "AboutUs.Hero.Description": "TESOL Channel – Nhà phân phối TESOL Online chính thức và duy nhất của LTi tại Việt Nam.",
+    "AboutUs.Hero.ImageAlt": "Học viên học tập với TESOL Channel",
+
+    // About Us Page - Vision Section
+    "AboutUs.Vision.Title": "Tầm nhìn",
+    "AboutUs.Vision.Description": "Trở thành đơn vị hàng đầu tại Việt Nam trong việc cung cấp các chương trình đào tạo TESOL online chất lượng cao từ LTi Úc, giúp nâng cao năng lực giảng dạy tiếng Anh và phát triển sự nghiệp cho giáo viên trên toàn quốc.",
+    "AboutUs.Vision.ImageAlt": "Định nghĩa TESOL",
+
+    // About Us Page - Mission Section
+    "AboutUs.Mission.Title": "Sứ mệnh",
+    "AboutUs.Mission.Point1": "Mang đến các chương trình TESOL online đạt chuẩn quốc tế từ LTi Úc, phù hợp với nhu cầu học tập và phát triển của giáo viên tiếng Anh tại Việt Nam.",
+    "AboutUs.Mission.Point2": "Hỗ trợ học viên xây dựng nền tảng kiến thức vững chắc, kỹ năng giảng dạy hiện đại và tư duy sáng tạo trong môi trường giáo dục toàn cầu.",
+    "AboutUs.Mission.Point3": "Đảm bảo dịch vụ hỗ trợ chuyên nghiệp, tận tâm và đồng hành cùng học viên trong suốt quá trình học tập và phát triển sự nghiệp.",
+    "AboutUs.Mission.ImageAlt": "Các khối TEACH",
+
+    // About Us Page - Values Section
+    "AboutUs.Values.Title": "Giá trị cốt lõi",
+    "AboutUs.Values.Quality.Title": "Chất lượng:",
+    "AboutUs.Values.Quality.Description": "Cam kết cung cấp các chương trình đào tạo đạt tiêu chuẩn cao nhất, đảm bảo giá trị thực tiễn và hiệu quả cho học viên.",
+    "AboutUs.Values.Innovation.Title": "Đổi mới:",
+    "AboutUs.Values.Innovation.Description": "Luôn cập nhật và áp dụng các phương pháp giảng dạy tiên tiến, phù hợp với xu hướng giáo dục toàn cầu.",
+    "AboutUs.Values.Dedication.Title": "Tận tâm:",
+    "AboutUs.Values.Dedication.Description": "Đặt lợi ích và sự phát triển của học viên lên hàng đầu, đồng hành cùng họ trên hành trình chinh phục mục tiêu nghề nghiệp.",
+    "AboutUs.Values.Cooperation.Title": "Hợp tác:",
+    "AboutUs.Values.Cooperation.Description": "Xây dựng mối quan hệ bền vững với đối tác, học viên và cộng đồng giáo dục để cùng nhau phát triển.",
+    "AboutUs.Values.Sustainability.Title": "Phát triển bền vững:",
+    "AboutUs.Values.Sustainability.Description": "Đóng góp vào sự phát triển lâu dài của ngành giáo dục tiếng Anh tại Việt Nam thông qua các chương trình đào tạo chất lượng cao.",
+    //
+
+    // Contact Page
+    "Contact.PageTitle": "Liên hệ",
+    "Contact.Subtitle": "Liên hệ ngay",
+    "Contact.Logo.Alt": "TESOL Logo",
+    "Contact.BrandName": "TESOL Channel",
+    "Contact.Tagline": "TESOL Channel – Nhà phân phối chính thức LTI Australia",
+    "Contact.RegisterButton": "Đăng ký học",
+    "Contact.DistributorButton": "Đăng ký làm nhà phân phối",
+    "Contact.Phone.Label": "Số điện thoại:",
+    "Contact.Phone.Value": "0123 456 789",
+    "Contact.Email.Label": "Email:",
+    "Contact.Email.Value": "abc123@gmail.com",
+    "Contact.Website.Label": "Website:",
+    "Contact.Website.Value": "abc123.com",
+    "Contact.Address.Label": "Địa chỉ:",
+    "Contact.Address.Value": "B07-04 Tòa nhà Lavida Plus, Phường Tân Phong, \nQuận 7, TP. Hồ Chí Minh, Việt Nam.",
+    //
 
 
     // Footer
@@ -272,4 +459,4 @@
     "Footer.Copyright": "Copyright by TESOL Channel all rights reserved"
 
   }
-} 
+}

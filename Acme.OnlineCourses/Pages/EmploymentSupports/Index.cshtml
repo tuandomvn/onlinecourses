@@ -1,7 +1,10 @@
 @page
+@using Microsoft.Extensions.Localization
+@using Acme.OnlineCourses.Localization
 @model Acme.OnlineCourses.Pages.EmploymentSupports.IndexModel
+@inject IStringLocalizer<OnlineCoursesResource> L
 @{
-    ViewData["Title"] = "Employment Supports";
+    ViewData["Title"] = L["Employment.Title"];
 }
 
 @section styles {
@@ -15,16 +18,16 @@
     <div class="container py-5">
         <div class="row align-items-center">
             <div class="col-lg-6 animate fade-in">
-                <div class="subtitle">Công việc sau khi học?</div>
+                <div class="subtitle">@L["Employment.Hero.Subtitle"]</div>
 
-                <h1 class="main-heading">Hỗ trợ tìm việc sau khóa học</h1>
+                <h1 class="main-heading">@L["Employment.Hero.Title"]</h1>
 
-                <p class="mb-4">Tesol Channel cam kết sẽ hỗ trợ bạn ngay cả sau khi hoàn thành khóa học.</p>
+                <p class="mb-4">@L["Employment.Hero.Description1"]</p>
 
-                <p>Tesol Channel sẽ kết nối bạn với các cơ hội việc làm tại các công ty, trung tâm Anh ngữ và trường học trong nước và quốc tế. Chúng tôi có mạng lưới đối tác rộng khắp, sẵn sàng giới thiệu bạn đến các vị trí phù hợp.</p>
+                <p>@L["Employment.Hero.Description2"]</p>
             </div>
             <div class="col-lg-6 animate fade-in">
-                <img src="~/images/es.PNG" alt="Employment Support" class="img-fluid">
+                <img src="~/images/es.PNG" alt="@L["Employment.Hero.ImageAlt"]" class="img-fluid">
             </div>
         </div>
     </div>
@@ -35,68 +38,66 @@
         <div class="row justify-content-center">
 
             <div class="form-header">
-                <div class="form-subtitle">Hướng dẫn đăng ký</div>
-                <h2 class="form-title">Cách Đăng ký</h2>
+                <div class="form-subtitle">@L["Employment.Form.Subtitle"]</div>
+                <h2 class="form-title">@L["Employment.Form.Title"]</h2>
                 <p class="form-description">
-                    Nếu bạn cần hỗ trợ bất kỳ hỗ trợ nào liên quan đến việc làm sau khóa học,<br>
-                    vui lòng liên hệ để lại thông tin cho chúng tôi.
+                    @L["Employment.Form.Description"]
                 </p>
             </div>
 
             <div class="col-lg-8 col-xl-7">
                 <div class="form-wrapper">
-                   
 
                     <form method="post" class="registration-form">
                         <div class="form-group">
-                            <label asp-for="EmploymentSupport.FullName" class="form-label">Họ & Tên</label>
-                            <input asp-for="EmploymentSupport.FullName" class="form-control" placeholder="Nhập Họ & Tên" />
+                            <label asp-for="EmploymentSupport.FullName" class="form-label">@L["Employment.Form.FullName"]</label>
+                            <input asp-for="EmploymentSupport.FullName" class="form-control" placeholder="@L["Employment.Form.FullNamePlaceholder"]" />
                             <span asp-validation-for="EmploymentSupport.FullName" class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
-                            <label asp-for="EmploymentSupport.DateOfBirth" class="form-label">Ngày sinh</label>
-                            <input asp-for="EmploymentSupport.DateOfBirth" type="date" class="form-control" placeholder="dd/mm/yyyy" />
+                            <label asp-for="EmploymentSupport.DateOfBirth" class="form-label">@L["Employment.Form.DateOfBirth"]</label>
+                            <input asp-for="EmploymentSupport.DateOfBirth" type="date" class="form-control" placeholder="@L["Employment.Form.DateFormat"]" />
                             <span asp-validation-for="EmploymentSupport.DateOfBirth" class="text-danger"></span>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="EmploymentSupport.PhoneNumber" class="form-label">Số điện thoại</label>
-                                    <input asp-for="EmploymentSupport.PhoneNumber" class="form-control" placeholder="Nhập tên tổ chức" />
+                                    <label asp-for="EmploymentSupport.PhoneNumber" class="form-label">@L["Employment.Form.PhoneNumber"]</label>
+                                    <input asp-for="EmploymentSupport.PhoneNumber" class="form-control" placeholder="@L["Employment.Form.PhoneNumberPlaceholder"]" />
                                     <span asp-validation-for="EmploymentSupport.PhoneNumber" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="EmploymentSupport.Email" class="form-label">Email</label>
-                                    <input asp-for="EmploymentSupport.Email" type="email" class="form-control" placeholder="Nhập tên chức vụ của bạn" />
+                                    <label asp-for="EmploymentSupport.Email" class="form-label">@L["Employment.Form.Email"]</label>
+                                    <input asp-for="EmploymentSupport.Email" type="email" class="form-control" placeholder="@L["Employment.Form.EmailPlaceholder"]" />
                                     <span asp-validation-for="EmploymentSupport.Email" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label asp-for="EmploymentSupport.Address" class="form-label">Địa chỉ</label>
-                            <input asp-for="EmploymentSupport.Address" class="form-control" placeholder="Nhập địa chỉ" />
+                            <label asp-for="EmploymentSupport.Address" class="form-label">@L["Employment.Form.Address"]</label>
+                            <input asp-for="EmploymentSupport.Address" class="form-control" placeholder="@L["Employment.Form.AddressPlaceholder"]" />
                             <span asp-validation-for="EmploymentSupport.Address" class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
-                            <label asp-for="EmploymentSupport.CourseCompletionDate" class="form-label">Ngày hoàn thành khóa học</label>
-                            <input asp-for="EmploymentSupport.CourseCompletionDate" type="date" class="form-control" placeholder="dd/mm/yyyy" />
+                            <label asp-for="EmploymentSupport.CourseCompletionDate" class="form-label">@L["Employment.Form.CourseCompletionDate"]</label>
+                            <input asp-for="EmploymentSupport.CourseCompletionDate" type="date" class="form-control" placeholder="@L["Employment.Form.DateFormat"]" />
                             <span asp-validation-for="EmploymentSupport.CourseCompletionDate" class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
-                            <label asp-for="EmploymentSupport.Message" class="form-label">Tin nhắn</label>
-                            <textarea asp-for="EmploymentSupport.Message" class="form-control form-textarea" rows="4" placeholder="Nhập nội dung"></textarea>
+                            <label asp-for="EmploymentSupport.Message" class="form-label">@L["Employment.Form.Message"]</label>
+                            <textarea asp-for="EmploymentSupport.Message" class="form-control form-textarea" rows="4" placeholder="@L["Employment.Form.MessagePlaceholder"]"></textarea>
                             <span asp-validation-for="EmploymentSupport.Message" class="text-danger"></span>
                         </div>
 
                         <div class="form-submit">
-                            <button type="submit" class="btn btn-submit">Đăng ký ngay</button>
+                            <button type="submit" class="btn btn-submit">@L["Employment.Form.SubmitButton"]</button>
                         </div>
                     </form>
                 </div>
@@ -104,6 +105,5 @@
         </div>
     </div>
 </div>
-
 
 @await Html.PartialAsync("_Footer")

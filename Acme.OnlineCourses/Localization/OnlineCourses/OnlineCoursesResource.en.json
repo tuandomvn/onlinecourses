@@ -11,7 +11,7 @@
     "Menu:Report": "Report",
     "Menu:Partner": "Partners",
     "Menu:Contact": "Contact",
-    "Menu:EmploymentSupport": "Employment Support",
+    "Menu:EmploymentSupport": "Job Support",
     "Menu:EmploymentSupportAdmin": "EmploymentSupportAdmin",
     "Menu:AgentRegisterAdmin": "AgentRegisterAdmin",
     "Menu:Students:Register": "Course Registration",
@@ -254,6 +254,194 @@
     "Course.Practical.VideoAlt": "Practical Video {0}",
     //
 
+    // Register Page - Pricing Section
+    "Register.Pricing.Badge": "Course Fee",
+    "Register.Pricing.Title": "Full Course Tuition",
+    "Register.Pricing.Subtitle": "LTi Australia's International TESOL Certificate course helps students achieve international certification and develop comprehensive teaching skills at a super competitive price.",
+    "Register.Pricing.Label": "All-inclusive Fee",
+    "Register.Pricing.Duration": "Study Time: 200 hours",
+    "Register.Pricing.Feature1": "Free learning materials",
+    "Register.Pricing.Feature2": "100% English curriculum",
+    "Register.Pricing.Feature3": "Foreign instructors",
+    "Register.Pricing.Feature4": "1:1 personal support",
+    "Register.Pricing.Feature5": "International certificate",
+    "Register.Pricing.Feature6": "Lifetime learning account",
+
+    // Register Page - Requirements Section
+    "Register.Requirements.Title": "Requirements for TESOL Online Course Registration",
+    "Register.Requirements.Requirement1": "Meet basic English proficiency criteria (may need to take an entrance test if necessary).",
+    "Register.Requirements.Requirement2": "Commit to completing the full learning and practice program.",
+    "Register.Requirements.Requirement3": "Agree to all LTi Australia policies.",
+    "Register.Requirements.Requirement4": "Tuition is collected according to LTi Australia regulations, ensuring transparency.",
+    "Register.Requirements.Requirement5": "TESOL Channel supports fee collection and guides students throughout the registration and learning process.",
+
+    // Register Page - Form Section
+    "Register.Form.Title": "Register Now",
+    "Register.Form.Subtitle": "Register here or contact the nearest partner center for consultation and quick registration support.",
+    "Register.Form.FullnamePlaceholder": "Enter Full Name",
+    "Register.Form.DateOfBirthPlaceholder": "Enter date of birth",
+    "Register.Form.ExpectedStudyDatePlaceholder": "Choose start date",
+    "Register.Form.PhoneNumberPlaceholder": "Enter phone number",
+    "Register.Form.EmailPlaceholder": "Enter email address",
+    "Register.Form.AddressPlaceholder": "Enter address",
+    "Register.Form.NotePlaceholder": "Enter content",
+    "Register.Form.Attachments": "Attachments",
+    "Register.Form.ChooseFile": "Choose file",
+    "Register.Form.TermsLabel": "Terms & Conditions: Click to view/Click to agree.",
+    "Register.Form.TermsLink": "Details",
+    "Register.Form.SubmitButton": "Register Now",
+    "Register.Form.TermsRequired": "Please agree to the terms and conditions",
+    "Register.Form.FillRequired": "Please fill in all required information",
+    //
+
+
+    // Partner List Section
+    "Partner.List.Subtitle": "Our Partners",
+    "Partner.List.Title": "Our Partners",
+    "Partner.List.Description1": "We are proud to distribute our program nationwide, connecting with trusted partner centers to provide the best support for you. With our extensive network, our professional team is always ready to listen and help you throughout your learning journey.",
+    "Partner.List.Description2": "Contact us, we are committed to accompanying you on your learning and development journey.",
+    "Partner.LocationFilter.Label": "Select location",
+    "Partner.LocationFilter.Placeholder": "Search",
+    "Partner.LocationFilter.AllLocations": "All locations",
+    "Partner.Table.PartnerName": "Partner Name",
+    "Partner.Table.Address": "Address",
+    "Partner.Table.NoPartnersFound": "No partners found",
+    "Partner.Map.Alt": "Map of Vietnam",
+
+    // Become Partner Section
+    "Partner.Become.Subtitle": "Become part of us",
+    "Partner.Become.Title": "Become Our Partner",
+    "Partner.Become.Description": "TESOL Channel aims to partner with reputable, quality-focused centers and schools to distribute LTI Australia's Online TESOL programs not only throughout Vietnam but beyond. By working together, we create opportunities to grow, adapt, and succeed in the dynamic field of English language education.",
+
+    // Form Fields
+    "Partner.Form.FullName.Label": "Full Name *",
+    "Partner.Form.FullName.Placeholder": "Enter your full name",
+    "Partner.Form.Phone.Label": "Phone Number *",
+    "Partner.Form.Phone.Placeholder": "Enter your phone number",
+    "Partner.Form.Email.Label": "Email *",
+    "Partner.Form.Email.Placeholder": "Enter your email",
+    "Partner.Form.Address.Label": "Address *",
+    "Partner.Form.Address.Placeholder": "Enter your address",
+    "Partner.Form.OrgName.Label": "Organization Name *",
+    "Partner.Form.OrgName.Placeholder": "Enter your organization name",
+    "Partner.Form.Position.Label": "Position *",
+    "Partner.Form.Position.Placeholder": "Enter your position",
+    "Partner.Form.Location.Label": "Location *",
+    "Partner.Form.Location.Placeholder": "Select a location",
+    "Partner.Form.Message.Label": "Message",
+    "Partner.Form.Message.Placeholder": "Enter your message",
+    "Partner.Form.SubmitButton": "Register Now",
+    "Partner.Form.Processing": "Processing...",
+
+    // Form Validation Messages
+    "Partner.Validation.FullName.Required": "Please enter your full name",
+    "Partner.Validation.FullName.MinLength": "Full name must be at least 2 characters",
+    "Partner.Validation.FullName.MaxLength": "Full name cannot exceed 100 characters",
+    "Partner.Validation.Phone.Required": "Please enter your phone number",
+    "Partner.Validation.Phone.Digits": "Phone number must contain only digits",
+    "Partner.Validation.Phone.MinLength": "Phone number must be at least 10 digits",
+    "Partner.Validation.Phone.MaxLength": "Phone number cannot exceed 15 digits",
+    "Partner.Validation.Email.Required": "Please enter your email",
+    "Partner.Validation.Email.Invalid": "Please enter a valid email",
+    "Partner.Validation.Address.Required": "Please enter your address",
+    "Partner.Validation.Address.MinLength": "Address must be at least 5 characters",
+    "Partner.Validation.OrgName.Required": "Please enter your organization name",
+    "Partner.Validation.OrgName.MinLength": "Organization name must be at least 2 characters",
+    "Partner.Validation.Position.Required": "Please enter your position",
+    "Partner.Validation.Location.Required": "Please select a location",
+
+    // Form Messages
+    "Partner.Form.Error.Title": "Error!",
+    "Partner.Form.Error.RequiredFields": "Please fill in all required fields",
+    "Partner.Form.Error.Generic": "An error occurred, please try again.",
+    "Partner.Form.Error.Submit": "An error occurred while submitting the information, please try again.",
+    "Partner.Form.Success.Title": "Success!",
+    "Partner.Form.Success.Message": "Partner registration successful. We will contact you soon.",
+
+    // Employment Support Page
+    "Employment.Title": "Job Support",
+
+    // Hero Section
+    "Employment.Hero.Subtitle": "Career after completion?",
+    "Employment.Hero.Title": "Post-course Job Support",
+    "Employment.Hero.Description1": "Tesol Channel is committed to supporting you even after you complete the course.",
+    "Employment.Hero.Description2": "Tesol Channel will connect you with job opportunities at companies, English language centers, and schools both domestically and internationally. We have a wide network of partners ready to introduce you to suitable positions.",
+    "Employment.Hero.ImageAlt": "Employment Support",
+
+    // Form Section
+    "Employment.Form.Subtitle": "Registration Guide",
+    "Employment.Form.Title": "How to Register",
+    "Employment.Form.Description": "If you need any support related to employment after the course, please leave your information with us.",
+
+    // Form Fields
+    "Employment.Form.FullName": "Full Name",
+    "Employment.Form.FullNamePlaceholder": "Enter your full name",
+    "Employment.Form.DateOfBirth": "Date of Birth",
+    "Employment.Form.DateFormat": "mm/dd/yyyy",
+    "Employment.Form.PhoneNumber": "Phone Number",
+    "Employment.Form.PhoneNumberPlaceholder": "Enter your phone number",
+    "Employment.Form.Email": "Email",
+    "Employment.Form.EmailPlaceholder": "Enter your email address",
+    "Employment.Form.Address": "Address",
+    "Employment.Form.AddressPlaceholder": "Enter your address",
+    "Employment.Form.CourseCompletionDate": "Course Completion Date",
+    "Employment.Form.Message": "Message",
+    "Employment.Form.MessagePlaceholder": "Enter your message",
+    "Employment.Form.SubmitButton": "Register Now",
+    //
+
+
+
+    // About Us Page - Hero Section
+    "AboutUs.Hero.Label": "What is TESOL Channel?",
+    "AboutUs.Hero.Title": "TESOL Channel",
+    "AboutUs.Hero.Description": "TESOL Channel – The official and exclusive distributor of LTi's TESOL Online in Vietnam.",
+    "AboutUs.Hero.ImageAlt": "Students learning with TESOL Channel",
+
+    // About Us Page - Vision Section
+    "AboutUs.Vision.Title": "Vision",
+    "AboutUs.Vision.Description": "To become a leading provider in Vietnam offering high-quality TESOL online training programs from LTi Australia, enhancing English teaching capabilities and career development for teachers nationwide.",
+    "AboutUs.Vision.ImageAlt": "TESOL Definition",
+
+    // About Us Page - Mission Section
+    "AboutUs.Mission.Title": "Mission",
+    "AboutUs.Mission.Point1": "Deliver international standard TESOL online programs from LTi Australia, tailored to the learning and development needs of English teachers in Vietnam.",
+    "AboutUs.Mission.Point2": "Support students in building a solid knowledge foundation, modern teaching skills, and creative thinking in a global educational environment.",
+    "AboutUs.Mission.Point3": "Ensure professional, dedicated support and accompany students throughout their learning journey and career development.",
+    "AboutUs.Mission.ImageAlt": "TEACH blocks",
+
+    // About Us Page - Values Section
+    "AboutUs.Values.Title": "Core Values",
+    "AboutUs.Values.Quality.Title": "Quality:",
+    "AboutUs.Values.Quality.Description": "Commitment to providing training programs that meet the highest standards, ensuring practical value and effectiveness for students.",
+    "AboutUs.Values.Innovation.Title": "Innovation:",
+    "AboutUs.Values.Innovation.Description": "Continuously update and apply advanced teaching methods, aligned with global education trends.",
+    "AboutUs.Values.Dedication.Title": "Dedication:",
+    "AboutUs.Values.Dedication.Description": "Prioritize the interests and development of students, accompanying them on their journey to conquer career goals.",
+    "AboutUs.Values.Cooperation.Title": "Cooperation:",
+    "AboutUs.Values.Cooperation.Description": "Build sustainable relationships with partners, students, and the education community to grow together.",
+    "AboutUs.Values.Sustainability.Title": "Sustainable Development:",
+    "AboutUs.Values.Sustainability.Description": "Contribute to the long-term development of English language education in Vietnam through high-quality training programs.",
+    //
+
+    // Contact Page
+    "Contact.PageTitle": "Contact",
+    "Contact.Subtitle": "Contact Us",
+    "Contact.Logo.Alt": "TESOL Logo",
+    "Contact.BrandName": "TESOL Channel",
+    "Contact.Tagline": "TESOL Channel – Official distributor of LTI Australia",
+    "Contact.RegisterButton": "Register for Course",
+    "Contact.DistributorButton": "Become a Distributor",
+    "Contact.Phone.Label": "Phone:",
+    "Contact.Phone.Value": "0123 456 789",
+    "Contact.Email.Label": "Email:",
+    "Contact.Email.Value": "abc123@gmail.com",
+    "Contact.Website.Label": "Website:",
+    "Contact.Website.Value": "abc123.com",
+    "Contact.Address.Label": "Address:",
+    "Contact.Address.Value": "B07-04 Lavida Plus Building, Tan Phong Ward, \nDistrict 7, Ho Chi Minh City, Vietnam.",
+    //
+
 
     // Footer
     "Footer.Logo.Alt": "TESOL Channel",
@@ -262,7 +450,7 @@
     "Footer.Nav.Courses": "Program Overview",
     "Footer.Nav.Register": "Course Registration",
     "Footer.Nav.Partners": "Partners",
-    "Footer.Nav.Jobs": "Employment Support",
+    "Footer.Nav.Jobs": "Job Support",
     "Footer.Nav.About": "About Us",
     "Footer.Nav.Contact": "Contact",
     "Footer.Social.Facebook": "Facebook",
@@ -271,4 +459,4 @@
     "Footer.Copyright": "Copyright by TESOL Channel all rights reserved"
     //
   }
-} 
+}

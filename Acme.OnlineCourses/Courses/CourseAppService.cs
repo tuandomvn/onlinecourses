@@ -25,4 +25,4 @@ public class CourseAppService : ApplicationService, ICourseAppService
         var courses = await _courseRepository.GetListAsync();
         return _objectMapper.Map<List<Course>, List<CourseDto>>(courses);
     }
-} 
+}

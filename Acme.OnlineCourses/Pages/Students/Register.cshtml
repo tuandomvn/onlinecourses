@@ -201,17 +201,16 @@
 <section class="pricing-section animate fade-in">
     <div class="container">
         <div class="text-center">
-            <span class="pricing-badge">Chi phí khóa học</span>
-            <h1 class="pricing-title animate fade-in delay-200">Học phí trọn khoá</h1>
+            <span class="pricing-badge">@L["Register.Pricing.Badge"]</span>
+            <h1 class="pricing-title animate fade-in delay-200">@L["Register.Pricing.Title"]</h1>
             <p class="pricing-subtitle animate fade-in delay-200">
-                Khóa học TESOL Chứng chỉ Quốc tế của LTi Australia giúp học viên đạt chứng chỉ quốc tế
-                và phát triển kỹ năng giảng dạy toàn diện với mức học phí siêu ưu đãi.
+                @L["Register.Pricing.Subtitle"]
             </p>
         </div>
 
         <div class="animate fade-in delay-200">
             <div class="pricing-card">
-                <div class="pricing-label">Học phí trọn gói</div>
+                <div class="pricing-label">@L["Register.Pricing.Label"]</div>
                 <div>
                     <span class="price-amount">15,500,000</span>
                     <span class="price-currency">VND</span>
@@ -220,33 +219,33 @@
                 <div class="price-divider"></div>
 
                 <div class="price-duration">
-                    <i class="fas fa-clock"></i> Thời gian học: 200 tiếng
+                    <i class="fas fa-clock"></i> @L["Register.Pricing.Duration"]
                 </div>
 
                 <ul class="price-features">
                     <li>
                         <i class="fas fa-check-circle check-icon"></i>
-                        <span>Tài liệu học miễn phí</span>
+                        <span>@L["Register.Pricing.Feature1"]</span>
                     </li>
                     <li>
                         <i class="fas fa-check-circle check-icon"></i>
-                        <span>Giáo trình 100% tiếng Anh</span>
+                        <span>@L["Register.Pricing.Feature2"]</span>
                     </li>
                     <li>
                         <i class="fas fa-check-circle check-icon"></i>
-                        <span>Giảng viên nước ngoài</span>
+                        <span>@L["Register.Pricing.Feature3"]</span>
                     </li>
                     <li>
                         <i class="fas fa-check-circle check-icon"></i>
-                        <span>Hỗ trợ cá nhân 1:1</span>
+                        <span>@L["Register.Pricing.Feature4"]</span>
                     </li>
                     <li>
                         <i class="fas fa-check-circle check-icon"></i>
-                        <span>Chứng chỉ quốc tế</span>
+                        <span>@L["Register.Pricing.Feature5"]</span>
                     </li>
                     <li>
                         <i class="fas fa-check-circle check-icon"></i>
-                        <span>Tài khoản học trọn đời</span>
+                        <span>@L["Register.Pricing.Feature6"]</span>
                     </li>
                 </ul>
             </div>
@@ -258,27 +257,27 @@
 <section class="requirements-section animate fade-in delay-200">
     <div class="container">
         <div class="requirements-container">
-            <h2 class="requirements-title">Yêu cầu đăng ký khóa TESOL Online</h2>
+            <h2 class="requirements-title">@L["Register.Requirements.Title"]</h2>
             <ul class="requirements-list">
                 <li class="animate fade-in delay-200">
                     <i class="fas fa-circle"></i>
-                    <span>Đáp ứng tiêu chí năng lực tiếng Anh cơ bản (có thể cần làm bài kiểm tra đầu vào nếu cần thiết).</span>
+                    <span>@L["Register.Requirements.Requirement1"]</span>
                 </li>
                 <li class="animate fade-in delay-200">
                     <i class="fas fa-circle"></i>
-                    <span>Cam kết hoàn thành đầy đủ chương trình học và thực hành.</span>
+                    <span>@L["Register.Requirements.Requirement2"]</span>
                 </li>
                 <li class="animate fade-in delay-200">
                     <i class="fas fa-circle"></i>
-                    <span>Đồng ý với tất cả các chính sách của LTi Australia.</span>
+                    <span>@L["Register.Requirements.Requirement3"]</span>
                 </li>
                 <li class="animate fade-in delay-200">
                     <i class="fas fa-circle"></i>
-                    <span>Học phí được thu theo quy định của LTi Australia, đảm bảo minh bạch.</span>
+                    <span>@L["Register.Requirements.Requirement4"]</span>
                 </li>
                 <li class="animate fade-in delay-200">
                     <i class="fas fa-circle"></i>
-                    <span>Tesol Channel hỗ trợ thu phí và hướng dẫn học viên trong quá trình đăng ký và học.</span>
+                    <span>@L["Register.Requirements.Requirement5"]</span>
                 </li>
             </ul>
         </div>
@@ -289,8 +288,8 @@
 <section class="registration-section">
     <div class="container registration-container">
         <div class="registration-header">
-            <h2 class="registration-title">Đăng ký ngay</h2>
-            <p class="registration-subtitle">Đăng ký ngay tại đây hoặc liên hệ trung tâm đối tác gần nhất để được tư vấn và hỗ trợ đăng ký nhanh chóng.</p>
+            <h2 class="registration-title">@L["Register.Form.Title"]</h2>
+            <p class="registration-subtitle">@L["Register.Form.Subtitle"]</p>
         </div>
 
         <div class="registration-form">
@@ -299,7 +298,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label asp-for="Student.Fullname">@L["FullName"] *</label>
-                            <input asp-for="Student.Fullname" class="form-control" placeholder="Nhập Họ & Tên" required="required" />
+                            <input asp-for="Student.Fullname" class="form-control" placeholder="@L["Register.Form.FullnamePlaceholder"]" required="required" />
                         </div>
                     </div>
                 </div>
@@ -308,13 +307,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Student.DateOfBirth">@L["DateOfBirth"] *</label>
-                            <input asp-for="Student.DateOfBirth" class="form-control" type="date" placeholder="Nhập ngày sinh" required="required" />
+                            <input asp-for="Student.DateOfBirth" class="form-control" type="date" placeholder="@L["Register.Form.DateOfBirthPlaceholder"]" required="required" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Student.ExpectedStudyDate">@L["ExpectedStudyDate"]</label>
-                            <input asp-for="Student.ExpectedStudyDate" class="form-control" type="date" placeholder="Chọn ngày bắt đầu học" />
+                            <input asp-for="Student.ExpectedStudyDate" class="form-control" type="date" placeholder="@L["Register.Form.ExpectedStudyDatePlaceholder"]" />
                         </div>
                     </div>
                 </div>
@@ -323,13 +322,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Student.PhoneNumber">@L["PhoneNumber"] *</label>
-                            <input asp-for="Student.PhoneNumber" class="form-control" placeholder="Nhập tên tổ chức" required="required" />
+                            <input asp-for="Student.PhoneNumber" class="form-control" placeholder="@L["Register.Form.PhoneNumberPlaceholder"]" required="required" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Student.Email">@L["Email"] *</label>
-                            <input asp-for="Student.Email" class="form-control" type="email" placeholder="Nhập tên chức vụ của bạn" required="required" readonly="@Model.IsLoggedIn" />
+                            <input asp-for="Student.Email" class="form-control" type="email" placeholder="@L["Register.Form.EmailPlaceholder"]" required="required" readonly="@Model.IsLoggedIn" />
                         </div>
                     </div>
                 </div>
@@ -338,7 +337,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label asp-for="Student.Address">@L["Address"] *</label>
-                            <input asp-for="Student.Address" class="form-control" placeholder="Nhập địa chỉ" required="required" />
+                            <input asp-for="Student.Address" class="form-control" placeholder="@L["Register.Form.AddressPlaceholder"]" required="required" />
                         </div>
                     </div>
                 </div>
@@ -357,7 +356,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label asp-for="Student.StudentNote">@L["Note"]</label>
-                            <textarea asp-for="Student.StudentNote" class="form-control" rows="4" placeholder="Nhập nội dung"></textarea>
+                            <textarea asp-for="Student.StudentNote" class="form-control" rows="4" placeholder="@L["Register.Form.NotePlaceholder"]"></textarea>
                         </div>
                     </div>
                 </div>
@@ -367,11 +366,11 @@
                         <div class="form-group">
                             <label>@L["Attachments"]</label>
                             <div class="file-upload-area">
-                                <i class="fas fa-paperclip"></i> File đính kèm
+                                <i class="fas fa-paperclip"></i> @L["Register.Form.Attachments"]
                                 <div class="mt-2">
-                                    <button type="button" class="file-upload-button" id="fileUploadBtn">Chọn file</button>
-                                    <input type="file" class="custom-file-input d-none" id="attachments" 
-                                    multiple accept=".csv,.txt,.pdf,.jpg,.jpeg,.png,.gif,.doc,.docx,.xls,.xlsx,text/csv,text/plain,application/pdf,image/jpeg,image/png,image/gif,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                    <button type="button" class="file-upload-button" id="fileUploadBtn">@L["Register.Form.ChooseFile"]</button>
+                                    <input type="file" class="custom-file-input d-none" id="attachments"
+                                           multiple accept=".csv,.txt,.pdf,.jpg,.jpeg,.png,.gif,.doc,.docx,.xls,.xlsx,text/csv,text/plain,application/pdf,image/jpeg,image/png,image/gif,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                                 </div>
                             </div>
                             <div id="fileList" class="mt-2"></div>
@@ -383,7 +382,7 @@
                     <div class="col-md-12">
                         <div class="terms-checkbox">
                             <input type="checkbox" id="AgreeToTermsCheckbox" class="form-check-input">
-                            <label class="form-check-label" for="AgreeToTermsCheckbox">Điều khoản & điều kiện: Click để xem/Click để đồng ý. <a href="javascript:void(0);" id="TermsLink" class="text-primary">Chi tiết</a></label>
+                            <label class="form-check-label" for="AgreeToTermsCheckbox">@L["Register.Form.TermsLabel"] <a href="javascript:void(0);" id="TermsLink" class="text-primary">@L["Register.Form.TermsLink"]</a></label>
                         </div>
                         <input type="hidden" asp-for="Student.AgreeToTerms" id="AgreeToTerms" />
                     </div>
@@ -391,7 +390,7 @@
 
                 <div class="row justify-content-center mt-4">
                     <div class="col-md-6 col-xs-12 text-center">
-                        <button type="button" id="SaveButton" class="submit-button">Đăng ký ngay</button>
+                        <button type="button" id="SaveButton" class="submit-button">@L["Register.Form.SubmitButton"]</button>
                     </div>
                 </div>
             </form>
