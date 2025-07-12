@@ -3,7 +3,7 @@
   "texts": {
     "AppName": "TESOL Channel",
     "Menu:Home": "Home",
-    "Menu:Course": "Course",
+    "Menu:Course": "Program Overview",
     "Menu:Agencies": "Agencies",
     "Menu:Students": "Students",
     "Menu:About": "About Us",
@@ -14,7 +14,7 @@
     "Menu:EmploymentSupport": "Employment Support",
     "Menu:EmploymentSupportAdmin": "EmploymentSupportAdmin",
     "Menu:AgentRegisterAdmin": "AgentRegisterAdmin",
-    "Menu:Students:Register": "Register",
+    "Menu:Students:Register": "Course Registration",
     "Menu:Students:List": "Students List",
     "Menu:Students:Profile": "Profile",
     "Menu:Login": "Login",
@@ -200,12 +200,67 @@
     "Home.Teachers.RegisterButton": "Register Now",
     //
 
+
+
+    // Course Page - Hero Section
+    "Course.Hero.Label": "What is TESOL?",
+    "Course.Hero.Title": "Overview of the TESOL International Certificate Online Program",
+    "Course.Hero.Description": "The TESOL International Certificate program by LTi Australia helps learners achieve an international certification and develop comprehensive teaching skills. It equips educators with the essential knowledge and abilities to succeed in diverse teaching environments.",
+    "Course.Hero.VideoAlt": "TESOL Course Overview",
+    "Course.Hero.VideoTitle": "TESOL Video",
+
+    // Course Page - Benefits Section
+    "Course.Benefits.Curriculum.Title": "Curriculum",
+    "Course.Benefits.Curriculum.Description": "100% in English, compiled by LTi Australia.",
+    "Course.Benefits.Teachers.Title": "Instructors",
+    "Course.Benefits.Teachers.Description": "Foreign teachers directly teach Online and provide support.",
+    "Course.Benefits.Support.Title": "Personalized Support",
+    "Course.Benefits.Support.Description": "1:1 guidance to ensure learners fully grasp the content.",
+    "Course.Benefits.Certificate.Title": "International Certification",
+    "Course.Benefits.Certificate.Description": "Awarded directly by LTi Australia, globally recognized.",
+    "Course.Benefits.Materials.Title": "Study Materials",
+    "Course.Benefits.Materials.Description": "Learners receive a 335-page hardcover book to aid their studies.",
+    "Course.Benefits.LifetimeAccess.Title": "Lifetime Learning Account",
+    "Course.Benefits.LifetimeAccess.Description": "Learners are granted a lifetime online learning account, allowing them to access and review course materials anytime.",
+
+    // Course Page - Content Section
+    "Course.Content.Label": "Our Course",
+    "Course.Content.Title": "Course Content",
+    "Course.Content.Description": "The program includes 8 in-depth modules and 9 hours of practical training, helping learners develop comprehensive English teaching skills.",
+    "Course.Content.Module1.Title": "Culture & Learning",
+    "Course.Content.Module1.Description": "Explore the connection between communication, culture, and learning; learn how to manage diverse classrooms and create an inclusive learning environment that respects all learning styles.",
+    "Course.Content.Module2.Title": "English Language Analysis",
+    "Course.Content.Module2.Description": "Discover the functional nature of the English language, equipping skills to analyze the structure and language of texts for more effective teaching.",
+    "Course.Content.Module3.Title": "Basic Grammar Knowledge",
+    "Course.Content.Module3.Description": "Develop in-depth grammar knowledge, learn to clearly convey the role of grammar, and introduce grammar concepts to students.",
+    "Course.Content.Module4.Title": "Speaking & Pronunciation Strategies & Skills",
+    "Course.Content.Module4.Description": "Guide on teaching speaking and pronunciation skills, organizing engaging lessons, and finding suitable materials to improve learners’ communication abilities.",
+    "Course.Content.Module5.Title": "Listening Strategies & Skills",
+    "Course.Content.Module5.Description": "Teach how to develop students’ listening skills through social communication lessons, focusing on accuracy and fluency.",
+    "Course.Content.Module6.Title": "Reading Strategies & Skills",
+    "Course.Content.Module6.Description": "Support students in recognizing the English alphabet and symbols, designing dynamic reading lessons to develop effective reading skills.",
+    "Course.Content.Module7.Title": "Writing Strategies & Skills",
+    "Course.Content.Module7.Description": "Guide students from writing letters to essay structure, applying practical techniques to develop writing skills.",
+    "Course.Content.Module8.Title": "Teaching English Online",
+    "Course.Content.Module8.Description": "Equip skills for online teaching, integrating technology, and adapting teaching styles to suit the online learning environment.",
+
+    // Course Page - Practical Section
+    "Course.Practical.Label": "Practical Activities",
+    "Course.Practical.Title": "Practical Training",
+    "Course.Practical.Description": "Learners will participate in 9 hours of hands-on practice in real teaching environments, applying the knowledge gained to build experience. Upon completion, you will confidently step into live or online classrooms worldwide while enhancing your personal profile.",
+    "Course.Practical.Note": "Note: When enrolling in a course, you can freely choose a nearby support center to receive practical guidance.",
+    "Course.Practical.PreviousButton": "Previous videos",
+    "Course.Practical.NextButton": "Next videos",
+    "Course.Practical.VideoAlt": "Practical Video {0}",
+    //
+
+
     // Footer
     "Footer.Logo.Alt": "TESOL Channel",
     "Footer.Tagline": "Official distributor of LTi Australia",
     "Footer.Nav.Home": "Home",
-    "Footer.Nav.Courses": "Course",
-    "Footer.Nav.Register": "Register",
+    "Footer.Nav.Courses": "Program Overview",
+    "Footer.Nav.Register": "Course Registration",
     "Footer.Nav.Partners": "Partners",
     "Footer.Nav.Jobs": "Employment Support",
     "Footer.Nav.About": "About Us",

@@ -78,13 +78,13 @@
                     <span class="lang-caret d-none d-md-inline">▼</span>
                 </button>
                 <div class="lang-dropdown" id="langDropdown" style="display: none;">
-                    <a href="/Abp/Languages/Switch?culture=vi&uiCulture=vi" class="lang-option">
+                    <a href="javascript:void(0)" onclick="switchLanguage('vi')" class="lang-option">
                         <span class="lang-flag">
                             <img src="https://cdn-icons-png.flaticon.com/512/197/197473.png" alt="Vietnam Flag" class="lang-flag"
                                  style="width: 1.1em; height: 1.1em; margin-right: 0.3rem;" />
                         </span> VN
                     </a>
-                    <a href="/Abp/Languages/Switch?culture=en&uiCulture=en" class="lang-option">
+                    <a href="javascript:void(0)" onclick="switchLanguage('en')" class="lang-option">
                         <span class="lang-flag">
                             <img src="https://cdn-icons-png.flaticon.com/512/197/197374.png" alt="UK Flag"
                                  class="lang-flag" style="width: 1.1em; height: 1.1em; margin-right: 0.3rem;" />
@@ -299,6 +299,7 @@
             transform: translateY(-100%);
             opacity: 0;
         }
+
         to {
             transform: translateY(0);
             opacity: 1;
@@ -393,7 +394,6 @@
         .mobile-subtitle {
             font-size: 0.7rem;
         }
-
         /* Mobile user greeting */
         .navbar-right-section {
             gap: 10px;
@@ -417,7 +417,6 @@
         .user-caret {
             font-size: 0.6rem;
         }
-
         /* Mobile user dropdown */
         .user-dropdown {
             min-width: 260px;
@@ -439,7 +438,6 @@
         .user-email {
             font-size: 0.8rem;
         }
-
         /* Hide greeting text on very small screens, show only icon */
         @@media (max-width: 480px) {
             .greeting-text {
@@ -447,9 +445,9 @@
                 gap: 4px;
             }
 
-            .greeting-text span:not(.greeting-icon):not(.user-caret) {
-                display: none;
-            }
+                .greeting-text span:not(.greeting-icon):not(.user-caret) {
+                    display: none;
+                }
 
             .greeting-icon {
                 font-size: 1.2rem;
@@ -487,11 +485,11 @@
             from {
                 transform: translateX(-100%);
             }
+
             to {
                 transform: translateX(0);
             }
         }
-
         /* Close button */
         .custom-navbar-menu.show .menu-close {
             position: absolute;
@@ -504,7 +502,6 @@
             background: none;
             border: none;
         }
-
         /* Menu items styling */
         .custom-navbar-menu.show a {
             display: block;
@@ -521,7 +518,6 @@
                 font-weight: 600;
                 background-color: rgba(0, 51, 102, 0.05);
             }
-
         /* Overlay for the rest of the screen */
         .menu-overlay {
             display: none;
@@ -616,11 +612,11 @@
         // User dropdown functionality
         var userDropdownToggle = document.getElementById('userDropdownToggle');
         var userDropdown = document.getElementById('userDropdown');
-        
+
         if (userDropdownToggle && userDropdown) {
             userDropdownToggle.addEventListener('click', function(event) {
                 event.stopPropagation();
-                
+
                 // Close language dropdown if open
                 var langDropdown = document.getElementById('langDropdown');
                 if (langDropdown && langDropdown.style.display === 'block') {
@@ -646,11 +642,11 @@
         // Language dropdown functionality
         var langDropdownToggle = document.getElementById('langDropdownToggle');
         var langDropdown = document.getElementById('langDropdown');
-        
+
         if (langDropdownToggle && langDropdown) {
             langDropdownToggle.addEventListener('click', function(event) {
                 event.stopPropagation();
-                
+
                 // Close user dropdown if open
                 if (userDropdown && userDropdown.classList.contains('show')) {
                     userDropdown.classList.remove('show');
@@ -762,5 +758,15 @@
                 }
             }
         }
+    }
+
+    function switchLanguage(language) {
+        const url = `/Abp/Languages/Switch?culture=${language}&uiCulture=${language}`;
+        
+        // Use only the path portion of the URL instead of the full URL
+        const currentPath = window.location.pathname + window.location.search + window.location.hash;
+        
+        const redirectUrl = `${url}&returnUrl=${encodeURIComponent(currentPath)}`;
+        window.location.href = redirectUrl;
     }
 </script>

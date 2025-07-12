@@ -202,6 +202,60 @@
     //
 
 
+    // Course Page - Hero Section
+    "Course.Hero.Label": "TESOL có gì ?",
+    "Course.Hero.Title": "Tổng quan về khóa TESOL<br>Online Chứng chỉ Quốc tế",
+    "Course.Hero.Description": "Khóa học TESOL Chứng chỉ Quốc tế của LTi Australia giúp học viên đạt chứng chỉ quốc tế và phát triển kỹ năng giảng dạy toàn diện, trang bị cho giáo viên những kiến thức và kỹ năng cần thiết để thành công trong môi trường giảng dạy đa dạng.",
+    "Course.Hero.VideoAlt": "TESOL Course Overview",
+    "Course.Hero.VideoTitle": "TESOL Video",
+
+    // Course Page - Benefits Section
+    "Course.Benefits.Curriculum.Title": "Giáo trình 100% tiếng Anh",
+    "Course.Benefits.Curriculum.Description": "Toàn bộ giáo trình được biên soạn bởi LTi Australia, cập nhật kiến thức hiện đại, phù hợp với xu hướng giảng dạy toàn cầu.",
+    "Course.Benefits.Teachers.Title": "Giảng viên nước ngoài",
+    "Course.Benefits.Teachers.Description": "Đội ngũ giáo viên là người bản xứ, giàu kinh nghiệm, trực tiếp giảng dạy online và hỗ trợ học viên trong suốt quá trình học.",
+    "Course.Benefits.Support.Title": "Hỗ trợ cá nhân 1:1",
+    "Course.Benefits.Support.Description": "Học viên được hướng dẫn, giải đáp thắc mắc riêng biệt, giúp nắm vững kiến thức và kỹ năng cần thiết.",
+    "Course.Benefits.Certificate.Title": "Chứng chỉ quốc tế",
+    "Course.Benefits.Certificate.Description": "Sau khi hoàn thành khóa học, học viên sẽ nhận được chứng chỉ TESOL do LTi Australia cấp, được công nhận rộng rãi trên thế giới.",
+    "Course.Benefits.Materials.Title": "Tài liệu học miễn phí",
+    "Course.Benefits.Materials.Description": "Học viên nhận một quyển sách hỗ trợ học tập TESOL bìa cứng 335 trang do Lti biên soạn. Hỗ trợ hiệu quả cho quá trình học tập và giảng dạy sau này.",
+    "Course.Benefits.LifetimeAccess.Title": "Tài khoản học trọn đời",
+    "Course.Benefits.LifetimeAccess.Description": "Học viên được cấp tài khoản học online trọn đời, có thể truy cập và ôn luyện bất cứ lúc nào.",
+
+    // Course Page - Content Section
+    "Course.Content.Label": "Khóa học của chúng tôi",
+    "Course.Content.Title": "Nội dung khóa học",
+    "Course.Content.Description": "Chương trình gồm 8 mô-đun chuyên sâu và 9 giờ thực hành, giúp học viên phát triển toàn diện kỹ năng giảng dạy tiếng Anh.",
+    "Course.Content.Module1.Title": "Văn hóa & học tập",
+    "Course.Content.Module1.Description": "Khám phá mối liên hệ giữa giao tiếp, văn hóa và học tập; học cách quản lý lớp học đa dạng và tạo môi trường học tập hòa nhập, tôn trọng mọi phong cách học tập.",
+    "Course.Content.Module2.Title": "Phân tích ngôn ngữ tiếng anh",
+    "Course.Content.Module2.Description": "Khám phá tính chức năng của ngôn ngữ Anh, trang bị kỹ năng phân tích cấu trúc và ngôn ngữ của các văn bản để dạy học hiệu quả hơn.",
+    "Course.Content.Module3.Title": "Kiến thức ngữ pháp cơ bản",
+    "Course.Content.Module3.Description": "Phát triển kiến thức ngữ pháp tiếng Anh, học cách truyền đạt rõ ràng vai trò của ngữ pháp và giới thiệu các khái niệm ngữ pháp cho học viên.",
+    "Course.Content.Module4.Title": "Chiến lược & Kỹ năng nói và phát âm",
+    "Course.Content.Module4.Description": "Hướng dẫn cách dạy kỹ năng nói và phát âm, tổ chức các tiết học hấp dẫn, lựa chọn tài liệu phù hợp để nâng cao khả năng giao tiếp của học viên.",
+    "Course.Content.Module5.Title": "Chiến lược & Kỹ năng nghe",
+    "Course.Content.Module5.Description": "Dạy cách phát triển kỹ năng nghe của học viên thông qua các bài học giao tiếp xã hội, tập trung vào độ chính xác và lưu loát.",
+    "Course.Content.Module6.Title": "Chiến lược & Kỹ năng đọc",
+    "Course.Content.Module6.Description": "Hỗ trợ học viên nhận biết bảng chữ cái và kỹ hiệu tiếng Anh, thiết kế các bài học đọc năng động để phát triển kỹ năng đọc hiệu quả.",
+    "Course.Content.Module7.Title": "Chiến lược & kỹ năng viết",
+    "Course.Content.Module7.Description": "Hướng dẫn học viên từ viết chữ cái đến cấu trúc bài luận, áp dụng các kỹ thuật thực tế để phát triển kỹ năng viết.",
+    "Course.Content.Module8.Title": "Dạy tiếng anh trực tuyến",
+    "Course.Content.Module8.Description": "Trang bị kỹ năng dạy học online, tích hợp công nghệ và điều chỉnh phương pháp giảng dạy phù hợp với môi trường học trực tuyến.",
+
+    // Course Page - Practical Section
+    "Course.Practical.Label": "Hoạt động thực hành",
+    "Course.Practical.Title": "Thực hành thực tế",
+    "Course.Practical.Description": "Học viên sẽ tham gia 9 giờ thực hành trong môi trường giảng dạy thực tế, áp dụng kiến thức đã học để tích lũy kinh nghiệm. Sau khi hoàn thành, bạn sẽ tự tin bước vào các lớp học trực tiếp hoặc online trên toàn cầu, đồng thời nâng cao hồ sơ cá nhân.",
+    "Course.Practical.Note": "Lưu ý: Khi đăng ký học bạn có thể tự do chọn trung tâm hỗ trợ gần nhất để được hướng dẫn thực hành.",
+    "Course.Practical.PreviousButton": "Video trước",
+    "Course.Practical.NextButton": "Video tiếp theo",
+    "Course.Practical.VideoAlt": "Video thực hành {0}",
+    //
+
+
+
     // Footer
     "Footer.Logo.Alt": "TESOL Channel",
     "Footer.Tagline": "Nhà phân phối chính thức của LTi Australia",
