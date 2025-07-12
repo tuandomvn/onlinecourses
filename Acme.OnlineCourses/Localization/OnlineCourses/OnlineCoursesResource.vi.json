@@ -162,8 +162,8 @@
     // Home Page - About Section
     "Home.About.Label": "Về chúng tôi",
     "Home.About.Title": "Giới thiệu về LTi Australia",
-    "Home.About.Description": "<b>LTi Australia</b> là một tổ chức hàng đầu trong lĩnh vực đào tạo TESOL, được công nhận là xuất sắc và đổi mới trong giáo dục ngôn ngữ.",
-    "Home.About.Highlight": "<b>Những điểm nổi bật về LTi:</b>",
+    "Home.About.Description": "<b>LTi Australia</b> là một tổ chức hàng đầu trong lĩnh vực đào tạo TESOL, được công nhận về cam kết xuất sắc và đổi mới trong giáo dục ngôn ngữ.",
+    "Home.About.Highlight": "<b>Dưới đây là một số điểm nổi bật về LTi:</b>",
     "Home.About.LogoAlt": "LTi Australia Logo",
     "Home.About.Features.Founded.Title": "Thành lập",
     "Home.About.Features.Founded.Description": "LTi là đơn vị tiên phong trong đào tạo TESOL tại Úc, là tổ chức đầu tiên nhận được chứng nhận của chính phủ cho Chứng chỉ TESOL vào năm 1996.",
@@ -192,12 +192,30 @@
 
     // Home Page - Teachers Section
     "Home.Teachers.Label": "Giáo viên của chúng tôi",
-    "Home.Teachers.Title": "Giáo viên chuyên nghiệp<br>từ LTi Australia",
-    "Home.Teachers.ImageAlt": "Giáo viên LTi Australia",
+    "Home.Teachers.Title": "Giáo viên chuyên nghiệp<br>từ LTi",
+    "Home.Teachers.ImageAlt": "Giáo viên LTi",
     "Home.Teachers.Feature1": "Chương trình được giảng dạy trực tiếp bởi đội ngũ giáo viên chuyên nghiệp, giàu kinh nghiệm từ LTi Australia.",
-    "Home.Teachers.Feature2": "Các giáo viên sẽ hướng dẫn và hỗ trợ bạn suốt quá trình học tập, đảm bảo bạn tiếp thu kiến thức một cách hiệu quả.",
+    "Home.Teachers.Feature2": "Các giáo viên sẽ hướng dẫn và hỗ trợ bạn suốt quá trình học tập, đảm bảo bạn tiếp thu kiến thức một cách hiệu quả. ",
     "Home.Teachers.Feature3": "Với lịch học linh hoạt và sự hướng dẫn chuyên nghiệp từ LTi Australia, chương trình TESOL Online chắc chắn sẽ mang lại cho bạn trải nghiệm học tập tuyệt vời.",
-    "Home.Teachers.RegisterButton": "Đăng ký ngay"
+    "Home.Teachers.Feature4": "Hãy liên hệ ngay với chúng tôi để đăng ký và bắt đầu hành trình trở thành giáo viên tiếng Anh chuyên nghiệp.",
+    "Home.Teachers.RegisterButton": "Đăng ký ngay",
     //
+
+
+    // Footer
+    "Footer.Logo.Alt": "TESOL Channel",
+    "Footer.Tagline": "Nhà phân phối chính thức của LTi Australia",
+    "Footer.Nav.Home": "Trang chủ",
+    "Footer.Nav.Courses": "Chương trình học",
+    "Footer.Nav.Register": "Đăng Ký học",
+    "Footer.Nav.Partners": "Các đối tác",
+    "Footer.Nav.Jobs": "Hỗ trợ việc làm",
+    "Footer.Nav.About": "Về chúng tôi",
+    "Footer.Nav.Contact": "Liên hệ",
+    "Footer.Social.Facebook": "Facebook",
+    "Footer.Social.YouTube": "YouTube",
+    "Footer.Social.TikTok": "TikTok",
+    "Footer.Copyright": "Copyright by TESOL Channel all rights reserved"
+
   }
 } 

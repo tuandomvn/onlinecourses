@@ -147,7 +147,7 @@
     //Home Page
     // Home Page - Hero Section
     "Home.Hero.Title": "<Become a Professional<br>English Teacher",
-    "Home.Hero.Subtitle": "Get international TESOL certificate from LTi Australia in just <b>200 hours of study and practice",
+    "Home.Hero.Subtitle": "Get a globally recognized TESOL certificate from LTi Australia in just 200 hours of study and practice.",
     "Home.Hero.RegisterButton": "Register Now",
     "Home.Hero.VideoAlt": "TESOL Video",
     "Home.Hero.VideoTitle": "TESOL Video",
@@ -160,28 +160,28 @@
 
     // Home Page - About Section
     "Home.About.Label": "About Us",
-    "Home.About.Title": "About LTi Australia",
-    "Home.About.Description": "<b>LTi Australia</b> is a leading organization in TESOL training, recognized for excellence and innovation in language education.",
-    "Home.About.Highlight": "<b>LTi Highlights:</b>",
+    "Home.About.Title": "Introduction to LTi Australia",
+    "Home.About.Description": "<b>LTi Australia</b> is a leading organization in the field of TESOL training, recognized for excellence and innovation in language education.",
+    "Home.About.Highlight": "<b>Below are some key highlights about LTI:</b>",
     "Home.About.LogoAlt": "LTi Australia Logo",
-    "Home.About.Features.Founded.Title": "Founded",
-    "Home.About.Features.Founded.Description": "LTi is a pioneer in TESOL training in Australia, the first organization to receive government certification for TESOL Certificate in 1996.",
+    "Home.About.Features.Founded.Title": "Established",
+    "Home.About.Features.Founded.Description": "LTi is a pioneer in TESOL training in Australia, being the first organization to receive government accreditation for a TESOL Certificate in 1996.",
     "Home.About.Features.Registration.Title": "Registration",
-    "Home.About.Features.Registration.Description": "Officially registered as a Registered Training Organization recognized by the Australian Government (RTO No. 30173) since 1998.",
+    "Home.About.Features.Registration.Description": "Officially registered as an Australian Government Registered Training Organisation (RTO No. 30173) since 1998.",
     "Home.About.Features.Experience.Title": "Experience",
-    "Home.About.Features.Experience.Description": "Over 28 years of building reputation both domestically and internationally in TESOL training.",
+    "Home.About.Features.Experience.Description": "Over 28 years of trusted reputation both nationally and internationally in TESOL training.",
     "Home.About.Features.Partners.Title": "Partner Organizations",
-    "Home.About.Features.Partners.Description": "50 organizations have used LTi's TESOL courses and materials.",
-    "Home.About.Features.Impact.Title": "Impact",
-    "Home.About.Features.Impact.Description": "Trained over 16,000 students worldwide, including both native and non-native English teachers",
-    "Home.About.Features.Subsidiary.Title": "Subsidiary",
+    "Home.About.Features.Partners.Description": "50 organizations have utilized LTi’s TESOL courses and resources.",
+    "Home.About.Features.Impact.Title": "Reach",
+    "Home.About.Features.Impact.Description": "Trained over 16,000 students worldwide, including both native and non-native English speakers.",
+    "Home.About.Features.Subsidiary.Title": "Division Of",
     "Home.About.Features.Subsidiary.Description": "LTi is a division of Universal Education and Training Ltd. (ABN: 75 090 720 086).",
-    "Home.About.Footer": "In Vietnam, <b style=\"color:#0a3978;\">TESOL Channel</b> is proud to be the official distributor of LTi Australia, bringing high-quality TESOL Online programs and connecting with English centers and universities nationwide. We are committed to accompanying you on your journey to become a professional English teacher with international certification.",
+    "Home.About.Footer": "In Vietnam, <b style=\"color:#0a3978;\">TESOL Channel</b> is proud to be the official distributor of LTi Australia, delivering top-quality TESOL Online programs and connecting with English language centers and universities across the country. We are committed to accompanying you on your journey to becoming a professional English teacher with globally recognized certification.",
 
     // Home Page - Schedule Section
     "Home.Schedule.Label": "Study Time",
     "Home.Schedule.Title": "Flexible Schedule,<br>Suitable for Everyone",
-    "Home.Schedule.Description": "LTi's TESOL Online program provides flexible scheduling, allowing you to study during morning, afternoon, or evening sessions according to your needs and schedule. Additionally, you will receive a lifetime account, enabling you to review and reference materials anytime.",
+    "Home.Schedule.Description": "LTi's Online TESOL program offers a flexible schedule, allowing you to study in the morning, afternoon, or evening based on your needs and timetable. Additionally, you will be provided with a lifelong account, enabling you to review and access materials at any time for study and reference.",
     "Home.Schedule.Morning.Title": "Morning",
     "Home.Schedule.Morning.Time": "8:00am – 12:00pm",
     "Home.Schedule.Afternoon.Title": "Afternoon",
@@ -191,12 +191,29 @@
 
     // Home Page - Teachers Section
     "Home.Teachers.Label": "Our Teachers",
-    "Home.Teachers.Title": "Professional Teachers<br>from LTi Australia",
+    "Home.Teachers.Title": "Professional Teachers<br>from LTi",
     "Home.Teachers.ImageAlt": "LTi Australia Teachers",
     "Home.Teachers.Feature1": "The program is taught directly by a team of professional, experienced teachers from LTi Australia.",
     "Home.Teachers.Feature2": "Teachers will guide and support you throughout the learning process, ensuring you absorb knowledge effectively.",
     "Home.Teachers.Feature3": "With flexible scheduling and professional guidance from LTi Australia, the TESOL Online program will certainly provide you with an excellent learning experience.",
-    "Home.Teachers.RegisterButton": "Register Now"
+    "Home.Teachers.Feature4": "Contact us now to register and start your journey to becoming a professional English teacher!",
+    "Home.Teachers.RegisterButton": "Register Now",
+    //
+
+    // Footer
+    "Footer.Logo.Alt": "TESOL Channel",
+    "Footer.Tagline": "Official distributor of LTi Australia",
+    "Footer.Nav.Home": "Home",
+    "Footer.Nav.Courses": "Course",
+    "Footer.Nav.Register": "Register",
+    "Footer.Nav.Partners": "Partners",
+    "Footer.Nav.Jobs": "Employment Support",
+    "Footer.Nav.About": "About Us",
+    "Footer.Nav.Contact": "Contact",
+    "Footer.Social.Facebook": "Facebook",
+    "Footer.Social.YouTube": "YouTube",
+    "Footer.Social.TikTok": "TikTok",
+    "Footer.Copyright": "Copyright by TESOL Channel all rights reserved"
     //
   }
 } 

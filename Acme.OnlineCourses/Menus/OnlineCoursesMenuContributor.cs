@@ -65,7 +65,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                new ApplicationMenuItem(
                    OnlineCoursesMenus.Course,
                    l["Menu:Course"],
-                   "~/Course",
+                   "~/Courses",
                    order: 2
                )
             );
@@ -85,7 +85,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 new ApplicationMenuItem(
                     OnlineCoursesMenus.Partner,
                     l["Menu:Partner"],
-                    "~/Partner",
+                    "~/Partners",
                     order: 4
                 )
             );

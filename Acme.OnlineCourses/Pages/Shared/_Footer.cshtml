@@ -1,35 +1,37 @@
-﻿<footer class="site-footer">
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Acme.OnlineCourses.Localization
+@inject IHtmlLocalizer<OnlineCoursesResource> L
+
+<footer class="site-footer">
     <div class="footer-content container">
         <a href="/" class="footer-brand">
-            <img src="~/images/logo/white-logo.png" alt="TESOL Channel" class="footer-logo" />
-            <div class="footer-tagline">Nhà phân phối chính thức của LTi Australia</div>
+            <img src="~/images/logo/white-logo.png" alt="@L["Footer.Logo.Alt"]" class="footer-logo" />
+            <div class="footer-tagline">@L["Footer.Tagline"]</div>
         </a>
         <nav class="footer-nav">
-            <a href="/">Trang chủ</a>
-            <a href="/Courses">Chương trình học</a>
-            <a href="/Register">Đăng Ký học</a>
-            <a href="/Partners">Các đối tác</a>
-            <a href="/Jobs">Hỗ trợ việc làm</a>
-            <a href="/About">Về chúng tôi</a>
-            <a href="/Contact">Liên hệ</a>
+            <a href="/">@L["Footer.Nav.Home"]</a>
+            <a href="/Courses">@L["Footer.Nav.Courses"]</a>
+            <a href="/Students/Register">@L["Footer.Nav.Register"]</a>
+            <a href="/Partners">@L["Footer.Nav.Partners"]</a>
+            <a href="/Jobs">@L["Footer.Nav.Jobs"]</a>
+            <a href="/About">@L["Footer.Nav.About"]</a>
+            <a href="/Contact">@L["Footer.Nav.Contact"]</a>
         </nav>
-
-       
     </div>
     <div class="footer-social container">
         <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
-            <img src="~/images/getting-started/fb.svg" alt="Facebook" />
+            <img src="~/images/getting-started/fb.svg" alt="@L["Footer.Social.Facebook"]" />
         </a>
         <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
-            <img src="~/images/getting-started/youtube.svg" alt="YouTube" />
+            <img src="~/images/getting-started/youtube.svg" alt="@L["Footer.Social.YouTube"]" />
         </a>
         <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok">
-            <img src="~/images/getting-started/tiktok.svg" alt="TikTok" />
+            <img src="~/images/getting-started/tiktok.svg" alt="@L["Footer.Social.TikTok"]" />
         </a>
     </div>
 
     <div class="footer-copyright">
-        Copyright by TESOL Channel all rights reserved
+        @L["Footer.Copyright"]
     </div>
 </footer>
 
