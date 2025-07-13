@@ -148,7 +148,6 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 OnlineCoursesMenus.Agencies,
                 l["Menu:Agencies"],
                 url: "/Agencies",
-                // icon: "fas fa-building",
                 order: 10,
                 requiredPermissionName: OnlineCoursesPermissions.Agencies.Default
             )

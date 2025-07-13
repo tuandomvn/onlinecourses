@@ -1,6 +1,8 @@
 using Acme.OnlineCourses.Data;
+using Microsoft.AspNetCore.Localization;
 using Serilog;
 using Serilog.Events;
+using System.Globalization;
 using Volo.Abp.Data;
 
 namespace Acme.OnlineCourses;
@@ -20,6 +22,9 @@ public class Program
             .Enrich.FromLogContext()
             .WriteTo.Async(c => c.File("Logs/logs.txt"))
             .WriteTo.Async(c => c.Console());
+
+        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("vi");
+        CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("vi");
 
         if (IsMigrateDatabase(args))
         {
@@ -48,6 +53,9 @@ public class Program
                 await app.Services.GetRequiredService<OnlineCoursesDbMigrationService>().MigrateAsync();
                 return 0;
             }
+
+
+            
 
             Log.Information("Starting Acme.OnlineCourses.");
             await app.RunAsync();

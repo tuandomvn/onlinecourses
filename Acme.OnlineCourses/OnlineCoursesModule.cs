@@ -60,6 +60,9 @@ using Volo.Abp.VirtualFileSystem;
 using DataSeeder = Acme.OnlineCourses.Data.DataSeeder;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Acme.OnlineCourses.Middlewares;
 
 namespace Acme.OnlineCourses;
 
@@ -250,7 +253,7 @@ public class OnlineCoursesModule : AbpModule
 
             options.Languages.Add(new LanguageInfo("en", "en", "English"));
             options.Languages.Add(new LanguageInfo("vi", "vi", "Tiếng Việt"));
-        
+
         });
 
         Configure<AbpExceptionLocalizationOptions>(options =>
@@ -344,7 +347,28 @@ public class OnlineCoursesModule : AbpModule
             app.UseDeveloperExceptionPage();
         }
 
-        app.UseAbpRequestLocalization();
+        app.UseDefaultLanguage();
+
+        app.UseRouting();
+
+        app.UseAbpRequestLocalization(options =>
+        {
+            options.DefaultRequestCulture = new RequestCulture("vi");
+            options.SupportedCultures = new[] { new CultureInfo("vi"), new CultureInfo("en") };
+            options.SupportedUICultures = new[] { new CultureInfo("vi"), new CultureInfo("en") };
+
+            // Configure culture providers in priority order
+            options.RequestCultureProviders.Clear();
+
+            // Add query string provider first (highest priority)
+            options.RequestCultureProviders.Add(new QueryStringRequestCultureProvider());
+
+            // Add cookie provider second
+            options.RequestCultureProviders.Add(new CookieRequestCultureProvider());
+
+            // Add our custom provider last - only used if no explicit preference is set
+            options.RequestCultureProviders.Add(new Providers.PreferredLanguageCultureProvider());
+        });
 
         if (!env.IsDevelopment())
         {
@@ -353,7 +377,6 @@ public class OnlineCoursesModule : AbpModule
 
         app.UseCorrelationId();
         app.MapAbpStaticAssets();
-        app.UseRouting();
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();
 

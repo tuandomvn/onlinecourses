@@ -37,6 +37,7 @@
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(10,57,120,0.08);
     transition: background 0.2s;
+    text-decoration:none;
 }
 
     .hero-btn:hover {
@@ -613,6 +614,7 @@
     transition: background 0.2s;
     margin-top: 8px;
     width: max-content;
+    text-decoration:none;
 }
 
 .teacher-btn:hover {

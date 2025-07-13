@@ -783,9 +783,13 @@
     }
 
     function switchLanguage(language) {
+        // Set the cookie immediately
+        document.cookie = "Abp.Localization.CultureName=" + language + ";path=/;max-age=" + (365 * 24 * 60 * 60);
+        
+        // Use the ABP language switch endpoint
         const url = `/Abp/Languages/Switch?culture=${language}&uiCulture=${language}`;
         
-        // Use only the path portion of the URL instead of the full URL
+        // Use only the path portion of the URL for the return URL
         const currentPath = window.location.pathname + window.location.search + window.location.hash;
         
         const redirectUrl = `${url}&returnUrl=${encodeURIComponent(currentPath)}`;
