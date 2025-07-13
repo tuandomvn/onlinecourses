@@ -69,6 +69,15 @@
                     </div>
                 </div>
             }
+            else
+            {
+                <div class="user-greeting-container">
+                     <button class="greeting-text" type="button" id="userDropdownToggle">
+                             <a href="/Account/Login">@L["Menu:Login"]</a>
+                    </button>
+              
+                </div>
+            }
 
             <div class="custom-navbar-lang">
                 <button class="lang-btn lang-btn-mobile" type="button" id="langDropdownToggle">
@@ -126,7 +135,10 @@
         transition: all 0.3s ease;
         cursor: pointer;
     }
-
+    .greeting-text a{
+            color: white;
+            text-decoration: none;
+        }
         .greeting-text:hover {
             background: rgba(255, 255, 255, 0.15);
             transform: translateY(-1px);
@@ -396,7 +408,7 @@
         }
         /* Mobile user greeting */
         .navbar-right-section {
-            gap: 10px;
+/*             gap: 10px; */
         }
 
         .user-greeting-container {
@@ -719,6 +731,16 @@
     function setActiveMenuItem() {
         var currentPath = window.location.pathname;
         var menuItems = document.querySelectorAll('.custom-navbar-menu a');
+        
+        // Clear all active classes first
+        menuItems.forEach(function(item) {
+            item.classList.remove('active');
+        });
+        
+        // If on login page, don't set any menu item as active
+        if (currentPath === '/Account/Login') {
+            return;
+        }
 
         // First try to match exact path
         var activeFound = false;

@@ -49,14 +49,14 @@ public class OnlineCoursesMenuContributor : IMenuContributor
         }
         else
         {
-            context.Menu.AddItem(
-               new ApplicationMenuItem(
-                   "Login",
-                   l["Menu:Login"],
-                   url: "/Account/Login",
-                   order: 15
-               )
-           );
+           // context.Menu.AddItem(
+           //    new ApplicationMenuItem(
+           //        "Login",
+           //        l["Menu:Login"],
+           //        url: "/Account/Login",
+           //        order: 15
+           //    )
+           //);
         }
 
         if (shouldShowPublicMenu)

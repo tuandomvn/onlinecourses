@@ -94,7 +94,7 @@ body {
 
 .custom-navbar-lang {
     position: relative;
-    margin-left: 1rem;
+  /*  margin-left: 1rem;*/
 }
 
 .lang-btn {
