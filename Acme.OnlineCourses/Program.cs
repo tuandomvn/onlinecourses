@@ -1,8 +1,7 @@
-using Acme.OnlineCourses.Data;
-using Microsoft.AspNetCore.Localization;
+﻿using Acme.OnlineCourses.Data;
+using MailService.WebApi.Services;
 using Serilog;
 using Serilog.Events;
-using System.Globalization;
 using Volo.Abp.Data;
 
 namespace Acme.OnlineCourses;
@@ -23,9 +22,6 @@ public class Program
             .WriteTo.Async(c => c.File("Logs/logs.txt"))
             .WriteTo.Async(c => c.Console());
 
-        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("vi");
-        CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("vi");
-
         if (IsMigrateDatabase(args))
         {
             loggerConfiguration.MinimumLevel.Override("Volo.Abp", LogEventLevel.Warning);
@@ -44,6 +40,14 @@ public class Program
             {
                 builder.Services.AddDataMigrationEnvironment();
             }
+
+            // Đăng ký cấu hình MailSettings từ appsettings.json
+            builder.Services.Configure<MailSettings>(
+                builder.Configuration.GetSection("MailSettings"));
+
+            // Đăng ký MailService với DI container
+            builder.Services.AddScoped<IMailService, MailService.WebApi.Services.MailService>();
+
             await builder.AddApplicationAsync<OnlineCoursesModule>();
             var app = builder.Build();
             await app.InitializeApplicationAsync();
