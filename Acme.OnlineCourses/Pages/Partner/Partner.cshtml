@@ -156,14 +156,13 @@
 
             // Initialize select2 for location dropdown in partner form
             $('#location').select2({
-                placeholder: "@L["Partner.Form.Location.Placeholder"]",
                 allowClear: true,
                 width: '100%'
             });
 
             // Add validation rules
             $.validator.setDefaults({
-                ignore: [] // Don't ignore hidden fields (important for select2)
+                ignore: [] 
             });
 
             // Initialize validation

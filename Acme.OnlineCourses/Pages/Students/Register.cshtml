@@ -166,7 +166,7 @@
                 
                 // Check terms agreement
                 if(!$("#AgreeToTermsCheckbox").is(":checked")) {
-                    toastr.error("Vui lòng đồng ý với điều khoản và điều kiện");
+                    toastr.error('@L["Register.Form.TermsRequired"]');
                     return false;
                 }
                 
@@ -179,7 +179,7 @@
                     $("#RegisterForm").submit();
                 } else {
                     // Show general error message
-                    toastr.error("Vui lòng điền đầy đủ thông tin bắt buộc");
+                    toastr.error('@L["Register.Form.FillRequired"]');
                     
                     // Scroll to first error
                     var firstError = $(".is-invalid:first");

@@ -26,9 +26,11 @@ public class PartnerModel : AbpPageModel
 
     public async Task OnGetAsync()
     {
+        var isEnglish = Thread.CurrentThread.CurrentUICulture.Name.StartsWith("en");
+
         Locations = new List<SelectListItem>
         {
-            new SelectListItem { Value = "all", Text = "Tất cả", Selected = true },
+            new SelectListItem { Value = "all", Text = isEnglish ? "All" : "Tất cả", Selected = true },
             new SelectListItem { Value = "hanoi", Text = "Hà Nội" },
             new SelectListItem { Value = "hochiminh", Text = "Hồ Chí Minh" },
             new SelectListItem { Value = "danang", Text = "Đà Nẵng" },

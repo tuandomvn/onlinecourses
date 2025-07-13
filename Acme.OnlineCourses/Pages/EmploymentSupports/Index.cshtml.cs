@@ -49,31 +49,24 @@ namespace Acme.OnlineCourses.Pages.EmploymentSupports
         public class EmploymentSupportInput
         {
             [Required]
-            [Display(Name = "Họ và tên")]
             public string FullName { get; set; }
 
             [Required]
-            [Display(Name = "Ngày sinh")]
             [DataType(DataType.Date)]
             public DateTime DateOfBirth { get; set; }
 
-            [Display(Name = "Số điện thoại")]
             public string PhoneNumber { get; set; }
 
             [EmailAddress]
-            [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Display(Name = "Địa chỉ")]
             public string Address { get; set; }
 
             [Required]
-            [Display(Name = "Ngày hoàn thành khóa học")]
             [DataType(DataType.Date)]
             public DateTime CourseCompletionDate { get; set; }
 
-            [Display(Name = "Tin nhắn")]
-            public string Message { get; set; }
+            public string? Message { get; set; }
         }
     }
 } 
