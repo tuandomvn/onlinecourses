@@ -8,6 +8,7 @@ using System.Linq;
 using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Agencies.Dtos;
 using Volo.Abp.Application.Dtos;
+using System.IO;
 
 namespace Acme.OnlineCourses.Pages.Reports;
 
@@ -67,7 +68,18 @@ public class IndexModel : PageModel
                 AgencyId = SelectedReportType == ReportType.AgencyReport ? SelectedAgencyId : null
             };
 
-            ReportContent = await _reportAppService.GenerateReportAsync(input);
+            var result = await _reportAppService.GenerateReportAsync(input);
+
+            // Nếu là file Excel, trả về file download
+            if (!string.IsNullOrEmpty(result) && result.StartsWith("/reports/") && result.EndsWith(".xlsx"))
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", result.TrimStart('/').Replace("/", Path.DirectorySeparatorChar.ToString()));
+                var fileName = Path.GetFileName(filePath);
+                var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
+                return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+
+            ReportContent = result;
 
             // Reload agencies for the view
             var agenciesResult = await _agencyAppService.GetListAsync(new PagedAndSortedResultRequestDto
