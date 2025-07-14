@@ -147,7 +147,7 @@
 
     //Home Page
     // Home Page - Hero Section
-    "Home.Hero.Title": "Trở thành Giáo viên<br>tiếng Anh Chuyên Nghiệp",
+    "Home.Hero.Title": "Trở thành Giáo viên<br>Tiếng Anh Chuyên Nghiệp",
     "Home.Hero.Subtitle": "Nhận chứng chỉ TESOL quốc tế từ LTi Australia chỉ sau 200 giờ học và thực hành",
     "Home.Hero.RegisterButton": "Đăng ký ngay",
     "Home.Hero.VideoAlt": "TESOL Video",
@@ -162,7 +162,7 @@
     // Home Page - About Section
     "Home.About.Label": "Về chúng tôi",
     "Home.About.Title": "Giới thiệu về LTi Australia",
-    "Home.About.Description": "<b>LTi Australia</b> là một tổ chức hàng đầu trong lĩnh vực đào tạo TESOL, được công nhận về cam kết xuất sắc và đổi mới trong giáo dục ngôn ngữ.",
+    "Home.About.Description": "<b>LTi Australia</b> là một tổ chức hàng đầu trong lĩnh vực đào tạo TESOL, được công nhận là xuất sắc và đổi mới trong giáo dục ngôn ngữ.",
     "Home.About.Highlight": "<b>Dưới đây là một số điểm nổi bật về LTi:</b>",
     "Home.About.LogoAlt": "LTi Australia Logo",
     "Home.About.Features.Founded.Title": "Thành lập",
@@ -192,7 +192,7 @@
 
     // Home Page - Teachers Section
     "Home.Teachers.Label": "Giáo viên của chúng tôi",
-    "Home.Teachers.Title": "Giáo viên chuyên nghiệp<br>từ LTi",
+    "Home.Teachers.Title": "Giáo viên chuyên nghiệp<br>từ LTi Australia",
     "Home.Teachers.ImageAlt": "Giáo viên LTi",
     "Home.Teachers.Feature1": "Chương trình được giảng dạy trực tiếp bởi đội ngũ giáo viên chuyên nghiệp, giàu kinh nghiệm từ LTi Australia.",
     "Home.Teachers.Feature2": "Các giáo viên sẽ hướng dẫn và hỗ trợ bạn suốt quá trình học tập, đảm bảo bạn tiếp thu kiến thức một cách hiệu quả. ",
@@ -372,7 +372,7 @@
     // Form Section
     "Employment.Form.Subtitle": "Hướng dẫn đăng ký",
     "Employment.Form.Title": "Cách Đăng ký",
-    "Employment.Form.Description": "Nếu bạn cần hỗ trợ bất kỳ hỗ trợ nào liên quan đến việc làm sau khóa học, vui lòng liên hệ để lại thông tin cho chúng tôi.",
+    "Employment.Form.Description": "Nếu bạn cần bất kỳ hỗ trợ nào liên quan đến việc làm sau khóa học, vui lòng liên hệ để lại thông tin cho chúng tôi.",
 
     // Form Fields
     "Employment.Form.FullName": "Họ & Tên",
@@ -433,11 +433,11 @@
     "Contact.RegisterButton": "Đăng ký học",
     "Contact.DistributorButton": "Đăng ký làm nhà phân phối",
     "Contact.Phone.Label": "Số điện thoại:",
-    "Contact.Phone.Value": "0123 456 789",
+    "Contact.Phone.Value": "0838880055",
     "Contact.Email.Label": "Email:",
-    "Contact.Email.Value": "abc123@gmail.com",
+    "Contact.Email.Value": "info@tesolchanel.vn",
     "Contact.Website.Label": "Website:",
-    "Contact.Website.Value": "abc123.com",
+    "Contact.Website.Value": "tesolchanel.vn",
     "Contact.Address.Label": "Địa chỉ:",
     "Contact.Address.Value": "B07-04 Tòa nhà Lavida Plus, Phường Tân Phong, \nQuận 7, TP. Hồ Chí Minh, Việt Nam.",
     //
