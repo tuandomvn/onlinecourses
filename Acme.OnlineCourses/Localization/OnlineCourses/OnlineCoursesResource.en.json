@@ -240,7 +240,7 @@
     "Course.Content.Module6.Title": "Reading Strategies & Skills",
     "Course.Content.Module6.Description": "Support students in recognizing the English alphabet and symbols, designing dynamic reading lessons to develop effective reading skills.",
     "Course.Content.Module7.Title": "Writing Strategies & Skills",
-    "Course.Content.Module7.Description": "Guide students from writing letters to essay structure, applying practical techniques to develop writing skills.",
+    "Course.Content.Module7.Description": "Guide students from forming letters to structuring essays, applying practical techniques to develop writing skills.",
     "Course.Content.Module8.Title": "Teaching English Online",
     "Course.Content.Module8.Description": "Equip skills for online teaching, integrating technology, and adapting teaching styles to suit the online learning environment.",
 
@@ -269,14 +269,14 @@
 
     // Register Page - Requirements Section
     "Register.Requirements.Title": "Requirements for TESOL Online Course Registration",
-    "Register.Requirements.Requirement1": "Meet basic English proficiency criteria (may need to take an entrance test if necessary).",
-    "Register.Requirements.Requirement2": "Commit to completing the full learning and practice program.",
-    "Register.Requirements.Requirement3": "Agree to all LTi Australia policies.",
-    "Register.Requirements.Requirement4": "Tuition is collected according to LTi Australia regulations, ensuring transparency.",
-    "Register.Requirements.Requirement5": "TESOL Channel supports fee collection and guides students throughout the registration and learning process.",
+    "Register.Requirements.Requirement1": "Meet basic English proficiency criteria (an entrance test may be required if necessary).",
+    "Register.Requirements.Requirement2": "Commit to completing the full program and practical training.",
+    "Register.Requirements.Requirement3": "Agree with all the LTi Australia policies.",
+    "Register.Requirements.Requirement4": "Tuition fees are collected as per LTi Australia’s regulations, ensuring transparency.",
+    "Register.Requirements.Requirement5": "Tesol Chanel assists with fee collection and guides learners through the registration process.",
 
     // Register Page - Form Section
-    "Register.Form.Title": "Register Now",
+    "Register.Form.Title": "How to Register",
     "Register.Form.Subtitle": "Register here or contact the nearest partner center for consultation and quick registration support.",
     "Register.Form.FullnamePlaceholder": "Enter Full Name",
     "Register.Form.DateOfBirthPlaceholder": "Enter date of birth",
@@ -298,8 +298,8 @@
     // Partner List Section
     "Partner.List.Subtitle": "Our Partners",
     "Partner.List.Title": "Our Partners",
-    "Partner.List.Description1": "We are proud to distribute our program nationwide, connecting with trusted partner centers to provide the best support for you. With our extensive network, our professional team is always ready to listen and help you throughout your learning journey.",
-    "Partner.List.Description2": "Contact us, we are committed to accompanying you on your learning and development journey.",
+    "Partner.List.Description1": "We are proud to distribute our program nationwide, connecting with trusted partner centers to provide the best support for you. With an extensive network, our professional team is always ready to listen and assist you throughout your learning journey.",
+    "Partner.List.Description2": "Contact us, and we commit to accompanying you on your path to learning and development.",
     "Partner.LocationFilter.Label": "Select location",
     "Partner.LocationFilter.Placeholder": "Search",
     "Partner.LocationFilter.AllLocations": "All locations",
@@ -310,8 +310,8 @@
 
     // Become Partner Section
     "Partner.Become.Subtitle": "Become part of us",
-    "Partner.Become.Title": "Become Our Partner",
-    "Partner.Become.Description": "TESOL Channel aims to partner with reputable, quality-focused centers and schools to distribute LTI Australia's Online TESOL programs not only throughout Vietnam but beyond. By working together, we create opportunities to grow, adapt, and succeed in the dynamic field of English language education.",
+    "Partner.Become.Title": "Want to become our partner?",
+    "Partner.Become.Description": "TESOL Channel seeks collaboration with reputable centers and schools that prioritize quality to distribute LTi Australia's TESOL Online programs not only across Vietnam but also globally. By working together, we create opportunities for growth, adaptation, and success in the dynamic field of English language education.",
 
     // Form Fields
     "Partner.Form.FullName.Label": "Full Name *",
@@ -364,14 +364,14 @@
     // Hero Section
     "Employment.Hero.Subtitle": "Career after completion?",
     "Employment.Hero.Title": "Post-course Job Support",
-    "Employment.Hero.Description1": "Tesol Channel is committed to supporting you even after you complete the course.",
-    "Employment.Hero.Description2": "Tesol Channel will connect you with job opportunities at companies, English language centers, and schools both domestically and internationally. We have a wide network of partners ready to introduce you to suitable positions.",
+    "Employment.Hero.Description1": "Tesol Channel is committed to supporting you in finding a job even after completing the course..",
+    "Employment.Hero.Description2": "Tesol Channel will connect you with job opportunities at companies, English centers, and schools both domestically and internationally. We have an extensive network of partners ready to recommend you for suitable positions.",
     "Employment.Hero.ImageAlt": "Employment Support",
 
     // Form Section
     "Employment.Form.Subtitle": "Registration Guide",
     "Employment.Form.Title": "How to Register",
-    "Employment.Form.Description": "If you need any support related to employment after the course, please leave your information with us.",
+    "Employment.Form.Description": "If you need assistance in finding a job after completing the course, please leave your information with us.",
 
     // Form Fields
     "Employment.Form.FullName": "Full Name",
@@ -384,7 +384,7 @@
     "Employment.Form.EmailPlaceholder": "Enter your email address",
     "Employment.Form.Address": "Address",
     "Employment.Form.AddressPlaceholder": "Enter your address",
-    "Employment.Form.CourseCompletionDate": "Course Completion Date",
+    "Employment.Form.CourseCompletionDate": "Completed the course on",
     "Employment.Form.Message": "Message",
     "Employment.Form.MessagePlaceholder": "Enter your message",
     "Employment.Form.SubmitButton": "Register Now",
@@ -395,33 +395,33 @@
     // About Us Page - Hero Section
     "AboutUs.Hero.Label": "What is TESOL Channel?",
     "AboutUs.Hero.Title": "TESOL Channel",
-    "AboutUs.Hero.Description": "TESOL Channel – The official and exclusive distributor of LTi's TESOL Online in Vietnam.",
+    "AboutUs.Hero.Description": "TESOL Channel – The official and exclusive distributor of LTi's TESOL Online program in Vietnam.",
     "AboutUs.Hero.ImageAlt": "Students learning with TESOL Channel",
 
     // About Us Page - Vision Section
     "AboutUs.Vision.Title": "Vision",
-    "AboutUs.Vision.Description": "To become a leading provider in Vietnam offering high-quality TESOL online training programs from LTi Australia, enhancing English teaching capabilities and career development for teachers nationwide.",
+    "AboutUs.Vision.Description": "To become the leading organization in Vietnam in providing high-quality online TESOL training programs from LTi Australia, helping to enhance English teaching competencies and support career development for teachers nationwide.",
     "AboutUs.Vision.ImageAlt": "TESOL Definition",
 
     // About Us Page - Mission Section
     "AboutUs.Mission.Title": "Mission",
-    "AboutUs.Mission.Point1": "Deliver international standard TESOL online programs from LTi Australia, tailored to the learning and development needs of English teachers in Vietnam.",
-    "AboutUs.Mission.Point2": "Support students in building a solid knowledge foundation, modern teaching skills, and creative thinking in a global educational environment.",
-    "AboutUs.Mission.Point3": "Ensure professional, dedicated support and accompany students throughout their learning journey and career development.",
+    "AboutUs.Mission.Point1": "To deliver internationally accredited online TESOL programs from LTi Australia, tailored to the learning and development needs of English teachers in Vietnam.",
+    "AboutUs.Mission.Point2": "To support learners in building a solid foundation of knowledge, modern teaching skills, and creative thinking within a global educational environment.",
+    "AboutUs.Mission.Point3": "To ensure professional, dedicated support services and to accompany learners throughout their studies and career development.",
     "AboutUs.Mission.ImageAlt": "TEACH blocks",
 
     // About Us Page - Values Section
     "AboutUs.Values.Title": "Core Values",
     "AboutUs.Values.Quality.Title": "Quality:",
-    "AboutUs.Values.Quality.Description": "Commitment to providing training programs that meet the highest standards, ensuring practical value and effectiveness for students.",
+    "AboutUs.Values.Quality.Description": "Committed to providing training programs of the highest standards, ensuring practical value and effectiveness for learners.",
     "AboutUs.Values.Innovation.Title": "Innovation:",
-    "AboutUs.Values.Innovation.Description": "Continuously update and apply advanced teaching methods, aligned with global education trends.",
+    "AboutUs.Values.Innovation.Description": "Continuously updating and applying advanced teaching methods in line with global educational trends.",
     "AboutUs.Values.Dedication.Title": "Dedication:",
-    "AboutUs.Values.Dedication.Description": "Prioritize the interests and development of students, accompanying them on their journey to conquer career goals.",
-    "AboutUs.Values.Cooperation.Title": "Cooperation:",
-    "AboutUs.Values.Cooperation.Description": "Build sustainable relationships with partners, students, and the education community to grow together.",
+    "AboutUs.Values.Dedication.Description": "Placing the interests and development of learners first, accompanying them on their journey to achieve career goals.",
+    "AboutUs.Values.Cooperation.Title": "Collaboration:",
+    "AboutUs.Values.Cooperation.Description": "Building sustainable relationships with partners, learners, and the educational community for mutual growth.",
     "AboutUs.Values.Sustainability.Title": "Sustainable Development:",
-    "AboutUs.Values.Sustainability.Description": "Contribute to the long-term development of English language education in Vietnam through high-quality training programs.",
+    "AboutUs.Values.Sustainability.Description": "Contributing to the long-term advancement of English education in Vietnam through high-quality training programs.",
     //
 
     // Contact Page
