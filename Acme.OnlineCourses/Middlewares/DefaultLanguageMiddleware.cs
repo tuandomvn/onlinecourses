@@ -31,7 +31,7 @@ namespace Acme.OnlineCourses.Middlewares
                         Path = "/"
                     }
                 );
-                
+
                 context.Response.Cookies.Append(
                     LanguagePreferenceCookie,
                     "true",
@@ -41,19 +41,18 @@ namespace Acme.OnlineCourses.Middlewares
                         Path = "/"
                     }
                 );
-                
+
                 // Update current thread culture for the current request
                 var viCulture = new CultureInfo("vi");
                 CultureInfo.CurrentCulture = viCulture;
                 CultureInfo.CurrentUICulture = viCulture;
-                
-         
-                string path = context.Request.Path.Value?.ToLowerInvariant();
-                if (!path.Contains("/api/") && 
-                    !path.EndsWith(".js") && 
-                    !path.EndsWith(".css") && 
-                    !path.EndsWith(".png") && 
-                    !path.EndsWith(".jpg") && 
+
+                string path = context.Request.Path.Value?.ToLowerInvariant() ?? string.Empty;
+                if (!path.Contains("/api/") &&
+                    !path.EndsWith(".js") &&
+                    !path.EndsWith(".css") &&
+                    !path.EndsWith(".png") &&
+                    !path.EndsWith(".jpg") &&
                     !path.EndsWith(".svg"))
                 {
                     if (context.Request.Method == "GET")

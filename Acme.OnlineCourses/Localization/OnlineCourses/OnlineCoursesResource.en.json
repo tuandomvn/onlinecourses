@@ -142,6 +142,11 @@
     "Notification": "Notification",
     "StudentRegisteredSuccessfully": "Student registered successfully!",
 
+    "CurrentPassword": "Current Password",
+    "NewPassword": "New Password",
+    "ConfirmPassword": "Confirm New Password",
+    "ChangePasswordSuccess": "Password changed successfully",
+    "ChangePasswordError": "Password change failed.",
 
 
 

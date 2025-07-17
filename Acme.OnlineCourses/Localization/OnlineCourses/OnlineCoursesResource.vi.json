@@ -143,7 +143,10 @@
     "ErrorLoadingTerms": "Lỗi khi tải điều khoản",
     "Hello": "Xin chào",
     "CloseModalMessage": "Bạn có thể đóng modal bằng nút X hoặc nhấn ESC",
-
+    "CurrentPassword": "Mật khẩu hiện tại",
+    "NewPassword": "Mật khẩu mới",
+    "ChangePasswordSuccess": "Đổi mật khẩu thành công",
+    "ChangePasswordError": "Đổi mật khẩu thất bại.",
 
 
     //Home Page
