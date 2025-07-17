@@ -19,6 +19,7 @@
     "Menu:Students:Profile": "Profile",
     "Menu:Login": "Login",
     "Menu:Logout": "Logout",
+    "ChangePassword": "Change Password",
     "Welcome": "Welcome",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
     "Permission:Agencies": "Agency Management",
