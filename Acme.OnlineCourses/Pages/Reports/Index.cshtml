@@ -65,7 +65,7 @@
                 <div class="col-md-3 agency-select" id="agencySelectContainer">
                     <label for="AgencyId">@L["Agency"]</label>
                     <select id="AgencyId" name="SelectedAgencyId" class="form-control">
-                        <option value="">@L["AllAgencies"]</option>
+                        <option value="-1">@L["AllAgencies"]</option>
                         @foreach (var agency in Model.Agencies)
                         {
                             <option value="@agency.Id" selected="@(agency.Id == Model.SelectedAgencyId)">@agency.Name</option>
@@ -75,6 +75,7 @@
                 <div class="col-md-3">
                     <label for="Year">@L["Year"]</label>
                     <select id="Year" name="SelectedYear" class="form-control">
+                        <option value="-1" selected="@(Model.SelectedYear == -1)">--All--</option>
                         @for (int year = DateTime.Now.Year; year >= DateTime.Now.Year - 5; year--)
                         {
                             <option value="@year" selected="@(year == Model.SelectedYear)">@year</option>
@@ -84,6 +85,7 @@
                 <div class="col-md-3">
                     <label for="Month">@L["Month"]</label>
                     <select id="Month" name="SelectedMonth" class="form-control">
+                        <option value="-1" selected="@(Model.SelectedMonth == -1)">--All--</option>
                         @for (int month = 1; month <= 12; month++)
                         {
                             <option value="@month" selected="@(month == Model.SelectedMonth)">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month)</option>
