@@ -22,6 +22,7 @@
             <abp-input asp-for="Agency.ContactEmail" />
             <abp-input asp-for="Agency.ContactPhone" />
             <abp-input asp-for="Agency.Address" />
+            <abp-select asp-for="Agency.CityCode" asp-items="Model.CityList" />
             <abp-input asp-for="Agency.CommissionPercent" />
             <abp-select asp-for="Agency.Status" />
         </abp-modal-body>

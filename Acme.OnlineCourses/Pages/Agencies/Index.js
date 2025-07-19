@@ -77,6 +77,10 @@ $(function () {
                         title: l('PhoneNumber'),
                         data: "phoneNumber"
                     },
+                    //{
+                    //    title: l('CityCode'),
+                    //    data: "cityCode"
+                    //},
                     {
                         title: l('RegistrationDate'),
                         data: "registrationDate",
@@ -134,6 +138,10 @@ $(function () {
                     {
                         title: l('ContactPhone'),
                         data: "contactPhone"
+                    },
+                    {
+                        title: l('CityCode'),
+                        data: "cityCode"
                     },
                     {
                         title: l('CommissionPercent'),

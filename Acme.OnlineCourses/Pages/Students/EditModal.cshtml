@@ -20,7 +20,7 @@
             <abp-select asp-for="StudentCourse.CourseStatus" asp-items="@Model.CourseStatusList" />
             <abp-select asp-for="StudentCourse.TestStatus" asp-items="@Model.TestStatusList" />
             <abp-select asp-for="StudentCourse.PaymentStatus" asp-items="@Model.PaymentStatusList" />
-            <abp-input asp-for="StudentCourse.StudentNote" />
+            <abp-input asp-for="StudentCourse.StudentNote" readonly="true" />
             <abp-input asp-for="StudentCourse.AdminNote" />
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>

@@ -1,7 +1,8 @@
+using Acme.OnlineCourses.Agencies.Dtos;
 using System;
 using System.Collections.Generic;
-using Acme.OnlineCourses.Agencies.Dtos;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
 namespace Acme.OnlineCourses.Students.Dtos;
 
@@ -34,7 +35,11 @@ public class UpdateStudentCourseDto
     public StudentCourseStatus CourseStatus { get; set; }
     public TestStatus TestStatus { get; set; }
     public PaymentStatus PaymentStatus { get; set; }
+
+    [TextArea(Rows = 4)]
     public string? StudentNote { get; set; }
+
+    [TextArea(Rows = 4)]
     public string? AdminNote { get; set; }
 }
 
