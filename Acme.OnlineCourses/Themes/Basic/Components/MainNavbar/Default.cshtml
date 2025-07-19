@@ -54,9 +54,9 @@
                         </div>
                         <div class="user-dropdown-divider"></div>
                         <div class="user-dropdown-content">
-                            @if (CurrentUser.IsInRole("Student"))
+                            @if (CurrentUser.IsInRole("student"))
                             {
-                                <a href="/Students/Profile" class="user-dropdown-item">
+                                <a href="/Students/Profile" class="user-dropdown-item logout-item">
                                     <i class="fas fa-user"></i>
                                     <span>@L["Menu:Students:Profile"]</span>
                                 </a>
