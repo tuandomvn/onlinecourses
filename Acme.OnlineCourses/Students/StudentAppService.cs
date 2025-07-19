@@ -94,8 +94,13 @@ public class StudentAppService : CrudAppService<
             await _userManager.CreateAsync(studentUser, PasswordGenerator.GenerateSecurePassword(8));
             await _userManager.AddToRoleAsync(studentUser, Roles.Student);
             //TODO: send mail
-        }
 
+        }
+        else
+        {
+            _logger.LogWarning($"User with email {input.Email} already exists.");
+            throw new UserFriendlyException("A user with this email already exists. Please use a different email address.");
+        }
         var student = new Student
         {
             Fullname = input.Fullname,
@@ -116,16 +121,16 @@ public class StudentAppService : CrudAppService<
         // Handle file uploads if any
         if (files != null && files.Any())
         {
-            var allowedExtensions = new[] { ".txt", ".csv", ".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png", 
+            var allowedExtensions = new[] { ".txt", ".csv", ".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png",
                                            ".xls", ".xlsx" };
             const int maxFileSize = 10 * 1024 * 1024; // 10MB
-            
+
             foreach (var file in files)
             {
                 if (file.Length > 0)
                 {
                     //Validate file extension
-                   var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+                    var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
                     if (!allowedExtensions.Contains(extension))
                     {
                         _logger.LogWarning($"Invalid file extension: {extension}");
@@ -392,7 +397,7 @@ public class StudentAppService : CrudAppService<
         //filter by user logged in and agency if applicable
         if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email))
         {
-            if(_currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+            if (_currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
             {
                 // Lấy agencyId
                 if (_currentUser != null && _userRepository != null)
@@ -425,7 +430,7 @@ public class StudentAppService : CrudAppService<
         var dtos = new List<AdminViewStudentDto>();
         foreach (var student in students)
         {
-            if(student.Courses.Count > 0)
+            if (student.Courses.Count > 0)
             {
                 foreach (var course in student.Courses)
                 {
@@ -469,7 +474,7 @@ public class StudentAppService : CrudAppService<
         }
 
         _logger.LogInformation($"GetStudentsWithCoursesAsync - TotalCount: {totalCount}, ItemsCount: {dtos.Count}");
-        
+
         return new PagedResultDto<AdminViewStudentDto>
         {
             TotalCount = totalCount,
