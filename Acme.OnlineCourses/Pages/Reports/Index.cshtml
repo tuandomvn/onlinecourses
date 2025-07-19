@@ -10,16 +10,36 @@
 }
 
 @section scripts {
-    <abp-script src="/Pages/Reports/Index.js" />
     <script>
         function handleReportTypeChange(value) {
-            var agencySelect = document.querySelector('.agency-select');
-            if (value === '@((int)ReportType.AgencyReport)') {
+            debugger;
+            console.log('handleReportTypeChange called with value:', value, 'type:', typeof value);
+            var agencySelect = document.getElementById('agencySelectContainer');
+            console.log('agencySelect element:', agencySelect);
+            
+            // AgencyReport has value 3
+            if (value == 3 || value === '3' || value == 'AgencyReport') {
                 agencySelect.style.display = 'block';
+                console.log('Showing agency select');
             } else {
                 agencySelect.style.display = 'none';
+                console.log('Hiding agency select');
             }
         }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            var reportTypeSelect = document.getElementById('ReportType');
+            console.log('ReportType select found:', reportTypeSelect);
+            console.log('Initial value:', reportTypeSelect.value);
+            
+            handleReportTypeChange(reportTypeSelect.value);
+            
+            reportTypeSelect.addEventListener('change', function() {
+                console.log('ReportType changed to:', this.value);
+                handleReportTypeChange(this.value);
+            });
+        });
     </script>
 }
 
@@ -40,10 +60,9 @@
                         <option value="@ReportType.StudentReport" selected="@(Model.SelectedReportType == ReportType.StudentReport)">@L["StudentReport"]</option>
                         <option value="@ReportType.CourseReport" selected="@(Model.SelectedReportType == ReportType.CourseReport)">@L["CourseReport"]</option>
                         <option value="@ReportType.AgencyReport" selected="@(Model.SelectedReportType == ReportType.AgencyReport)">@L["AgencyReport"]</option>
-                        <option value="@ReportType.BlogReport" selected="@(Model.SelectedReportType == ReportType.BlogReport)">@L["BlogReport"]</option>
                     </select>
                 </div>
-                <div class="col-md-3 agency-select" style="display: @(Model.SelectedReportType == ReportType.AgencyReport ? "block" : "none")">
+                <div class="col-md-3 agency-select" id="agencySelectContainer">
                     <label for="AgencyId">@L["Agency"]</label>
                     <select id="AgencyId" name="SelectedAgencyId" class="form-control">
                         <option value="">@L["AllAgencies"]</option>
