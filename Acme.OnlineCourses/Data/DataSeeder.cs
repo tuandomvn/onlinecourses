@@ -67,30 +67,30 @@ public class DataSeeder : IDataSeedContributor, ITransientDependency
     [UnitOfWork]
     public async Task SeedAsync(DataSeedContext context)
     {
-        using (var uow = _unitOfWorkManager.Begin())
-        {
-            try
-            {
-                await SeedRolesAsync();
-                await SeedAgenciesAsync();
-                await SeedBlogsAsync();
-                await SeedUsersAsync();
-                await SeedStudentsAsync();
-                await SeedCourseAsync();
+        //using (var uow = _unitOfWorkManager.Begin())
+        //{
+        //    try
+        //    {
+        //        await SeedRolesAsync();
+        //        await SeedAgenciesAsync();
+        //        await SeedBlogsAsync();
+        //        await SeedUsersAsync();
+        //        await SeedStudentsAsync();
+        //        await SeedCourseAsync();
 
-                await SeedStudentCoursesAsync();
-                await SeedStudentAttachmentsAsync();
-                await SeedEmploymentSupportsAsync();
-                await SeedAgentRegistersAsync();
+        //        await SeedStudentCoursesAsync();
+        //        await SeedStudentAttachmentsAsync();
+        //        await SeedEmploymentSupportsAsync();
+        //        await SeedAgentRegistersAsync();
 
-                await uow.CompleteAsync();
-            }
-            catch (Exception)
-            {
-                await uow.RollbackAsync();
-                throw;
-            }
-        }
+        //        await uow.CompleteAsync();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        await uow.RollbackAsync();
+        //        throw;
+        //    }
+        //}
     }
 
     private async Task SeedRolesAsync()

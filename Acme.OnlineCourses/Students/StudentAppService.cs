@@ -1,20 +1,21 @@
-﻿using Acme.OnlineCourses.Extensions;
+﻿using Acme.OnlineCourses.Courses;
+using Acme.OnlineCourses.Extensions;
+using Acme.OnlineCourses.Helpers;
 using Acme.OnlineCourses.Permissions;
 using Acme.OnlineCourses.Students.Dtos;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 using Volo.Abp;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
 using Volo.Abp.Users;
 using static Acme.OnlineCourses.OnlineCoursesConsts;
 using IdentityUser = Volo.Abp.Identity.IdentityUser;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.IO;
-using Acme.OnlineCourses.Courses;
-using Volo.Abp.Application.Dtos;
 
 namespace Acme.OnlineCourses.Students;
 
@@ -90,7 +91,7 @@ public class StudentAppService : CrudAppService<
             _logger.LogWarning($"User with email {input.Email} does not exist.");
             var studentUser = new IdentityUser(Guid.NewGuid(), input.Email, input.Email);
 
-            await _userManager.CreateAsync(studentUser, "1q2w3E*");//TODO
+            await _userManager.CreateAsync(studentUser, PasswordGenerator.GenerateSecurePassword(8));
             await _userManager.AddToRoleAsync(studentUser, Roles.Student);
             //TODO: send mail
         }
