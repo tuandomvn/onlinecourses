@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cập nhật tài liệu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .notification-container {
+            max-width: 400px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 24px 20px;
+            text-align: center;
+        }
+        .notification-icon {
+            font-size: 48px;
+            color: #4caf50;
+            margin-bottom: 16px;
+        }
+        .notification-content {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .student-name {
+            font-weight: bold;
+            color: #1976d2;
+        }
+        @media (max-width: 500px) {
+            .notification-container {
+                padding: 16px 8px;
+            }
+            .notification-content {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="notification-container">
+        <div class="notification-icon">📄</div>
+        <div class="notification-content">
+            <span class="student-name">Học viên [studentEmail]</span> đã cập nhật tài liệu.
+        </div>
+    </div>
+</body>
+</html>

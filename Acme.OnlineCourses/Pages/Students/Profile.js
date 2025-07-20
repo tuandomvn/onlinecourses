@@ -10,8 +10,8 @@ $(function () {
         var studentId = $('#Student_Id').val();
         
         // Validate required fields
-        if (!$('#Student_FirstName').val() || !$('#Student_LastName').val()) {
-            abp.notify.error('First name and last name are required');
+        if (!$('#Student_FullName').val()) {
+            abp.notify.error('Full name is required');
             return;
         }
 
@@ -19,8 +19,7 @@ $(function () {
 
         // Add form fields to FormData
         formData.append('Id', studentId);
-        formData.append('FirstName', $('#Student_FirstName').val());
-        formData.append('LastName', $('#Student_LastName').val());
+        formData.append('FullName', $('#Student_FullName').val());
         formData.append('Email', $('#Student_Email').val());
         formData.append('PhoneNumber', $('#Student_PhoneNumber').val());
         formData.append('DateOfBirth', $('#Student_DateOfBirth').val());

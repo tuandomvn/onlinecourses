@@ -42,10 +42,7 @@ public class UpdateStudentDto
 {
     public Guid Id { get; set; }
     [StringLength(128)]
-    public string? FirstName { get; set; }
-
-    [StringLength(128)]
-    public string? LastName { get; set; }
+    public string FullName { get; set; }
 
     [EmailAddress]
     [StringLength(256)]

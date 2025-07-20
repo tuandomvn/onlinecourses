@@ -191,7 +191,8 @@ public class StudentAppService : CrudAppService<
                 _mailService.SendNotifyToAdminsAsync(new NotityToAdminRequest
                 {
                     ToEmail = admin.Email,
-                    StudentName = input.Fullname,
+                    StudentName = student.Fullname,
+                    StudentEmail = student.Email,
                     CourseName = firstCourse.Name
                 });
             }
@@ -342,7 +343,7 @@ public class StudentAppService : CrudAppService<
         await _attachmentRepository.DeleteAsync(attachment);
     }
 
-    [Authorize(OnlineCoursesPermissions.Students.Default)]
+    [Authorize]
     [HttpPost]
     [Route("api/app/student/update")]
     public async Task<StudentDto> UpdateStudentAsync([FromForm] UpdateStudentDto input, [FromForm] List<IFormFile> files)
@@ -356,12 +357,14 @@ public class StudentAppService : CrudAppService<
         var student = await _studentRepository.GetAsync(input.Id);
 
         // Update only allowed fields
-        student.Fullname = input.FirstName + " " + input.LastName;
+        student.Fullname = input.FullName;
         student.PhoneNumber = input.PhoneNumber;
         student.DateOfBirth = input.DateOfBirth;
         student.Address = input.Address;
 
         await _studentRepository.UpdateAsync(student);
+
+        bool hasNewAttachment = false;
 
         // Handle file uploads if any
         if (files != null && files.Any())
@@ -397,7 +400,22 @@ public class StudentAppService : CrudAppService<
                     };
 
                     await _attachmentRepository.InsertAsync(studentAttachment, autoSave: true);
+                    hasNewAttachment = true;
                 }
+            }
+        }
+
+        // Notify all admins if there was a new attachment
+        if (hasNewAttachment)
+        {
+            var adminUsers = await _userManager.GetUsersInRoleAsync(Roles.Administrator);
+            foreach (var admin in adminUsers)
+            {
+                _mailService.SendNotifyUpdateAttachmentAsync(new NotifyUpdateAttachmentRequest
+                {
+                    ToEmail = admin.Email,
+                    StudentEmail = student.Email,
+                });
             }
         }
 

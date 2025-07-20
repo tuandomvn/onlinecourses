@@ -1,85 +1,135 @@
-@page
+﻿@page
 @using Microsoft.Extensions.Localization
 @using Acme.OnlineCourses.Localization
 @using Acme.OnlineCourses.Pages.Students
 @model ProfileModel
 @inject IStringLocalizer<OnlineCoursesResource> L
 @{
-    ViewData["Title"] = L["Student:Profile"];
+    ViewData["Title"] = L["Profile"];
+}
+
+@section styles {
+    <style>
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid #f0f0f0;
+            background: #fafafa;
+        }
+
+        @@media (max-width: 576px) {
+            .profile-card {
+                padding: 0.5rem !important;
+            }
+
+            .profile-header {
+                margin-bottom: 1rem;
+            }
+        }
+
+        .list-group-item .btn {
+            margin-left: 1rem;
+        }
+    </style>
 }
 
 @section scripts {
     <abp-script src="/Pages/Students/Profile.js" />
 }
 
-<abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["Student:Profile"]</abp-card-title>
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
-    <abp-card-body>
-        <form id="ProfileForm" enctype="multipart/form-data">
-            <input type="hidden" id="Student_Id" name="Student.Id" value="@Model.Student.Id" />
-            <abp-input asp-for="Student.Email" disabled="true" />
-            <abp-input asp-for="Student.FirstName" />
-            <abp-input asp-for="Student.LastName" />
-            <abp-input asp-for="Student.PhoneNumber" />
-            <abp-input asp-for="Student.DateOfBirth" type="date" />
-            <abp-input asp-for="Student.Address" />
-            <div class="form-group">
-                <label asp-for="Student.StudentNote">@L["StudentNote"]</label>
-                <textarea asp-for="Student.StudentNote" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">@L["PaymentStatus"]</label>
-                <div class="form-control-plaintext">@Model.Student.PaymentStatus</div>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">@L["AccountStatus"]</label>
-                <div class="form-control-plaintext">@Model.Student.AccountStatus</div>
-            </div>
+<div class="container">
 
-            <input type="hidden" id="Agency_Id" name="Agency.Id" value="@Model.Student.AgencyId" />
-
-            <div class="mb-3">
-                <label class="form-label">@L["Student:Attachments"]</label>
-                <input type="file" class="form-control" id="Attachments" multiple />
-                <small class="form-text text-muted">@L["Student:AttachmentsHelp"]</small>
+    <abp-card class="profile-card shadow-sm">
+        <abp-card-header>
+            <div class="profile-header">
+                <h2 class="mb-0">@L["Profile"]</h2>
             </div>
+        </abp-card-header>
+        <abp-card-body>
+            <form id="ProfileForm" enctype="multipart/form-data" class="row g-3">
+                <input type="hidden" id="Student_Id" name="Student.Id" value="@Model.Student.Id" />
 
-            <div id="AttachmentsList" class="mb-3">
-                @if (Model.Student!= null && Model.Student.Attachments != null && Model.Student.Attachments.Any())
-                {
-                    <div class="list-group">
-                        @foreach (var attachment in Model.Student.Attachments)
-                        {
-                            <div class="list-group-item d-flex justify-content-between align-items-center" data-id="@attachment.Id">
-                                <div>
-                                    <a href="@attachment.FilePath" target="_blank">@attachment.FileName</a>
-                                    @if (!string.IsNullOrEmpty(attachment.Description))
-                                    {
-                                        <small class="d-block text-muted">@attachment.Description</small>
-                                    }
-                                </div>
-                                <button type="button" class="btn btn-danger btn-sm delete-attachment" data-id="@attachment.Id">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </div>
-                        }
+                <div class="col-md-6">
+                    <abp-input asp-for="Student.Email" disabled="true" />
+                </div>
+                <div class="col-md-6">
+                    <abp-input asp-for="Student.FullName" />
+                </div>
+                <div class="col-md-6">
+                    <abp-input asp-for="Student.PhoneNumber" />
+                </div>
+                <div class="col-md-6">
+                    <abp-input asp-for="Student.DateOfBirth" type="date" />
+                </div>
+                <div class="col-12">
+                    <abp-input asp-for="Student.Address" />
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="Student.StudentNote">@L["StudentNote"]</label>
+                        <textarea asp-for="Student.StudentNote" class="form-control" rows="4"></textarea>
                     </div>
-                }
-                else
-                {
-                    <p class="text-muted">@L["Student:NoAttachments"]</p>
-                }
-            </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">@L["PaymentStatus"]</label>
+                    <div class="form-control-plaintext">@Model.Student.PaymentStatus</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">@L["AccountStatus"]</label>
+                    <div class="form-control-plaintext">@Model.Student.AccountStatus</div>
+                </div>
 
-            <abp-button button-type="Primary" type="submit">
-                <i class="fa fa-save"></i> @L["Save"]
-            </abp-button>
-        </form>
-    </abp-card-body>
-</abp-card> 
+                <input type="hidden" id="Agency_Id" name="Agency.Id" value="@Model.Student.AgencyId" />
+
+                <div class="col-12">
+                    <label class="form-label">@L["Student:Attachments"]</label>
+                    <input type="file" class="form-control" id="Attachments" multiple />
+                    <small class="form-text text-muted">@L["Student:AttachmentsHelp"]</small>
+                </div>
+
+                <div id="AttachmentsList" class="col-12">
+                    @if (Model.Student != null && Model.Student.Attachments != null && Model.Student.Attachments.Any())
+                    {
+                        <div class="list-group">
+                            @foreach (var attachment in Model.Student.Attachments)
+                            {
+                                <div class="list-group-item d-flex justify-content-between align-items-center flex-wrap" data-id="@attachment.Id">
+                                    <div>
+                                        <a href="@attachment.FilePath" target="_blank">@attachment.FileName</a>
+                                        @if (!string.IsNullOrEmpty(attachment.Description))
+                                        {
+                                            <small class="d-block text-muted">@attachment.Description</small>
+                                        }
+                                    </div>
+                                    <button type="button" class="btn btn-danger btn-sm delete-attachment mt-2 mt-md-0" data-id="@attachment.Id">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">@L["Student:NoAttachments"]</p>
+                    }
+                </div>
+
+                <div class="col-12 d-flex justify-content-end">
+                    <abp-button button-type="Primary" type="submit">
+                        <i class="fa fa-save"></i> @L["Save"]
+                    </abp-button>
+                </div>
+            </form>
+        </abp-card-body>
+    </abp-card>
+</div>
