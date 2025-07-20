@@ -184,8 +184,17 @@ public class StudentAppService : CrudAppService<
                 CourseName = firstCourse.Name,
             });
 
-            //Gui mail thông báo cho all admin
-            //Hệ thống đã ghi nhận dc hồ sơ đăng kí khóa học ... của học viên ....
+          
+            var adminUsers = await _userManager.GetUsersInRoleAsync(Roles.Administrator);
+            foreach (var admin in adminUsers)
+            {
+                _mailService.SendNotifyToAdminsAsync(new NotityToAdminRequest
+                {
+                    ToEmail = admin.Email,
+                    StudentName = input.Fullname,
+                    CourseName = firstCourse.Name
+                });
+            }
         }
         else
         {
