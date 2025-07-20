@@ -153,16 +153,16 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             )
         );
 
-        context.Menu.AddItem(
-            new ApplicationMenuItem(
-                OnlineCoursesMenus.Blogs,
-                l["Menu:Blogs"],
-                url: "/Blogs",
-                // icon: "fas fa-blog",
-                order: 11,
-                requiredPermissionName: OnlineCoursesPermissions.Blogs.Default
-            )
-        );
+        //context.Menu.AddItem(
+        //    new ApplicationMenuItem(
+        //        OnlineCoursesMenus.Blogs,
+        //        l["Menu:Blogs"],
+        //        url: "/Blogs",
+        //        // icon: "fas fa-blog",
+        //        order: 11,
+        //        requiredPermissionName: OnlineCoursesPermissions.Blogs.Default
+        //    )
+        //);
 
         context.Menu.AddItem(
             new ApplicationMenuItem(
@@ -236,6 +236,6 @@ public class OnlineCoursesMenuContributor : IMenuContributor
         //administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
         //administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 2);
         // Ẩn hoàn toàn menu Administration cho tất cả role
-        //administration.Items.Clear();
+        administration.Items.Clear();
     }
 }
