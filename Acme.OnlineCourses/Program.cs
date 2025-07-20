@@ -1,5 +1,5 @@
 ﻿using Acme.OnlineCourses.Data;
-using MailService.WebApi.Services;
+using Acme.OnlineCourses.Helpers;
 using Serilog;
 using Serilog.Events;
 using Volo.Abp.Data;
@@ -46,7 +46,7 @@ public class Program
                 builder.Configuration.GetSection("MailSettings"));
 
             // Đăng ký MailService với DI container
-            builder.Services.AddScoped<IMailService, MailService.WebApi.Services.MailService>();
+            builder.Services.AddScoped<IMailService, Helpers.MailService>();
 
             await builder.AddApplicationAsync<OnlineCoursesModule>();
             var app = builder.Build();

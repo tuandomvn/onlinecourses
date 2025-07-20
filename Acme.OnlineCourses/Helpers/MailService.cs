@@ -3,12 +3,13 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
-namespace MailService.WebApi.Services
+namespace Acme.OnlineCourses.Helpers
 {
     public class WelcomeRequest
     {
         public string ToEmail { get; set; }
         public string UserName { get; set; }
+        public string Password { get; set; }
     }
     public class MailRequest
     {
@@ -70,7 +71,12 @@ namespace MailService.WebApi.Services
             StreamReader str = new StreamReader(FilePath);
             string MailText = str.ReadToEnd();
             str.Close();
-            MailText = MailText.Replace("[username]", request.UserName).Replace("[email]", request.ToEmail);
+
+            MailText = MailText
+                .Replace("[username]", request.UserName)
+                .Replace("[email]", request.ToEmail)
+                .Replace("[password]", request.Password);
+
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
             email.To.Add(MailboxAddress.Parse(request.ToEmail));

@@ -36,13 +36,6 @@
 <div class="card shadow-sm rounded" style="margin-top: 8rem;">
     <div class="card-body p-5">
         <h4>@L["Login"]</h4>
-        @if (await SettingProvider.IsTrueAsync(AccountSettingNames.IsSelfRegistrationEnabled))
-        {
-            <strong>
-                @L["AreYouANewUser"]
-                <a href="/Students/Register" class="text-decoration-none">@L["Register"]</a>
-            </strong>
-        }
         @if (Model.EnableLocalLogin)
         {
             <form method="post" class="mt-4">

@@ -1,4 +1,4 @@
-﻿namespace MailService.WebApi.Services
+﻿namespace Acme.OnlineCourses.Helpers
 {
     public interface IMailService
     {

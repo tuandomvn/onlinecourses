@@ -35,7 +35,7 @@ public class StudentAppService : CrudAppService<
     private readonly IRepository<StudentAttachment, Guid> _attachmentRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IRepository<Course, Guid> _courseRepository;
-
+    private readonly IMailService _mailService;
     public StudentAppService(
         IRepository<Student, Guid> repository,
         ICurrentUser currentUser,
@@ -44,7 +44,8 @@ public class StudentAppService : CrudAppService<
         ILogger<StudentAppService> logger,
         IRepository<StudentAttachment, Guid> attachmentRepository,
         IHttpContextAccessor httpContextAccessor,
-        IRepository<Course, Guid> courseRepository)
+        IRepository<Course, Guid> courseRepository,
+        IMailService mailService)
         : base(repository)
     {
         _studentRepository = repository;
@@ -55,6 +56,8 @@ public class StudentAppService : CrudAppService<
         _attachmentRepository = attachmentRepository;
         _httpContextAccessor = httpContextAccessor;
         _courseRepository = courseRepository;
+        _mailService = mailService;
+
 
         GetPolicyName = OnlineCoursesPermissions.Students.Default;
         GetListPolicyName = OnlineCoursesPermissions.Students.Default;
@@ -91,10 +94,18 @@ public class StudentAppService : CrudAppService<
             _logger.LogWarning($"User with email {input.Email} does not exist.");
             var studentUser = new IdentityUser(Guid.NewGuid(), input.Email, input.Email);
 
-            await _userManager.CreateAsync(studentUser, PasswordGenerator.GenerateSecurePassword(8));
-            await _userManager.AddToRoleAsync(studentUser, Roles.Student);
-            //TODO: send mail
+            var password = PasswordGenerator.GenerateSecurePassword(8);
 
+            await _userManager.CreateAsync(studentUser, password);
+            await _userManager.AddToRoleAsync(studentUser, Roles.Student);
+
+            // Send welcome email
+            await _mailService.SendWelcomeEmailAsync(new WelcomeRequest
+            {
+                ToEmail = input.Email,
+                UserName = input.Email,
+                Password = password
+            });
         }
         else
         {

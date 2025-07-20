@@ -1,373 +1,122 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:v="urn:schemas-microsoft-com:vml"
-      xmlns:o="urn:schemas-microsoft-com:office:office">
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
-    <!--[if gte mso 9]>
-      <xml>
-        <o:OfficeDocumentSettings>
-          <o:AllowPNG />
-          <o:PixelsPerInch>96</o:PixelsPerInch>
-        </o:OfficeDocumentSettings>
-      </xml>
-    <![endif]-->
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="format-detection" content="date=no" />
-    <meta name="format-detection" content="address=no" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="x-apple-disable-message-reformatting" />
-    <!--[if !mso]><!-->
-    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,700,700i"
-          rel="stylesheet" />
-    <!--<![endif]-->
+    <meta charset="UTF-8" />
     <title>Welcome</title>
-    <!--[if gte mso 9]>
-      <style type="text/css" media="all">
-        sup {
-          font-size: 100% !important;
-        }
-      </style>
-    <![endif]-->
-
-    <style type="text/css" media="screen">
-        /* Linked Styles */
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
         body {
-            padding: 0 !important;
-            margin: 0 !important;
-            display: block !important;
-            min-width: 100% !important;
-            width: 100% !important;
-            background: white;
-            -webkit-text-size-adjust: none;
+            background: #f4f6fb;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
 
-        a {
-            color: #66c7ff;
+        .email-container {
+            max-width: 480px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(18,50,92,0.08);
+            overflow: hidden;
+        }
+
+        .email-header {
+            background: #12325c;
+            padding: 32px 0 16px 0;
+            text-align: center;
+        }
+
+            .email-header img {
+                height: 48px;
+                margin-bottom: 12px;
+            }
+
+        .email-title {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .email-body {
+            padding: 32px 32px 24px 32px;
+            color: #475c77;
+            font-size: 16px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .email-highlight {
+            color: #12325c;
+            font-weight: 600;
+        }
+
+        .email-credentials {
+            background: #f0f4fa;
+            border-radius: 10px;
+            padding: 18px 0;
+            margin: 24px 0;
+            font-size: 15px;
+        }
+
+        .email-btn {
+            display: inline-block;
+            background: #ff6666;
+            color: #fff !important;
             text-decoration: none;
+            padding: 14px 36px;
+            border-radius: 24px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 12px;
+            box-shadow: 0 2px 8px rgba(255,102,102,0.12);
+            transition: background 0.2s;
         }
 
-        p {
-            padding: 0 !important;
-            margin: 0 !important;
+            .email-btn:hover {
+                background: #e05555;
+            }
+
+        .email-footer {
+            text-align: center;
+            color: #b0b8c9;
+            font-size: 13px;
+            padding: 18px 0 12px 0;
         }
 
-        img {
-            -ms-interpolation-mode: bicubic; /* Allow smoother rendering of resized image in Internet Explorer */
-        }
-
-        .mcnPreviewText {
-            display: none !important;
-        }
-
-        /* Mobile styles */
-        @media only screen and (max-device-width: 480px), only screen and (max-width: 480px) {
-            .mobile-shell {
-                width: 100% !important;
-                min-width: 100% !important;
+        @media (max-width: 600px) {
+            .email-container {
+                max-width: 98%;
             }
 
-            .bg {
-                background-size: 100% auto !important;
-                -webkit-background-size: 100% auto !important;
-            }
-
-            .text-header,
-            .m-center {
-                text-align: center !important;
-            }
-
-            .center {
-                margin: 0 auto !important;
-            }
-
-            .container {
-                padding: 20px 10px !important;
-            }
-
-            .td {
-                width: 100% !important;
-                min-width: 100% !important;
-            }
-
-            .m-br-15 {
-                height: 15px !important;
-            }
-
-            .p30-15 {
-                padding: 30px 15px !important;
-            }
-
-            .m-td,
-            .m-hide {
-                display: none !important;
-                width: 0 !important;
-                height: 0 !important;
-                font-size: 0 !important;
-                line-height: 0 !important;
-                min-height: 0 !important;
-            }
-
-            .m-block {
-                display: block !important;
-            }
-
-            .fluid-img img {
-                width: 100% !important;
-                max-width: 100% !important;
-                height: auto !important;
-            }
-
-            .column,
-            .column-top,
-            .column-empty,
-            .column-empty2,
-            .column-dir-top {
-                float: left !important;
-                width: 100% !important;
-                display: block !important;
-            }
-
-            .column-empty {
-                padding-bottom: 10px !important;
-            }
-
-            .column-empty2 {
-                padding-bottom: 30px !important;
-            }
-
-            .content-spacing {
-                width: 15px !important;
+            .email-body {
+                padding: 20px 8px 16px 8px;
             }
         }
     </style>
 </head>
-<body class="body"
-      style="
-      padding: 0 !important;
-      margin: 0 !important;
-      display: block !important;
-      min-width: 100% !important;
-      width: 100% !important;
-      background: white;
-      -webkit-text-size-adjust: none;
-    ">
-    <table width="100%"
-           border="0"
-           cellspacing="0"
-           cellpadding="0"
-           style="background-color: white;">
-        <tr>
-            <td align="center" valign="top">
-                <table width="650"
-                       border="0"
-                       cellspacing="0"
-                       cellpadding="0"
-                       class="mobile-shell">
-                    <tr>
-                        <td class="td container"
-                            style="
-                  width: 650px;
-                  min-width: 650px;
-                  font-size: 0pt;
-                  line-height: 0pt;
-                  margin: 0;
-                  font-weight: normal;
-                  padding: 55px 0px;
-                ">
-                            <!-- Header -->
-                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                <tr>
-                                    <td class="p30-15" style="padding: 0px 30px 30px 30px;">
-                                        <table width="100%"
-                                               border="0"
-                                               cellspacing="0"
-                                               cellpadding="0">
-                                            <tr>
-                                                <th class="column-top"
-                                                    width="145"
-                                                    style="
-                              font-size: 0pt;
-                              line-height: 0pt;
-                              padding: 0;
-                              margin: 0;
-                              font-weight: normal;
-                              vertical-align: top;
-                            ">
-                                                    <table width="100%"
-                                                           border="0"
-                                                           cellspacing="0"
-                                                           cellpadding="0">
-                                                        <tr>
-                                                            <td class="img m-center"
-                                                                style="
-                                    font-size: 0pt;
-                                    line-height: 0pt;
-                                    text-align: center;
-                                  ">
-                                                                <img src="https://demo.tesolchannel.vn/images/logo/logo.png"
-                                                                     width="auto"
-                                                                     height="45"
-                                                                     border="0"
-                                                                     alt="" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </th>
-                                                <th class="column-empty"
-                                                    width="1"
-                                                    style="
-                              font-size: 0pt;
-                              line-height: 0pt;
-                              padding: 0;
-                              margin: 0;
-                              font-weight: normal;
-                              vertical-align: top;
-                            "></th>
-                                                <th class="column"
-                                                    style="
-                              font-size: 0pt;
-                              line-height: 0pt;
-                              padding: 0;
-                              margin: 0;
-                              font-weight: normal;
-                            ">
-                                                    <table width="100%"
-                                                           border="0"
-                                                           cellspacing="0"
-                                                           cellpadding="0">
-                                                        <tr>
-                                                            <td class="text-header"
-                                                                style="
-                                    color: #475c77;
-                                    font-family: 'Muli', Arial, sans-serif;
-                                    font-size: 12px;
-                                    line-height: 16px;
-                                    text-align: right;
-                                  ">
-                                                                <a href="#"
-                                                                   target="_blank"
-                                                                   class="link2"
-                                                                   style="
-                                      color: #475c77;
-                                      text-decoration: none;
-                                    ">
-                                                                    <span class="link2"
-                                                                          style="
-                                        color: #475c77;
-                                        text-decoration: none;
-                                      ">Open in your browser</span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </th>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                            <!-- END Header -->
-                            <!-- Intro -->
-                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                <tr>
-                                    <td style="padding-bottom: 10px;">
-                                        <table width="100%"
-                                               border="0"
-                                               cellspacing="0"
-                                               cellpadding="0">
-                                            <tr>
-                                                <td class="tbrr p30-15"
-                                                    style="
-                              padding: 60px 30px;
-                              border-radius: 26px 26px 0px 0px;
-                            "
-                                                    bgcolor="#12325c">
-                                                    <table width="100%"
-                                                           border="0"
-                                                           cellspacing="0"
-                                                           cellpadding="0">
-                                                        <tr>
-                                                            <td class="h1 pb25"
-                                                                style="
-                                    color: #ffffff;
-                                    font-family: 'Muli', Arial, sans-serif;
-                                    font-size: 40px;
-                                    line-height: 46px;
-                                    text-align: center;
-                                    padding-bottom: 25px;
-                                  ">
-                                                                Welcome, [username]
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="text-center pb25"
-                                                                style="
-                                    color: #c1cddc;
-                                    font-family: 'Muli', Arial, sans-serif;
-                                    font-size: 16px;
-                                    line-height: 30px;
-                                    text-align: center;
-                                    padding-bottom: 25px;
-                                  ">
-                                                                You are currently registered using
-                                                                <span class="m-hide"><br /></span>[email]
-                                                            </td>
-                                                        </tr>
-                                                        <!-- Button -->
-                                                        <tr>
-                                                            <td align="center">
-                                                                <table class="center"
-                                                                       border="0"
-                                                                       cellspacing="0"
-                                                                       cellpadding="0"
-                                                                       style="text-align: center;">
-                                                                    <tr>
-                                                                        <td class="pink-button text-button"
-                                                                            style="
-                                          background: #ff6666;
-                                          color: #c1cddc;
-                                          font-family: 'Muli', Arial, sans-serif;
-                                          font-size: 14px;
-                                          line-height: 18px;
-                                          padding: 12px 30px;
-                                          text-align: center;
-                                          border-radius: 0px 22px 22px 22px;
-                                          font-weight: bold;
-                                        ">
-                                                                            <a href="https://www.codewithmukesh.com/blog/"
-                                                                               target="_blank"
-                                                                               class="link-white"
-                                                                               style="
-                                            color: #ffffff;
-                                            text-decoration: none;
-                                          ">
-                                                                                <span class="link-white"
-                                                                                      style="
-                                              color: #ffffff;
-                                              text-decoration: none;
-                                            ">CLICK HERE</span>
-                                                                            </a>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                        <!-- END Button -->
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <!--<img src="https://demo.tesolchannel.vn/images/logo/logo.png" alt="App Logo" />-->
+            <div class="email-title">Welcome to Tesol Channel!</div>
+        </div>
+        <div class="email-body">
+            <p>Hello, <span class="email-highlight">[username]</span> 👋</p>
+            <p>
+                Thank you for registering at <b>Tesol Channel</b>.<br />
+                Below are your login details:
+            </p>
+            <div class="email-credentials">
+                <div>UserName: <b>[email]</b></div>
+                <div>Password: <b>[password]</b></div>
+            </div>
+            <a href="https://demo.tesolchannel.vn/Account/Login" class="email-btn" target="_blank">Go to Tesol Channel</a>
+        </div>
+        <div class="email-footer">
+            &copy; 2025 Tesol Channel. All rights reserved.
+        </div>
+    </div>
 </body>
 </html>

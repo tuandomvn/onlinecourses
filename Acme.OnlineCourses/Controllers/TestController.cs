@@ -1,6 +1,5 @@
 ﻿using Acme.OnlineCourses.Blogs;
 using Acme.OnlineCourses.Helpers;
-using MailService.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Acme.OnlineCourses.Controllers
