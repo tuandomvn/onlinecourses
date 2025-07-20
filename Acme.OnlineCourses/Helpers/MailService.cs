@@ -10,6 +10,7 @@ namespace Acme.OnlineCourses.Helpers
         public string ToEmail { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string CourseName { get; set; }
     }
     public class MailRequest
     {
@@ -75,7 +76,8 @@ namespace Acme.OnlineCourses.Helpers
             MailText = MailText
                 .Replace("[username]", request.UserName)
                 .Replace("[email]", request.ToEmail)
-                .Replace("[password]", request.Password);
+                .Replace("[password]", request.Password)
+                .Replace("[coursename]", request.CourseName);
 
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);

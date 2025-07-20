@@ -88,30 +88,6 @@ public class StudentAppService : CrudAppService<
     [Route("api/app/student/register-student")]
     public async Task<StudentDto> RegisterStudentAsync([FromForm] RegisterStudentDto input, [FromForm] List<IFormFile> files)
     {
-        var isUserExists = await IsUserExistsAsync(input.Email);
-        if (!isUserExists)
-        {
-            _logger.LogWarning($"User with email {input.Email} does not exist.");
-            var studentUser = new IdentityUser(Guid.NewGuid(), input.Email, input.Email);
-
-            var password = PasswordGenerator.GenerateSecurePassword(8);
-
-            await _userManager.CreateAsync(studentUser, password);
-            await _userManager.AddToRoleAsync(studentUser, Roles.Student);
-
-            // Send welcome email
-            await _mailService.SendWelcomeEmailAsync(new WelcomeRequest
-            {
-                ToEmail = input.Email,
-                UserName = input.Email,
-                Password = password
-            });
-        }
-        else
-        {
-            _logger.LogWarning($"User with email {input.Email} already exists.");
-            throw new UserFriendlyException("A user with this email already exists. Please use a different email address.");
-        }
         var student = new Student
         {
             Fullname = input.Fullname,
@@ -122,18 +98,14 @@ public class StudentAppService : CrudAppService<
             AgencyId = input.AgencyId,
             AgreeToTerms = input.AgreeToTerms
         };
-
         await _studentRepository.InsertAsync(student, autoSave: true);
+
         var firstCourse = await _courseRepository.FirstOrDefaultAsync();
 
-        // Get first course and create StudentCourse record
-        await InsertStudentCourse(student, input, firstCourse);
-
-        // Handle file uploads if any
+        var studentAttachments = new List<StudentAttachment>();
         if (files != null && files.Any())
         {
-            var allowedExtensions = new[] { ".txt", ".csv", ".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png",
-                                           ".xls", ".xlsx" };
+            var allowedExtensions = new[] { ".txt", ".csv", ".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png", ".xls", ".xlsx" };
             const int maxFileSize = 10 * 1024 * 1024; // 10MB
 
             foreach (var file in files)
@@ -181,9 +153,44 @@ public class StudentAppService : CrudAppService<
                         Description = "Uploaded during registration"
                     };
 
-                    await _attachmentRepository.InsertAsync(studentAttachment, autoSave: true);
+                    studentAttachments.Add(studentAttachment);
                 }
             }
+        }
+
+
+        // Get first course and create StudentCourse record
+        await InsertStudentCourse(student, input, firstCourse);
+
+        await _attachmentRepository.InsertManyAsync(studentAttachments, autoSave: true);
+
+        var isUserExists = await IsUserExistsAsync(input.Email);
+        if (!isUserExists)
+        {
+            _logger.LogWarning($"User with email {input.Email} does not exist.");
+            var studentUser = new IdentityUser(Guid.NewGuid(), input.Email, input.Email);
+
+            var password = PasswordGenerator.GenerateSecurePassword(8);
+
+            await _userManager.CreateAsync(studentUser, password);
+            await _userManager.AddToRoleAsync(studentUser, Roles.Student);
+
+            // Send welcome email
+            _mailService.SendWelcomeEmailAsync(new WelcomeRequest
+            {
+                ToEmail = input.Email,
+                UserName = input.Email,
+                Password = password,
+                CourseName = firstCourse.Name,
+            });
+
+            //Gui mail thông báo cho all admin
+            //Hệ thống đã ghi nhận dc hồ sơ đăng kí khóa học ... của học viên ....
+        }
+        else
+        {
+            _logger.LogWarning($"User with email {input.Email} already exists.");
+            throw new UserFriendlyException("A user with this email already exists. Please use a different email address.");
         }
 
         return ObjectMapper.Map<Student, StudentDto>(student);
