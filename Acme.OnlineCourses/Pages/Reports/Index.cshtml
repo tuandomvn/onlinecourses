@@ -58,7 +58,7 @@
                     <label for="ReportType">@L["ReportType"]</label>
                     <select id="ReportType" name="SelectedReportType" class="form-control" onchange="handleReportTypeChange(this.value)">
                         <option value="@ReportType.StudentReport" selected="@(Model.SelectedReportType == ReportType.StudentReport)">@L["StudentReport"]</option>
-                        <option value="@ReportType.CourseReport" selected="@(Model.SelectedReportType == ReportType.CourseReport)">@L["CourseReport"]</option>
+                        @* <option value="@ReportType.CourseReport" selected="@(Model.SelectedReportType == ReportType.CourseReport)">@L["CourseReport"]</option> *@
                         <option value="@ReportType.AgencyReport" selected="@(Model.SelectedReportType == ReportType.AgencyReport)">@L["AgencyReport"]</option>
                     </select>
                 </div>

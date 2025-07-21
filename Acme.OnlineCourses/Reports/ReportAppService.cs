@@ -20,10 +20,10 @@ public class ReportAppService : ApplicationService, IReportAppService
     private readonly IRepository<Agency, Guid> _agencyRepository;
 
     public ReportAppService(
-        IRepository<Student, Guid> studentRepository,
-        IRepository<StudentCourse, Guid> studentCourseRepository,
-        IRepository<Course, Guid> courseRepository,
-        IRepository<Agency, Guid> agencyRepository)
+     IRepository<Student, Guid> studentRepository,
+     IRepository<StudentCourse, Guid> studentCourseRepository,
+     IRepository<Course, Guid> courseRepository,
+     IRepository<Agency, Guid> agencyRepository)
     {
         _studentRepository = studentRepository;
         _studentCourseRepository = studentCourseRepository;
@@ -35,26 +35,30 @@ public class ReportAppService : ApplicationService, IReportAppService
     {
         if (input.ReportType == ReportType.StudentReport)
         {
+            //ds dk hoc theo tung thang
             return await ExportStudentReport(input);
         }
         else if (input.ReportType == ReportType.AgencyReport)
         {
+            //ds dk hoc theo tung Agency / thang
             return await ExportAgencyReport(input);
         }
-        else if (input.ReportType == ReportType.CourseReport)
-        {
-            return await ExportCourseReport(input);
-        }
+        //else if (input.ReportType == ReportType.CourseReport)
+        //{
+        //    //ds hv hoan thanh khoa hoc theo thang
+        //    //not using for now. Dont have completion date
+        //    //return await ExportCourseReport(input);
+        //}
 
         // TODO: Implement other report types here
         var reportHtml = $@"
-            <div class='report-container'>
-                <h2>Report for {input.Month}/{input.Year}</h2>
-                <div class='report-content'>
-                    <p>This is a sample report for {input.Month}/{input.Year}</p>
-                    <!-- Add your report content here -->
-                </div>
-            </div>";
+   <div class='report-container'>
+    <h2>Report for {input.Month}/{input.Year}</h2>
+    <div class='report-content'>
+     <p>This is a sample report for {input.Month}/{input.Year}</p>
+     <!-- Add your report content here -->
+    </div>
+   </div>";
 
         return reportHtml;
     }
@@ -69,8 +73,8 @@ public class ReportAppService : ApplicationService, IReportAppService
 
         // Filter by year and month if specified
         var filteredStudentCourses = studentCourses.Where(sc =>
-            sc.RegistrationDate.Year == input.Year &&
-            sc.RegistrationDate.Month == input.Month).ToList();
+         sc.RegistrationDate.Year == input.Year &&
+         (input.Month < 0 || sc.RegistrationDate.Month == input.Month)).ToList();
 
         // Filter by specific agency if specified
         if (input.AgencyId.HasValue)
@@ -108,7 +112,12 @@ public class ReportAppService : ApplicationService, IReportAppService
         var worksheet = workbook.Worksheets.Add("Agency Report");
 
         // Add title
-        worksheet.Cell(1, 1).Value = $"BÁO CÁO ĐĂNG KÝ HỌC THEO AGENCY - THÁNG {input.Month}/{input.Year}";
+        var titleYear = input.Year.ToString();
+        if (input.Month > 0)
+        {
+            titleYear = $"THÁNG {input.Month}/{input.Year}";
+        }
+        worksheet.Cell(1, 1).Value = $"BÁO CÁO ĐĂNG KÝ HỌC THEO AGENCY - {titleYear}";
         worksheet.Cell(1, 1).Style.Font.Bold = true;
         worksheet.Cell(1, 1).Style.Font.FontSize = 14;
         worksheet.Range(1, 1, 1, 12).Merge();
@@ -168,7 +177,7 @@ public class ReportAppService : ApplicationService, IReportAppService
             Directory.CreateDirectory(reportsDir);
 
         var agencyFilter = input.AgencyId.HasValue ? "_" + input.AgencyId.Value.ToString("N")[..8] : "";
-        var fileName = $"AgencyReport_{input.Year}_{input.Month:00}{agencyFilter}_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
+        var fileName = $"AgencyReport_{input.Year}_{agencyFilter}_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
         var filePath = Path.Combine(reportsDir, fileName);
         workbook.SaveAs(filePath);
 
@@ -176,6 +185,7 @@ public class ReportAppService : ApplicationService, IReportAppService
         return $"/reports/{fileName}";
     }
 
+    //ds dk hoc theo tung thang
     private async Task<string> ExportStudentReport(GenerateReportInput input)
     {
         // Query students and their courses
@@ -186,9 +196,8 @@ public class ReportAppService : ApplicationService, IReportAppService
 
         // Filter completed courses by year and month
         var filteredStudentCourses = studentCourses.Where(sc =>
-            sc.CourseStatus == StudentCourseStatus.Completed &&
-            sc.RegistrationDate.Year == input.Year &&
-            sc.RegistrationDate.Month == input.Month).ToList();
+         sc.RegistrationDate.Year == input.Year &&
+         (input.Month < 0 || sc.RegistrationDate.Month == input.Month)).ToList();
 
         var data = from s in students
                    join a in agencies on s.AgencyId equals a.Id into ag
@@ -197,7 +206,7 @@ public class ReportAppService : ApplicationService, IReportAppService
                    from sc in scg.DefaultIfEmpty()
                    join c in courses on sc?.CourseId ?? Guid.Empty equals c.Id into cg
                    from c in cg.DefaultIfEmpty()
-                   where sc != null // Only include students with completed courses
+                   where sc != null // Only include students with registration courses
                    select new
                    {
                        StudentName = s.Fullname,
@@ -209,7 +218,7 @@ public class ReportAppService : ApplicationService, IReportAppService
                        CourseName = c?.Name ?? "N/A",
                        RegistrationDate = sc.RegistrationDate,
                        ExpectedStudyDate = sc.ExpectedStudyDate,
-                       CompletionDate = sc.RegistrationDate, // Assuming completion date is same as registration for now
+                       //CompletionDate = sc.RegistrationDate, // Assuming completion date is same as registration for now
                        CourseStatus = sc.CourseStatus.ToString(),
                        TestStatus = sc.TestStatus.ToString(),
                        PaymentStatus = sc.PaymentStatus.ToString(),
@@ -219,10 +228,15 @@ public class ReportAppService : ApplicationService, IReportAppService
 
         // Create Excel file
         using var workbook = new XLWorkbook();
-        var worksheet = workbook.Worksheets.Add("Completed Students");
+        var worksheet = workbook.Worksheets.Add("Registration Students");
 
         // Add title
-        worksheet.Cell(1, 1).Value = $"BÁO CÁO HỌC VIÊN HOÀN THÀNH KHÓA HỌC - THÁNG {input.Month}/{input.Year}";
+        var titleYear = input.Year.ToString();
+        if (input.Month > 0)
+        {
+            titleYear = $"THÁNG {input.Month}/{input.Year}";
+        }
+        worksheet.Cell(1, 1).Value = $"BÁO CÁO HỌC VIÊN ĐĂNG KÍ KHÓA HỌC - {titleYear}";
         worksheet.Cell(1, 1).Style.Font.Bold = true;
         worksheet.Cell(1, 1).Style.Font.FontSize = 14;
         worksheet.Range(1, 1, 1, 15).Merge();
@@ -237,12 +251,11 @@ public class ReportAppService : ApplicationService, IReportAppService
         worksheet.Cell(3, 7).Value = "Tên Khóa Học";
         worksheet.Cell(3, 8).Value = "Ngày Đăng Ký";
         worksheet.Cell(3, 9).Value = "Ngày Dự Kiến Học";
-        worksheet.Cell(3, 10).Value = "Ngày Hoàn Thành";
-        worksheet.Cell(3, 11).Value = "Trạng Thái Khóa Học";
-        worksheet.Cell(3, 12).Value = "Trạng Thái Thi";
-        worksheet.Cell(3, 13).Value = "Trạng Thái Thanh Toán";
-        worksheet.Cell(3, 14).Value = "Ghi Chú Học Viên";
-        worksheet.Cell(3, 15).Value = "Ghi Chú Admin";
+        worksheet.Cell(3, 10).Value = "Trạng Thái Khóa Học";
+        worksheet.Cell(3, 11).Value = "Trạng Thái Thi";
+        worksheet.Cell(3, 12).Value = "Trạng Thái Thanh Toán";
+        worksheet.Cell(3, 13).Value = "Ghi Chú Học Viên";
+        worksheet.Cell(3, 14).Value = "Ghi Chú Admin";
 
         // Style headers
         var headerRange = worksheet.Range(3, 1, 3, 15);
@@ -261,12 +274,11 @@ public class ReportAppService : ApplicationService, IReportAppService
             worksheet.Cell(row, 7).Value = item.CourseName;
             worksheet.Cell(row, 8).Value = item.RegistrationDate.ToString("dd/MM/yyyy");
             worksheet.Cell(row, 9).Value = item.ExpectedStudyDate.ToString("dd/MM/yyyy");
-            worksheet.Cell(row, 10).Value = item.CompletionDate.ToString("dd/MM/yyyy");
-            worksheet.Cell(row, 11).Value = item.CourseStatus;
-            worksheet.Cell(row, 12).Value = item.TestStatus;
-            worksheet.Cell(row, 13).Value = item.PaymentStatus;
-            worksheet.Cell(row, 14).Value = item.StudentNote;
-            worksheet.Cell(row, 15).Value = item.AdminNote;
+            worksheet.Cell(row, 10).Value = item.CourseStatus;
+            worksheet.Cell(row, 11).Value = item.TestStatus;
+            worksheet.Cell(row, 12).Value = item.PaymentStatus;
+            worksheet.Cell(row, 13).Value = item.StudentNote;
+            worksheet.Cell(row, 14).Value = item.AdminNote;
             row++;
         }
 
@@ -282,13 +294,13 @@ public class ReportAppService : ApplicationService, IReportAppService
         var totalStudents = data.Count();
         worksheet.Cell(row + 2, 1).Value = "TỔNG KẾT:";
         worksheet.Cell(row + 2, 1).Style.Font.Bold = true;
-        worksheet.Cell(row + 3, 1).Value = $"Tổng số học viên hoàn thành khóa học trong tháng {input.Month}/{input.Year}: {totalStudents}";
+        worksheet.Cell(row + 3, 1).Value = $"Tổng số học viên đăng kí khóa học trong {titleYear.ToLower()}: {totalStudents}";
 
         // Save to wwwroot/reports
         var reportsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "reports");
         if (!Directory.Exists(reportsDir))
             Directory.CreateDirectory(reportsDir);
-        var fileName = $"StudentReport_Completed_{input.Year}_{input.Month:00}_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
+        var fileName = $"StudentReport_Registration_{input.Year}_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
         var filePath = Path.Combine(reportsDir, fileName);
         workbook.SaveAs(filePath);
 
@@ -296,6 +308,7 @@ public class ReportAppService : ApplicationService, IReportAppService
         return $"/reports/{fileName}";
     }
 
+    //hv da hoan thanh khoa hoc theo tung thang
     private async Task<string> ExportCourseReport(GenerateReportInput input)
     {
         var students = await _studentRepository.GetListAsync();
@@ -305,9 +318,9 @@ public class ReportAppService : ApplicationService, IReportAppService
 
         // Lọc các đăng ký đã hoàn thành theo năm/tháng
         var filteredStudentCourses = studentCourses.Where(sc =>
-            sc.CourseStatus == StudentCourseStatus.Completed &&
-            sc.RegistrationDate.Year == input.Year &&
-            sc.RegistrationDate.Month == input.Month).ToList();
+         sc.CourseStatus == StudentCourseStatus.Completed &&
+         sc.RegistrationDate.Year == input.Year &&
+         (input.Month < 0 || sc.RegistrationDate.Month == input.Month)).ToList();//todo? completed day
 
         var data = from sc in filteredStudentCourses
                    join s in students on sc.StudentId equals s.Id
@@ -411,4 +424,4 @@ public class ReportAppService : ApplicationService, IReportAppService
         // Trả về đường dẫn file
         return $"/reports/{fileName}";
     }
-} 
+}
