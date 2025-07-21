@@ -75,7 +75,6 @@
                 <div class="col-md-3">
                     <label for="Year">@L["Year"]</label>
                     <select id="Year" name="SelectedYear" class="form-control">
-                        <option value="-1" selected="@(Model.SelectedYear == -1)">--All--</option>
                         @for (int year = DateTime.Now.Year; year >= DateTime.Now.Year - 5; year--)
                         {
                             <option value="@year" selected="@(year == Model.SelectedYear)">@year</option>
