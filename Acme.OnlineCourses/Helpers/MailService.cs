@@ -25,6 +25,11 @@ namespace Acme.OnlineCourses.Helpers
         public string ToEmail { get; set; }
         public string StudentEmail { get; set; }
     }
+    public class ResetPasswordRequest
+    {
+        public string ToEmail { get; set; }
+        public string NewPassword { get; set; }
+    }
 
     public class MailRequest
     {
@@ -150,6 +155,32 @@ namespace Acme.OnlineCourses.Helpers
             };
             email.To.Add(MailboxAddress.Parse(request.ToEmail));
             email.Subject = $"[Tesol Channel] - Thông báo học viên {request.StudentEmail} đã cập nhật tài liệu";
+            var builder = new BodyBuilder();
+            builder.HtmlBody = MailText;
+            email.Body = builder.ToMessageBody();
+            using var smtp = new SmtpClient();
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+            await smtp.SendAsync(email);
+            smtp.Disconnect(true);
+        }
+
+        public async Task SendResetPasswordAsync(ResetPasswordRequest request)
+        {
+            string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\NewPassword.html";
+            StreamReader str = new StreamReader(FilePath);
+            string MailText = str.ReadToEnd();
+            str.Close();
+
+            MailText = MailText
+                .Replace("[newpassword]", request.NewPassword);
+
+            var email = new MimeMessage
+            {
+                Sender = MailboxAddress.Parse(_mailSettings.Mail)
+            };
+            email.To.Add(MailboxAddress.Parse(request.ToEmail));
+            email.Subject = "[Tesol Channel] - Đặt lại password thành công";
             var builder = new BodyBuilder();
             builder.HtmlBody = MailText;
             email.Body = builder.ToMessageBody();
