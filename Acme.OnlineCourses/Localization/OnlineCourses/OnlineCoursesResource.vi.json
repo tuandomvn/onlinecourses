@@ -370,7 +370,6 @@
     // Employment Support Page
     "Employment.Title": "Hỗ trợ việc làm",
 
-    // Hero Section
     "Employment.Hero.Subtitle": "Công việc sau khi học?",
     "Employment.Hero.Title": "Hỗ trợ tìm việc sau khóa học",
     "Employment.Hero.Description1": "Tesol Channel cam kết sẽ hỗ trợ bạn ngay cả sau khi hoàn thành khóa học.",
@@ -397,6 +396,8 @@
     "Employment.Form.Message": "Tin nhắn",
     "Employment.Form.MessagePlaceholder": "Nhập nội dung",
     "Employment.Form.SubmitButton": "Đăng ký ngay",
+    "Employment.Form.SuccessTitle": "Đăng ký thành công",
+    "Employment.Form.SuccessMessage": "Thông tin hỗ trợ việc làm của bạn đã được gửi thành công. Chúng tôi sẽ liên hệ với bạn sớm nhất.",
     //
 
 

@@ -26,10 +26,10 @@ namespace Acme.OnlineCourses.Pages.EmploymentSupports
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
 
             var entity = new EmploymentSupport
             {
@@ -39,10 +39,10 @@ namespace Acme.OnlineCourses.Pages.EmploymentSupports
                 Email = EmploymentSupport.Email,
                 Address = EmploymentSupport.Address,
                 CourseCompletionDate = EmploymentSupport.CourseCompletionDate,
-                Message = EmploymentSupport.Message
+                Message = EmploymentSupport.Message ?? string.Empty
             };
             await _employmentSupportRepository.InsertAsync(entity, autoSave: true);
-            TempData["SuccessMessage"] = "Đã gửi thông tin hỗ trợ việc làm thành công!";
+            TempData["FormMessage"] = "success";
             return RedirectToPage();
         }
 
@@ -52,7 +52,7 @@ namespace Acme.OnlineCourses.Pages.EmploymentSupports
             public string FullName { get; set; }
 
             [Required]
-            [DataType(DataType.Date)]
+            //[DataType(DataType.Date)]
             public DateTime DateOfBirth { get; set; }
 
             public string PhoneNumber { get; set; }
@@ -63,7 +63,7 @@ namespace Acme.OnlineCourses.Pages.EmploymentSupports
             public string Address { get; set; }
 
             [Required]
-            [DataType(DataType.Date)]
+           // [DataType(DataType.Date)]
             public DateTime CourseCompletionDate { get; set; }
 
             public string? Message { get; set; }

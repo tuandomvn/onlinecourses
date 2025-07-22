@@ -368,7 +368,6 @@
     // Employment Support Page
     "Employment.Title": "Job Support",
 
-    // Hero Section
     "Employment.Hero.Subtitle": "Career after completion?",
     "Employment.Hero.Title": "Post-course Job Support",
     "Employment.Hero.Description1": "Tesol Channel is committed to supporting you in finding a job even after completing the course..",
@@ -395,6 +394,8 @@
     "Employment.Form.Message": "Message",
     "Employment.Form.MessagePlaceholder": "Enter your message",
     "Employment.Form.SubmitButton": "Register Now",
+    "Employment.Form.SuccessTitle": "Registration Successful",
+    "Employment.Form.SuccessMessage": "Your employment support registration has been submitted successfully. We will contact you soon.",
     //
 
 
