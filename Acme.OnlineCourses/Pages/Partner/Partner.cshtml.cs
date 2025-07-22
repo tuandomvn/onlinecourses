@@ -65,7 +65,7 @@ public class PartnerModel : AbpPageModel
             new SelectListItem { Value = "thanhhoa", Text = "Thanh Hóa" },
             new SelectListItem { Value = "tuyenquang", Text = "Tuyên Quang" },
             new SelectListItem { Value = "vinhlong", Text = "Vĩnh Long" }
-        };
+        }.OrderBy(e => e.Value).ToList();
 
         if (string.IsNullOrEmpty(SelectedLocationId))
         {
@@ -90,7 +90,6 @@ public class PartnerModel : AbpPageModel
                 selectedItem.Selected = true;
             }
         }
-
     }
 
     public async Task<JsonResult> OnPostRegisterAsync([FromBody] PartnerRegistrationRequest request)
