@@ -5,7 +5,7 @@
 @inject IStringLocalizer<OnlineCoursesResource> L
 
 @section styles {
-    <abp-style src="/Pages/Partner/Partner.cshtml.css" />
+    <abp-style src="/Pages/Partner/Partners.cshtml.css" />
     <style>
         .select2-container--default .select2-selection--single {
             height: 38px;
@@ -134,7 +134,7 @@
     </style>
 }
 @section scripts {
-    <abp-script src="/Pages/Partner/Partner.cshtml.js" />
+    <abp-script src="/Pages/Partner/Partners.cshtml.js" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
     <!-- Add jQuery validate -->
@@ -307,7 +307,7 @@
 
                 // Send AJAX request
                 $.ajax({
-                    url: '/Partner?handler=Register',
+                    url: '/Partners?handler=Register',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(formData),
