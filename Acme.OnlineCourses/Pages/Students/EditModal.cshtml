@@ -13,7 +13,7 @@
 
 <form asp-page="/Students/EditModal">
     <abp-modal>
-        <abp-modal-header title="@L["Edit"].Value"></abp-modal-header>
+        <abp-modal-header title="@L["Edit"].Value @Model.StudentCourse.Email"></abp-modal-header>
         <abp-modal-body>
             <input asp-for="StudentCourse.StudentId" type="hidden" />
             <input asp-for="StudentCourse.CourseId" type="hidden" />

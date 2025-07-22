@@ -493,7 +493,7 @@ public class StudentAppService : CrudAppService<
                         CourseName = course.Course?.Name,
                         CourseStatus = course.CourseStatus,
                         TestStatus = course.TestStatus,
-                        CoursePaymentStatus = course.PaymentStatus,
+                        PaymentStatus = course.PaymentStatus,
                         CourseNote = course.StudentNote,
                         AgencyId = student.AgencyId,
                         CreationTime = student.CreationTime
@@ -554,7 +554,8 @@ public class StudentAppService : CrudAppService<
             TestStatus = studentCourse.TestStatus,
             PaymentStatus = studentCourse.PaymentStatus,
             StudentNote = studentCourse.StudentNote,
-            AdminNote = studentCourse.AdminNote
+            AdminNote = studentCourse.AdminNote,
+            Email = student.Email
         };
     }
 
