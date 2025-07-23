@@ -390,7 +390,7 @@
     "Employment.Form.EmailPlaceholder": "Enter your email address",
     "Employment.Form.Address": "Address",
     "Employment.Form.AddressPlaceholder": "Enter your address",
-    "Employment.Form.CourseCompletionDate": "Completed the course on",
+    "CourseCompletionDate": "Completed the course on",
     "Employment.Form.Message": "Message",
     "Employment.Form.MessagePlaceholder": "Enter your message",
     "Employment.Form.SubmitButton": "Register Now",

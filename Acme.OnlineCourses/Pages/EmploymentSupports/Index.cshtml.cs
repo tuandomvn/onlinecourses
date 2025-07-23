@@ -41,7 +41,7 @@ namespace Acme.OnlineCourses.Pages.EmploymentSupports
                 CourseCompletionDate = EmploymentSupport.CourseCompletionDate,
                 Message = EmploymentSupport.Message ?? string.Empty
             };
-            await _employmentSupportRepository.InsertAsync(entity, autoSave: true);
+           await _employmentSupportRepository.InsertAsync(entity, autoSave: true);
             TempData["FormMessage"] = "success";
             return RedirectToPage();
         }
@@ -52,7 +52,9 @@ namespace Acme.OnlineCourses.Pages.EmploymentSupports
             public string FullName { get; set; }
 
             [Required]
-            //[DataType(DataType.Date)]
+            [DataType(DataType.Date)]
+            [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+
             public DateTime DateOfBirth { get; set; }
 
             public string PhoneNumber { get; set; }
@@ -63,7 +65,8 @@ namespace Acme.OnlineCourses.Pages.EmploymentSupports
             public string Address { get; set; }
 
             [Required]
-           // [DataType(DataType.Date)]
+            [DataType(DataType.DateTime)]
+            [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
             public DateTime CourseCompletionDate { get; set; }
 
             public string? Message { get; set; }

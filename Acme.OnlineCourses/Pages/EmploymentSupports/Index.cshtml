@@ -66,16 +66,13 @@
                     <form method="post" class="registration-form">
                         <div class="form-group">
                             <label asp-for="EmploymentSupport.FullName" class="form-label">@L["Employment.Form.FullName"]</label>
-                            <input asp-for="EmploymentSupport.FullName" class="form-control" placeholder="@L["Employment.Form.FullNamePlaceholder"]" />
+                            <input asp-for="EmploymentSupport.FullName" class="form-control"
+                                placeholder="@L["Employment.Form.FullNamePlaceholder"]"/>
                             <span asp-validation-for="EmploymentSupport.FullName" class="text-danger"></span>
                         </div>
 
-                        <div class="form-group">
-                            <label asp-for="EmploymentSupport.DateOfBirth" class="form-label">@L["Employment.Form.DateOfBirth"]</label>
-                            <input asp-for="EmploymentSupport.DateOfBirth" type="date" class="form-control"
-                                   placeholder="@L["Employment.Form.DateFormat"]" />
-                            <span asp-validation-for="EmploymentSupport.DateOfBirth" class="text-danger"></span>
-                        </div>
+                        <abp-date-picker asp-for="EmploymentSupport.DateOfBirth" />
+                        <span asp-validation-for="EmploymentSupport.DateOfBirth" class="text-danger"></span>
 
                         <div class="row">
                             <div class="col-md-6">
@@ -100,11 +97,14 @@
                             <span asp-validation-for="EmploymentSupport.Address" class="text-danger"></span>
                         </div>
 
-                        <div class="form-group">
+                       @*  <div class="form-group">
                             <label asp-for="EmploymentSupport.CourseCompletionDate" class="form-label">@L["Employment.Form.CourseCompletionDate"]</label>
                             <input asp-for="EmploymentSupport.CourseCompletionDate" type="date" class="form-control" placeholder="@L["Employment.Form.DateFormat"]" />
                             <span asp-validation-for="EmploymentSupport.CourseCompletionDate" class="text-danger"></span>
-                        </div>
+                        </div> *@
+
+                        <abp-date-picker asp-for="EmploymentSupport.CourseCompletionDate" />
+                        <span asp-validation-for="EmploymentSupport.CourseCompletionDate" class="text-danger"></span>
 
                         <div class="form-group">
                             <label asp-for="EmploymentSupport.Message" class="form-label">@L["Employment.Form.Message"]</label>
