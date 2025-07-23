@@ -167,7 +167,7 @@ public class StudentAppService : CrudAppService<
         var isUserExists = await IsUserExistsAsync(input.Email);
         if (!isUserExists)
         {
-            _logger.LogWarning($"User with email {input.Email} does not exist.");
+            _logger.LogInformation($"User with email {input.Email} does not exist.");
             var studentUser = new IdentityUser(Guid.NewGuid(), input.Email, input.Email);
 
             var password = PasswordGenerator.GenerateSecurePassword(8);

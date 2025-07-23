@@ -1,14 +1,16 @@
-using System.Threading.Tasks;
 using Acme.OnlineCourses.Blogs;
 using Acme.OnlineCourses.Blogs.Dtos;
 using Acme.OnlineCourses.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Globalization;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 
 namespace Acme.OnlineCourses.Pages.Blogs
 {
+    [Authorize]
     public class ShowModel : PageModel
     {
         private readonly IBlogAppService _blogAppService;

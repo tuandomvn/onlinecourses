@@ -1,6 +1,7 @@
 using Acme.OnlineCourses.Blogs;
 using Acme.OnlineCourses.Blogs.Dtos;
 using Acme.OnlineCourses.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Acme.OnlineCourses.Pages.Blogs;
 
+[Authorize]
 public class IndexModel : PageModel
 {
     private readonly IBlogAppService _blogAppService;

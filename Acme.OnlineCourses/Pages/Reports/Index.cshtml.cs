@@ -1,17 +1,18 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Threading.Tasks;
-using Acme.OnlineCourses.Reports;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Agencies.Dtos;
-using Volo.Abp.Application.Dtos;
+using Acme.OnlineCourses.Reports;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 
 namespace Acme.OnlineCourses.Pages.Reports;
-
+[Authorize]
 public class IndexModel : PageModel
 {
     private readonly IReportAppService _reportAppService;
