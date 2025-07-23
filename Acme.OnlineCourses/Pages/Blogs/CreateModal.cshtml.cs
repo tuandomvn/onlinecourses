@@ -1,11 +1,12 @@
 using Acme.OnlineCourses.Blogs;
 using Acme.OnlineCourses.Blogs.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
 namespace Acme.OnlineCourses.Pages.Blogs;
-
+[Authorize]
 public class CreateModalModel : PageModel
 {
     [BindProperty]

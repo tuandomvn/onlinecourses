@@ -2,6 +2,7 @@ using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Agencies.Dtos;
 using Acme.OnlineCourses.Students;
 using Acme.OnlineCourses.Students.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Pagination;
 
 namespace Acme.OnlineCourses.Pages.Students;
-
+[Authorize]
 public class IndexModel : PageModel
 {
     private readonly IStudentAppService _studentAppService;

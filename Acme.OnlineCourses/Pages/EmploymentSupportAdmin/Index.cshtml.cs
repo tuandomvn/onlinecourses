@@ -1,14 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Acme.OnlineCourses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Volo.Abp.Domain.Repositories;
-using Acme.OnlineCourses;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Volo.Abp.Domain.Repositories;
 
 namespace Acme.OnlineCourses.Pages.EmploymentSupportAdmin
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly IRepository<EmploymentSupport, Guid> _employmentSupportRepository;
