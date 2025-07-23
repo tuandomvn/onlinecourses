@@ -199,8 +199,18 @@ public class StudentAppService : CrudAppService<
         }
         else
         {
+            var isEnglish = Thread.CurrentThread.CurrentUICulture.Name.StartsWith("en");
+
             _logger.LogWarning($"User with email {input.Email} already exists.");
-            throw new UserFriendlyException("A user with this email already exists. Please use a different email address.");
+            //throw new UserFriendlyException("A user with this email already exists. Please use a different email address.");
+            if (isEnglish)
+            {
+                throw new UserFriendlyException("A user with this email already exists. Please use a different email address.");
+            }
+            else
+            {
+                throw new UserFriendlyException("Đã có người dùng với email này. Vui lòng sử dụng địa chỉ email khác.");
+            }
         }
 
         return ObjectMapper.Map<Student, StudentDto>(student);
