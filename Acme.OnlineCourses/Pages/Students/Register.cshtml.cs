@@ -66,7 +66,7 @@ public class RegisterModel : PageModel
         // Get agencies for dropdown
         var agencies = await _agencyAppService.GetListAsync(new GetAgencyListDto());
         Agencies = new List<SelectListItem>() { new SelectListItem(_localizer["SelectAgency"], "") };
-        foreach (var agency in agencies.Items)
+        foreach (var agency in agencies.Items.Where(x => x.Status == AgencyStatus.Active))
         {
             Agencies.Add(new SelectListItem(agency.Name, agency.Id.ToString()));
         }
@@ -83,4 +83,4 @@ public class RegisterModel : PageModel
 
         return Page();
     }
-} 
+}
