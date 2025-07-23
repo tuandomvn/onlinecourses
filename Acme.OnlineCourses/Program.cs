@@ -48,6 +48,12 @@ public class Program
             // Đăng ký MailService với DI container
             builder.Services.AddScoped<IMailService, Helpers.MailService>();
 
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromHours(10); // 10 giờ
+                options.SlidingExpiration = true; // Tùy chọn, tự động gia hạn nếu còn hoạt động
+            });
+
             await builder.AddApplicationAsync<OnlineCoursesModule>();
             var app = builder.Build();
             await app.InitializeApplicationAsync();
