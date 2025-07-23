@@ -271,8 +271,8 @@
                 if (!validator.valid()) {
                     // Show error message
                     Swal.fire({
-                        title: '@L["Partner.Form.Error.Title"]',
-                        text: '@L["Partner.Form.Error.RequiredFields"]',
+                        title: '@Html.Raw(L["Partner.Form.Error.Title"].ToString())',
+                        text: '@Html.Raw(L["Partner.Form.Error.RequiredFields"].ToString())',
                         icon: 'error',
                         confirmButtonText: '@L["Close"]'
                     });
@@ -318,8 +318,8 @@
                         if (response.success) {
                             // Show success message
                             Swal.fire({
-                                title: '@L["Partner.Form.Success.Title"]',
-                                text: '@L["Partner.Form.Success.Message"]',
+                                title: '@Html.Raw(L["Partner.Form.Success.Title"].ToString())',
+                                text: '@Html.Raw(L["Partner.Form.Success.Message"].ToString())',
                                 icon: 'success',
                                 confirmButtonText: '@L["Close"]'
                             });
@@ -331,8 +331,8 @@
                         } else {
                             // Show error message
                             Swal.fire({
-                                title: '@L["Partner.Form.Error.Title"]',
-                                text: response.message || '@L["Partner.Form.Error.Generic"]',
+                                title: '@Html.Raw(L["Partner.Form.Error.Title"].ToString())',
+                                text: response.message || '@Html.Raw(L["Partner.Form.Error.Generic"].ToString())',
                                 icon: 'error',
                                 confirmButtonText: '@L["Close"]'
                             });
@@ -341,15 +341,15 @@
                     error: function() {
                         // Show error message
                         Swal.fire({
-                            title: '@L["Partner.Form.Error.Title"]',
-                            text: '@L["Partner.Form.Error.Submit"]',
+                            title: '@Html.Raw(L["Partner.Form.Error.Title"].ToString())',
+                            text: '@Html.Raw(L["Partner.Form.Error.Submit"].ToString())',
                             icon: 'error',
                             confirmButtonText: '@L["Close"]'
                         });
                     },
                     complete: function() {
                         // Restore button state
-                        $btn.prop('disabled', false).text('@L["Partner.Form.SubmitButton"]');
+                        $btn.prop('disabled', false).text('@Html.Raw(L["Partner.Form.SubmitButton"].ToString())');
                     }
                 });
             });

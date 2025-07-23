@@ -17,17 +17,16 @@
         $(function () {
             @if (TempData["FormMessage"]?.ToString() == "success")
             {
-                    <text>
-                    Swal.fire({
-                        icon: 'success',
-                        title: '@L["Employment.Form.SuccessTitle"]',
-                        text: '@L["Employment.Form.SuccessMessage"]'
-                    });
-                    </text>
+                <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: '@Html.Raw(L["Employment.Form.SuccessTitle"].ToString())',
+                    text: '@Html.Raw(L["Employment.Form.SuccessMessage"].ToString())'
+                });
+                </text>
             }
         });
     </script>
-}
 }
 
 <div class="employment-support-page">
