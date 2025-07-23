@@ -32,6 +32,7 @@ public class UpdateStudentCourseDto
 {
     public Guid StudentId { get; set; }
     public Guid CourseId { get; set; }
+    public string FullName { get; set; }
     public string Email { get; set; }
     public StudentCourseStatus CourseStatus { get; set; }
     public TestStatus TestStatus { get; set; }

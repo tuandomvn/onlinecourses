@@ -548,6 +548,7 @@ public class StudentAppService : CrudAppService<
 
         return new UpdateStudentCourseDto
         {
+            FullName = student.Fullname,
             StudentId = studentId,
             CourseId = courseId,
             CourseStatus = studentCourse.CourseStatus,
@@ -591,6 +592,7 @@ public class StudentAppService : CrudAppService<
         studentCourse.StudentNote = input.StudentNote;
         studentCourse.AdminNote = input.AdminNote;
 
+        student.Fullname = input.FullName;
         await _studentRepository.UpdateAsync(student);
     }
 }
