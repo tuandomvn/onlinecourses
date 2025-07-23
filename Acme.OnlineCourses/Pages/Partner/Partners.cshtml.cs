@@ -98,7 +98,7 @@ public class PartnerModel : AbpPageModel
         {
             var agency = new Agency
             {
-                Name = request.PartnerApplication.OrganizationName,
+                Name = request.PartnerApplication.FullName,
                 Description = request.PartnerApplication.Message,
                 ContactEmail = request.PartnerApplication.Email,
                 ContactPhone = request.PartnerApplication.PhoneNumber,
