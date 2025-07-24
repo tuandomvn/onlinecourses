@@ -10,7 +10,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Pagination;
 
 namespace Acme.OnlineCourses.Pages.Students;
-[Authorize]
+[Authorize(Roles = OnlineCoursesConsts.Roles.Administrator)]
 public class IndexModel : PageModel
 {
     private readonly IStudentAppService _studentAppService;

@@ -1,22 +1,23 @@
+using Acme.OnlineCourses.Agencies;
+using Acme.OnlineCourses.Localization;
+using Acme.OnlineCourses.Students;
+using Acme.OnlineCourses.Students.Dtos;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Acme.OnlineCourses.Agencies;
-using Acme.OnlineCourses.Localization;
-using Acme.OnlineCourses.Students;
-using Acme.OnlineCourses.Students.Dtos;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Localization;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 using Volo.Abp.Identity;
 
 namespace Acme.OnlineCourses.Pages.Students;
-
+[Authorize(Roles = OnlineCoursesConsts.Roles.Administrator)]
 public class EditModalModel : OnlineCoursesPageModel
 {
     [BindProperty]

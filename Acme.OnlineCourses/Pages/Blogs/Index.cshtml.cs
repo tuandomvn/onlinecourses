@@ -11,7 +11,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Acme.OnlineCourses.Pages.Blogs;
 
-[Authorize]
+[Authorize(Roles = OnlineCoursesConsts.Roles.Administrator)]
 public class IndexModel : PageModel
 {
     private readonly IBlogAppService _blogAppService;

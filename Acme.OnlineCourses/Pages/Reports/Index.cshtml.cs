@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 
 namespace Acme.OnlineCourses.Pages.Reports;
-[Authorize]
+[Authorize(Roles = OnlineCoursesConsts.Roles.Administrator)]
 public class IndexModel : PageModel
 {
     private readonly IReportAppService _reportAppService;

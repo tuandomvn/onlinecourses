@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Acme.OnlineCourses.Agencies;
+using Acme.OnlineCourses.Agencies.Dtos;
+using Acme.OnlineCourses.Localization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
-using Acme.OnlineCourses.Agencies;
-using Acme.OnlineCourses.Agencies.Dtos;
-using Acme.OnlineCourses.Localization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
 namespace Acme.OnlineCourses.Pages.Agencies
 {
+    [Authorize(Roles = OnlineCoursesConsts.Roles.Administrator)]
     public class CreateModalModel : PageModel
     {
         [BindProperty]

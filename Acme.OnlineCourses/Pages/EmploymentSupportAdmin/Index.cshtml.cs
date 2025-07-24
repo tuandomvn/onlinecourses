@@ -10,7 +10,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Acme.OnlineCourses.Pages.EmploymentSupportAdmin
 {
-    [Authorize]
+    [Authorize(Roles = OnlineCoursesConsts.Roles.Administrator)]
     public class IndexModel : PageModel
     {
         private readonly IRepository<EmploymentSupport, Guid> _employmentSupportRepository;
