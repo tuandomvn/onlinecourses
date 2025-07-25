@@ -1,8 +1,12 @@
 ﻿using Acme.OnlineCourses.Data;
 using Acme.OnlineCourses.Helpers;
+using Microsoft.AspNetCore.Identity;
 using Serilog;
 using Serilog.Events;
 using Volo.Abp.Data;
+using Volo.Abp.Identity;
+using Volo.Abp.Modularity;
+using Volo.Abp.Threading;
 
 namespace Acme.OnlineCourses;
 
@@ -48,14 +52,31 @@ public class Program
             // Đăng ký MailService với DI container
             builder.Services.AddScoped<IMailService, Helpers.MailService>();
 
-            builder.Services.ConfigureApplicationCookie(options =>
+            //builder.Services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.ExpireTimeSpan = TimeSpan.FromHours(10); // 10 giờ
+            //    options.SlidingExpiration = true; // Tự động gia hạn nếu còn hoạt động
+            //});
+            
+            builder.Services.AddSession(options =>
             {
-                options.ExpireTimeSpan = TimeSpan.FromHours(10); // 10 giờ
-                options.SlidingExpiration = true; // Tùy chọn, tự động gia hạn nếu còn hoạt động
+                options.IdleTimeout = TimeSpan.FromHours(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            builder.Services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.FromHours(10);
             });
 
             await builder.AddApplicationAsync<OnlineCoursesModule>();
             var app = builder.Build();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseSession();
+
             await app.InitializeApplicationAsync();
 
             if (IsMigrateDatabase(args))
@@ -63,9 +84,6 @@ public class Program
                 await app.Services.GetRequiredService<OnlineCoursesDbMigrationService>().MigrateAsync();
                 return 0;
             }
-
-
-            
 
             Log.Information("Starting Acme.OnlineCourses.");
             await app.RunAsync();
