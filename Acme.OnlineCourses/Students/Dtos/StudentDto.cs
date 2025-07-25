@@ -43,6 +43,8 @@ public class UpdateStudentCourseDto
 
     [TextArea(Rows = 4)]
     public string? AdminNote { get; set; }
+
+    public List<StudentAttachment> Attachments { get; set; } = [];
 }
 
 //Share info

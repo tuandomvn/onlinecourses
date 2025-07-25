@@ -542,6 +542,7 @@ public class StudentAppService : CrudAppService<
     {
         var query = await _studentRepository.GetQueryableAsync();
         var student = await query
+            .Include(x => x.Attachments)
             .Include(x => x.Courses)
             .FirstOrDefaultAsync(x => x.Id == studentId);
 
@@ -566,7 +567,8 @@ public class StudentAppService : CrudAppService<
             PaymentStatus = studentCourse.PaymentStatus,
             StudentNote = studentCourse.StudentNote,
             AdminNote = studentCourse.AdminNote,
-            Email = student.Email
+            Email = student.Email,
+            Attachments = student.Attachments.ToList(),
         };
     }
 
