@@ -76,10 +76,10 @@
             else
             {
                 <div class="user-greeting-container">
-                     <button class="greeting-text" type="button" id="userDropdownToggle">
-                             <a href="/Account/Login">@L["Menu:Login"]</a>
+                    <button class="greeting-text" type="button" id="userDropdownToggle">
+                        <a href="/Account/Login">@L["Menu:Login"]</a>
                     </button>
-              
+
                 </div>
             }
 
@@ -139,10 +139,12 @@
         transition: all 0.3s ease;
         cursor: pointer;
     }
-    .greeting-text a{
+
+        .greeting-text a {
             color: white;
             text-decoration: none;
         }
+
         .greeting-text:hover {
             background: rgba(255, 255, 255, 0.15);
             transform: translateY(-1px);
@@ -262,26 +264,23 @@
 
     /* Active menu item styling */
     .custom-navbar-menu a.active {
-        color: white;
+        color: #48C8D4 !important;
         font-weight: bold;
         position: relative;
-        color: #48C8D4;
     }
 
-        .custom-navbar-menu a.active::after {
-            display: none;
-        }
 
     .custom-navbar-menu a:hover:not(.active) {
-        transition: all 0.3s ease;
+        transition: all 0.5s ease;
     }
 
     .custom-navbar-menu a {
         padding: 6px 12px;
-        margin: 0 3px;
         border-radius: 4px;
         transition: all 0.3s ease;
         text-decoration: none;
+        color: white;
+        position: relative;
     }
 
     /* Sticky navbar styles */
@@ -412,7 +411,7 @@
         }
         /* Mobile user greeting */
         .navbar-right-section {
-/*             gap: 10px; */
+            /*             gap: 10px; */
         }
 
         .user-greeting-container {
@@ -533,7 +532,12 @@
                 color: #003366;
                 font-weight: 600;
                 background-color: rgba(0, 51, 102, 0.05);
+                border-left: 4px solid #48C8D4;
             }
+
+                .custom-navbar-menu.show a.active::after {
+                    display: none;
+                }
         /* Overlay for the rest of the screen */
         .menu-overlay {
             display: none;
@@ -571,25 +575,78 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Set active class based on current URL
-        setActiveMenuItem();
+        // Active menu item functionality - FIX ĐÃ SỬA
+        function setActiveMenuItem() {
+            const currentPath = window.location.pathname;
+            const menuItems = document.querySelectorAll('.custom-navbar-menu a');
 
-        // Add click event listeners to menu items
-        var menuItems = document.querySelectorAll('.custom-navbar-menu a');
-        menuItems.forEach(function(item) {
-            item.addEventListener('click', function() {
-                // Remove active class from all items
-                menuItems.forEach(function(menuItem) {
-                    menuItem.classList.remove('active');
+            // Xóa tất cả active class trước
+            menuItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            let activeItemFound = false;
+
+            // Tìm menu item khớp chính xác với URL hiện tại
+            menuItems.forEach(item => {
+                if (activeItemFound) return; // Dừng lại khi đã tìm thấy match đầu tiên
+
+                const href = item.getAttribute('href');
+                if (!href) return;
+
+                let menuPath = href;
+
+                // Xử lý ABP tilde paths
+                if (menuPath.startsWith('~/')) {
+                    menuPath = menuPath.substring(1);
+                }
+
+                // Chuẩn hóa path
+                if (menuPath === '' || menuPath === '/Index') {
+                    menuPath = '/';
+                }
+
+                // So sánh chính xác
+                if (menuPath === currentPath ||
+                    (menuPath === '/' && (currentPath === '' || currentPath === '/' || currentPath === '/Index'))) {
+                    item.classList.add('active');
+                    activeItemFound = true;
+                }
+            });
+
+            // Nếu không tìm thấy match chính xác, tìm match theo startsWith (cho nested paths)
+            if (!activeItemFound) {
+                let bestMatch = null;
+                let bestMatchLength = 0;
+
+                menuItems.forEach(item => {
+                    const href = item.getAttribute('href');
+                    if (!href) return;
+
+                    let menuPath = href;
+
+                    if (menuPath.startsWith('~/')) {
+                        menuPath = menuPath.substring(1);
+                    }
+
+                    // Bỏ qua root path để tránh match tất cả
+                    if (menuPath === '/' || menuPath === '' || menuPath === '/Index') return;
+
+                    // Tìm match dài nhất
+                    if (currentPath.startsWith(menuPath) && menuPath.length > bestMatchLength) {
+                        bestMatch = item;
+                        bestMatchLength = menuPath.length;
+                    }
                 });
 
-                // Add active class to clicked item
-                this.classList.add('active');
+                if (bestMatch) {
+                    bestMatch.classList.add('active');
+                }
+            }
+        }
 
-                // Store active menu item path in localStorage
-                localStorage.setItem('activeMenuPath', this.getAttribute('href'));
-            });
-        });
+        // Set active menu item on page load
+        setActiveMenuItem();
 
         // Sticky navbar functionality
         var navbar = document.querySelector('.custom-navbar-bottom');
@@ -724,6 +781,9 @@
             menuOverlay.addEventListener('click', closeMobileMenu);
         }
 
+        // Get menu items for mobile menu close functionality
+        const menuItems = document.querySelectorAll('.custom-navbar-menu a');
+
         // Close menu when clicking menu items
         menuItems.forEach(function(item) {
             item.addEventListener('click', function() {
@@ -732,70 +792,16 @@
         });
     });
 
-    function setActiveMenuItem() {
-        var currentPath = window.location.pathname;
-        var menuItems = document.querySelectorAll('.custom-navbar-menu a');
-        
-        // Clear all active classes first
-        menuItems.forEach(function(item) {
-            item.classList.remove('active');
-        });
-        
-        // If on login page, don't set any menu item as active
-        if (currentPath === '/Account/Login') {
-            return;
-        }
-
-        // First try to match exact path
-        var activeFound = false;
-        menuItems.forEach(function(item) {
-            var href = item.getAttribute('href');
-            if (href === currentPath) {
-                item.classList.add('active');
-                activeFound = true;
-            }
-        });
-
-        // If no exact match, try to match the beginning of the path
-        if (!activeFound) {
-            menuItems.forEach(function(item) {
-                var href = item.getAttribute('href');
-                if (href !== '/' && currentPath.startsWith(href) && href.length > 1) {
-                    item.classList.add('active');
-                    activeFound = true;
-                }
-            });
-        }
-
-        // If still no match and we have a stored active item, use that
-        if (!activeFound) {
-            var storedPath = localStorage.getItem('activeMenuPath');
-            if (storedPath) {
-                menuItems.forEach(function(item) {
-                    if (item.getAttribute('href') === storedPath) {
-                        item.classList.add('active');
-                    }
-                });
-            } else if (currentPath === '/') {
-                // If we're on the home page and no stored path, set home link as active
-                var homeLink = document.querySelector('.custom-navbar-menu a[href="/"]');
-                if (homeLink) {
-                    homeLink.classList.add('active');
-                }
-            }
-        }
-    }
-
     function switchLanguage(language) {
         // Set the cookie immediately
         document.cookie = "Abp.Localization.CultureName=" + language + ";path=/;max-age=" + (365 * 24 * 60 * 60);
-        
+
         // Use the ABP language switch endpoint
         const url = `/Abp/Languages/Switch?culture=${language}&uiCulture=${language}`;
-        
+
         // Use only the path portion of the URL for the return URL
         const currentPath = window.location.pathname + window.location.search + window.location.hash;
-        
+
         const redirectUrl = `${url}&returnUrl=${encodeURIComponent(currentPath)}`;
         window.location.href = redirectUrl;
     }

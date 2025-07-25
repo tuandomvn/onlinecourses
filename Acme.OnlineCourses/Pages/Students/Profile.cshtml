@@ -1,7 +1,9 @@
 ﻿@page
+@using Acme.OnlineCourses.Students
 @using Microsoft.Extensions.Localization
 @using Acme.OnlineCourses.Localization
 @using Acme.OnlineCourses.Pages.Students
+@using Acme.OnlineCourses.Extensions
 @model ProfileModel
 @inject IStringLocalizer<OnlineCoursesResource> L
 @{
@@ -27,14 +29,88 @@
             background: #fafafa;
         }
 
-        @@media (max-width: 576px) {
-            .profile-card {
-                padding: 0.5rem !important;
+        .status-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+            .status-item:last-child {
+                margin-bottom: 0;
             }
 
-            .profile-header {
-                margin-bottom: 1rem;
-            }
+        .status-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.95rem;
+        }
+
+        .status-badge {
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge.bg-success {
+            background: linear-gradient(45deg, #28a745, #20c997) !important;
+            box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+        }
+
+        .badge.bg-warning {
+            background: linear-gradient(45deg, #ffc107, #fd7e14) !important;
+            color: #212529 !important;
+            box-shadow: 0 2px 4px rgba(255, 193, 7, 0.3);
+        }
+
+        .badge.bg-danger {
+            background: linear-gradient(45deg, #dc3545, #e83e8c) !important;
+            box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+        }
+
+        .badge.bg-secondary {
+            background: linear-gradient(45deg, #6c757d, #adb5bd) !important;
+            box-shadow: 0 2px 4px rgba(108, 117, 125, 0.3);
+        }
+
+        .status-icon {
+            margin-right: 0.5rem;
+            font-size: 1rem;
+        }
+
+        @@media (max-width: 576px) {
+            .profile-card
+
+        {
+            padding: 0.5rem !important;
+        }
+
+        .profile-header {
+            margin-bottom: 1rem;
+        }
+
+        .status-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .status-card {
+            padding: 1rem;
+        }
+
         }
 
         .list-group-item .btn {
@@ -48,7 +124,6 @@
 }
 
 <div class="container">
-
     <abp-card class="profile-card shadow-sm">
         <abp-card-header>
             <div class="profile-header">
@@ -56,7 +131,7 @@
             </div>
         </abp-card-header>
         <abp-card-body>
-            <form id="ProfileForm" enctype="multipart/form-data" class="row g-3">
+            <form id="ProfileForm" enctype="multipart/form-data" class="row g-2">
                 <input type="hidden" id="Student_Id" name="Student.Id" value="@Model.Student.Id" />
 
                 <div class="col-md-6">
@@ -80,21 +155,60 @@
                         <textarea asp-for="Student.StudentNote" class="form-control" rows="4"></textarea>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <label class="form-label">@L["PaymentStatus"]</label>
-                    <div class="form-control-plaintext">@Model.Student.PaymentStatus</div>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">@L["AccountStatus"]</label>
-                    <div class="form-control-plaintext">@Model.Student.AccountStatus</div>
+
+                <!-- Enhanced Status Display -->
+                <div class="col-12">
+                    <div class="status-card">
+                        <h5 class="mb-3">
+                            <i class="fas fa-info-circle text-primary"></i>
+                            @L["AccountInformation"]
+                        </h5>
+                        <div class="status-item">
+                            <span class="status-label">
+                                <i class="fas fa-credit-card status-icon text-primary"></i>
+                                @L["PaymentStatus"]
+                            </span>
+                            <span class="@Model.GetPaymentStatusBadgeClass() status-badge">
+                                @if (Model.Student.PaymentStatus == PaymentStatus.Paid)
+                                {
+                                    <i class="fas fa-check-circle me-1"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-clock me-1"></i>
+                                }
+                                @Model.GetPaymentStatusDisplay()
+                            </span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">
+                                <i class="fas fa-user-check status-icon text-primary"></i>
+                                @L["AccountStatus"]
+                            </span>
+                            <span class="@Model.GetAccountStatusBadgeClass() status-badge">
+                                @if (Model.Student.AccountStatus == AccountStatus.Sent)
+                                {
+                                    <i class="fas fa-check-circle me-1"></i>
+                                }
+                                else if (Model.Student.AccountStatus == AccountStatus.Suspended)
+                                {
+                                    <i class="fas fa-ban me-1"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-hourglass-half me-1"></i>
+                                }
+                                @Model.GetAccountStatusDisplay()
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <input type="hidden" id="Agency_Id" name="Agency.Id" value="@Model.Student.AgencyId" />
 
                 <div class="col-12">
-                    <label class="form-label">@L["Student:Attachments"]</label>
+                    <label class="form-label">@L["Attachments"]</label>
                     <input type="file" class="form-control" id="Attachments" multiple />
-                    <small class="form-text text-muted">@L["Student:AttachmentsHelp"]</small>
                 </div>
 
                 <div id="AttachmentsList" class="col-12">

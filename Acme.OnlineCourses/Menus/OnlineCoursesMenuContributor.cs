@@ -30,6 +30,7 @@ public class OnlineCoursesMenuContributor : IMenuContributor
                 "~/Index",
                 // icon: "fas fa-home",
                 order: 0
+               
             )
         );
 

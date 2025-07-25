@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Agencies.Dtos;
+using Acme.OnlineCourses.Extensions;
 using Acme.OnlineCourses.Students;
 using Acme.OnlineCourses.Students.Dtos;
 using Microsoft.AspNetCore.Authorization;
@@ -84,5 +85,37 @@ public class ProfileModel : PageModel
         }
 
         return Page();
+    }
+
+
+    public string GetPaymentStatusDisplay()
+    {
+        return Student?.PaymentStatus.GetDisplayName() ?? "";
+    }
+
+    public string GetAccountStatusDisplay()
+    {
+        return Student?.AccountStatus.GetDisplayName() ?? "";
+    }
+
+    public string GetPaymentStatusBadgeClass()
+    {
+        return Student?.PaymentStatus switch
+        {
+            PaymentStatus.Paid => "badge bg-success",
+            PaymentStatus.NotPaid => "badge bg-warning",
+            _ => "badge bg-secondary"
+        };
+    }
+
+    public string GetAccountStatusBadgeClass()
+    {
+        return Student?.AccountStatus switch
+        {
+            AccountStatus.Sent => "badge bg-success",
+            AccountStatus.NotSent => "badge bg-warning",
+            AccountStatus.Suspended => "badge bg-danger",
+            _ => "badge bg-secondary"
+        };
     }
 } 
