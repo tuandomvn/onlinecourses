@@ -52,18 +52,18 @@ public class Program
             // Đăng ký MailService với DI container
             builder.Services.AddScoped<IMailService, Helpers.MailService>();
 
-            //builder.Services.ConfigureApplicationCookie(options =>
-            //{
-            //    options.ExpireTimeSpan = TimeSpan.FromHours(10); // 10 giờ
-            //    options.SlidingExpiration = true; // Tự động gia hạn nếu còn hoạt động
-            //});
-            
-            builder.Services.AddSession(options =>
+            builder.Services.ConfigureApplicationCookie(options =>
             {
-                options.IdleTimeout = TimeSpan.FromHours(10);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
+                options.ExpireTimeSpan = TimeSpan.FromHours(10); // 10 giờ
+                options.SlidingExpiration = true; // Tự động gia hạn nếu còn hoạt động
             });
+
+            //builder.Services.AddSession(options =>
+            //{
+            //    options.IdleTimeout = TimeSpan.FromHours(10);
+            //    options.Cookie.HttpOnly = true;
+            //    options.Cookie.IsEssential = true;
+            //});
 
             builder.Services.Configure<SecurityStampValidatorOptions>(options =>
             {
@@ -75,7 +75,7 @@ public class Program
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseSession();
+            //app.UseSession();
 
             await app.InitializeApplicationAsync();
 

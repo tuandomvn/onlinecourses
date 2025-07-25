@@ -465,7 +465,9 @@
     "Footer.Social.YouTube": "YouTube",
     "Footer.Social.TikTok": "TikTok",
     "Footer.Copyright": "Copyright by TESOL Channel all rights reserved",
-    "StudentNote": "Note"
+    "StudentNote": "Note",
+    "AccountInformation": "Account Information"
+
     //
   }
 }

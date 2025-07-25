@@ -220,10 +220,6 @@
                                 <div class="list-group-item d-flex justify-content-between align-items-center flex-wrap" data-id="@attachment.Id">
                                     <div>
                                         <a href="@attachment.FilePath" target="_blank">@attachment.FileName</a>
-                                        @if (!string.IsNullOrEmpty(attachment.Description))
-                                        {
-                                            <small class="d-block text-muted">@attachment.Description</small>
-                                        }
                                     </div>
                                     <button type="button" class="btn btn-danger btn-sm delete-attachment mt-2 mt-md-0" data-id="@attachment.Id">
                                         <i class="fa fa-trash"></i>
