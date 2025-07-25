@@ -17,6 +17,7 @@
     "Menu:Login": "Đăng nhập",
     "Menu:Logout": "Đăng xuất",
     "ChangePassword": "Đổi mật khẩu",
+    "SelectAgency": "Chọn trung tâm",
     "Welcome": "Chào mừng",
     "Menu:Students:Profile": "Hồ sơ",
     "LongWelcomeMessage": "Chào mừng đến với ứng dụng. Đây là một dự án khởi đầu dựa trên framework ABP. Để biết thêm thông tin, hãy truy cập abp.io.",
