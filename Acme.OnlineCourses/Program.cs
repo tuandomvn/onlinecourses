@@ -52,22 +52,14 @@ public class Program
             // Đăng ký MailService với DI container
             builder.Services.AddScoped<IMailService, Helpers.MailService>();
 
+            // Cấu hình session timeout là 8 giờ
             builder.Services.ConfigureApplicationCookie(options =>
             {
-                options.ExpireTimeSpan = TimeSpan.FromHours(10); // 10 giờ
-                options.SlidingExpiration = true; // Tự động gia hạn nếu còn hoạt động
-            });
-
-            //builder.Services.AddSession(options =>
-            //{
-            //    options.IdleTimeout = TimeSpan.FromHours(10);
-            //    options.Cookie.HttpOnly = true;
-            //    options.Cookie.IsEssential = true;
-            //});
-
-            builder.Services.Configure<SecurityStampValidatorOptions>(options =>
-            {
-                options.ValidationInterval = TimeSpan.FromHours(10);
+                options.ExpireTimeSpan = TimeSpan.FromHours(8); // Thời gian timeout là 8 giờ
+                options.SlidingExpiration = true; // Gia hạn session khi user có hoạt động
+                options.Cookie.Name = "OnlineCourses.Auth";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
             });
 
             await builder.AddApplicationAsync<OnlineCoursesModule>();
@@ -75,7 +67,6 @@ public class Program
 
             app.UseAuthentication();
             app.UseAuthorization();
-            //app.UseSession();
 
             await app.InitializeApplicationAsync();
 
