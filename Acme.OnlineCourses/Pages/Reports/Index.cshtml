@@ -12,31 +12,20 @@
 @section scripts {
     <script>
         function handleReportTypeChange(value) {
-            debugger;
-            console.log('handleReportTypeChange called with value:', value, 'type:', typeof value);
             var agencySelect = document.getElementById('agencySelectContainer');
-            console.log('agencySelect element:', agencySelect);
             
             // AgencyReport has value 3
             if (value == 3 || value === '3' || value == 'AgencyReport') {
                 agencySelect.style.display = 'block';
-                console.log('Showing agency select');
             } else {
                 agencySelect.style.display = 'none';
-                console.log('Hiding agency select');
             }
         }
         
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded');
             var reportTypeSelect = document.getElementById('ReportType');
-            console.log('ReportType select found:', reportTypeSelect);
-            console.log('Initial value:', reportTypeSelect.value);
-            
             handleReportTypeChange(reportTypeSelect.value);
-            
             reportTypeSelect.addEventListener('change', function() {
-                console.log('ReportType changed to:', this.value);
                 handleReportTypeChange(this.value);
             });
         });
