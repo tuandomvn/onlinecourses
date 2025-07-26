@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;
-using System.ComponentModel.DataAnnotations;
-using Acme.OnlineCourses.Helpers;
+﻿using Acme.OnlineCourses.Helpers;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;
 
 namespace Acme.OnlineCourses.Pages.Account;
 
@@ -31,15 +32,20 @@ public class ForgotPasswordModel : AbpPageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+
         if (!ModelState.IsValid)
         {
+            // You may want to localize validation messages in the view model attributes.
             return Page();
         }
 
         var user = await _userManager.FindByEmailAsync(Email);
         if (user == null)
         {
-            ErrorMessage = "Không tìm thấy người dùng với email này.";
+            ErrorMessage = currentCulture == "vi"
+                ? "Không tìm thấy người dùng với email này."
+                : "No user found with this email.";
             return Page();
         }
 
@@ -56,13 +62,15 @@ public class ForgotPasswordModel : AbpPageModel
         }
 
         // Send email with new password
-         _mailService.SendResetPasswordAsync(new ResetPasswordRequest
+        await _mailService.SendResetPasswordAsync(new ResetPasswordRequest
         {
             ToEmail = Email,
             NewPassword = newPassword,
         });
 
-        SuccessMessage = "Mật khẩu mới đã được gửi tới email của bạn.";
+        SuccessMessage = currentCulture == "vi"
+            ? "Mật khẩu mới đã được gửi tới email của bạn."
+            : "A new password has been sent to your email.";
         ModelState.Clear();
 
         return Page();

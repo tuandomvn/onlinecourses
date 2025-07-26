@@ -36,22 +36,30 @@ public class ChangePasswordModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+
         if (!ModelState.IsValid)
         {
-            ErrorMessage = "Vui lòng nhập đầy đủ thông tin.";
+            ErrorMessage = currentCulture == "vi"
+                ? "Vui lòng nhập đầy đủ thông tin."
+                : "Please enter all required information.";
             return Page();
         }
 
         if (Input.NewPassword != Input.ConfirmPassword)
         {
-            ErrorMessage = "Mật khẩu mới và xác nhận mật khẩu không khớp.";
+            ErrorMessage = currentCulture == "vi"
+                ? "Mật khẩu mới và xác nhận mật khẩu không khớp."
+                : "New password and confirmation do not match.";
             return Page();
         }
 
         var user = await _userManager.FindByIdAsync(_currentUser.Id.ToString());
         if (user == null)
         {
-            ErrorMessage = "Không tìm thấy người dùng.";
+            ErrorMessage = currentCulture == "vi"
+                ? "Không tìm thấy người dùng."
+                : "User not found.";
             return Page();
         }
 
@@ -59,7 +67,9 @@ public class ChangePasswordModel : PageModel
 
         if (result.Succeeded)
         {
-            SuccessMessage = "Đổi mật khẩu thành công.";
+            SuccessMessage = currentCulture == "vi"
+                ? "Đổi mật khẩu thành công."
+                : "Password changed successfully.";
             ModelState.Clear();
             return Page();
         }
