@@ -156,6 +156,9 @@
     <None Update="Templates\UpdateAttachment.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Templates\WelcomePartnerTemplate.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Templates\WelcomeTemplate.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
