@@ -7,6 +7,9 @@ $(function () {
         modalClass: 'StudentsModal'
     });
 
+    // Add new modal manager for "Cấp tài khoản"
+    var createAccountModal = new abp.ModalManager(abp.appPath + 'Agencies/CreateAgencyAccountModal');
+
     // Add event handler for modal opened
     modalManager.onOpen(function() {
         console.log('Modal opened, initializing students table');
@@ -172,6 +175,12 @@ $(function () {
                                     //    }
                                     //},
                                     {
+                                        text: 'Cấp tài khoản',
+                                        action: function (data) {
+                                            createAccountModal.open({ id: data.record.id });
+                                        }
+                                    },
+                                    {
                                         text: l('Edit'),
                                         action: function (data) {
                                             editModal.open({ id: data.record.id });
@@ -209,6 +218,10 @@ $(function () {
     });
 
     editModal.onResult(function () {
+        dataTable.ajax.reload();
+    });
+
+    createAccountModal.onResult(function () {
         dataTable.ajax.reload();
     });
 

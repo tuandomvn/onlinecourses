@@ -112,6 +112,31 @@ namespace Acme.OnlineCourses.Helpers
             smtp.Disconnect(true);
         }
 
+        public async Task SendWelcomePartnerEmailAsync(WelcomeRequest request)
+        {
+            string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\WelcomePartnerTemplate.html";
+            StreamReader str = new StreamReader(FilePath);
+            string MailText = str.ReadToEnd();
+            str.Close();
+
+            MailText = MailText
+                .Replace("[username]", request.UserName)
+                .Replace("[email]", request.ToEmail)
+                .Replace("[password]", request.Password);
+
+            var email = new MimeMessage();
+            email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
+            email.To.Add(MailboxAddress.Parse(request.ToEmail));
+            email.Subject = $"Welcome {request.UserName}";
+            var builder = new BodyBuilder();
+            builder.HtmlBody = MailText;
+            email.Body = builder.ToMessageBody();
+            using var smtp = new SmtpClient();
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+            await smtp.SendAsync(email);
+            smtp.Disconnect(true);
+        }
         public async Task SendNotifyToAdminsAsync(NotityToAdminRequest request)
         {
             string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\Noti.html";
