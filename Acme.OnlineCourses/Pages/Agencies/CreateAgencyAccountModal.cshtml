@@ -1,4 +1,5 @@
 @page
+@using Acme.OnlineCourses.Agencies
 @using Microsoft.Extensions.Localization
 @using Acme.OnlineCourses.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
@@ -14,25 +15,36 @@
     <abp-modal>
         <abp-modal-header title="Cấp tài khoản cho Agency"></abp-modal-header>
         <abp-modal-body>
-            <abp-input asp-for="AgencyId" readonly="true" style="display: none;" />
+            @* <abp-input asp-for="AgencyId" readonly="true" style="display: none;" /> *@
             <abp-input asp-for="AgencyName" readonly="true" />
             <abp-input asp-for="AccountInfo.Email" readonly="true" label-text="Email" />
             <abp-input asp-for="AccountInfo.PhoneNumber" label-text="Số điện thoại" />
             
-            @if (!Model.IsAccountProvided)
+            @if (Model.AccountInfo.Status == AgencyStatus.Active)
             {
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle"></i>
-                    Agency này chưa có tài khoản. Bạn có thể tạo tài khoản bằng cách nhấn nút "Provide Account" bên dưới.
-                </div>
+                @if (!Model.IsAccountProvided)
+                {
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        Agency này chưa có tài khoản. Bạn có thể tạo tài khoản bằng cách nhấn nút "Provide Account" bên dưới.
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        Agency này đã có tài khoản.
+                    </div>
+                }
             }
             else
             {
                 <div class="alert alert-success">
                     <i class="fas fa-check-circle"></i>
-                    Agency này đã có tài khoản.
+                    Agency chưa active.
                 </div>
             }
+            
         </abp-modal-body>
         <abp-modal-footer>
             <abp-button button-type="Secondary" text="Cancel" data-bs-dismiss="modal" />

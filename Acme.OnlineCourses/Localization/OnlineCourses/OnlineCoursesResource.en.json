@@ -153,7 +153,7 @@
 
     //Home Page
     // Home Page - Hero Section
-    "Home.Hero.Title": "<Become a Professional<br>English Teacher",
+    "Home.Hero.Title": "Become a Professional<br>English Teacher",
     "Home.Hero.Subtitle": "Get a globally recognized TESOL certificate from LTi Australia in just 200 hours of study and practice.",
     "Home.Hero.RegisterButton": "Register Now",
     "Home.Hero.VideoAlt": "TESOL Video",
@@ -280,7 +280,7 @@
     "Register.Requirements.Requirement2": "Commit to completing the full program and practical training.",
     "Register.Requirements.Requirement3": "Agree with all the LTi Australia policies.",
     "Register.Requirements.Requirement4": "Tuition fees are collected as per LTi Australia’s regulations, ensuring transparency.",
-    "Register.Requirements.Requirement5": "Tesol Chanel assists with fee collection and guides learners through the registration process.",
+    "Register.Requirements.Requirement5": "Tesol Channel assists with fee collection and guides learners through the registration process.",
 
     // Register Page - Form Section
     "Register.Form.Title": "How to Register",
@@ -443,9 +443,9 @@
     "Contact.Phone.Label": "Phone:",
     "Contact.Phone.Value": "0838880055",
     "Contact.Email.Label": "Email:",
-    "Contact.Email.Value": "info@tesolchanel.vn",
+    "Contact.Email.Value": "info@tesolchannel.vn",
     "Contact.Website.Label": "Website:",
-    "Contact.Website.Value": "tesolchanel.vn",
+    "Contact.Website.Value": "tesolchannel.vn",
     "Contact.Address.Label": "Address:",
     "Contact.Address.Value": "B07-04 Lavida Plus Building, Tan Phong Ward, \nDistrict 7, Ho Chi Minh City, Vietnam.",
     //

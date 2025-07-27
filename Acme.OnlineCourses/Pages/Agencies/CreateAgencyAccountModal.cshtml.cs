@@ -62,6 +62,7 @@ namespace Acme.OnlineCourses.Pages.Agencies
             AgencyName = agency.Name;
             AccountInfo.Email = agency.ContactEmail;
             AccountInfo.PhoneNumber = agency.ContactPhone;
+            AccountInfo.Status = agency.Status;
             IsAccountProvided = await IsAgencyExistsAsync(agency.ContactEmail);
             return Page();
         }
@@ -125,13 +126,12 @@ namespace Acme.OnlineCourses.Pages.Agencies
             return userRoles.Contains(Roles.Agency);
         }
 
-        
-
     }
 
     public class CreateAccountDto
     {
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public AgencyStatus Status { get; set; }
     }
 }
