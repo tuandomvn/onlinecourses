@@ -122,7 +122,7 @@
     "Enum:CourseStatus:0": "Active",
     "Enum:CourseStatus:1": "Inactive",
     "Enum:CourseStatus:2": "Coming Soon",
-    "Enum:StudentCourseStatus:0": "Active",
+    "Enum:StudentCourseStatus:0": "In Progress",
     "Enum:StudentCourseStatus:1": "Completed",
     "Enum:StudentCourseStatus:2": "Cancelled",
     "Enum:StudentCourseStatus:3": "OnHold",
