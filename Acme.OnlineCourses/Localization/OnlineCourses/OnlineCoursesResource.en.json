@@ -42,6 +42,7 @@
     "NewAgency": "New Agency",
     "Code": "Code",
     "Name": "Name",
+    "OrgName": "Organization Name",
     "Description": "Description",
     "ContactEmail": "Contact Email",
     "ContactPhone": "Contact Phone",
@@ -353,7 +354,7 @@
     "Partner.Validation.Address.Required": "Please enter your address",
     "Partner.Validation.Address.MinLength": "Address must be at least 5 characters",
     "Partner.Validation.OrgName.Required": "Please enter your organization name",
-    "Partner.Validation.OrgName.MinLength": "Organization name must be at least 2 characters",
+    "Partner.Validation.OrgName.MinLength": "Organization name must be at least 5 characters",
     "Partner.Validation.Position.Required": "Please enter your position",
     "Partner.Validation.Location.Required": "Please select a location",
 

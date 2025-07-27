@@ -135,6 +135,10 @@ $(function () {
                         data: "name"
                     },
                     {
+                        title: l('OrgName'),
+                        data: "orgName"
+                    },
+                    {
                         title: l('ContactEmail'),
                         data: "contactEmail"
                     },

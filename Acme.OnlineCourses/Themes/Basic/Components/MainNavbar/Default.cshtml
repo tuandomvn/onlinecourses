@@ -12,11 +12,12 @@
     var isVietnamese = currentCulture == "vi";
     var langFlag = isVietnamese ? "https://www.flaticon.com/free-icons/vietnam" : "🇬🇧";
     var langText = isVietnamese ? "VN" : "EN";
+    var logoFile = isVietnamese ? "logo.png" : "logo_en.png";
 }
 <nav class="custom-navbar">
     <div class="custom-navbar-top">
         <a href="/" class="custom-navbar-brand" style="text-decoration: none;">
-            <img src="/images/logo/logo.png" alt="Logo" class="brand-logo" />
+            <img src="/images/logo/@logoFile" alt="Logo" class="brand-logo" />
         </a>
     </div>
     <div class="custom-navbar-bottom">

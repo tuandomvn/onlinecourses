@@ -1,11 +1,18 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Acme.OnlineCourses.Localization
+@using System.Globalization
 @inject IHtmlLocalizer<OnlineCoursesResource> L
+
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isVietnamese = currentCulture == "vi";
+    var logoFile = isVietnamese ? "logo.png" : "logo_en.png";
+}
 
 <footer class="site-footer">
     <div class="footer-content container">
         <a href="/" class="footer-brand">
-            <img src="~/images/logo/white-logo.png" alt="@L["Footer.Logo.Alt"]" class="footer-logo" />
+            <img src="~/images/logo/@logoFile" alt="@L["Footer.Logo.Alt"]" class="footer-logo" />
             <div class="footer-tagline">@L["Footer.Tagline"]</div>
         </a>
         <nav class="footer-nav">

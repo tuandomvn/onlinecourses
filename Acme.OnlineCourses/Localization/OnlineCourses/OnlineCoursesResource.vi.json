@@ -42,6 +42,7 @@
     "NewAgency": "Đại lý mới",
     "Code": "Mã",
     "Name": "Tên",
+    "OrgName": "Tên tổ chức",
     "Description": "Mô tả",
     "ContactEmail": "Email liên hệ",
     "ContactPhone": "Số điện thoại",
@@ -354,7 +355,7 @@
     "Partner.Validation.Address.Required": "Vui lòng nhập địa chỉ",
     "Partner.Validation.Address.MinLength": "Địa chỉ phải có ít nhất 5 ký tự",
     "Partner.Validation.OrgName.Required": "Vui lòng nhập tên tổ chức",
-    "Partner.Validation.OrgName.MinLength": "Tên tổ chức phải có ít nhất 2 ký tự",
+    "Partner.Validation.OrgName.MinLength": "Tên tổ chức phải có ít nhất 5 ký tự",
     "Partner.Validation.Position.Required": "Vui lòng nhập chức vụ",
     "Partner.Validation.Location.Required": "Vui lòng chọn địa điểm",
 

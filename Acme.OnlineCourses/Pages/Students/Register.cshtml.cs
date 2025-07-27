@@ -68,7 +68,7 @@ public class RegisterModel : PageModel
         Agencies = new List<SelectListItem>() { new SelectListItem(_localizer["SelectAgency"], "") };
         foreach (var agency in agencies.Items.Where(x => x.Status == AgencyStatus.Active))
         {
-            Agencies.Add(new SelectListItem(agency.Name, agency.Id.ToString()));
+            Agencies.Add(new SelectListItem(agency.OrgName, agency.Id.ToString()));
         }
 
         var courses = await _courseAppService.GetListAsync();

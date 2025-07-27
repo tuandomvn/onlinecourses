@@ -298,7 +298,8 @@
                         OrganizationName: $('#orgName').val(),
                         Position: $('#position').val(),
                         CityCode: $('#location').val(),
-                        Message: $('#message').val()
+                        Message: $('#message').val(),
+                        OrganizationName: $('#orgName').val(),
                     }
                 };
 
@@ -439,11 +440,23 @@
                 <div class="partner-form-container">
                     <form id="partnerForm" method="post">
                         @Html.AntiForgeryToken()
+
                         <div class="mb-3">
-                            <label for="fullName" class="form-label">@L["Partner.Form.FullName.Label"]</label>
-                            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="@L["Partner.Form.FullName.Placeholder"]" required="required">
+                            <label for="orgName" class="form-label">@L["Partner.Form.OrgName.Label"]</label>
+                            <input type="text" class="form-control" id="orgName" name="orgName" placeholder="@L["Partner.Form.OrgName.Placeholder"]" required="required">
                         </div>
 
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="fullName" class="form-label">@L["Partner.Form.FullName.Label"]</label>
+                                <input type="text" class="form-control" id="fullName" name="fullName" placeholder="@L["Partner.Form.FullName.Placeholder"]" required="required">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="position" class="form-label">@L["Partner.Form.Position.Label"]</label>
+                                <input type="text" class="form-control" id="position" name="position" placeholder="@L["Partner.Form.Position.Placeholder"]" required="required">
+                            </div>
+                        </div>
+                       
                         <div class="row mb-3">
                             <div class="col-md-6 mb-3 mb-md-0">
                                 <label for="phone" class="form-label">@L["Partner.Form.Phone.Label"]</label>
@@ -462,12 +475,6 @@
 
                         <div class="row mb-3">
                             <div class="col-md-6 mb-3 mb-md-0">
-                                <label for="orgName" class="form-label">@L["Partner.Form.OrgName.Label"]</label>
-                                <input type="text" class="form-control" id="orgName" name="orgName" placeholder="@L["Partner.Form.OrgName.Placeholder"]" required="required">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="position" class="form-label">@L["Partner.Form.Position.Label"]</label>
-                                <input type="text" class="form-control" id="position" name="position" placeholder="@L["Partner.Form.Position.Placeholder"]" required="required">
                             </div>
                         </div>
 

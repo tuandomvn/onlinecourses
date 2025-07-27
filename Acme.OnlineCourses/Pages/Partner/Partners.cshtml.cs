@@ -107,6 +107,7 @@ public class PartnerModel : AbpPageModel
                 CommissionPercent = 0,
                 Code = GenerateAgencyCode(request.PartnerApplication.OrganizationName),
                 CityCode = request.PartnerApplication.CityCode,
+                OrgName = request.PartnerApplication.OrganizationName,
             };
 
             await _agencytRepository.InsertAsync(agency);
