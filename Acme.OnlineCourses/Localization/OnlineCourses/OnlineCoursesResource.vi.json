@@ -343,7 +343,7 @@
     "Partner.Form.Processing": "Đang xử lý...",
 
     // Form Validation Messages
-    "Partner.Validation.FullName.Required": "Vui lòng nhập họ tên",
+    "Partner.Validation.FullName.Required": "Vui lòng nhập Họ tên",
     "Partner.Validation.FullName.MinLength": "Họ tên phải có ít nhất 2 ký tự",
     "Partner.Validation.FullName.MaxLength": "Họ tên không được vượt quá 100 ký tự",
     "Partner.Validation.Phone.Required": "Vui lòng nhập số điện thoại",
