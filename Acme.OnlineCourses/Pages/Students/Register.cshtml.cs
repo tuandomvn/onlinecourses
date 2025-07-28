@@ -41,7 +41,7 @@ public class RegisterModel : PageModel
     public List<SelectListItem> Courses { get; set; }
     public bool IsLoggedIn => _currentUser.IsAuthenticated;
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken ct = default)
     {
         // If user is logged in, check if they already have a student profile
         // TODO: as is chỉ có 1 khóa nên không cần đang kí nhiều.
@@ -71,7 +71,7 @@ public class RegisterModel : PageModel
             Agencies.Add(new SelectListItem(agency.OrgName, agency.Id.ToString()));
         }
 
-        var courses = await _courseAppService.GetListAsync();
+        var courses = await _courseAppService.GetListAsync(ct);
         Courses = new List<SelectListItem>
         {
             new SelectListItem(_localizer["SelectCourse"], "")

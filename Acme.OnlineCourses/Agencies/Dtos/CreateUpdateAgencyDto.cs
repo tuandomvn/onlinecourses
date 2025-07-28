@@ -31,9 +31,9 @@ public class CreateUpdateAgencyDto : EntityDto<Guid>
     [StringLength(512)]
     public string Address { get; set; }
 
-    [Required]
+    //[Required]
     [Range(0, 100)]
-    public decimal CommissionPercent { get; set; }
+    public decimal? CommissionPercent { get; set; }
     
     public string? CityCode { get; set; }
 

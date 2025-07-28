@@ -77,7 +77,7 @@ public class AgencyAppService :
         agency.ContactEmail = input.ContactEmail;
         agency.ContactPhone = input.ContactPhone;
         agency.Address = input.Address;
-        agency.CommissionPercent = input.CommissionPercent;
+        agency.CommissionPercent = input.CommissionPercent ?? 0;
         agency.Status = input.Status;
         agency.CityCode = input.CityCode; // Optional, can be null
         agency.OrgName = input.OrgName;

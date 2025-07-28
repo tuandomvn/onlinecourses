@@ -8,5 +8,5 @@ namespace Acme.OnlineCourses.Courses;
 
 public interface ICourseAppService : IApplicationService
 {
-    Task<List<CourseDto>> GetListAsync();
+    Task<List<CourseDto>> GetListAsync(CancellationToken ct = default);
 } 
