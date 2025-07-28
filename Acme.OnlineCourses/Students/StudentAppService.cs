@@ -28,6 +28,7 @@ public class StudentAppService : CrudAppService<
     IStudentAppService
 {
     private readonly IRepository<Student, Guid> _studentRepository;
+    private readonly IRepository<StudentCourse, Guid> _studentCourseRepository;
     private readonly ICurrentUser _currentUser;
     private readonly IIdentityUserRepository _userRepository;
     private readonly ILogger<StudentAppService> _logger;
@@ -45,7 +46,8 @@ public class StudentAppService : CrudAppService<
         IRepository<StudentAttachment, Guid> attachmentRepository,
         IHttpContextAccessor httpContextAccessor,
         IRepository<Course, Guid> courseRepository,
-        IMailService mailService)
+        IMailService mailService,
+        IRepository<StudentCourse, Guid> studentCourseRepository)
         : base(repository)
     {
         _studentRepository = repository;
@@ -64,6 +66,7 @@ public class StudentAppService : CrudAppService<
         CreatePolicyName = OnlineCoursesPermissions.Students.Create;
         UpdatePolicyName = OnlineCoursesPermissions.Students.Edit;
         DeletePolicyName = OnlineCoursesPermissions.Students.Delete;
+        _studentCourseRepository = studentCourseRepository;
     }
 
     [Authorize(OnlineCoursesPermissions.Students.Default)]
@@ -229,8 +232,7 @@ public class StudentAppService : CrudAppService<
                 CourseStatus = StudentCourseStatus.Inprogress,
                 StudentNote = input.StudentNote ?? "TBD"
             };
-            student.Courses.Add(studentCourse);
-            await _studentRepository.UpdateAsync(student);
+            await _studentCourseRepository.InsertAsync(studentCourse, autoSave: true);
         }
     }
 
