@@ -482,7 +482,7 @@
                             <label for="location" class="form-label">@L["Partner.Form.Location.Label"]</label>
                             <select class="form-select" id="location" name="location" required="required">
                                 <option value="">@L["Partner.Form.Location.Placeholder"]</option>
-                                @foreach (var location in Model.Locations)
+                                @foreach (var location in Model.Locations.Where(x => x.Value != "all"))
                                 {
                                     <option value="@location.Value">@location.Text</option>
                                 }
