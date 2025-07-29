@@ -140,7 +140,7 @@ $(function () {
         console.log('TermsLink clicked');
         
         // Load content first
-        loadTermsContent();
+        //loadTermsContent();
         
         // Then open modal
         $('#TermsModal').modal('show');

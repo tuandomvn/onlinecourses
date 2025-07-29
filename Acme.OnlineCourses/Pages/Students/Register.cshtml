@@ -2,10 +2,13 @@
 @using Microsoft.Extensions.Localization
 @using Acme.OnlineCourses.Localization
 @using Acme.OnlineCourses.Pages.Students
+@using System.Globalization
 @model RegisterModel
 @inject IStringLocalizer<OnlineCoursesResource> L
 @{
     ViewData["Title"] = L["RegisterStudent"];
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    bool isVN = currentCulture == "vi";
 }
 
 @section styles {
@@ -409,12 +412,134 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div id="TermsContent"></div>
-                <div class="form-group mt-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="ModalAgreeToTermsCheckbox">
-                        <label class="custom-control-label" for="ModalAgreeToTermsCheckbox">@L["IAgreeToTerms"]</label>
-                    </div>
+                <div id="TermsContent">
+                    @if (isVN)
+                    {
+                        <h2 class="requirements-title">Yêu Cầu Đầu Vào – Chứng Chỉ Quốc Tế</h2>
+                        <p>
+                            Chúng tôi coi trọng việc bạn có trình độ tiếng Anh nghe, nói, đọc, viết phù hợp. Điều này không chỉ giúp bạn có đủ kỹ năng để hoàn thành khóa học mà còn giúp bạn trở thành một giáo viên dạy tiếng Anh như ngôn ngữ thứ hai thành công.
+                        </p>
+                        <p>
+                            Để được nhập học vào chương trình Chứng Chỉ Quốc Tế, bạn phải cung cấp bằng chứng cho thấy bạn đáp ứng một (1) trong các điều kiện sau:
+                        </p>
+                        <ul>
+                            <li>Đạt IELTS 5.5 hoặc tương đương trong một kỳ kiểm tra tiếng Anh được công nhận (xem các mức điểm tương đương bên dưới)</li>
+                            <li>Đang theo học các khóa học yêu cầu trình độ tiếng Anh tương đương hoặc cao hơn (ví dụ như chương trình Cử nhân Đại học)</li>
+                        </ul>
+                        <p>
+                            <strong>Điểm Tương Đương cho Các Bài Kiểm Tra Tiếng Anh:</strong>
+                        </p>
+                        <ul>
+                            <li>IELTS: 5.5</li>
+                            <li>PTE Academic: 46</li>
+                            <li>TOEIC: 700</li>
+                            <li>CEFR: B1</li>
+                            <li>TOEFL (paper): 525</li>
+                            <li>TOEFL (CBT): 196</li>
+                            <li>TOEFL (IBT): 69-70</li>
+                            <li>Cambridge Exams: FCE</li>
+                            <li>ISLPR: 3</li>
+                        </ul>
+                        <p>
+                            Bạn không có bất kỳ bằng cấp nào ở trên? Nếu bạn không thể cung cấp bằng chứng về trình độ tiếng Anh, vui lòng liên hệ với chúng tôi để thảo luận về các lựa chọn có thể. Bạn có thể đủ điều kiện để làm một bài kiểm tra trình độ tiếng Anh miễn phí.
+                        </p>
+                        <hr />
+                        <h2 class="terms-title">Thông Tin, Điều Khoản và Điều Kiện Đăng Ký</h2>
+                        <p>
+                            Vui lòng đọc các Thông Tin, Điều Khoản và Điều Kiện Đăng Ký sau và đảm bảo bạn hiểu rõ trước khi tiếp tục. Nếu bạn không chắc chắn về bất kỳ điều khoản nào, vui lòng liên hệ với Tesol Channel để thảo luận trước khi hoàn thành đơn đăng ký.
+                        </p>
+                        <ol>
+                            <li>Sau khi đăng ký, bạn sẽ nhận được tài khoản thông tin cá nhân để theo dõi quá trình đăng ký của bạn.</li>
+                            <li>Nếu đăng ký của bạn không được chấp nhận, bạn sẽ nhận được email thông báo về kết quả.</li>
+                            <li>Nếu đăng ký của bạn được chấp nhận, bạn sẽ nhận được email thông báo thanh toán.</li>
+                            <li>Thanh toán được chuyển khoản 1 lần cho Tesol Channel – là nhà phân phối chính thức của Lti tại Việt nam.</li>
+                            <li>Sau khi bạn đã thanh toán thành công, cung cấp bằng chứng về khoản thanh toán bằng cách gửi file qua tài khoản thông tin cá nhân của bạn.</li>
+                            <li>Số tiền học phí Lti được niêm yết trên trang website của Tesol Channel.</li>
+                            <li>Tesol Channel sẽ không hoàn trả bất kỳ khoản thanh toán nào sau khi đã đăng ký học và thanh toán.</li>
+                            <li>Sau khi học viên thanh toán thành công, học viên sẽ được nhận tài khoản học của Lti qua email và chính thức bắt đầu học.</li>
+                            <li>Chứng chỉ sẽ không được cấp cho đến khi hoàn thành tất cả phần bài tập và thực hành theo quy định của Lti.</li>
+                            <li>Nếu học viên không hoàn thành khóa học trong thời gian đăng ký được phân bổ, học viên sẽ liên hệ với Tesol Channel để được hỗ trợ gia hạn.</li>
+                            <li>Khi đăng ký khóa học của LTi, một thỏa thuận ràng buộc sẽ được thiết lập giữa bạn và Language Training Institute, được điều chỉnh bởi các cơ quan giáo dục liên quan.</li>
+                            <li>Khi chấp nhận các điều kiện này, bạn đồng ý với các chính sách và thủ tục được nêu trong Sổ tay Học viên của Lti (chèn file sổ tay học viên ở đây).</li>
+                            <li>Khi chấp nhận các điều kiện này, bạn đồng ý với các chi tiết của khóa học (khung thời gian, ngày bắt đầu và kết thúc, địa điểm, thời gian học, v.v.) được ghi trên trang thông tin lớp học liên quan, lưu ý rằng các chi tiết này có thể thay đổi hợp lý. Nếu bạn không chắc chắn về bất kỳ chi tiết nào, vui lòng liên hệ với Tesol Channel.</li>
+                            <li>Nếu bạn dưới 18 tuổi, Tesol Channel chỉ xử lý Đơn Đăng Ký của bạn sau khi có sự đồng ý của cha mẹ hoặc người giám hộ, người này sẽ bị ràng buộc bởi các điều khoản này và chịu trách nhiệm pháp lý về tất cả các khoản thanh toán cho LTi liên quan đến khóa học của bạn.</li>
+                            <li>Học phí của đã bao gồm tất cả học phí, sách, giấy chứng chỉ tốt nghiệp.</li>
+                            <li>Khi chấp nhận các điều kiện này, bạn đồng ý rằng vì mục đích lưu trữ hồ sơ, LTi sẽ giữ lại một bản sao bài kiểm tra của bạn. Nếu bạn muốn giữ một bản sao, bạn đồng ý tự sao chép trước khi nộp và chịu trách nhiệm về mọi chi phí sao chép phát sinh. LTi sẽ chấp nhận bản sao bài kiểm tra thay cho bản gốc miễn là bản sao đó rõ ràng, dễ đọc.</li>
+                            <li>Bạn có trách nhiệm thông báo cho Tesol Chanel bằng văn bản về bất kỳ thay đổi nào đối với thông tin liên hệ của mình bao gồm; địa chỉ thư, địa chỉ email, số điện thoại liên hệ ban ngày hoặc số di động. Việc này có thể thực hiện bằng cách điền vào tài khoản thông tin cá nhân của bạn.</li>
+                            <li>Sách giáo trình TESOL Made Practical For All Situations và tài liệu TESOL mà LTi cung cấp cho bạn sẽ trở thành tài sản của bạn. Tuy nhiên, nội dung của Tài liệu Khóa học, bao gồm bản quyền và tất cả quyền sở hữu trí tuệ khác, vẫn thuộc về LTi. Bạn không được sao chép bất kỳ phần nào của khóa học hoặc tài liệu khóa học mà không có sự đồng ý bằng văn bản của LTi.</li>
+                            <li>Truy cập khóa học và tài liệu học yêu cầu bạn có kỹ năng công nghệ cơ bản và thiết bị phù hợp với kết nối internet ổn định, phần mềm xử lý văn bản, trình đọc PDF và khả năng họp trực tuyến có camera và micro.</li>
+                            <li>Mặc dù Tesol Channel sẽ hỗ trợ đề xuất các sắp xếp thực tập phù hợp (nếu áp dụng), bạn vẫn hoàn toàn chịu trách nhiệm tự sắp xếp lịch thực tập với sự tham vấn của Giảng viên.</li>
+                            <li>Bạn hiểu rằng, Tesol Channel là nhà phân phối chính thức của Lti Australia, mọi nội dung khoá học, và giáo viên và chứng chỉ Quốc Tế là do Lti Australia cung cấp. Tesol Channel hỗ trợ thu học phí và hướng dẫn học viên trong quá trình đăng ký và học.</li>
+                        </ol>
+                        <p>
+                            <strong>· Tôi cam kết rằng tôi đã hiểu và đồng ý với các Thông Tin, Điều Khoản và Điều Kiện Đăng Ký.</strong>
+                            <input type="checkbox" class="custom-control-input" id="ModalAgreeToTermsCheckbox">
+                        </p>
+                    }
+                    else
+                    {
+                        <h2 class="requirements-title">Entry Requirements – International Certificate</h2>
+                        <p>
+                            It is important to us that you have an adequate level of written and spoken English ability. This is not only so that you have the skills to complete the course, but also so that you can be a successful English as a Second Language teacher.
+                        </p>
+                        <p>
+                            In order for you to gain entry into the International Certificate, you must provide evidence showing one (1) of the following:
+                        </p>
+                        <ul>
+                            <li>Achieved an IELTS 5.5 or equivalent on an endorsed English test (see below for equivalent scores)</li>
+                            <li>Enrollment in other courses of study requiring equivalent or above levels of English ability (for example a University Bachelor Degree)</li>
+                        </ul>
+                        <p>
+                            <strong>Equivalent Scores for English Proficiency Tests:</strong>
+                        </p>
+                        <ul>
+                            <li>IELTS: 5.5</li>
+                            <li>PTE Academic: 46</li>
+                            <li>TOEIC: 700</li>
+                            <li>CEFR: B1</li>
+                            <li>TOEFL (paper): 525</li>
+                            <li>TOEFL (CBT): 196</li>
+                            <li>TOEFL (IBT): 69-70</li>
+                            <li>Cambridge Exams: FCE</li>
+                            <li>ISLPR: 3</li>
+                        </ul>
+                        <p>
+                            <strong>Don't have any of the above?</strong><br />
+                            If you are unable to provide evidence of English proficiency, please contact us to discuss what options are available. You may be eligible to complete a free English proficiency test.
+                        </p>
+                        <hr />
+                        <h2 class="terms-title">Information, Terms and Conditions of Registration</h2>
+                        <p>
+                            Please read the following Information, Terms and Conditions of Registration carefully and ensure that you fully understand them before proceeding. If you are unsure about any clause, please contact Tesol Channel for clarification before completing your application.
+                        </p>
+                        <ol>
+                            <li>After registration, you will receive a personal information account to track your application process.</li>
+                            <li>If your application is not accepted, you will receive an email notification of the result.</li>
+                            <li>If your application is accepted, you will receive a payment notification email.</li>
+                            <li>Payment is made in one transfer to Tesol Channel – the official distributor of LTi in Vietnam.</li>
+                            <li>After you have successfully made the payment, provide proof of payment by uploading the file through your personal information account.</li>
+                            <li>LTi tuition fees are listed on the Tesol Channel website.</li>
+                            <li>Tesol Channel will not refund any payments after you have registered and paid for the course.</li>
+                            <li>After successful payment, you will receive your LTi learning account via email and officially begin your studies.</li>
+                            <li>Certificates will not be issued until all assignments and practicum requirements set by LTi have been completed.</li>
+                            <li>If you do not complete the course within the allocated registration period, you must contact Tesol Channel for support with an extension.</li>
+                            <li>When enrolling in an LTi course, a binding agreement is established between you and the Language Training Institute, governed by the relevant educational authorities.</li>
+                            <li>By accepting these conditions, you agree to the policies and procedures outlined in the LTi Student Handbook (insert student handbook file here).</li>
+                            <li>By accepting these conditions, you agree to the course details (timeline, start and end dates, location, study times, etc.) as stated on the relevant class information page, noting that these details may be reasonably subject to change. If you are unsure about any details, please contact Tesol Channel.</li>
+                            <li>If you are under 18 years old, Tesol Channel will only process your application after receiving consent from your parent or guardian, who will be bound by these terms and legally responsible for all payments to LTi relating to your course.</li>
+                            <li>The tuition fee includes all course fees, books, and graduation certificate.</li>
+                            <li>By accepting these conditions, you agree that, for record-keeping purposes, LTi will retain a copy of your assessment. If you wish to keep a copy, you agree to make your own copy before submission and bear any related copying costs. LTi will accept a copy of the assessment instead of the original, as long as the copy is clear and legible.</li>
+                            <li>You are responsible for notifying Tesol Channel in writing of any changes to your contact information, including postal address, email address, daytime contact phone number, or mobile number. This can be done by updating your personal information account.</li>
+                            <li>The TESOL Made Practical For All Situations textbook and TESOL materials provided by LTi will become your property. However, the content of the Course Materials, including copyright and all other intellectual property rights, remains the property of LTi. You may not copy any part of the course or course materials without written consent from LTi.</li>
+                            <li>Accessing the course and study materials requires you to have basic technology skills and appropriate devices with a stable internet connection, word processing software, a PDF reader, and the ability to attend online meetings with a camera and microphone.</li>
+                            <li>While Tesol Channel will assist in recommending suitable practicum arrangements (if applicable), you are fully responsible for arranging your own practicum schedule in consultation with your Trainer.</li>
+                            <li>You understand that Tesol Channel is the official distributor of LTi Australia; all course content, trainers, and International Certificates are provided by LTi Australia. Tesol Channel supports fee collection and guides students throughout the registration and study process.</li>
+                        </ol>
+                        <p>
+                            <strong>• I confirm that I have read, understood, and agreed to the above Information, Terms, and Conditions of Registration.</strong>
+                            <input type="checkbox" class="custom-control-input" id="ModalAgreeToTermsCheckbox">
+                        </p>
+                    }
                 </div>
             </div>
             <div class="modal-footer">
