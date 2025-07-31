@@ -24,7 +24,7 @@
             <abp-input asp-for="Agency.ContactPhone" />
             <abp-input asp-for="Agency.Address" />
             <abp-select asp-for="Agency.CityCode" asp-items="Model.CityList" />
-            <abp-input asp-for="Agency.CommissionPercent" />
+            <abp-input asp-for="Agency.CommissionPercent" type="number" step="0.01" />
             <abp-select asp-for="Agency.Status" />
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>

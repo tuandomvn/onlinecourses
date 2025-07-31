@@ -33,6 +33,7 @@ public class CreateUpdateAgencyDto : EntityDto<Guid>
 
     //[Required]
     [Range(0, 100)]
+    [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
     public decimal? CommissionPercent { get; set; }
     
     public string? CityCode { get; set; }
