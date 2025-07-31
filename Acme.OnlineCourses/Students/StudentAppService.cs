@@ -234,6 +234,10 @@ public class StudentAppService : CrudAppService<
             };
             await _studentCourseRepository.InsertAsync(studentCourse, autoSave: true);
         }
+        else
+        {
+            _logger.LogWarning("No courses available to register student.");
+        }
     }
 
     [Authorize]
