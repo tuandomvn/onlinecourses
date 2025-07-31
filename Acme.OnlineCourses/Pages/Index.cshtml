@@ -1,9 +1,13 @@
 ﻿@page
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Acme.OnlineCourses.Localization
+@using System.Globalization
 @inject IHtmlLocalizer<OnlineCoursesResource> L
 @model Acme.OnlineCourses.Pages.IndexModel
-
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    bool isVN = currentCulture == "vi";
+}
 @section styles {
     <abp-style src="/Pages/Index.cshtml.css" />
 }
@@ -66,7 +70,14 @@
         </div>
         <div>
             <a href="https://www.lti.edu.vn/" target="_blank" rel="noopener noreferrer" style="display:inline-block;">
-                <img src="~/images/home/lti.PNG" alt="@L["Home.About.LogoAlt"]" class="animate scale-up" style="cursor:pointer;" />
+                @if (isVN)
+                {
+                    <img src="~/images/home/lti.PNG" alt="@L["Home.About.LogoAlt"]" class="animate scale-up" style="cursor:pointer;" />
+                }
+                else
+                {
+                    <img src="~/images/home/lti_en.PNG" alt="@L["Home.About.LogoAlt"]" class="animate scale-up" style="cursor:pointer;" />
+                }
             </a>
         </div>
     </div>
