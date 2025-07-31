@@ -91,132 +91,144 @@ public class StudentAppService : CrudAppService<
     [Route("api/app/student/register-student")]
     public async Task<StudentDto> RegisterStudentAsync([FromForm] RegisterStudentDto input, [FromForm] List<IFormFile> files)
     {
-        var student = new Student
+        try
         {
-            Fullname = input.Fullname,
-            Email = input.Email,
-            PhoneNumber = input.PhoneNumber,
-            DateOfBirth = input.DateOfBirth,
-            Address = input.Address,
-            AgencyId = input.AgencyId,
-            AgreeToTerms = input.AgreeToTerms
-        };
-        await _studentRepository.InsertAsync(student, autoSave: true);
-
-        var firstCourse = await _courseRepository.FirstOrDefaultAsync();
-
-        var studentAttachments = new List<StudentAttachment>();
-        if (files != null && files.Any())
-        {
-            var allowedExtensions = new[] { ".txt", ".csv", ".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png", ".xls", ".xlsx" };
-            const int maxFileSize = 10 * 1024 * 1024; // 10MB
-
-            foreach (var file in files)
+            var student = new Student
             {
-                if (file.Length > 0)
+                Fullname = input.Fullname,
+                Email = input.Email,
+                PhoneNumber = input.PhoneNumber,
+                DateOfBirth = input.DateOfBirth,
+                Address = input.Address,
+                AgencyId = input.AgencyId,
+                AgreeToTerms = input.AgreeToTerms
+            };
+            await _studentRepository.InsertAsync(student, autoSave: true);
+            _logger.LogInformation($"InsertAsync done");
+
+            var firstCourse = await _courseRepository.FirstOrDefaultAsync();
+
+            var studentAttachments = new List<StudentAttachment>();
+            if (files != null && files.Any())
+            {
+                var allowedExtensions = new[] { ".txt", ".csv", ".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png", ".xls", ".xlsx" };
+                const int maxFileSize = 10 * 1024 * 1024; // 10MB
+
+                foreach (var file in files)
                 {
-                    //Validate file extension
-                    var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
-                    if (!allowedExtensions.Contains(extension))
+                    if (file.Length > 0)
                     {
-                        _logger.LogWarning($"Invalid file extension: {extension}");
-                        throw new UserFriendlyException($"File type not allowed. Allowed types: {string.Join(", ", allowedExtensions)}");
+                        //Validate file extension
+                        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+                        if (!allowedExtensions.Contains(extension))
+                        {
+                            _logger.LogWarning($"Invalid file extension: {extension}");
+                            throw new UserFriendlyException($"File type not allowed. Allowed types: {string.Join(", ", allowedExtensions)}");
+                        }
+
+                        // Validate file size
+                        if (file.Length > maxFileSize)
+                        {
+                            _logger.LogWarning($"File too large: {file.Length} bytes");
+                            throw new UserFriendlyException($"File is too large. Maximum size allowed is 10MB.");
+                        }
+
+                        // Create upload directory if not exists
+                        var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString(), firstCourse.Id.ToString().Substring(0, 4));
+                        if (!Directory.Exists(uploadDir))
+                        {
+                            Directory.CreateDirectory(uploadDir);
+                        }
+
+                        // Generate unique filename
+                        var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+                        var filePath = Path.Combine(uploadDir, fileName);
+
+                        // Save file
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                        // Create attachment record
+                        var studentAttachment = new StudentAttachment
+                        {
+                            StudentId = student.Id,
+                            FileName = file.FileName,
+                            FilePath = $"/uploads/students/{student.Id}/{fileName}",
+                            Description = "Uploaded during registration"
+                        };
+
+                        studentAttachments.Add(studentAttachment);
                     }
-
-                    // Validate file size
-                    if (file.Length > maxFileSize)
-                    {
-                        _logger.LogWarning($"File too large: {file.Length} bytes");
-                        throw new UserFriendlyException($"File is too large. Maximum size allowed is 10MB.");
-                    }
-
-                    // Create upload directory if not exists
-                    var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString(), firstCourse.Id.ToString().Substring(0, 4));
-                    if (!Directory.Exists(uploadDir))
-                    {
-                        Directory.CreateDirectory(uploadDir);
-                    }
-
-                    // Generate unique filename
-                    var fileName = $"{Guid.NewGuid()}_{file.FileName}";
-                    var filePath = Path.Combine(uploadDir, fileName);
-
-                    // Save file
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
-
-                    // Create attachment record
-                    var studentAttachment = new StudentAttachment
-                    {
-                        StudentId = student.Id,
-                        FileName = file.FileName,
-                        FilePath = $"/uploads/students/{student.Id}/{fileName}",
-                        Description = "Uploaded during registration"
-                    };
-
-                    studentAttachments.Add(studentAttachment);
                 }
             }
-        }
 
 
-        // Get first course and create StudentCourse record
-        await InsertStudentCourse(student, input, firstCourse);
+            // Get first course and create StudentCourse record
+            await InsertStudentCourse(student, input, firstCourse);
 
-        await _attachmentRepository.InsertManyAsync(studentAttachments, autoSave: true);
+            await _attachmentRepository.InsertManyAsync(studentAttachments, autoSave: true);
+            _logger.LogInformation($"_attachmentRepository.InsertManyAsync done");
 
-        var isUserExists = await IsUserExistsAsync(input.Email);
-        if (!isUserExists)
-        {
-            _logger.LogInformation($"User with email {input.Email} does not exist.");
-            var studentUser = new IdentityUser(Guid.NewGuid(), input.Email, input.Email);
-
-            var password = PasswordGenerator.GenerateSecurePassword(8);
-
-            await _userManager.CreateAsync(studentUser, password);
-            await _userManager.AddToRoleAsync(studentUser, Roles.Student);
-
-            // Send welcome email
-            _mailService.SendWelcomeEmailAsync(new WelcomeRequest
+            var isUserExists = await IsUserExistsAsync(input.Email);
+            if (!isUserExists)
             {
-                ToEmail = input.Email,
-                UserName = input.Email,
-                Password = password,
-                CourseName = firstCourse.Name,
-            });
+                _logger.LogInformation($"User with email {input.Email} does not exist.");
+                var studentUser = new IdentityUser(Guid.NewGuid(), input.Email, input.Email);
 
-          
-            var adminUsers = await _userManager.GetUsersInRoleAsync(Roles.Administrator);
-            foreach (var admin in adminUsers)
-            {
-                _mailService.SendNotifyToAdminsAsync(new NotityToAdminRequest
+                var password = PasswordGenerator.GenerateSecurePassword(8);
+
+                await _userManager.CreateAsync(studentUser, password);
+                _logger.LogInformation($"_userManager created");
+
+                await _userManager.AddToRoleAsync(studentUser, Roles.Student);
+                _logger.LogInformation($"_userManager AddToRoleAsync done");
+
+                // Send welcome email
+                _mailService.SendWelcomeEmailAsync(new WelcomeRequest
                 {
-                    ToEmail = admin.Email,
-                    StudentName = student.Fullname,
-                    StudentEmail = student.Email,
-                    CourseName = firstCourse.Name
+                    ToEmail = input.Email,
+                    UserName = input.Email,
+                    Password = password,
+                    CourseName = firstCourse.Name,
                 });
-            }
-        }
-        else
-        {
-            var isEnglish = Thread.CurrentThread.CurrentUICulture.Name.StartsWith("en");
 
-            _logger.LogWarning($"User with email {input.Email} already exists.");
-            //throw new UserFriendlyException("A user with this email already exists. Please use a different email address.");
-            if (isEnglish)
-            {
-                throw new UserFriendlyException("A user with this email already exists. Please use a different email address.");
+
+                var adminUsers = await _userManager.GetUsersInRoleAsync(Roles.Administrator);
+                foreach (var admin in adminUsers)
+                {
+                    _mailService.SendNotifyToAdminsAsync(new NotityToAdminRequest
+                    {
+                        ToEmail = admin.Email,
+                        StudentName = student.Fullname,
+                        StudentEmail = student.Email,
+                        CourseName = firstCourse.Name
+                    });
+                }
             }
             else
             {
-                throw new UserFriendlyException("Đã có người dùng với email này. Vui lòng sử dụng địa chỉ email khác.");
-            }
-        }
+                var isEnglish = Thread.CurrentThread.CurrentUICulture.Name.StartsWith("en");
 
-        return ObjectMapper.Map<Student, StudentDto>(student);
+                _logger.LogWarning($"User with email {input.Email} already exists.");
+                if (isEnglish)
+                {
+                    throw new UserFriendlyException("A user with this email already exists. Please use a different email address.");
+                }
+                else
+                {
+                    throw new UserFriendlyException("Đã có người dùng với email này. Vui lòng sử dụng địa chỉ email khác.");
+                }
+            }
+
+            return ObjectMapper.Map<Student, StudentDto>(student);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, ex.Message, ex.StackTrace);
+            throw new UserFriendlyException("Có lỗi");
+        }
     }
 
     private async Task InsertStudentCourse(Student student, RegisterStudentDto input, Course firstCourse)
@@ -251,7 +263,7 @@ public class StudentAppService : CrudAppService<
             _logger.LogWarning("No courses available to register student.");
         }
     }
-
+    
     [Authorize]
     public async Task<StudentDto> GetByEmailAsync(string email)
     {
