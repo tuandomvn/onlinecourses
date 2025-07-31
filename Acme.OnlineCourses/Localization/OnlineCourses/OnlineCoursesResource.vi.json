@@ -54,6 +54,7 @@
     "Edit": "Sửa",
     "Delete": "Xóa",
     "AgencyDeletionConfirmationMessage": "Bạn có chắc chắn muốn xóa đại lý {0}?",
+    "Student:NoAttachments": "Không có tệp đính kèm",
     "SuccessfullyDeleted": "Xóa thành công",
     "Enum:AgencyStatus:0": "Hoạt động",
     "Enum:AgencyStatus:1": "Không hoạt động",

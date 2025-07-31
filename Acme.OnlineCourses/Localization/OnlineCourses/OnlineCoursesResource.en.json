@@ -53,6 +53,7 @@
     "Actions": "Actions",
     "Edit": "Edit",
     "Delete": "Delete",
+    "Student:NoAttachments": "No Attachments",
     "AgencyDeletionConfirmationMessage": "Are you sure you want to delete agency {0}?",
     "SuccessfullyDeleted": "Successfully deleted",
     "Enum:AgencyStatus:0": "Active",
