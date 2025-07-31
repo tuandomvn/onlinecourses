@@ -56,7 +56,7 @@ public class StudentDto : AuditedEntityDto<Guid>
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
     public DateTime? DateOfBirth { get; set; }
-    public PaymentStatus PaymentStatus { get; set; }
+    public PaymentStatus? PaymentStatus { get; set; }
     public AccountStatus AccountStatus { get; set; }
     public Guid? AgencyId { get; set; }
     public string Address { get; set; }

@@ -230,9 +230,21 @@ public class StudentAppService : CrudAppService<
                 RegistrationDate = DateTime.Now,
                 ExpectedStudyDate = input.ExpectedStudyDate.HasValue ? input.ExpectedStudyDate.Value : DateTime.MinValue,
                 CourseStatus = StudentCourseStatus.Inprogress,
+                TestStatus = TestStatus.NotTaken, // Set default value
+                PaymentStatus = PaymentStatus.NotPaid, // Set default value
                 StudentNote = input.StudentNote ?? "TBD"
             };
-            await _studentCourseRepository.InsertAsync(studentCourse, autoSave: true);
+            
+            try
+            {
+                await _studentCourseRepository.InsertAsync(studentCourse, autoSave: true);
+                _logger.LogInformation($"Successfully inserted StudentCourse for Student {student.Id} and Course {firstCourse.Id}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to insert StudentCourse for Student {student.Id} and Course {firstCourse.Id}");
+                throw new UserFriendlyException("Failed to register student for course. Please try again.");
+            }
         }
         else
         {
@@ -441,98 +453,75 @@ public class StudentAppService : CrudAppService<
     [Authorize(OnlineCoursesPermissions.Students.Default)]
     public async Task<PagedResultDto<AdminViewStudentDto>> GetStudentsWithCoursesAsync(GetStudentListDto input)
     {
-        var query = await _studentRepository.GetQueryableAsync();
+        // Alternative approach using direct join
+        var studentQuery = await _studentRepository.GetQueryableAsync();
+        var studentCourseQuery = await _studentCourseRepository.GetQueryableAsync();
+        var courseQuery = await _courseRepository.GetQueryableAsync();
 
-        // Include StudentCourse và Course để lấy thông tin khóa học
-        query = query.Include(x => x.Courses).ThenInclude(c => c.Course);
+        var query = from s in studentQuery
+                    join sc in studentCourseQuery on s.Id equals sc.StudentId into studentCourses
+                    from sc in studentCourses.DefaultIfEmpty()
+                    join c in courseQuery on sc.CourseId equals c.Id into courses
+                    from c in courses.DefaultIfEmpty()
+                    select new { Student = s, StudentCourse = sc, Course = c };
 
         if (!string.IsNullOrWhiteSpace(input.Filter))
         {
             query = query.Where(x =>
-                x.Fullname.Contains(input.Filter) ||
-                x.Email.Contains(input.Filter) ||
-                x.PhoneNumber.Contains(input.Filter)
+                x.Student.Fullname.Contains(input.Filter) ||
+                x.Student.Email.Contains(input.Filter) ||
+                x.Student.PhoneNumber.Contains(input.Filter)
             );
         }
 
-        //filter by user logged in and agency if applicable
+        // Apply other filters...
         if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email))
         {
             if (_currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
             {
-                // Lấy agencyId
-                if (_currentUser != null && _userRepository != null)
+                var agencyId = await _currentUser.GetAgencyIdAsync(_userRepository);
+                if (agencyId.HasValue)
                 {
-                    var agencyId = await _currentUser.GetAgencyIdAsync(_userRepository);
-                    if (agencyId.HasValue)
-                    {
-                        query = query.Where(x => x.AgencyId == agencyId.Value);
-                    }
+                    query = query.Where(x => x.Student.AgencyId == agencyId.Value);
                 }
             }
         }
 
         if (input.AgencyId.HasValue)
         {
-            query = query.Where(x => x.AgencyId == input.AgencyId.Value);
+            query = query.Where(x => x.Student.AgencyId == input.AgencyId.Value);
         }
 
         if (input.CourseStatus.HasValue)
         {
-            query = query.Where(x => x.Courses.Any(c => c.CourseStatus == input.CourseStatus.Value));
+            query = query.Where(x => x.StudentCourse != null && x.StudentCourse.CourseStatus == input.CourseStatus.Value);
         }
 
         var totalCount = await query.CountAsync();
-        var students = await query
+        var results = await query
             .Skip(input.SkipCount)
             .Take(input.MaxResultCount)
             .ToListAsync();
 
-        var dtos = new List<AdminViewStudentDto>();
-        foreach (var student in students)
+        var dtos = results.Select(result => new AdminViewStudentDto
         {
-            if (student.Courses.Count > 0)
-            {
-                foreach (var course in student.Courses)
-                {
-                    dtos.Add(new AdminViewStudentDto
-                    {
-                        Id = student.Id,
-                        FullName = student.Fullname,
-                        Email = student.Email,
-                        PhoneNumber = student.PhoneNumber,
-                        Address = student.Address,
-                        DateOfBirth = student.DateOfBirth,
-                        AgreeToTerms = student.AgreeToTerms,
-                        RegistrationDate = course.RegistrationDate,
-                        CourseId = course.CourseId,
-                        CourseName = course.Course?.Name,
-                        CourseStatus = course.CourseStatus,
-                        TestStatus = course.TestStatus,
-                        PaymentStatus = course.PaymentStatus,
-                        CourseNote = course.StudentNote,
-                        AgencyId = student.AgencyId,
-                        CreationTime = student.CreationTime
-                    });
-                }
-            }
-            else
-            {
-                // Nếu student không có course nào, vẫn hiển thị với thông tin cơ bản
-                dtos.Add(new AdminViewStudentDto
-                {
-                    Id = student.Id,
-                    FullName = student.Fullname,
-                    Email = student.Email,
-                    PhoneNumber = student.PhoneNumber,
-                    Address = student.Address,
-                    DateOfBirth = student.DateOfBirth,
-                    AgreeToTerms = student.AgreeToTerms,
-                    AgencyId = student.AgencyId,
-                    CreationTime = student.CreationTime
-                });
-            }
-        }
+            Id = result.Student.Id,
+            FullName = result.Student.Fullname,
+            Email = result.Student.Email,
+            PhoneNumber = result.Student.PhoneNumber,
+            Address = result.Student.Address,
+            DateOfBirth = result.Student.DateOfBirth,
+            AgreeToTerms = result.Student.AgreeToTerms,
+            RegistrationDate = result.StudentCourse?.RegistrationDate,
+            CourseId = result.StudentCourse?.CourseId,
+            CourseName = result.Course?.Name,
+            CourseStatus = result.StudentCourse?.CourseStatus,
+            TestStatus = result.StudentCourse?.TestStatus,
+            PaymentStatus = result.StudentCourse?.PaymentStatus,
+            CourseNote = result.StudentCourse?.StudentNote,
+            AgencyId = result.Student.AgencyId,
+            CreationTime = result.Student.CreationTime
+        }).ToList();
 
         _logger.LogInformation($"GetStudentsWithCoursesAsync - TotalCount: {totalCount}, ItemsCount: {dtos.Count}");
 

@@ -21,7 +21,7 @@ public class Student : AuditedAggregateRoot<Guid>
     public bool AgreeToTerms { get; set; }
     public bool IsValid { get; set; }
     public virtual ICollection<StudentAttachment> Attachments { get; set; }
-    public List<StudentCourse> Courses { get; set; }
+    public virtual ICollection<StudentCourse> Courses { get; set; }
 
     public Student()
     {
