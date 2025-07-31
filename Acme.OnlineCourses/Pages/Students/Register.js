@@ -84,8 +84,17 @@ $(function () {
             processData: false,
             contentType: false
         }).done(function () {
-            toastr.success(l('StudentRegisteredSuccessfully'));
-            
+            //toastr.success(l('StudentRegisteredSuccessfully'));
+
+            // Show success message
+            Swal.fire({
+                text: l('StudentRegisteredSuccessfully'),
+                icon: 'success',
+                confirmButtonText: l("Close")
+            });
+
+
+
             // Kiểm tra xem user đã đăng nhập chưa
             var currentUser = abp.currentUser;
             if (currentUser && currentUser.isAuthenticated) {
@@ -171,26 +180,5 @@ $(function () {
             $('#TermsModal').modal('hide');
         }
     });
-
-    function loadTermsContent() {
-        console.log('loadTermsContent...')
-        var currentLanguage = abp.localization.currentCulture.name === 'en' ? 0 : 1; // 0: en, 1: vi
-        abp.ajax({
-            url: abp.appPath + 'api/app/blog/by-code/BLG003',
-            type: 'GET',
-            data: {
-                language: currentLanguage
-            }
-        }).done(function (result) {
-            if (result) {
-                _$termsContent.html(result.content);
-            } else {
-                _$termsContent.html('<div class="alert alert-warning">' + l('BlogNotFound') + '</div>');
-            }
-        }).fail(function () {
-            _$termsContent.html('<div class="alert alert-danger">' + l('ErrorLoadingTerms') + '</div>');
-        });
-    }
-
 
 }); 
