@@ -93,6 +93,7 @@ public class AgencyAppService :
         if (input is GetAgencyListDto agencyListInput && !string.IsNullOrWhiteSpace(agencyListInput.Filter))
         {
             query = query.Where(x =>
+                x.Status == AgencyStatus.Active &&
                 x.Code.Contains(agencyListInput.Filter) ||
                 x.Name.Contains(agencyListInput.Filter) ||
                 x.ContactEmail.Contains(agencyListInput.Filter) ||
