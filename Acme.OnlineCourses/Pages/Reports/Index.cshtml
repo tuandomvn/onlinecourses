@@ -57,7 +57,7 @@
                         <option value="-1">@L["AllAgencies"]</option>
                         @foreach (var agency in Model.Agencies)
                         {
-                            <option value="@agency.Id" selected="@(agency.Id == Model.SelectedAgencyId)">@agency.Name</option>
+                            <option value="@agency.Id" selected="@(agency.Id == Model.SelectedAgencyId)">@agency.OrgName</option>
                         }
                     </select>
                 </div>
