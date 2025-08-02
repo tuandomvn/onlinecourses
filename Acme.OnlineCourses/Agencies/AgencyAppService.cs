@@ -100,6 +100,10 @@ public class AgencyAppService :
                 x.ContactPhone.Contains(agencyListInput.Filter)
             );
         }
+        else
+        {
+            query = query.Where(x => x.Status == AgencyStatus.Active);
+        }
 
         return query;
     }

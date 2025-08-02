@@ -26,7 +26,7 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync()
     {
-        var agencies = (await _agencyAppService.GetListAsync(new GetAgencyListDto())).Items.Where(e => e.Status == AgencyStatus.Active).ToList();
+        var agencies = (await _agencyAppService.GetListAsync(new GetAgencyListDto())).Items.ToList();
         Agencies = agencies;
     }
 

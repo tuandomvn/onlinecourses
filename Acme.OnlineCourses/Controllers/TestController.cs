@@ -11,19 +11,19 @@ namespace Acme.OnlineCourses.Controllers
         {
             this.mailService = mailService;
 
-            //WelcomeRequest request = new WelcomeRequest();
-            //request.ToEmail = "fcmtuan@gmail.com";
-            //request.UserName = "Chao Tu An";
+            WelcomeRequest request = new WelcomeRequest();
+            request.ToEmail = "fcmtuan@gmail.com";
+            request.UserName = "Chao Tu An, gui tu Tesol";
 
-            //try
-            //{
-            //    mailService.SendWelcomeEmailAsync(request);
-            //}
-            //catch (Exception ex)
-            //{
+            try
+            {
+                mailService.SendWelcomeEmailAsync(request);
+            }
+            catch (Exception ex)
+            {
 
-            //    throw;
-            //}
+                throw;
+            }
 
             var test = PasswordGenerator.GenerateSecurePassword(8);
         }

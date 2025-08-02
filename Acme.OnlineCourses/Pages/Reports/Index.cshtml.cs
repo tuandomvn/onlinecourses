@@ -54,7 +54,7 @@ public class IndexModel : PageModel
         {
             MaxResultCount = 1000 // Adjust as needed
         });
-        Agencies = agenciesResult.Items.Where(e=>e.Status == AgencyStatus.Active) .ToList();
+        Agencies = agenciesResult.Items.ToList();
     }
 
     public async Task<IActionResult> OnPostGenerateReportAsync()
