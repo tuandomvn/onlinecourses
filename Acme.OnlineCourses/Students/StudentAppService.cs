@@ -3,9 +3,11 @@ using Acme.OnlineCourses.Extensions;
 using Acme.OnlineCourses.Helpers;
 using Acme.OnlineCourses.Permissions;
 using Acme.OnlineCourses.Students.Dtos;
+using DocumentFormat.OpenXml.VariantTypes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Volo.Abp;
@@ -37,6 +39,9 @@ public class StudentAppService : CrudAppService<
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IRepository<Course, Guid> _courseRepository;
     private readonly IMailService _mailService;
+    private List<string> _cachedAdminEmails;
+    private DateTime _lastAdminEmailsCache = DateTime.MinValue;
+    private const int ADMIN_EMAILS_CACHE_MINUTES = 50; // Cache for 5 minutes
     public StudentAppService(
         IRepository<Student, Guid> repository,
         ICurrentUser currentUser,
@@ -67,6 +72,23 @@ public class StudentAppService : CrudAppService<
         UpdatePolicyName = OnlineCoursesPermissions.Students.Edit;
         DeletePolicyName = OnlineCoursesPermissions.Students.Delete;
         _studentCourseRepository = studentCourseRepository;
+    }
+
+    private async Task<List<string>> GetAdminEmailsAsync()
+    {
+        // Check if cache is still valid
+        if (_cachedAdminEmails != null && 
+            DateTime.Now.Subtract(_lastAdminEmailsCache).TotalMinutes < ADMIN_EMAILS_CACHE_MINUTES)
+        {
+            return _cachedAdminEmails;
+        }
+
+        // Get fresh data and update cache
+        var adminUsers = await _userManager.GetUsersInRoleAsync(Roles.Administrator);
+        _cachedAdminEmails = adminUsers.Select(u => u.Email).ToList();
+        _lastAdminEmailsCache = DateTime.Now;
+
+        return _cachedAdminEmails;
     }
 
     [Authorize(OnlineCoursesPermissions.Students.Default)]
@@ -194,18 +216,16 @@ public class StudentAppService : CrudAppService<
                     CourseName = firstCourse.Name,
                 });
 
-
-                var adminUsers = await _userManager.GetUsersInRoleAsync(Roles.Administrator);
-                foreach (var admin in adminUsers)
+                // Optimized: Get admin emails directly using projection
+                var adminEmails = await GetAdminEmailsAsync();
+                
+                _mailService.SendNotifyToAdminsAsync(new NotityToAdminRequest
                 {
-                    _mailService.SendNotifyToAdminsAsync(new NotityToAdminRequest
-                    {
-                        ToEmail = admin.Email,
-                        StudentName = student.Fullname,
-                        StudentEmail = student.Email,
-                        CourseName = firstCourse.Name
-                    });
-                }
+                    ToEmail = adminEmails,
+                    StudentName = student.Fullname,
+                    StudentEmail = student.Email,
+                    CourseName = firstCourse.Name
+                });
             }
             else
             {
@@ -246,7 +266,7 @@ public class StudentAppService : CrudAppService<
                 PaymentStatus = PaymentStatus.NotPaid, // Set default value
                 StudentNote = input.StudentNote ?? "TBD"
             };
-            
+
             try
             {
                 await _studentCourseRepository.InsertAsync(studentCourse, autoSave: true);
@@ -263,7 +283,7 @@ public class StudentAppService : CrudAppService<
             _logger.LogWarning("No courses available to register student.");
         }
     }
-    
+
     [Authorize]
     public async Task<StudentDto> GetByEmailAsync(string email)
     {
@@ -448,15 +468,14 @@ public class StudentAppService : CrudAppService<
         // Notify all admins if there was a new attachment
         if (hasNewAttachment)
         {
-            var adminUsers = await _userManager.GetUsersInRoleAsync(Roles.Administrator);
-            foreach (var admin in adminUsers)
+            // Optimized: Get admin emails directly using projection
+            var adminEmails = await GetAdminEmailsAsync();
+            
+            _mailService.SendNotifyUpdateAttachmentAsync(new NotifyUpdateAttachmentRequest
             {
-                _mailService.SendNotifyUpdateAttachmentAsync(new NotifyUpdateAttachmentRequest
-                {
-                    ToEmail = admin.Email,
-                    StudentEmail = student.Email,
-                });
-            }
+                ToEmail = adminEmails,
+                StudentEmail = student.Email,
+            });
         }
 
         return ObjectMapper.Map<Student, StudentDto>(student);

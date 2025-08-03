@@ -1,4 +1,5 @@
-﻿using MailKit.Net.Smtp;
+﻿using AutoMapper.Internal;
+using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
@@ -15,14 +16,14 @@ namespace Acme.OnlineCourses.Helpers
 
     public class NotityToAdminRequest
     {
-        public string ToEmail { get; set; }
+        public List<string> ToEmail { get; set; }
         public string CourseName { get; set; }
         public string StudentName { get; set; }
         public string StudentEmail { get; set; }
     }
     public class NotifyUpdateAttachmentRequest
     {
-        public string ToEmail { get; set; }
+        public List<string> ToEmail { get; set; }
         public string StudentEmail { get; set; }
     }
     public class ResetPasswordRequest
@@ -33,7 +34,7 @@ namespace Acme.OnlineCourses.Helpers
 
     public class MailRequest
     {
-        public string ToEmail { get; set; }
+        public List<string> ToEmail { get; set; } = new List<string>();
         public string Subject { get; set; }
         public string Body { get; set; }
         public List<IFormFile> Attachments { get; set; }
@@ -57,7 +58,13 @@ namespace Acme.OnlineCourses.Helpers
         {
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
-            email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
+            
+            // Add all recipients to the To field
+            foreach (var recipient in mailRequest.ToEmail)
+            {
+                email.To.Add(MailboxAddress.Parse(recipient));
+            }
+            
             email.Subject = mailRequest.Subject;
             var builder = new BodyBuilder();
             if (mailRequest.Attachments != null)
@@ -152,8 +159,11 @@ namespace Acme.OnlineCourses.Helpers
             {
                 Sender = MailboxAddress.Parse(_mailSettings.Mail)
             };
-            email.To.Add(MailboxAddress.Parse(request.ToEmail));
-            email.Subject = $"[Tesol Channel] - Thông báo học viên {request.StudentName} đăng ký khóa học";
+            foreach (var recipient in request.ToEmail)
+            {
+                email.To.Add(MailboxAddress.Parse(recipient));
+            }
+            email.Subject = $"[TESOL Channel] - Thông báo học viên {request.StudentName} đăng ký khóa học";
             var builder = new BodyBuilder();
             builder.HtmlBody = MailText;
             email.Body = builder.ToMessageBody();
@@ -178,8 +188,11 @@ namespace Acme.OnlineCourses.Helpers
             {
                 Sender = MailboxAddress.Parse(_mailSettings.Mail)
             };
-            email.To.Add(MailboxAddress.Parse(request.ToEmail));
-            email.Subject = $"[Tesol Channel] - Thông báo học viên {request.StudentEmail} đã cập nhật tài liệu";
+            foreach (var recipient in request.ToEmail)
+            {
+                email.To.Add(MailboxAddress.Parse(recipient));
+            }
+            email.Subject = $"[TESOL Channel] - Thông báo học viên {request.StudentEmail} đã cập nhật tài liệu";
             var builder = new BodyBuilder();
             builder.HtmlBody = MailText;
             email.Body = builder.ToMessageBody();
@@ -205,7 +218,7 @@ namespace Acme.OnlineCourses.Helpers
                 Sender = MailboxAddress.Parse(_mailSettings.Mail)
             };
             email.To.Add(MailboxAddress.Parse(request.ToEmail));
-            email.Subject = "[Tesol Channel] - Đặt lại password thành công";
+            email.Subject = "[TESOL Channel] - Đặt lại password thành công";
             var builder = new BodyBuilder();
             builder.HtmlBody = MailText;
             email.Body = builder.ToMessageBody();

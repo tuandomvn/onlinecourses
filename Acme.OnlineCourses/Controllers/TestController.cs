@@ -1,5 +1,6 @@
 ﻿using Acme.OnlineCourses.Blogs;
 using Acme.OnlineCourses.Helpers;
+using Acme.OnlineCourses.Students;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Acme.OnlineCourses.Controllers
@@ -11,13 +12,14 @@ namespace Acme.OnlineCourses.Controllers
         {
             this.mailService = mailService;
 
-            WelcomeRequest request = new WelcomeRequest();
-            request.ToEmail = "fcmtuan@gmail.com";
-            request.UserName = "Chao Tu An, gui tu Tesol";
-
+            NotityToAdminRequest request = new NotityToAdminRequest();
+            request.ToEmail = new List<string> { "fcmtuan@gmail.com", "tuandomvn@gmail.com" };
+            request.StudentName = "student.Fullname";
+            request.StudentEmail = "student.Email";
+            request.CourseName = "CourseName";
             try
             {
-                mailService.SendWelcomeEmailAsync(request);
+                mailService.SendNotifyToAdminsAsync(request);
             }
             catch (Exception ex)
             {
@@ -30,7 +32,7 @@ namespace Acme.OnlineCourses.Controllers
 
         public IActionResult Index()
         {
-           
+
             return View();
         }
     }
