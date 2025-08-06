@@ -177,7 +177,7 @@
     "Home.About.Highlight": "<b>Dưới đây là một số điểm nổi bật về LTi:</b>",
     "Home.About.LogoAlt": "LTi Australia Logo",
     "Home.About.Features.Founded.Title": "Thành lập",
-    "Home.About.Features.Founded.Description": "LTi là đơn vị tiên phong trong đào tạo TESOL tại Úc, là tổ chức đầu tiên nhận được chứng nhận của chính phủ cho Chứng chỉ TESOL vào năm 1996.",
+    "Home.About.Features.Founded.Description": "LTi là đơn vị tiên phong trong lĩnh vực đào tạo TESOL và đã phát triển chứng chỉ TESOL chính thức đầu tiên của Úc vào năm 1996.",
     "Home.About.Features.Registration.Title": "Đăng ký",
     "Home.About.Features.Registration.Description": "Chính thức đăng ký là Tổ chức Đào tạo được Chính phủ Úc công nhận (RTO số 30173) từ năm 1998.",
     "Home.About.Features.Experience.Title": "Kinh nghiệm",
@@ -232,7 +232,7 @@
     "Course.Benefits.Materials.Title": "Tài liệu học miễn phí",
     "Course.Benefits.Materials.Description": "Học viên nhận một quyển sách hỗ trợ học tập TESOL bìa cứng 335 trang do Lti biên soạn. Hỗ trợ hiệu quả cho quá trình học tập và giảng dạy sau này.",
     "Course.Benefits.LifetimeAccess.Title": "Tài khoản học trọn đời",
-    "Course.Benefits.LifetimeAccess.Description": "Học viên được cấp tài khoản học online trọn đời, có thể truy cập và ôn luyện bất cứ lúc nào.",
+    "Course.Benefits.LifetimeAccess.Description": "Tất cả học viên sẽ nhận được một eBook PDF có thể tải về, dễ đọc của cuốn 'TESOL Made Practical For All Situations, Ấn bản lần thứ 5 (ISBN: 978-0-9871861-2-6)', là nguồn tài liệu tin cậy hỗ trợ bạn trong suốt quá trình đào tạo và cả sau này.",
 
     // Course Page - Content Section
     "Course.Content.Label": "Khóa học của chúng tôi",
@@ -263,6 +263,13 @@
     "Course.Practical.PreviousButton": "Video trước",
     "Course.Practical.NextButton": "Video tiếp theo",
     "Course.Practical.VideoAlt": "Video thực hành {0}",
+    "Course.Practical.Tesol.Heading": "Bạn đang tìm kiếm khóa học TESOL nâng cao?",
+    "Course.Practical.Tesol.Subheading": "Các chương trình được Chính phủ Úc công nhận",
+    "Course.Practical.Tesol.List1": "Chứng chỉ IV về TESOL (11021NAT)",
+    "Course.Practical.Tesol.List2": "Văn bằng TESOL (11020NAT)",
+    "Course.Practical.Tesol.List3": "Chứng chỉ sau đại học về TESOL (11057NAT)",
+    "Course.Practical.Tesol.List4": "Văn bằng sau đại học về TESOL (11058NAT)",
+    "Course.Practical.Tesol.Contact": "Vui lòng liên hệ Tesol Channel để nhận được tư vấn chuyên nghiệp và hỗ trợ tốt nhất khi đăng ký.",
     //
 
     // Register Page - Pricing Section
