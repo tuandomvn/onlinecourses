@@ -164,3 +164,27 @@
         color: #e74c3c;
         line-height: 1.5;
     }
+
+
+.entry-requirements {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 32px 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 8px rgba(16,60,109,0.04);
+}
+
+    .entry-requirements h3 {
+        color: #103c6d;
+        font-weight: bold;
+    }
+
+    .entry-requirements ul {
+        margin-left: 20px;
+    }
+
+    .entry-requirements a {
+        color: #34b4a1;
+        text-decoration: underline;
+    }

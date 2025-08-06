@@ -259,30 +259,101 @@
 <!-- Section 2: Requirements -->
 <section class="requirements-section animate fade-in delay-200">
     <div class="container">
-        <div class="requirements-container">
-            <h2 class="requirements-title">@L["Register.Requirements.Title"]</h2>
-            <ul class="requirements-list">
-                <li class="animate fade-in delay-200">
-                    <i class="fas fa-circle"></i>
-                    <span>@L["Register.Requirements.Requirement1"]</span>
-                </li>
-                <li class="animate fade-in delay-200">
-                    <i class="fas fa-circle"></i>
-                    <span>@L["Register.Requirements.Requirement2"]</span>
-                </li>
-                <li class="animate fade-in delay-200">
-                    <i class="fas fa-circle"></i>
-                    <span>@L["Register.Requirements.Requirement3"]</span>
-                </li>
-                <li class="animate fade-in delay-200">
-                    <i class="fas fa-circle"></i>
-                    <span>@L["Register.Requirements.Requirement4"]</span>
-                </li>
-                <li class="animate fade-in delay-200">
-                    <i class="fas fa-circle"></i>
-                    <span>@L["Register.Requirements.Requirement5"]</span>
-                </li>
-            </ul>
+        <div class="requirements">
+            @if (isVN)
+            {
+                <div class="entry-requirements border rounded bg-white p-4 mb-4">
+                    <h3 class="mb-3">Yêu cầu đầu vào – Chứng chỉ Quốc tế</h3>
+                    <p>Để đảm bảo bạn thành công trong khóa học và với vai trò là giáo viên dạy tiếng Anh, bạn phải đạt được 2 điều kiện sau:</p>
+                    <div class="mb-3">
+                        <strong>A. Bài kiểm tra kỹ năng đầu vào</strong>
+                        <ul>
+                            <li>
+                                Đây là một phần của quá trình đăng ký, bạn cần phải tham gia bài kiểm tra đầu vào bao gồm một bài trắc nghiệm nhằm đánh giá mức độ sẵn sàng học tập của bạn thông qua việc kiểm tra các kỹ năng quan trọng như trình độ ngôn ngữ, kỹ năng sử dụng công nghệ, năng lực toán học và tư duy logic.
+                            </li>
+                            <li>
+                                Vui lòng lưu ý, bạn sẽ có tối đa 30 phút để hoàn thành bài kiểm tra và cần đạt được ít nhất 80% câu hỏi để đáp ứng yêu cầu đầu vào và tiếp tục đăng ký khoá học. (nếu bạn không đạt được 80% câu hỏi, bạn có thể thử lại sau 3 tháng).
+                            </li>
+                            <li>
+                                Để bắt đầu bài kiểm tra đầu vào, vui lòng thực hiện các bước sau:<br />
+                                Truy cập vào <a href="https://tesolcourse.online/lti/login/signup.php" target="_blank">https://tesolcourse.online/lti/login/signup.php</a> và làm theo hướng dẫn để tạo tài khoản đăng ký làm bài kiểm tra, hãy đảm bảo rằng bạn sử dụng họ tên và email của mình khớp với họ tên và email mà bạn sẽ dùng để đăng ký khoá học bên dưới.
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>B. Minh chứng về trình độ tiếng Anh</strong>
+                        <p>
+                            Yêu cầu trình độ tiếng Anh tương đương hoặc cao hơn. Vui lòng tải lên một tệp về giấy chứng nhận bảng điểm hoặc văn bằng trong phần đăng ký khoá học để cung cấp minh chứng về trình độ tiếng anh của bạn.
+                        </p>
+                        <ul>
+                            <li>IELTS: 5.5</li>
+                            <li>PTE Academic: 46</li>
+                            <li>TOEIC: 700</li>
+                            <li>CEFR: B1</li>
+                            <li>TOEFL (Paper): 525</li>
+                            <li>TOEFL (CBT): 196</li>
+                            <li>TOEFL (IBT): 69-70</li>
+                            <li>Cambridge Exams: FCE</li>
+                            <li>ISLPR: 3</li>
+                            <li>Bằng Cao đẳng, Đại học chuyên ngành ngôn ngữ Anh</li>
+                        </ul>
+                        <p>
+                            Nếu bạn không thể cung cấp minh chứng về trình độ tiếng Anh hiện có, bạn có thể làm bài kiểm tra trình độ tiếng Anh trực tuyến miễn phí tại
+                            <a href="https://www.efset.org/4-skill/" target="_blank">https://www.efset.org/4-skill/</a>
+                        </p>
+                        <p>
+                            Lưu ý rằng bài kiểm tra này mất khoảng 90 phút để đánh giá kỹ năng nói, viết, nghe và đọc tiếng Anh của bạn. Bài kiểm tra chỉ được thực hiện một lần và phải hoàn thành trong vòng 90 phút ngồi liên tục. Sau khi hoàn thành bài kiểm tra, bạn sẽ nhận được chứng chỉ kết quả của mình, bạn có thể lưu về và có thể dùng để tải lên phần đăng ký học để làm minh chứng về trình độ tiếng Anh.
+                        </p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="entry-requirements border rounded bg-white p-4 mb-4">
+                    <h3 class="mb-3 ">Entry Requirements - International Certificate</h3>
+                    <p>To ensure your success in the course and in your role as an English teacher, you must meet the following two conditions:</p>
+                    <div class="mb-3">
+                        <strong>A. Entry Skills Test</strong>
+                        <ul>
+                            <li>
+                                This is part of the registration process. You are required to take an entry test, which includes a multiple-choice quiz designed to assess your readiness for learning by evaluating important skills such as language proficiency, technology skills, mathematical ability, and logical thinking.
+                            </li>
+                            <li>
+                                Please note that you will have a maximum of 30 minutes to complete the test and must achieve at least 80% of the questions correct to meet the entry requirements and proceed with course registration. (If you do not achieve 80%, you may retake the test after 3 months.)
+                            </li>
+                            <li>
+                                To begin the entry test, please follow these steps:<br>
+                                Go to <a href="https://tesolcourse.online/lti/login/signup.php" target="_blank">https://tesolcourse.online/lti/login/signup.php</a> and follow the instructions to create an account for the test. Make sure you use your full name and email address exactly as you will use them to register for the course below.
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>B. Evidence of English Proficiency</strong>
+                        <p>
+                            An English proficiency level equivalent to or higher than the required standard is required. Please upload a file containing your certificate, transcript, or diploma in the course registration section to provide proof of your English proficiency.
+                        </p>
+                        <ul>
+                            <li>IELTS: 5.5</li>
+                            <li>PTE Academic: 46</li>
+                            <li>TOEIC: 700</li>
+                            <li>CEFR: B1</li>
+                            <li>TOEFL (Paper): 525</li>
+                            <li>TOEFL (CBT): 196</li>
+                            <li>TOEFL (IBT): 69-70</li>
+                            <li>Cambridge Exams: FCE</li>
+                            <li>ISLPR: 3</li>
+                            <li>University Bachelor Degree in English Language</li>
+                        </ul>
+                        <p>
+                            If you are unable to provide existing evidence of English proficiency, you can complete a free online English proficiency test at
+                            <a href="https://www.efset.org/4-skill/" target="_blank">https://www.efset.org/4-skill/</a>
+                        </p>
+                        <p>
+                            Please note that the test takes approximately 90 minutes to assess your English speaking, writing, listening and reading skills. The test can only be attempted once and must be completed in one sitting. Upon completing the test, you will receive a digital certificate with your results, which can be uploaded as your English proficiency evidence.
+                        </p>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </section>
