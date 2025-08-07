@@ -1,6 +1,7 @@
 ﻿using Acme.OnlineCourses.Courses;
 using Acme.OnlineCourses.Extensions;
 using Acme.OnlineCourses.Helpers;
+using Acme.OnlineCourses.Migrations;
 using Acme.OnlineCourses.Permissions;
 using Acme.OnlineCourses.Students.Dtos;
 using DocumentFormat.OpenXml.VariantTypes;
@@ -287,17 +288,51 @@ public class StudentAppService : CrudAppService<
     [Authorize]
     public async Task<StudentDto> GetByEmailAsync(string email)
     {
-        var query = await _studentRepository.GetQueryableAsync();
-        var student = await query
-            .Include(x => x.Attachments)
-            .FirstOrDefaultAsync(x => x.Email == email);
+        var studentQuery = await _studentRepository.GetQueryableAsync();
+        var studentCourseQuery = await _studentCourseRepository.GetQueryableAsync();
+        var courseQuery = await _courseRepository.GetQueryableAsync();
+
+        var query = from s in studentQuery
+                    join sc in studentCourseQuery on s.Id equals sc.StudentId into studentCourses
+                    from sc in studentCourses.DefaultIfEmpty()
+                    join c in courseQuery on sc.CourseId equals c.Id into courses
+                    from c in courses.DefaultIfEmpty()
+                    select new { Student = s, StudentCourse = sc, Course = c };
+
+        var student = await query.Where(x => x.Student.Email == email).Select(result => new StudentDto
+        {
+            Id = result.Student.Id,
+            FirstName = "", // Student entity doesn't have FirstName
+            LastName = "",  // Student entity doesn't have LastName
+            FullName = result.Student.Fullname,
+            Email = result.Student.Email,
+            PhoneNumber = result.Student.PhoneNumber,
+            DateOfBirth = result.Student.DateOfBirth,
+            PaymentStatus = result.StudentCourse != null ? result.StudentCourse.PaymentStatus : null,
+            AgencyId = result.Student.AgencyId,
+            Address = result.Student.Address,
+            AgreeToTerms = result.Student.AgreeToTerms,
+            StudentNote = result.StudentCourse != null ? result.StudentCourse.StudentNote : null,
+            Attachments = null, // Will be loaded separately
+            Courses = null,     // Will be loaded separately
+            
+            // Audit fields from base class
+            CreationTime = result.Student.CreationTime,
+            CreatorId = result.Student.CreatorId,
+            LastModificationTime = result.Student.LastModificationTime,
+            LastModifierId = result.Student.LastModifierId
+        }).FirstOrDefaultAsync();
 
         if (student == null)
         {
             throw new UserFriendlyException("Student not found");
         }
+        // Load attachments separately
+        var attachments = await _attachmentRepository.GetListAsync(x => x.StudentId == student.Id);
+        student.Attachments = ObjectMapper.Map<List<StudentAttachment>, List<StudentAttachmentDto>>(attachments);
 
-        return ObjectMapper.Map<Student, StudentDto>(student);
+      
+        return student;
     }
 
     [Authorize]

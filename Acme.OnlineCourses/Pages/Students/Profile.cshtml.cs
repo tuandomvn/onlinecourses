@@ -90,7 +90,7 @@ public class ProfileModel : PageModel
 
     public string GetPaymentStatusDisplay()
     {
-        return Student?.PaymentStatus.GetDisplayName() ?? "";
+        return Student?.PaymentStatus?.GetDisplayName() ?? "";
     }
 
     public string GetAccountStatusDisplay()
