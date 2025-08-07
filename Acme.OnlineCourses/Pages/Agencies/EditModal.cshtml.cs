@@ -9,13 +9,18 @@ using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Volo.Abp.Identity;
 using Volo.Abp.ObjectMapping;
+using Volo.Abp.Users;
+using static Acme.OnlineCourses.OnlineCoursesConsts;
 
 namespace Acme.OnlineCourses.Pages.Agencies
 {
     [Authorize(Roles = OnlineCoursesConsts.Roles.Administrator)]
     public class EditModalModel : PageModel
     {
+        private readonly IIdentityUserRepository _userRepository;
+
         [HiddenInput]
         [BindProperty(SupportsGet = true)]
         public Guid Id { get; set; }
@@ -31,20 +36,42 @@ namespace Acme.OnlineCourses.Pages.Agencies
         public List<SelectListItem> CityList { get; set; }
         public EditModalModel(
             IAgencyAppService agencyAppService,
+            IIdentityUserRepository userRepository,
             IStringLocalizer<OnlineCoursesResource> localizer,
             IObjectMapper objectMapper)
         {
             _agencyAppService = agencyAppService;
             _localizer = localizer;
             _objectMapper = objectMapper;
+            _userRepository = userRepository;
         }
 
         public async Task OnGetAsync()
         {
             var agency = await _agencyAppService.GetAsync(Id);
             Agency = _objectMapper.Map<AgencyDto, CreateUpdateAgencyDto>(agency);
+            Agency.IsAccountProvided = await IsAgencyExistsAsync(agency.ContactEmail);
             StatusList = GetStatusList();
             CityList = GetCityList(); // Add this line
+        }
+        public async Task<bool> IsAgencyExistsAsync(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return false;
+            }
+
+            var normalizedEmail = email.ToUpperInvariant();
+            var user = await _userRepository.FindByNormalizedUserNameAsync(normalizedEmail);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            // Kiểm tra xem user có role Agency hay không
+            var userRoles = await _userRepository.GetRoleNamesAsync(user.Id);
+            return userRoles.Contains(Roles.Agency);
         }
 
         public async Task<IActionResult> OnPostAsync()

@@ -20,7 +20,7 @@
             <abp-input asp-for="Agency.Name" />
             <abp-input asp-for="Agency.OrgName" />
             <abp-input asp-for="Agency.Description" />
-            <abp-input asp-for="Agency.ContactEmail" />
+            <abp-input asp-for="Agency.ContactEmail" readonly="(Model.Agency.IsAccountProvided)" />
             <abp-input asp-for="Agency.ContactPhone" />
             <abp-input asp-for="Agency.Address" />
             <abp-select asp-for="Agency.CityCode" asp-items="Model.CityList" />

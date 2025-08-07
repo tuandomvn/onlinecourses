@@ -60,6 +60,34 @@ public class AgencyAppService :
         };
     }
 
+    public async Task<PagedResultDto<AgencyDto>> GetListAllAgencyAsync(PagedAndSortedResultRequestDto input)
+    {
+        var query = await base.CreateFilteredQueryAsync(input);
+
+        if (input is GetAgencyListDto agencyListInput && !string.IsNullOrWhiteSpace(agencyListInput.Filter))
+        {
+            query = query.Where(x =>
+                x.Code.Contains(agencyListInput.Filter) ||
+                x.Name.Contains(agencyListInput.Filter) ||
+                x.ContactEmail.Contains(agencyListInput.Filter) ||
+                x.ContactPhone.Contains(agencyListInput.Filter)
+            );
+        }
+
+        var totalCount = await query.CountAsync();
+        var items = await query
+            .Skip(input.SkipCount)
+            .Take(input.MaxResultCount)
+            .OrderBy(e=>e.Name)
+            .ToListAsync();
+
+        return new PagedResultDto<AgencyDto>
+        {
+            TotalCount = totalCount,
+            Items = _objectMapper.Map<Agency[], AgencyDto[]>(items.ToArray())
+        };
+    }
+
     public override async Task<AgencyDto> CreateAsync(CreateUpdateAgencyDto input)
     {
         var agency = _objectMapper.Map<CreateUpdateAgencyDto, Agency>(input);

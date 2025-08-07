@@ -7,7 +7,7 @@
             const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             const string lowercase = "abcdefghijklmnopqsrstuvwxyz";
             const string digits = "0123456789";
-            const string specialChars = "!@#$%^&*()-_=+<>?";
+            //const string specialChars = "!@#$%^&*()-_=+<>?";
 
             var random = new Random();
 
@@ -16,10 +16,10 @@
               uppercase[random.Next(uppercase.Length)],
               lowercase[random.Next(lowercase.Length)],
               digits[random.Next(digits.Length)],
-              specialChars[random.Next(specialChars.Length)]
+            //  specialChars[random.Next(specialChars.Length)]
             };
 
-            string allChars = uppercase + lowercase + digits + specialChars;
+            string allChars = uppercase + lowercase + digits; //+ specialChars;
             for (int i = password.Count; i < length; i++)
             {
                 password.Add(allChars[random.Next(allChars.Length)]);

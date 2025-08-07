@@ -39,4 +39,5 @@ public class CreateUpdateAgencyDto : EntityDto<Guid>
     public string? CityCode { get; set; }
 
     public AgencyStatus Status { get; set; }
+    public bool IsAccountProvided { get; set; }
 } 

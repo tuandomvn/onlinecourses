@@ -124,7 +124,7 @@ $(function () {
                 paging: true,
                 order: [[1, "asc"]],
                 searching: false,
-                ajax: abp.libs.datatables.createAjax(acme.onlineCourses.agencies.agency.getList),
+                ajax: abp.libs.datatables.createAjax(acme.onlineCourses.agencies.agency.getListAllAgency),
                 columnDefs: [
                     {
                         title: l('Code'),
