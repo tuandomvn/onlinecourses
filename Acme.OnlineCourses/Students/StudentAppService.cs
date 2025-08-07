@@ -157,7 +157,7 @@ public class StudentAppService : CrudAppService<
                         }
 
                         // Create upload directory if not exists
-                        var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString(), firstCourse.Id.ToString().Substring(0, 4));
+                        var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString());
                         if (!Directory.Exists(uploadDir))
                         {
                             Directory.CreateDirectory(uploadDir);

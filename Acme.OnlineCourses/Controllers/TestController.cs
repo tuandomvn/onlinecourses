@@ -12,20 +12,20 @@ namespace Acme.OnlineCourses.Controllers
         {
             this.mailService = mailService;
 
-            NotityToAdminRequest request = new NotityToAdminRequest();
-            request.ToEmail = new List<string> { "fcmtuan@gmail.com", "tuandomvn@gmail.com" };
-            request.StudentName = "student.Fullname";
-            request.StudentEmail = "student.Email";
-            request.CourseName = "CourseName";
-            try
-            {
-                mailService.SendNotifyToAdminsAsync(request);
-            }
-            catch (Exception ex)
-            {
+            //NotityToAdminRequest request = new NotityToAdminRequest();
+            //request.ToEmail = new List<string> { "fcmtuan@gmail.com", "tuandomvn@gmail.com" };
+            //request.StudentName = "student.Fullname";
+            //request.StudentEmail = "student.Email";
+            //request.CourseName = "CourseName";
+            //try
+            //{
+            //    mailService.SendNotifyToAdminsAsync(request);
+            //}
+            //catch (Exception ex)
+            //{
 
-                throw;
-            }
+            //    throw;
+            //}
 
             var test = PasswordGenerator.GenerateSecurePassword(8);
         }
