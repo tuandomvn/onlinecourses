@@ -1,4 +1,5 @@
-﻿using Acme.OnlineCourses.Courses;
+﻿using Acme.OnlineCourses.Agencies;
+using Acme.OnlineCourses.Courses;
 using Acme.OnlineCourses.Extensions;
 using Acme.OnlineCourses.Helpers;
 using Acme.OnlineCourses.Migrations;
@@ -39,6 +40,7 @@ public class StudentAppService : CrudAppService<
     private readonly IRepository<StudentAttachment, Guid> _attachmentRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IRepository<Course, Guid> _courseRepository;
+    private readonly IRepository<Agency, Guid> _agencyRepository;
     private readonly IMailService _mailService;
     private List<string> _cachedAdminEmails;
     private DateTime _lastAdminEmailsCache = DateTime.MinValue;
@@ -52,6 +54,7 @@ public class StudentAppService : CrudAppService<
         IRepository<StudentAttachment, Guid> attachmentRepository,
         IHttpContextAccessor httpContextAccessor,
         IRepository<Course, Guid> courseRepository,
+        IRepository<Agency, Guid> agencyRepository,
         IMailService mailService,
         IRepository<StudentCourse, Guid> studentCourseRepository)
         : base(repository)
@@ -64,6 +67,7 @@ public class StudentAppService : CrudAppService<
         _attachmentRepository = attachmentRepository;
         _httpContextAccessor = httpContextAccessor;
         _courseRepository = courseRepository;
+        _agencyRepository = agencyRepository;
         _mailService = mailService;
 
 
@@ -516,9 +520,19 @@ public class StudentAppService : CrudAppService<
         return ObjectMapper.Map<Student, StudentDto>(student);
     }
 
-    [Authorize(OnlineCoursesPermissions.Students.Default)]
+    [Authorize(Roles = OnlineCoursesConsts.Roles.Administrator + "," + OnlineCoursesConsts.Roles.Agency)]
     public async Task<PagedResultDto<AdminViewStudentDto>> GetStudentsWithCoursesAsync(GetStudentListDto input)
     {
+        // Get current user's agencyId
+        Guid? currentUserAgencyId = null;
+        if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email))
+        {
+            if (_currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+            {
+                currentUserAgencyId = await _currentUser.GetAgencyIdAsync(_userRepository, _agencyRepository);
+            }
+        }
+
         // Alternative approach using direct join
         var studentQuery = await _studentRepository.GetQueryableAsync();
         var studentCourseQuery = await _studentCourseRepository.GetQueryableAsync();
@@ -540,17 +554,9 @@ public class StudentAppService : CrudAppService<
             );
         }
 
-        // Apply other filters...
-        if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email))
+        if (currentUserAgencyId.HasValue)
         {
-            if (_currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
-            {
-                var agencyId = await _currentUser.GetAgencyIdAsync(_userRepository);
-                if (agencyId.HasValue)
-                {
-                    query = query.Where(x => x.Student.AgencyId == agencyId.Value);
-                }
-            }
+            query = query.Where(x => x.Student.AgencyId == currentUserAgencyId.Value);
         }
 
         if (input.AgencyId.HasValue)
@@ -591,11 +597,13 @@ public class StudentAppService : CrudAppService<
 
         _logger.LogInformation($"GetStudentsWithCoursesAsync - TotalCount: {totalCount}, ItemsCount: {dtos.Count}");
 
-        return new PagedResultDto<AdminViewStudentDto>
+        var result = new PagedResultDto<AdminViewStudentDto>
         {
             TotalCount = totalCount,
             Items = dtos
         };
+
+        return result;
     }
 
     [Authorize(OnlineCoursesPermissions.Students.Default)]
