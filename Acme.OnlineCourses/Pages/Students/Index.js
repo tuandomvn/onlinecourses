@@ -11,6 +11,7 @@ $(function () {
             searching: false,
             ajax: abp.libs.datatables.createAjax(acme.onlineCourses.students.student.getStudentsWithCourses, function () {
                 return {
+                    filter: $('#StudentNameFilter').val(),
                     courseStatus: $('#CourseStatusFilter').val(),
                     agencyId: $('#AgencyFilter').val(),
                 };
@@ -27,6 +28,10 @@ $(function () {
                 {
                     title: l('PhoneNumber'),
                     data: "phoneNumber"
+                },
+                {
+                    title: l('AgencyName'),
+                    data: "agencyName"
                 },
                 {
                     title: l('RegistrationDate'),
@@ -118,5 +123,13 @@ $(function () {
 
     $('#AgencyFilter').change(function () {
         dataTable.ajax.reload();
+    });
+
+    var debounceTimer;
+    $('#StudentNameFilter').on('input', function () {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function () {
+            dataTable.ajax.reload();
+        }, 300);
     });
 }); 

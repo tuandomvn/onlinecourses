@@ -18,6 +18,10 @@
     <abp-card-body>
         <div class="row mb-3">
             <div class="col-md-3">
+                <label for="StudentNameFilter">@L["SearchByFullName"]</label>
+                <input id="StudentNameFilter" class="form-control" type="text" />
+            </div>
+            <div class="col-md-3">
                 <label for="CourseStatusFilter">@L["FilterByCourseStatus"]</label>
                 <select id="CourseStatusFilter" class="form-control">
                     <option value="">@L["AllCourseStatuses"]</option>
@@ -48,6 +52,7 @@
                     <th>@L["FullName"]</th>
                     <th>@L["Email"]</th>
                     <th>@L["PhoneNumber"]</th>
+                    <th>@L["AgencyName"]</th>
                     <th>@L["RegistrationDate"]</th>
                     <th>@L["CourseName"]</th>
                     <th>@L["CourseStatus"]</th>

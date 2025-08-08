@@ -306,8 +306,8 @@ public class StudentAppService : CrudAppService<
         var student = await query.Where(x => x.Student.Email == email).Select(result => new StudentDto
         {
             Id = result.Student.Id,
-            FirstName = "", // Student entity doesn't have FirstName
-            LastName = "",  // Student entity doesn't have LastName
+            //FirstName = "", // Student entity doesn't have FirstName
+            //LastName = "",  // Student entity doesn't have LastName
             FullName = result.Student.Fullname,
             Email = result.Student.Email,
             PhoneNumber = result.Student.PhoneNumber,
@@ -537,13 +537,16 @@ public class StudentAppService : CrudAppService<
         var studentQuery = await _studentRepository.GetQueryableAsync();
         var studentCourseQuery = await _studentCourseRepository.GetQueryableAsync();
         var courseQuery = await _courseRepository.GetQueryableAsync();
+        var agencyQuery = await _agencyRepository.GetQueryableAsync();
 
         var query = from s in studentQuery
                     join sc in studentCourseQuery on s.Id equals sc.StudentId into studentCourses
                     from sc in studentCourses.DefaultIfEmpty()
                     join c in courseQuery on sc.CourseId equals c.Id into courses
                     from c in courses.DefaultIfEmpty()
-                    select new { Student = s, StudentCourse = sc, Course = c };
+                    join a in agencyQuery on s.AgencyId equals a.Id into agencies
+                    from a in agencies.DefaultIfEmpty()
+                    select new { Student = s, StudentCourse = sc, Course = c, Agency = a };
 
         if (!string.IsNullOrWhiteSpace(input.Filter))
         {
@@ -592,6 +595,7 @@ public class StudentAppService : CrudAppService<
             PaymentStatus = result.StudentCourse?.PaymentStatus,
             CourseNote = result.StudentCourse?.StudentNote,
             AgencyId = result.Student.AgencyId,
+            AgencyName = result.Agency != null ? result.Agency.OrgName : null,
             CreationTime = result.Student.CreationTime
         }).ToList();
 

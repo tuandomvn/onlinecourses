@@ -25,6 +25,9 @@ public class AdminViewStudentDto : StudentDto
     public string? CourseNote { get; set; }
     // Thêm role của user hiện tại
     public string? CurrentUserRole { get; set; }
+
+    // Thông tin đại lý để hiển thị trên grid
+    public string? AgencyName { get; set; }
 }
 
 //DTO mới cho việc cập nhật StudentCourse
