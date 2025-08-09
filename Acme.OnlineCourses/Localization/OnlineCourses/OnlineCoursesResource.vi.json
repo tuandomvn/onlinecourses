@@ -286,9 +286,8 @@
     "Register.Pricing.Feature3": "Giảng viên nước ngoài",
     "Register.Pricing.Feature4": "Hỗ trợ cá nhân 1:1",
     "Register.Pricing.Feature5": "Chứng chỉ quốc tế",
-    "Register.Pricing.Feature6": "Tài khoản học trọn đời",
+    "Register.Pricing.Feature6": "Tài khoản cá nhân",
 
-    // Register Page - Requirements Section
     "Register.Requirements.Title": "Yêu cầu đăng ký khóa TESOL Online",
     "Register.Requirements.Requirement1": "Đáp ứng tiêu chí năng lực tiếng Anh cơ bản (có thể cần làm bài kiểm tra đầu vào nếu cần thiết).",
     "Register.Requirements.Requirement2": "Cam kết hoàn thành đầy đủ chương trình học và thực hành.",
@@ -296,7 +295,6 @@
     "Register.Requirements.Requirement4": "Học phí được thu theo quy định của LTi Australia, đảm bảo minh bạch.",
     "Register.Requirements.Requirement5": "TESOL Channel hỗ trợ thu phí và hướng dẫn học viên trong quá trình đăng ký và học.",
 
-    // Register Page - Form Section
     "Register.Form.Title": "Đăng ký ngay",
     "Register.Form.Subtitle": "Đăng ký ngay tại đây hoặc liên hệ trung tâm đối tác gần nhất để được tư vấn và hỗ trợ đăng ký nhanh chóng.",
     "Register.Form.FullnamePlaceholder": "Nhập Họ & Tên",
@@ -478,7 +476,7 @@
     "Footer.Social.Facebook": "Facebook",
     "Footer.Social.YouTube": "YouTube",
     "Footer.Social.TikTok": "TikTok",
-    "Footer.Copyright": "Copyright by TESOL Channel all rights reserved",
+    "Footer.Copyright": "Copyright by TESOL Channel. All rights reserved",
     "StudentNote": "Ghi chú",
     "AccountInformation": "Trạng thái",
 
