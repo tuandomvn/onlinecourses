@@ -78,7 +78,7 @@ public class AgencyAppService :
         var items = await query
             .Skip(input.SkipCount)
             .Take(input.MaxResultCount)
-            .OrderBy(e=>e.Name)
+            .OrderByDescending(e => e.CreationTime)
             .ToListAsync();
 
         return new PagedResultDto<AgencyDto>
@@ -133,6 +133,7 @@ public class AgencyAppService :
             query = query.Where(x => x.Status == AgencyStatus.Active);
         }
 
+        query = query.OrderBy(e => e.Name);
         return query;
     }
 
@@ -165,7 +166,6 @@ public class AgencyAppService :
         };
     }
 
-    // acme.onlineCourses.agencies.agency.getStudentsList
     // goi từ Agency > Students Model
     public async Task<PagedResultDto<StudentDto>> GetStudentsListAsync(GetStudentFromAgencyDto input)
     {
@@ -176,6 +176,7 @@ public class AgencyAppService :
         var items = await query
             .Skip(input.SkipCount)
             .Take(input.MaxResultCount)
+            .OrderByDescending(e => e.CreationTime)
             .ToListAsync();
 
         return new PagedResultDto<StudentDto>
@@ -194,6 +195,7 @@ public class AgencyAppService :
         var items = await query
             .Skip(dto.SkipCount)
             .Take(dto.MaxResultCount)
+            .OrderByDescending(e => e.CreationTime)
             .ToListAsync();
 
         return new PagedResultDto<StudentDto>

@@ -30,7 +30,6 @@ public class AdminViewStudentDto : StudentDto
     public string? AgencyName { get; set; }
 }
 
-//DTO mới cho việc cập nhật StudentCourse
 public class UpdateStudentCourseDto
 {
     public Guid StudentId { get; set; }
@@ -53,8 +52,10 @@ public class UpdateStudentCourseDto
 //Share info
 public class StudentDto : AuditedEntityDto<Guid>
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+    //[Obsolete]
+    //public string FirstName { get; set; }
+    //[Obsolete]
+    //public string LastName { get; set; }
     public string FullName { get; set; }
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
@@ -69,14 +70,14 @@ public class StudentDto : AuditedEntityDto<Guid>
     public List<StudentCourseDto> Courses { get; set; }
 
     // Thêm các field từ StudentCourse để hiển thị trên index
-    [Obsolete]
-    public DateTime? RegistrationDate { get; set; }
-    [Obsolete]
-    public StudentCourseStatus? CourseStatus { get; set; }
-    [Obsolete]
-    public TestStatus? TestStatus { get; set; }
-    [Obsolete]
-    public string? CourseNote { get; set; }
+    //[Obsolete]
+    //public DateTime? RegistrationDate { get; set; }
+    //[Obsolete]
+    //public StudentCourseStatus? CourseStatus { get; set; }
+    //[Obsolete]
+    //public TestStatus? TestStatus { get; set; }
+    //[Obsolete]
+    //public string? CourseNote { get; set; }
 }
 
 public class StudentAttachmentDto

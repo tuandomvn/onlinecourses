@@ -110,6 +110,8 @@ public class StudentAppService : CrudAppService<
             );
         }
 
+        query = query.OrderByDescending(x => x.CreationTime);
+
         return query;
     }
 
@@ -306,8 +308,6 @@ public class StudentAppService : CrudAppService<
         var student = await query.Where(x => x.Student.Email == email).Select(result => new StudentDto
         {
             Id = result.Student.Id,
-            //FirstName = "", // Student entity doesn't have FirstName
-            //LastName = "",  // Student entity doesn't have LastName
             FullName = result.Student.Fullname,
             Email = result.Student.Email,
             PhoneNumber = result.Student.PhoneNumber,
@@ -576,6 +576,7 @@ public class StudentAppService : CrudAppService<
         var results = await query
             .Skip(input.SkipCount)
             .Take(input.MaxResultCount)
+            .OrderByDescending(x => x.Student.CreationTime)
             .ToListAsync();
 
         var dtos = results.Select(result => new AdminViewStudentDto
