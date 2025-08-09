@@ -25,7 +25,7 @@ public class OnlineCoursesBrandingProvider : DefaultBrandingProvider
             try
             {
                 var appName = _localizer["AppName"];
-                _logger.LogInformation("Localized AppName: {AppName}", appName);
+                //_logger.LogInformation("Localized AppName: {AppName}", appName);
                 return appName;
             }
             catch (Exception ex)

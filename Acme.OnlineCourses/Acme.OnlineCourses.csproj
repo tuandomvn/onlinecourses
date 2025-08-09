@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <UserSecretsId>f86f9223-da41-4dbc-be14-477fa9e79875</UserSecretsId>
-    <!--<StaticWebAssetBasePath>/</StaticWebAssetBasePath>-->
+    <StaticWebAssetBasePath>/</StaticWebAssetBasePath>
   </PropertyGroup>
 
   <ItemGroup>
