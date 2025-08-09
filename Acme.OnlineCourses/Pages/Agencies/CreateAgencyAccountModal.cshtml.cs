@@ -94,7 +94,7 @@ namespace Acme.OnlineCourses.Pages.Agencies
                         ToEmail = AccountInfo.Email,
                         UserName = AccountInfo.Email,
                         Password = password
-                    });
+                    }, true);
                 }
 
                 return new OkResult();

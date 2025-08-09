@@ -1,18 +1,27 @@
 ﻿using Acme.OnlineCourses.Agencies;
+using Acme.OnlineCourses.Helpers;
+using Acme.OnlineCourses.Students;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Identity;
+using static Acme.OnlineCourses.OnlineCoursesConsts;
 
 namespace Acme.OnlineCourses.Pages.Partner;
 
 public class PartnerModel : AbpPageModel
 {
     private readonly IRepository<Agency, Guid> _agencytRepository;
-    public PartnerModel(IRepository<Agency, Guid> agencytRepository)
+    private readonly IMailService _mailService;
+    private readonly IdentityUserManager _userManager;
+    public PartnerModel(IRepository<Agency, Guid> agencytRepository, IMailService mailService, IdentityUserManager userManager)
     {
         _agencytRepository = agencytRepository;
+        _mailService = mailService;
+        _userManager = userManager;
     }
 
     public List<Agency> Agencies { get; set; }
@@ -112,6 +121,22 @@ public class PartnerModel : AbpPageModel
 
             await _agencytRepository.InsertAsync(agency);
 
+            // Send welcome email to partner contact
+            _mailService.SendWelcomePartnerEmailAsync(new WelcomeRequest
+            {
+                ToEmail = request.PartnerApplication.Email,
+            }, false);
+
+            // Optimized: Get admin emails directly using projection
+            var adminEmails = await GetAdminEmailsAsync();
+
+            _mailService.SendNotifyNewPartnerToAdminsAsync(new NotityNewPartnerToAdminRequest
+            {
+                ToEmail = adminEmails,
+                Name = agency.Name,
+                Email = agency.ContactEmail
+            });
+
             return new JsonResult(new { success = true });
         }
         catch (System.Exception ex)
@@ -123,7 +148,13 @@ public class PartnerModel : AbpPageModel
             });
         }
     }
+    private async Task<List<string>> GetAdminEmailsAsync()
+    {
+        var adminUsers = await _userManager.GetUsersInRoleAsync(Roles.Administrator);
+        var _cachedAdminEmails = adminUsers.Select(u => u.Email).ToList();
 
+        return _cachedAdminEmails;
+    }
     private string GenerateAgencyCode(string organizationName)
     {
         // Generate a unique code for the agency based on the organization name

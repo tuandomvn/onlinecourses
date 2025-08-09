@@ -48,9 +48,9 @@ public class AgencyAppService :
         var query = await CreateFilteredQueryAsync(input);
         var totalCount = await query.CountAsync();
         var items = await query
-            //.OrderBy(input.Sorting ?? nameof(Agency.Name))
             .Skip(input.SkipCount)
             .Take(input.MaxResultCount)
+            .OrderBy(e => e.OrgName)
             .ToListAsync();
 
         return new PagedResultDto<AgencyDto>
