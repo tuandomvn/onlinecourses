@@ -11,7 +11,7 @@ using Volo.Abp.Identity.Localization;
 using Volo.Abp.PermissionManagement.Identity;
 using Acme.OnlineCourses.Permissions;
 using Acme.OnlineCourses.Courses;
-using Acme.OnlineCourses;
+using Acme.OnlineCourses.EmpSupport;
 
 namespace Acme.OnlineCourses.Data;
 
