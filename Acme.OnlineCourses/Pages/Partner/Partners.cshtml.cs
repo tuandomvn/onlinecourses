@@ -103,8 +103,35 @@ public class PartnerModel : AbpPageModel
 
     public async Task<JsonResult> OnPostRegisterAsync([FromBody] PartnerRegistrationRequest request)
     {
+        var culture = Thread.CurrentThread.CurrentUICulture.Name;
         try
         {
+            // Check if email already exists in the user system
+            var existingUser = await _userManager.FindByEmailAsync(request.PartnerApplication.Email);
+            if (existingUser != null)
+            {
+                return new JsonResult(new
+                {
+                    success = false,
+                    message = culture == "vi" ?
+                        "Email này đã được sử dụng trong hệ thống. Vui lòng sử dụng email khác." :
+                        "This email is already registered in the system. Please use a different email."
+                });
+            }
+
+            // Check if email already exists as ContactEmail in agencies
+            var existingAgency = await _agencytRepository.FirstOrDefaultAsync(a => a.ContactEmail == request.PartnerApplication.Email);
+            if (existingAgency != null)
+            {
+                return new JsonResult(new
+                {
+                    success = false,
+                    message = culture == "vi" ?
+                        "Email này đã được đăng ký làm đối tác. Vui lòng sử dụng email khác." :
+                        "This email is already registered as a partner. Please use a different email."
+                });
+            }
+
             var agency = new Agency
             {
                 Name = request.PartnerApplication.FullName,
