@@ -105,9 +105,9 @@
 
         // Video modal functions
         const videoModal = {
-            open: (videoId) => {
+            open: (videoId, startTime = 0) => {
                 elements.modal.style.display = 'flex';
-                elements.iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                elements.iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&start=${startTime}`;
             },
             close: () => {
                 elements.modal.style.display = 'none';
@@ -126,7 +126,7 @@
 
             // Video modal
             elements.videoCards.forEach(card => {
-                card.addEventListener('click', () => videoModal.open(card.getAttribute('data-video-id')));
+                card.addEventListener('click', () => videoModal.open(card.getAttribute('data-video-id'), card.getAttribute('data-startTime')));
             });
 
             elements.closeBtn?.addEventListener('click', videoModal.close);
@@ -141,5 +141,4 @@
 
     });
 
-}) ();
-
+})();
