@@ -479,6 +479,10 @@
     "Footer.Social.TikTok": "TikTok",
     "Footer.Copyright": "Copyright by TESOL Channel all rights reserved",
     "StudentNote": "Ghi chú",
-    "AccountInformation": "Trạng thái"
+    "AccountInformation": "Trạng thái",
+
+    "Enum:StudentCourseStatus:0": "Đang học",
+    "Enum:StudentCourseStatus:1": "Đã hoàn thành",
+    "Enum:StudentCourseStatus:2": "Đã hủy"
   }
 }

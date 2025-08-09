@@ -238,7 +238,7 @@ namespace Acme.OnlineCourses.Helpers
             {
                 email.To.Add(MailboxAddress.Parse(recipient));
             }
-            email.Subject = $"[TESOL Channel] - Thông báo đăng ký đối tác - {request.Name}";
+            email.Subject = $"[TESOL Channel] - Thông báo hỗ trợ việc làm - {request.Name}";
             var builder = new BodyBuilder();
             builder.HtmlBody = MailText;
             email.Body = builder.ToMessageBody();

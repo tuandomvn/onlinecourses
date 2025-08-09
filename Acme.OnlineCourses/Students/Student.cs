@@ -97,24 +97,6 @@ public class StudentCourse : Entity<Guid>
     public StudentCourse()
     {
     }
-
-    //public StudentCourse(
-    //    Guid id,
-    //    Guid studentId,
-    //    Guid courseId,
-    //    DateTime registrationDate,
-    //    DateTime expectedStudyDate,
-    //    TestStatus testStatus,
-    //    PaymentStatus paymentStatus
-    //) : base(id)
-    //{
-    //    StudentId = studentId;
-    //    CourseId = courseId;
-    //    RegistrationDate = registrationDate;
-    //    ExpectedStudyDate = expectedStudyDate;
-    //    TestStatus = testStatus;
-    //    PaymentStatus = paymentStatus;
-    //}
 }
 
 public enum StudentCourseStatus
@@ -122,5 +104,4 @@ public enum StudentCourseStatus
     Inprogress = 0,
     Completed = 1,
     Cancelled = 2
-    //OnHold = 3
 } 
