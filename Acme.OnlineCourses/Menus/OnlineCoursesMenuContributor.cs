@@ -154,17 +154,6 @@ public class OnlineCoursesMenuContributor : IMenuContributor
             )
         );
 
-        //context.Menu.AddItem(
-        //    new ApplicationMenuItem(
-        //        OnlineCoursesMenus.Blogs,
-        //        l["Menu:Blogs"],
-        //        url: "/Blogs",
-        //        // icon: "fas fa-blog",
-        //        order: 11,
-        //        requiredPermissionName: OnlineCoursesPermissions.Blogs.Default
-        //    )
-        //);
-
         context.Menu.AddItem(
             new ApplicationMenuItem(
                 OnlineCoursesMenus.Report,

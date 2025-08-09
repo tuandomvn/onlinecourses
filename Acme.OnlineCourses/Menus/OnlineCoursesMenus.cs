@@ -19,4 +19,6 @@ public class OnlineCoursesMenus
     public const string Agencies = GroupName + ".Agencies";
     public const string Blogs = GroupName + ".Blogs";
     public const string Report = GroupName + ".Report";
+    public const string AgencyProfile = GroupName + ".Agencies.Profile";
+    public const string AgencyMenu = GroupName + ".Agency";
 }

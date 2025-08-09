@@ -18,6 +18,7 @@
     "Menu:Logout": "Đăng xuất",
     "ChangePassword": "Đổi mật khẩu",
     "SelectAgency": "Chọn trung tâm",
+    "Menu:AgencyProfile": "Hồ sơ đại lý",
     "Welcome": "Chào mừng",
     "Menu:Students:Profile": "Hồ sơ",
     "LongWelcomeMessage": "Chào mừng đến với ứng dụng. Đây là một dự án khởi đầu dựa trên framework ABP. Để biết thêm thông tin, hãy truy cập abp.io.",
@@ -291,7 +292,7 @@
     "Register.Requirements.Requirement2": "Cam kết hoàn thành đầy đủ chương trình học và thực hành.",
     "Register.Requirements.Requirement3": "Đồng ý với tất cả các chính sách của LTi Australia.",
     "Register.Requirements.Requirement4": "Học phí được thu theo quy định của LTi Australia, đảm bảo minh bạch.",
-    "Register.Requirements.Requirement5": "Tesol Channel hỗ trợ thu phí và hướng dẫn học viên trong quá trình đăng ký và học.",
+    "Register.Requirements.Requirement5": "TESOL Channel hỗ trợ thu phí và hướng dẫn học viên trong quá trình đăng ký và học.",
 
     // Register Page - Form Section
     "Register.Form.Title": "Đăng ký ngay",

@@ -4,6 +4,7 @@
 @using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Menu
 @using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Themes.Basic.Components.Toolbar
 @using Volo.Abp.Users
+@using static Acme.OnlineCourses.OnlineCoursesConsts
 @inject ICurrentUser CurrentUser
 @inject IStringLocalizer<OnlineCoursesResource> L
 
@@ -55,11 +56,18 @@
                         </div>
                         <div class="user-dropdown-divider"></div>
                         <div class="user-dropdown-content">
-                            @if (CurrentUser.IsInRole("student"))
+                            @if (CurrentUser.IsInRole(Roles.Student))
                             {
                                 <a href="/Students/Profile" class="user-dropdown-item logout-item">
                                     <i class="fas fa-user"></i>
                                     <span>@L["Menu:Students:Profile"]</span>
+                                </a>
+                            }
+                            @if (CurrentUser.IsInRole(Roles.Agency))
+                            {
+                                <a href="/Agencies/Profile" class="user-dropdown-item logout-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>@L["Menu:AgencyProfile"]</span>
                                 </a>
                             }
                             <a href="/Account/ChangePassword" class="user-dropdown-item logout-item">

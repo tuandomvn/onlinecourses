@@ -1,0 +1,45 @@
+@page
+@model Acme.OnlineCourses.Pages.Agencies.ProfileModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Acme.OnlineCourses.Localization.OnlineCoursesResource> L
+
+@{
+    ViewData["Title"] = L["Menu:AgencyProfile"];
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-card-title>@L["Menu:AgencyProfile"]</abp-card-title>
+    </abp-card-header>
+    <abp-card-body>
+        <div class="mx-auto" style="max-width: 900px;">
+            <form method="post">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <abp-input asp-for="Agency.OrgName" />
+                    </div>
+                    <div class="col-md-6">
+                        <abp-input asp-for="Agency.Name" />
+                    </div>
+                    <div class="col-md-6">
+                        <abp-input asp-for="Agency.ContactEmail" readonly="true" />
+                    </div>
+                    <div class="col-md-6">
+                        <abp-input asp-for="Agency.ContactPhone" />
+                    </div>
+                    <div class="col-12">
+                        <abp-input asp-for="Agency.Address" />
+                    </div>
+                    <div class="col-12">
+                        <abp-input asp-for="Agency.Description" />
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <abp-button button-type="Primary" type="submit">@L["Save"]</abp-button>
+                </div>
+            </form>
+        </div>
+    </abp-card-body>
+</abp-card>
+
