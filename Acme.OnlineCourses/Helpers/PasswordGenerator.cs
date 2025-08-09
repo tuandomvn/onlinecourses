@@ -7,12 +7,12 @@ public static class PasswordGenerator
     public static string GenerateSecurePassword(int length = 12)
     {
         if (length < 8)
-            throw new ArgumentException("Password length must be at least 4 characters to include all character types.", nameof(length));
+            throw new ArgumentException("Mật khẩu bao gồm kí tự và chữ số, ít nhất 8 kí tự.", nameof(length));
 
         const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const string lowercase = "abcdefghijklmnopqrstuvwxyz";
         const string digits = "0123456789";
-        const string specialChars = "!@#$%^&*()-_=+<>?";
+        //const string specialChars = "!@#$%^&*()-_=+<>?";
 
         using var rng = RandomNumberGenerator.Create();
 
@@ -21,10 +21,10 @@ public static class PasswordGenerator
             GetRandomChar(uppercase, rng),
             GetRandomChar(lowercase, rng),
             GetRandomChar(digits, rng),
-            GetRandomChar(specialChars, rng)
+           // GetRandomChar(specialChars, rng)
         };
 
-        string allChars = uppercase + lowercase + digits + specialChars;
+        string allChars = uppercase + lowercase + digits;
         for (int i = password.Count; i < length; i++)
         {
             password.Add(GetRandomChar(allChars, rng));

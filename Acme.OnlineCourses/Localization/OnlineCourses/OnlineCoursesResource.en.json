@@ -18,6 +18,7 @@
     "Menu:Students:Register": "Course Registration",
     "Menu:Students:List": "Students List",
     "Menu:Students:Profile": "Profile",
+    "Profile": "Profile",
     "Menu:Login": "Login",
     "Menu:Logout": "Logout",
     "ChangePassword": "Change Password",
@@ -154,8 +155,8 @@
 
 
 
-    
-    
+
+
     "Home.Hero.Title": "Become a Professional<br>English Teacher",
     "Home.Hero.Subtitle": "Get a globally recognized TESOL certificate from LTi Australia in just 200 hours of study and practice.",
     "Home.Hero.RegisterButton": "Register Now",
@@ -168,7 +169,7 @@
     "Home.Hero.Stats.Satisfaction.Number": "+93%",
     "Home.Hero.Stats.Satisfaction.Label": "Student Satisfaction",
 
-    
+
     "Home.About.Label": "About Us",
     "Home.About.Title": "Introduction to LTi Australia",
     "Home.About.Description": "<b>LTi Australia</b> is a leading organization in the field of TESOL training, recognized for excellence and innovation in language education.",
@@ -188,7 +189,7 @@
     "Home.About.Features.Subsidiary.Description": "LTi is a division of Universal Education and Training Ltd. (ABN: 75 090 720 086).",
     "Home.About.Footer": "In Vietnam, <b style=\"color:#0a3978;\">TESOL Channel</b> is proud to be the official distributor of LTi Australia, delivering top-quality TESOL Online programs and connecting with English language centers and universities across the country. We are committed to accompanying you on your journey to becoming a professional English teacher with globally recognized certification.",
 
-    
+
     "Home.Schedule.Label": "Study Time",
     "Home.Schedule.Title": "Flexible Schedule,<br>Suitable for Everyone",
     "Home.Schedule.Description": "LTi's Online TESOL program offers a flexible schedule, allowing you to study in the morning, afternoon, or evening based on your needs and timetable. Additionally, you will be provided with a lifelong account, enabling you to review and access materials at any time for study and reference.",
@@ -199,7 +200,7 @@
     "Home.Schedule.Evening.Title": "Evening",
     "Home.Schedule.Evening.Time": "6:00pm – 10:00pm",
 
-    
+
     "Home.Teachers.Label": "Our Teachers",
     "Home.Teachers.Title": "Professional Teachers<br>from LTi",
     "Home.Teachers.ImageAlt": "LTi Australia Teachers",
@@ -208,18 +209,18 @@
     "Home.Teachers.Feature3": "With a flexible schedule and professional guidance from LTi Australia, the TESOL Online program promises to provide you with an excellent learning experience.",
     "Home.Teachers.Feature4": "Contact us now to register and start your journey to becoming a professional English teacher!",
     "Home.Teachers.RegisterButton": "Register Now",
-    
 
 
 
-    
+
+
     "Course.Hero.Label": "What is TESOL?",
     "Course.Hero.Title": "Overview of the TESOL International Certificate Online Program",
     "Course.Hero.Description": "The TESOL International Certificate program by LTi Australia helps learners achieve an international certification and develop comprehensive teaching skills. It equips educators with the essential knowledge and abilities to succeed in diverse teaching environments.",
     "Course.Hero.VideoAlt": "TESOL Course Overview",
     "Course.Hero.VideoTitle": "TESOL Video",
 
-    
+
     "Course.Benefits.Curriculum.Title": "Curriculum",
     "Course.Benefits.Curriculum.Description": "100% in English, compiled by LTi Australia.",
     "Course.Benefits.Teachers.Title": "Instructors",
@@ -233,7 +234,7 @@
     "Course.Benefits.LifetimeAccess.Title": "Lifetime Learning Account",
     "Course.Benefits.LifetimeAccess.Description": "All students receive a downloadable, easy to read PDF eBook of TESOL Made Practical For All Situations, 5th Edition (ISBN: 978-0-9871861-2-6), a trusted lifetime resource that supports you throughout your training and beyond.",
 
-    
+
     "Course.Content.Label": "Our Course",
     "Course.Content.Title": "Course Content",
     "Course.Content.Description": "The program includes 8 in-depth modules and 9 hours of practical training, helping learners develop comprehensive English teaching skills.",
@@ -261,7 +262,7 @@
     "Course.Practical.Tesol.List4": "Graduate Diploma of TESOL (11058NAT)",
     "Course.Practical.Tesol.Contact": "Please contact Tesol Channel to receive expert advice and the best support with registration.",
 
-    
+
     "Course.Practical.Label": "Practical Activities",
     "Course.Practical.Title": "Practical Training",
     "Course.Practical.Description": "Learners will participate in 9 hours of hands-on practice in real teaching environments, applying the knowledge gained to build experience. Upon completion, you will confidently step into live or online classrooms worldwide while enhancing your personal profile.",
@@ -269,9 +270,9 @@
     "Course.Practical.PreviousButton": "Previous videos",
     "Course.Practical.NextButton": "Next videos",
     "Course.Practical.VideoAlt": "Practical Video {0}",
-    
 
-    
+
+
     "Register.Pricing.Badge": "Course Fee",
     "Register.Pricing.Title": "Full Course Tuition",
     "Register.Pricing.Subtitle": "LTi Australia's International TESOL Certificate course helps students achieve international certification and develop comprehensive teaching skills at a super competitive price.",
@@ -284,7 +285,7 @@
     "Register.Pricing.Feature5": "International certificate",
     "Register.Pricing.Feature6": "Lifetime learning account",
 
-    
+
     "Register.Requirements.Title": "Requirements for TESOL Online Course Registration",
     "Register.Requirements.Requirement1": "Meet basic English proficiency criteria (an entrance test may be required if necessary).",
     "Register.Requirements.Requirement2": "Commit to completing the full program and practical training.",
@@ -292,7 +293,7 @@
     "Register.Requirements.Requirement4": "Tuition fees are collected as per LTi Australia’s regulations, ensuring transparency.",
     "Register.Requirements.Requirement5": "TESOL Channel assists with fee collection and guides learners through the registration process.",
 
-    
+
     "Register.Form.Title": "How to Register",
     "Register.Form.Subtitle": "Register here or contact the nearest partner center for consultation and quick registration support.",
     "Register.Form.FullnamePlaceholder": "Enter Full Name",
@@ -310,10 +311,10 @@
     "Register.Form.TermsRequired": "Please agree to the terms and conditions",
     "Register.Form.FillRequired": "Please fill in all required information",
     "SearchByFullName": "Search by name",
-    
 
 
-    
+
+
     "Partner.List.Subtitle": "Our Partners",
     "Partner.List.Title": "Our Partners",
     "Partner.List.Description1": "We are proud to distribute our program nationwide, connecting with trusted partner centers to provide the best support for you. With an extensive network, our professional team is always ready to listen and assist you throughout your learning journey.",
@@ -326,12 +327,12 @@
     "Partner.Table.NoPartnersFound": "No partners found",
     "Partner.Map.Alt": "Map of Vietnam",
 
-    
+
     "Partner.Become.Subtitle": "Become part of us",
     "Partner.Become.Title": "Want to become our partner?",
     "Partner.Become.Description": "TESOL Channel seeks collaboration with reputable centers and schools that prioritize quality to distribute LTi Australia's TESOL Online programs not only across Vietnam but also globally. By working together, we create opportunities for growth, adaptation, and success in the dynamic field of English language education.",
 
-    
+
     "Partner.Form.FullName.Label": "Full Name *",
     "Partner.Form.FullName.Placeholder": "Enter your full name",
     "Partner.Form.Phone.Label": "Phone Number *",
@@ -351,7 +352,7 @@
     "Partner.Form.SubmitButton": "Register Now",
     "Partner.Form.Processing": "Processing...",
 
-    
+
     "Partner.Validation.FullName.Required": "Please enter your full name",
     "Partner.Validation.FullName.MinLength": "Full name must be at least 2 characters",
     "Partner.Validation.FullName.MaxLength": "Full name cannot exceed 100 characters",
@@ -368,7 +369,7 @@
     "Partner.Validation.Position.Required": "Please enter your position",
     "Partner.Validation.Location.Required": "Please select a location",
 
-    
+
     "Partner.Form.Error.Title": "Error!",
     "Partner.Form.Error.RequiredFields": "Please fill in all required fields",
     "Partner.Form.Error.Generic": "An error occurred, please try again.",
@@ -376,7 +377,7 @@
     "Partner.Form.Success.Title": "Success!",
     "Partner.Form.Success.Message": "Partner registration successful. We will contact you soon.",
 
-    
+
     "Employment.Title": "Job Support",
 
     "Employment.Hero.Subtitle": "Career after completion?",
@@ -385,12 +386,12 @@
     "Employment.Hero.Description2": "TESOL Channel will connect you with job opportunities at companies, English centers, and schools both domestically and internationally. We have an extensive network of partners ready to recommend you for suitable positions.",
     "Employment.Hero.ImageAlt": "Employment Support",
 
-    
+
     "Employment.Form.Subtitle": "Registration Guide",
     "Employment.Form.Title": "How to Register",
     "Employment.Form.Description": "If you need assistance in finding a job after completing the course, please leave your information with us.",
 
-    
+
     "Employment.Form.FullName": "Full Name",
     "Employment.Form.FullNamePlaceholder": "Enter your full name",
     "Employment.Form.DateOfBirth": "Date of Birth",
@@ -407,29 +408,29 @@
     "Employment.Form.SubmitButton": "Register Now",
     "Employment.Form.SuccessTitle": "Registration Successful",
     "Employment.Form.SuccessMessage": "Your employment support registration has been submitted successfully. We will contact you soon.",
-    
 
 
 
-    
+
+
     "AboutUs.Hero.Label": "What is TESOL Channel?",
     "AboutUs.Hero.Title": "TESOL Channel",
     "AboutUs.Hero.Description": "TESOL Channel – The official and exclusive distributor of LTi's TESOL Online program in Vietnam.",
     "AboutUs.Hero.ImageAlt": "Students learning with TESOL Channel",
 
-    
+
     "AboutUs.Vision.Title": "Vision",
     "AboutUs.Vision.Description": "To become the leading organization in Vietnam in providing high-quality online TESOL training programs from LTi Australia, helping to enhance English teaching competencies and support career development for teachers nationwide.",
     "AboutUs.Vision.ImageAlt": "TESOL Definition",
 
-    
+
     "AboutUs.Mission.Title": "Mission",
     "AboutUs.Mission.Point1": "To deliver internationally accredited online TESOL programs from LTi Australia, tailored to the learning and development needs of English teachers in Vietnam.",
     "AboutUs.Mission.Point2": "To support learners in building a solid foundation of knowledge, modern teaching skills, and creative thinking within a global educational environment.",
     "AboutUs.Mission.Point3": "To ensure professional, dedicated support services and to accompany learners throughout their studies and career development.",
     "AboutUs.Mission.ImageAlt": "TEACH blocks",
 
-    
+
     "AboutUs.Values.Title": "Core Values",
     "AboutUs.Values.Quality.Title": "Quality:",
     "AboutUs.Values.Quality.Description": "Committed to providing training programs of the highest standards, ensuring practical value and effectiveness for learners.",
@@ -441,9 +442,9 @@
     "AboutUs.Values.Cooperation.Description": "Building sustainable relationships with partners, learners, and the educational community for mutual growth.",
     "AboutUs.Values.Sustainability.Title": "Sustainable Development:",
     "AboutUs.Values.Sustainability.Description": "Contributing to the long-term advancement of English education in Vietnam through high-quality training programs.",
-    
 
-    
+
+
     "Contact.PageTitle": "Contact",
     "Contact.Subtitle": "Contact Us",
     "Contact.Logo.Alt": "TESOL Logo",
@@ -459,10 +460,10 @@
     "Contact.Website.Value": "tesolchannel.vn",
     "Contact.Address.Label": "Address:",
     "Contact.Address.Value": "B07-04 Lavida Plus Building, Tan Phong Ward, \nDistrict 7, Ho Chi Minh City, Vietnam.",
-    
 
 
-    
+
+
     "Footer.Logo.Alt": "TESOL Channel",
     "Footer.Tagline": "Official distributor of LTi Australia",
     "Footer.Nav.Home": "Home",
@@ -478,6 +479,6 @@
     "Footer.Copyright": "Copyright by TESOL Channel all rights reserved",
     "StudentNote": "Note",
     "AccountInformation": "Account Information"
- 
+
   }
 }

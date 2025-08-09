@@ -1,12 +1,18 @@
 ﻿using Acme.OnlineCourses.Data;
 using Acme.OnlineCourses.Localization;
 using Acme.OnlineCourses.Menus;
+using Acme.OnlineCourses.Middlewares;
 using Acme.OnlineCourses.ScriptContributors;
 using Acme.OnlineCourses.Students;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 using OpenIddict.Validation.AspNetCore;
+using System.Globalization;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
@@ -58,11 +64,6 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 using DataSeeder = Acme.OnlineCourses.Data.DataSeeder;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Cryptography;
-using System.Globalization;
-using Microsoft.AspNetCore.Localization;
-using Acme.OnlineCourses.Middlewares;
 
 namespace Acme.OnlineCourses;
 
@@ -172,6 +173,17 @@ public class OnlineCoursesModule : AbpModule
         {
             context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
         }
+
+        Configure<IdentityOptions>(options =>
+        {
+            // Password settings - Làm đơn giản hơn
+            options.Password.RequiredLength = 8; // Minimum 6 characters thay vì 8
+            options.Password.RequireNonAlphanumeric = false; // Không yêu cầu ký tự đặc biệt
+            options.Password.RequireLowercase = false; // Không yêu cầu chữ thường
+            options.Password.RequireUppercase = false; // Không yêu cầu chữ hoa
+            options.Password.RequireDigit = true;
+            options.Password.RequiredUniqueChars = 1; // Chỉ cần 1 ký tự unique
+        });
 
         ConfigureAuthentication(context);
         ConfigureMultiTenancy();

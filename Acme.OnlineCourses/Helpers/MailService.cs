@@ -115,7 +115,7 @@ namespace Acme.OnlineCourses.Helpers
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
             email.To.Add(MailboxAddress.Parse(request.ToEmail));
-            email.Subject = $"Welcome {request.UserName}";
+            email.Subject = $"[TESOL Channel] - Chào mừng học viên {request.UserName}";
             var builder = new BodyBuilder();
             builder.HtmlBody = MailText;
             email.Body = builder.ToMessageBody();
@@ -192,6 +192,36 @@ namespace Acme.OnlineCourses.Helpers
         public async Task SendNotifyNewPartnerToAdminsAsync(NotityNewPartnerToAdminRequest request)
         {
             string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\NotiPartner.html";
+            StreamReader str = new StreamReader(FilePath);
+            string MailText = str.ReadToEnd();
+            str.Close();
+
+            MailText = MailText
+                .Replace("[name]", request.Name)
+                .Replace("[email]", request.Email);
+
+            var email = new MimeMessage
+            {
+                Sender = MailboxAddress.Parse(_mailSettings.Mail)
+            };
+            foreach (var recipient in request.ToEmail)
+            {
+                email.To.Add(MailboxAddress.Parse(recipient));
+            }
+            email.Subject = $"[TESOL Channel] - Thông báo đăng ký đối tác - {request.Name}";
+            var builder = new BodyBuilder();
+            builder.HtmlBody = MailText;
+            email.Body = builder.ToMessageBody();
+            using var smtp = new SmtpClient();
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+            await smtp.SendAsync(email);
+            smtp.Disconnect(true);
+        }
+
+        public async Task SendJobNotiToAdminsAsync(NotityNewPartnerToAdminRequest request)
+        {
+            string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\JobSupport.html";
             StreamReader str = new StreamReader(FilePath);
             string MailText = str.ReadToEnd();
             str.Close();

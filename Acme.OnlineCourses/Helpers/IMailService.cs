@@ -9,4 +9,5 @@ public interface IMailService
     Task SendNotifyUpdateAttachmentAsync(NotifyUpdateAttachmentRequest request);
     Task SendResetPasswordAsync(ResetPasswordRequest request);
     Task SendNotifyNewPartnerToAdminsAsync(NotityNewPartnerToAdminRequest request);
+    Task SendJobNotiToAdminsAsync(NotityNewPartnerToAdminRequest request);
 }

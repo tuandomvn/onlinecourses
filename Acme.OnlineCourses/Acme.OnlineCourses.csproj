@@ -157,6 +157,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Templates\JobSupport.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Templates\NewPassword.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

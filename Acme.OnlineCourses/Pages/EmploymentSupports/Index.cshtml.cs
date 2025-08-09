@@ -1,19 +1,23 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
+using Acme.OnlineCourses.Helpers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using Volo.Abp.Domain.Repositories;
-using Acme.OnlineCourses;
+using Volo.Abp.Identity;
+using static Acme.OnlineCourses.OnlineCoursesConsts;
 
 namespace Acme.OnlineCourses.Pages.EmploymentSupports
 {
     public class IndexModel : PageModel
     {
         private readonly IRepository<EmploymentSupport, Guid> _employmentSupportRepository;
-
-        public IndexModel(IRepository<EmploymentSupport, Guid> employmentSupportRepository)
+        private readonly IMailService _mailService;
+        private readonly IdentityUserManager _userManager;
+        public IndexModel(IRepository<EmploymentSupport, Guid> employmentSupportRepository, IMailService mailService, IdentityUserManager userManager)
         {
+            _mailService = mailService;
+            _userManager = userManager;
             _employmentSupportRepository = employmentSupportRepository;
         }
 
@@ -41,11 +45,27 @@ namespace Acme.OnlineCourses.Pages.EmploymentSupports
                 CourseCompletionDate = EmploymentSupport.CourseCompletionDate,
                 Message = EmploymentSupport.Message ?? string.Empty
             };
-           await _employmentSupportRepository.InsertAsync(entity, autoSave: true);
+            await _employmentSupportRepository.InsertAsync(entity, autoSave: true);
             TempData["FormMessage"] = "success";
+
+            var adminEmails = await GetAdminEmailsAsync();
+
+            _mailService.SendJobNotiToAdminsAsync(new NotityNewPartnerToAdminRequest
+            {
+                ToEmail = adminEmails,
+                Name = entity.FullName,
+                Email = entity.Email
+            });
+
             return RedirectToPage();
         }
+        private async Task<List<string>> GetAdminEmailsAsync()
+        {
+            var adminUsers = await _userManager.GetUsersInRoleAsync(Roles.Administrator);
+            var _cachedAdminEmails = adminUsers.Select(u => u.Email).ToList();
 
+            return _cachedAdminEmails;
+        }
         public class EmploymentSupportInput
         {
             [Required]
@@ -72,4 +92,4 @@ namespace Acme.OnlineCourses.Pages.EmploymentSupports
             public string? Message { get; set; }
         }
     }
-} 
+}

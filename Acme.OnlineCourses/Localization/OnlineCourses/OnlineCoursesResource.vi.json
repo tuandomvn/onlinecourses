@@ -21,6 +21,7 @@
     "Menu:AgencyProfile": "Hồ sơ đại lý",
     "Welcome": "Chào mừng",
     "Menu:Students:Profile": "Hồ sơ",
+    "Profile": "Hồ sơ",
     "LongWelcomeMessage": "Chào mừng đến với ứng dụng. Đây là một dự án khởi đầu dựa trên framework ABP. Để biết thêm thông tin, hãy truy cập abp.io.",
     "Permission:Agencies": "Quản lý đại lý",
     "Permission:Agencies.Create": "Tạo đại lý mới",
