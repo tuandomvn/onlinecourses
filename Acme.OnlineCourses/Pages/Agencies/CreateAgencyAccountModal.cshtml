@@ -48,7 +48,7 @@
         </abp-modal-body>
         <abp-modal-footer>
             <abp-button button-type="Secondary" text="Cancel" data-bs-dismiss="modal" />
-            @if (!Model.IsAccountProvided)
+            @if (Model.AccountInfo.Status == AgencyStatus.Active && !Model.IsAccountProvided)
             {
                 <abp-button button-type="Primary" text="Provide Account" type="submit" />
             }
