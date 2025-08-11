@@ -7,6 +7,9 @@ $(function () {
         modalClass: 'StudentsModal'
     });
 
+    // Add new modal manager for "Cấp tài khoản"
+    var createAccountModal = new abp.ModalManager(abp.appPath + 'Agencies/CreateAgencyAccountModal');
+
     // Add event handler for modal opened
     modalManager.onOpen(function() {
         console.log('Modal opened, initializing students table');
@@ -77,6 +80,10 @@ $(function () {
                         title: l('PhoneNumber'),
                         data: "phoneNumber"
                     },
+                    //{
+                    //    title: l('CityCode'),
+                    //    data: "cityCode"
+                    //},
                     {
                         title: l('RegistrationDate'),
                         data: "registrationDate",
@@ -117,7 +124,7 @@ $(function () {
                 paging: true,
                 order: [[1, "asc"]],
                 searching: false,
-                ajax: abp.libs.datatables.createAjax(acme.onlineCourses.agencies.agency.getList),
+                ajax: abp.libs.datatables.createAjax(acme.onlineCourses.agencies.agency.getListAllAgency),
                 columnDefs: [
                     {
                         title: l('Code'),
@@ -128,12 +135,20 @@ $(function () {
                         data: "name"
                     },
                     {
+                        title: l('OrgName'),
+                        data: "orgName"
+                    },
+                    {
                         title: l('ContactEmail'),
                         data: "contactEmail"
                     },
                     {
                         title: l('ContactPhone'),
                         data: "contactPhone"
+                    },
+                    {
+                        title: l('CityCode'),
+                        data: "cityCode"
                     },
                     {
                         title: l('CommissionPercent'),
@@ -154,13 +169,19 @@ $(function () {
                         rowAction: {
                             items:
                                 [
+                                    //{
+                                    //    text: l('ViewStudents'),
+                                    //    action: function (data) {
+                                    //        console.log('Opening modal for agency:', data.record.id);
+                                    //        modalManager.open({
+                                    //            agencyId: data.record.id
+                                    //        });
+                                    //    }
+                                    //},
                                     {
-                                        text: l('ViewStudents'),
+                                        text: 'Cấp tài khoản',
                                         action: function (data) {
-                                            console.log('Opening modal for agency:', data.record.id);
-                                            modalManager.open({
-                                                agencyId: data.record.id
-                                            });
+                                            createAccountModal.open({ id: data.record.id });
                                         }
                                     },
                                     {
@@ -201,6 +222,10 @@ $(function () {
     });
 
     editModal.onResult(function () {
+        dataTable.ajax.reload();
+    });
+
+    createAccountModal.onResult(function () {
         dataTable.ajax.reload();
     });
 

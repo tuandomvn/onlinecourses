@@ -1,19 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Acme.OnlineCourses.Agencies;
+using Acme.OnlineCourses.Agencies.Dtos;
+using Acme.OnlineCourses.Localization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
-using Acme.OnlineCourses.Agencies;
-using Acme.OnlineCourses.Agencies.Dtos;
-using Acme.OnlineCourses.Localization;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Volo.Abp.Identity;
 using Volo.Abp.ObjectMapping;
+using Volo.Abp.Users;
+using static Acme.OnlineCourses.OnlineCoursesConsts;
 
 namespace Acme.OnlineCourses.Pages.Agencies
 {
+    [Authorize(Roles = OnlineCoursesConsts.Roles.Administrator)]
     public class EditModalModel : PageModel
     {
+        private readonly IIdentityUserRepository _userRepository;
+
         [HiddenInput]
         [BindProperty(SupportsGet = true)]
         public Guid Id { get; set; }
@@ -26,22 +33,45 @@ namespace Acme.OnlineCourses.Pages.Agencies
         private readonly IAgencyAppService _agencyAppService;
         private readonly IStringLocalizer<OnlineCoursesResource> _localizer;
         private readonly IObjectMapper _objectMapper;
-
+        public List<SelectListItem> CityList { get; set; }
         public EditModalModel(
             IAgencyAppService agencyAppService,
+            IIdentityUserRepository userRepository,
             IStringLocalizer<OnlineCoursesResource> localizer,
             IObjectMapper objectMapper)
         {
             _agencyAppService = agencyAppService;
             _localizer = localizer;
             _objectMapper = objectMapper;
+            _userRepository = userRepository;
         }
 
         public async Task OnGetAsync()
         {
             var agency = await _agencyAppService.GetAsync(Id);
             Agency = _objectMapper.Map<AgencyDto, CreateUpdateAgencyDto>(agency);
+            Agency.IsAccountProvided = await IsAgencyExistsAsync(agency.ContactEmail);
             StatusList = GetStatusList();
+            CityList = GetCityList(); // Add this line
+        }
+        public async Task<bool> IsAgencyExistsAsync(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return false;
+            }
+
+            var normalizedEmail = email.ToUpperInvariant();
+            var user = await _userRepository.FindByNormalizedUserNameAsync(normalizedEmail);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            // Kiểm tra xem user có role Agency hay không
+            var userRoles = await _userRepository.GetRoleNamesAsync(user.Id);
+            return userRoles.Contains(Roles.Agency);
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -58,5 +88,45 @@ namespace Acme.OnlineCourses.Pages.Agencies
                 new SelectListItem { Value = AgencyStatus.Inactive.ToString(), Text = _localizer["Enum:AgencyStatus:Inactive"] }
             };
         }
+        private List<SelectListItem> GetCityList()
+        {
+            return new List<SelectListItem>
+            {
+                new SelectListItem { Value = "hanoi", Text = "Hà Nội" },
+                new SelectListItem { Value = "hue", Text = "Huế" },
+                new SelectListItem { Value = "danang", Text = "Đà Nẵng" },
+                new SelectListItem { Value = "haiphong", Text = "Hải Phòng" },
+                new SelectListItem { Value = "cantho", Text = "Cần Thơ" },
+                new SelectListItem { Value = "hochiminh", Text = "Hồ Chí Minh" },
+                new SelectListItem { Value = "angiang", Text = "An Giang" },
+                new SelectListItem { Value = "bacninh", Text = "Bắc Ninh" },
+                new SelectListItem { Value = "camau", Text = "Cà Mau" },
+                new SelectListItem { Value = "caobang", Text = "Cao Bằng" },
+                new SelectListItem { Value = "daklak", Text = "Đắk Lắk" },
+                new SelectListItem { Value = "dienbien", Text = "Điện Biên" },
+                new SelectListItem { Value = "dongnai", Text = "Đồng Nai" },
+                new SelectListItem { Value = "dongthap", Text = "Đồng Tháp" },
+                new SelectListItem { Value = "gialai", Text = "Gia Lai" },
+                new SelectListItem { Value = "hatinh", Text = "Hà Tĩnh" },
+                new SelectListItem { Value = "hungyen", Text = "Hưng Yên" },
+                new SelectListItem { Value = "khanhhoa", Text = "Khánh Hòa" },
+                new SelectListItem { Value = "laichau", Text = "Lai Châu" },
+                new SelectListItem { Value = "lamdong", Text = "Lâm Đồng" },
+                new SelectListItem { Value = "langson", Text = "Lạng Sơn" },
+                new SelectListItem { Value = "laocai", Text = "Lào Cai" },
+                new SelectListItem { Value = "nghean", Text = "Nghệ An" },
+                new SelectListItem { Value = "ninhbinh", Text = "Ninh Bình" },
+                new SelectListItem { Value = "phutho", Text = "Phú Thọ" },
+                new SelectListItem { Value = "quangngai", Text = "Quảng Ngãi" },
+                new SelectListItem { Value = "quangninh", Text = "Quảng Ninh" },
+                new SelectListItem { Value = "quangtri", Text = "Quảng Trị" },
+                new SelectListItem { Value = "sonla", Text = "Sơn La" },
+                new SelectListItem { Value = "tayninh", Text = "Tây Ninh" },
+                new SelectListItem { Value = "thainguyen", Text = "Thái Nguyên" },
+                new SelectListItem { Value = "thanhhoa", Text = "Thanh Hóa" },
+                new SelectListItem { Value = "tuyenquang", Text = "Tuyên Quang" },
+                new SelectListItem { Value = "vinhlong", Text = "Vĩnh Long" }
+            };
+        }
     }
-} 
+}

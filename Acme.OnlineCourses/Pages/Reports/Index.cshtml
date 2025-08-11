@@ -10,16 +10,25 @@
 }
 
 @section scripts {
-    <abp-script src="/Pages/Reports/Index.js" />
     <script>
         function handleReportTypeChange(value) {
-            var agencySelect = document.querySelector('.agency-select');
-            if (value === '@((int)ReportType.AgencyReport)') {
+            var agencySelect = document.getElementById('agencySelectContainer');
+            
+            // AgencyReport has value 3
+            if (value == 3 || value === '3' || value == 'AgencyReport') {
                 agencySelect.style.display = 'block';
             } else {
                 agencySelect.style.display = 'none';
             }
         }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            var reportTypeSelect = document.getElementById('ReportType');
+            handleReportTypeChange(reportTypeSelect.value);
+            reportTypeSelect.addEventListener('change', function() {
+                handleReportTypeChange(this.value);
+            });
+        });
     </script>
 }
 
@@ -36,26 +45,25 @@
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label for="ReportType">@L["ReportType"]</label>
-                    <select id="ReportType" name="ReportType" class="form-control" onchange="handleReportTypeChange(this.value)">
+                    <select id="ReportType" name="SelectedReportType" class="form-control" onchange="handleReportTypeChange(this.value)">
                         <option value="@ReportType.StudentReport" selected="@(Model.SelectedReportType == ReportType.StudentReport)">@L["StudentReport"]</option>
-                        <option value="@ReportType.CourseReport" selected="@(Model.SelectedReportType == ReportType.CourseReport)">@L["CourseReport"]</option>
+                        @* <option value="@ReportType.CourseReport" selected="@(Model.SelectedReportType == ReportType.CourseReport)">@L["CourseReport"]</option> *@
                         <option value="@ReportType.AgencyReport" selected="@(Model.SelectedReportType == ReportType.AgencyReport)">@L["AgencyReport"]</option>
-                        <option value="@ReportType.BlogReport" selected="@(Model.SelectedReportType == ReportType.BlogReport)">@L["BlogReport"]</option>
                     </select>
                 </div>
-                <div class="col-md-3 agency-select" style="display: @(Model.SelectedReportType == ReportType.AgencyReport ? "block" : "none")">
+                <div class="col-md-3 agency-select" id="agencySelectContainer">
                     <label for="AgencyId">@L["Agency"]</label>
-                    <select id="AgencyId" name="AgencyId" class="form-control">
-                        <option value="">@L["AllAgencies"]</option>
+                    <select id="AgencyId" name="SelectedAgencyId" class="form-control">
+                        <option value="-1">@L["AllAgencies"]</option>
                         @foreach (var agency in Model.Agencies)
                         {
-                            <option value="@agency.Id" selected="@(agency.Id == Model.SelectedAgencyId)">@agency.Name</option>
+                            <option value="@agency.Id" selected="@(agency.Id == Model.SelectedAgencyId)">@agency.OrgName</option>
                         }
                     </select>
                 </div>
                 <div class="col-md-3">
                     <label for="Year">@L["Year"]</label>
-                    <select id="Year" name="Year" class="form-control">
+                    <select id="Year" name="SelectedYear" class="form-control">
                         @for (int year = DateTime.Now.Year; year >= DateTime.Now.Year - 5; year--)
                         {
                             <option value="@year" selected="@(year == Model.SelectedYear)">@year</option>
@@ -64,7 +72,8 @@
                 </div>
                 <div class="col-md-3">
                     <label for="Month">@L["Month"]</label>
-                    <select id="Month" name="Month" class="form-control">
+                    <select id="Month" name="SelectedMonth" class="form-control">
+                        <option value="-1" selected="@(Model.SelectedMonth == -1)">--All--</option>
                         @for (int month = 1; month <= 12; month++)
                         {
                             <option value="@month" selected="@(month == Model.SelectedMonth)">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month)</option>

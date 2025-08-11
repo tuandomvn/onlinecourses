@@ -1,0 +1,259 @@
+.employment-support-page {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #ffffff;
+}
+
+.subtitle {
+    color: #1eb6c1;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    position: relative;
+    display: inline-block;
+}
+
+    .subtitle::before {
+        content: '';
+        width: 30px;
+        height: 2px;
+        background-color: #1eb6c1;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+.main-heading {
+    color: #003366;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 25px;
+}
+
+p {
+    color: #333;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* Form Section Styles */
+.form-section {
+    background: #f0f7ff;
+    padding: 80px 0;
+    margin-top: 60px;
+}
+
+.form-wrapper {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 51, 102, 0.08);
+    margin: 0 auto;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.form-subtitle {
+    color: #1eb6c1;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 12px;
+    position: relative;
+    display: inline-block;
+}
+
+    .form-subtitle::before {
+        content: '';
+        width: 30px;
+        height: 2px;
+        background-color: #1eb6c1;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+.form-title {
+    color: #003366;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.form-description {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* Form Styles */
+
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {
+    color: #333;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 8px;
+/*    display: block;*/
+}
+
+.form-control {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    font-size: 15px;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+    .form-control:focus {
+        outline: none;
+        border-color: #1eb6c1;
+        box-shadow: 0 0 0 3px rgba(30, 182, 193, 0.1);
+        background-color: #ffffff;
+    }
+
+    .form-control::placeholder {
+        color: #aaa;
+        font-size: 14px;
+    }
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Date input styling */
+.form-control[type="date"] {
+    position: relative;
+    color: #666;
+}
+
+    .form-control[type="date"]::-webkit-calendar-picker-indicator {
+        position: absolute;
+        right: 15px;
+        color: #666;
+        cursor: pointer;
+    }
+
+/* Submit Button */
+.form-submit {
+    text-align: center;
+    margin-top: 35px;
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #003366 0%, #004d7a 100%);
+    color: #ffffff;
+    padding: 16px 40px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: none;
+    min-width: 180px;
+}
+
+    .btn-submit:hover {
+        background: linear-gradient(135deg, #002147 0%, #003d63 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 51, 102, 0.3);
+        color: #ffffff;
+    }
+
+    .btn-submit:active {
+        transform: translateY(0);
+    }
+
+/* Validation Messages */
+.text-danger {
+    color: #dc3545;
+    font-size: 13px;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 991.98px) {
+    .main-heading {
+        font-size: 36px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    .form-section {
+        padding: 60px 0;
+    }
+
+    .form-wrapper {
+        padding: 40px 30px;
+    }
+
+    .form-title {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .main-heading {
+        font-size: 30px;
+    }
+
+    .form-section {
+        padding: 50px 0;
+        margin-top: 40px;
+    }
+
+    .form-wrapper {
+        padding: 30px 20px;
+        border-radius: 15px;
+    }
+
+    .form-title {
+        font-size: 26px;
+    }
+
+    .form-description {
+        font-size: 15px;
+    }
+
+        .form-description br {
+            display: none;
+        }
+
+    .btn-submit {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .form-wrapper {
+        margin: 0 -15px;
+        border-radius: 0;
+    }
+
+    .form-control {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+}

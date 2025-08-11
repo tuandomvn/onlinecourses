@@ -1,20 +1,30 @@
 ﻿using Acme.OnlineCourses.Data;
 using Acme.OnlineCourses.Localization;
 using Acme.OnlineCourses.Menus;
+using Acme.OnlineCourses.Middlewares;
+using Acme.OnlineCourses.ScriptContributors;
 using Acme.OnlineCourses.Students;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 using OpenIddict.Validation.AspNetCore;
+using System.Globalization;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Bundling;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.Autofac;
@@ -65,7 +75,7 @@ namespace Acme.OnlineCourses;
     typeof(AbpEntityFrameworkCoreMySQLModule),
     typeof(AbpSwashbuckleModule),
     typeof(AbpAspNetCoreSerilogModule),
-    typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
+    typeof(AbpAspNetCoreMvcUiBasicThemeModule),
 
     // Account module packages
     typeof(AbpAccountApplicationModule),
@@ -124,6 +134,7 @@ public class OnlineCoursesModule : AbpModule
             );
         });
 
+        // Simple OpenIddict configuration without certificates
         PreConfigure<OpenIddictBuilder>(builder =>
         {
             builder.AddValidation(options =>
@@ -134,19 +145,20 @@ public class OnlineCoursesModule : AbpModule
             });
         });
 
-        if (!hostingEnvironment.IsDevelopment())
+        // Add server configuration with ephemeral keys to avoid certificate issues
+        PreConfigure<OpenIddictServerBuilder>(serverBuilder =>
         {
-            PreConfigure<AbpOpenIddictAspNetCoreOptions>(options =>
-            {
-                options.AddDevelopmentEncryptionAndSigningCertificate = false;
-            });
+            serverBuilder.AddEphemeralEncryptionKey()
+                        .AddEphemeralSigningKey()
+                        .DisableAccessTokenEncryption();
+        });
 
-            PreConfigure<OpenIddictServerBuilder>(serverBuilder =>
-            {
-                serverBuilder.AddProductionEncryptionAndSigningCertificate("openiddict.pfx", "c4ab233f-40e2-4e42-9c79-f1849ced179e");
-            });
-        }
-        
+        // Disable certificate requirements for OpenIddict
+        PreConfigure<AbpOpenIddictAspNetCoreOptions>(options =>
+        {
+            options.AddDevelopmentEncryptionAndSigningCertificate = false;
+        });
+
         OnlineCoursesGlobalFeatureConfigurator.Configure();
         OnlineCoursesModuleExtensionConfigurator.Configure();
         OnlineCoursesEfCoreEntityExtensionMappings.Configure();
@@ -161,6 +173,17 @@ public class OnlineCoursesModule : AbpModule
         {
             context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
         }
+
+        Configure<IdentityOptions>(options =>
+        {
+            // Password settings - Làm đơn giản hơn
+            options.Password.RequiredLength = 8; // Minimum 6 characters thay vì 8
+            options.Password.RequireNonAlphanumeric = false; // Không yêu cầu ký tự đặc biệt
+            options.Password.RequireLowercase = false; // Không yêu cầu chữ thường
+            options.Password.RequireUppercase = false; // Không yêu cầu chữ hoa
+            options.Password.RequireDigit = true;
+            options.Password.RequiredUniqueChars = 1; // Chỉ cần 1 ký tự unique
+        });
 
         ConfigureAuthentication(context);
         ConfigureMultiTenancy();
@@ -180,6 +203,7 @@ public class OnlineCoursesModule : AbpModule
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
     {
+        // Use standard Identity authentication instead of OpenIddict
         context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
         context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
         {
@@ -209,13 +233,23 @@ public class OnlineCoursesModule : AbpModule
         Configure<AbpBundlingOptions>(options =>
         {
             options.StyleBundles.Configure(
-                LeptonXLiteThemeBundles.Styles.Global,
+                BasicThemeBundles.Styles.Global,
+                //LeptonXLiteThemeBundles.Styles.Global,
                 bundle =>
                 {
                     bundle.AddFiles("/global-styles.css");
                 }
             );
         });
+
+        Configure<AbpBundlingOptions>(options =>
+        {
+            options.ScriptBundles.Configure(
+                StandardBundles.Scripts.Global,
+                bundle => { bundle.AddContributors(typeof(GlobalScriptContributor)); }
+            );
+        });
+
     }
 
     private void ConfigureLocalization()
@@ -231,7 +265,7 @@ public class OnlineCoursesModule : AbpModule
 
             options.Languages.Add(new LanguageInfo("en", "en", "English"));
             options.Languages.Add(new LanguageInfo("vi", "vi", "Tiếng Việt"));
-        
+
         });
 
         Configure<AbpExceptionLocalizationOptions>(options =>
@@ -245,11 +279,8 @@ public class OnlineCoursesModule : AbpModule
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
             options.FileSets.AddEmbedded<OnlineCoursesModule>();
-            if (hostingEnvironment.IsDevelopment())
-            {
-                /* Using physical files in development, so we don't need to recompile on changes */
-                options.FileSets.ReplaceEmbeddedByPhysical<OnlineCoursesModule>(hostingEnvironment.ContentRootPath);
-            }
+            // Use physical files in both development and production to ensure localization works
+            options.FileSets.ReplaceEmbeddedByPhysical<OnlineCoursesModule>(hostingEnvironment.ContentRootPath);
         });
     }
 
@@ -328,7 +359,28 @@ public class OnlineCoursesModule : AbpModule
             app.UseDeveloperExceptionPage();
         }
 
-        app.UseAbpRequestLocalization();
+        app.UseDefaultLanguage();
+
+        app.UseRouting();
+
+        app.UseAbpRequestLocalization(options =>
+        {
+            options.DefaultRequestCulture = new RequestCulture("vi");
+            options.SupportedCultures = new[] { new CultureInfo("vi"), new CultureInfo("en") };
+            options.SupportedUICultures = new[] { new CultureInfo("vi"), new CultureInfo("en") };
+
+            // Configure culture providers in priority order
+            options.RequestCultureProviders.Clear();
+
+            // Add query string provider first (highest priority)
+            options.RequestCultureProviders.Add(new QueryStringRequestCultureProvider());
+
+            // Add cookie provider second
+            options.RequestCultureProviders.Add(new CookieRequestCultureProvider());
+
+            // Add our custom provider last - only used if no explicit preference is set
+            options.RequestCultureProviders.Add(new Providers.PreferredLanguageCultureProvider());
+        });
 
         if (!env.IsDevelopment())
         {
@@ -337,7 +389,6 @@ public class OnlineCoursesModule : AbpModule
 
         app.UseCorrelationId();
         app.MapAbpStaticAssets();
-        app.UseRouting();
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();
 
@@ -363,5 +414,11 @@ public class OnlineCoursesModule : AbpModule
         // Chạy DataSeeder khi ứng dụng khởi động
         var seeder = context.ServiceProvider.GetRequiredService<IDataSeedContributor>();
         seeder.SeedAsync(new DataSeedContext()).GetAwaiter().GetResult();
+    }
+
+    public override void OnApplicationShutdown(ApplicationShutdownContext context)
+    {
+        // Data seeding is typically done during initialization, not shutdown
+        // context.GetEnvironment().GetService<IDataSeeder>().SeedAsync();
     }
 }

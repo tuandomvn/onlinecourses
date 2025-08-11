@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Agencies.Dtos;
+using Acme.OnlineCourses.Extensions;
 using Acme.OnlineCourses.Students;
 using Acme.OnlineCourses.Students.Dtos;
 using Microsoft.AspNetCore.Authorization;
@@ -15,6 +16,7 @@ namespace Acme.OnlineCourses.Pages.Students;
 [Authorize]
 public class ProfileModel : PageModel
 {
+
     private readonly IStudentAppService _studentAppService;
     private readonly IAgencyAppService _agencyAppService;
     private readonly ICurrentUser _currentUser;
@@ -30,7 +32,7 @@ public class ProfileModel : PageModel
     }
 
     [BindProperty]
-    public ProfileStudentDto Student { get; set; }
+    public StudentDto Student { get; set; }
 
     public List<SelectListItem> Agencies { get; set; }
 
@@ -38,31 +40,82 @@ public class ProfileModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        if (!_currentUser.IsAuthenticated)
+        //if (!_currentUser.IsAuthenticated)
+        //{
+        //    return RedirectToPage("/Account/Login");
+        //}
+
+        //// Get student by email
+        //var student = await _studentAppService.GetProfileStudentByEmailAsync(_currentUser.Email);
+        //if (student == null)
+        //{
+        //    return RedirectToPage("/Students/Register");
+        //}
+
+        //Student = student;
+
+        //// Get agencies for dropdown
+        //var agencies = await _agencyAppService.GetListAsync(new GetAgencyListDto());
+        //Agencies = new List<SelectListItem>();
+        //foreach (var agency in agencies.Items)
+        //{
+        //    Agencies.Add(new SelectListItem(agency.Name, agency.Id.ToString()));
+        //}
+
+        //// Get attachments
+        //Attachments = await _studentAppService.GetAttachmentsAsync(student.Id);
+
+        //return Page();
+
+        if (!User.Identity.IsAuthenticated)
         {
             return RedirectToPage("/Account/Login");
         }
 
-        // Get student by email
-        var student = await _studentAppService.GetProfileStudentByEmailAsync(_currentUser.Email);
-        if (student == null)
+        var email = _currentUser.Email;
+        if (string.IsNullOrEmpty(email))
         {
-            return RedirectToPage("/Students/Register");
+            return RedirectToPage("/Account/Login");
         }
 
-        Student = student;
-
-        // Get agencies for dropdown
-        var agencies = await _agencyAppService.GetListAsync(new GetAgencyListDto());
-        Agencies = new List<SelectListItem>();
-        foreach (var agency in agencies.Items)
+        Student = await _studentAppService.GetByEmailAsync(email);
+        if (Student == null)
         {
-            Agencies.Add(new SelectListItem(agency.Name, agency.Id.ToString()));
+            return RedirectToPage("/Account/Login");
         }
-
-        // Get attachments
-        Attachments = await _studentAppService.GetAttachmentsAsync(student.Id);
 
         return Page();
+    }
+
+
+    public string GetPaymentStatusDisplay()
+    {
+        return Student?.PaymentStatus?.GetDisplayName() ?? "";
+    }
+
+    public string GetAccountStatusDisplay()
+    {
+        return Student?.AccountStatus.GetDisplayName() ?? "";
+    }
+
+    public string GetPaymentStatusBadgeClass()
+    {
+        return Student?.PaymentStatus switch
+        {
+            PaymentStatus.Paid => "badge bg-success",
+            PaymentStatus.NotPaid => "badge bg-warning",
+            _ => "badge bg-secondary"
+        };
+    }
+
+    public string GetAccountStatusBadgeClass()
+    {
+        return Student?.AccountStatus switch
+        {
+            AccountStatus.Sent => "badge bg-success",
+            AccountStatus.NotSent => "badge bg-warning",
+            AccountStatus.Suspended => "badge bg-danger",
+            _ => "badge bg-secondary"
+        };
     }
 } 

@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <title>Thông báo đăng ký khóa học</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            background: #f4f6fb;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .email-container {
+            max-width: 440px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(18,50,92,0.08);
+            overflow: hidden;
+        }
+
+        .email-header {
+            background: #12325c;
+            padding: 28px 0 14px 0;
+            text-align: center;
+        }
+
+            .email-header img {
+                height: 44px;
+                margin-bottom: 10px;
+            }
+
+        .email-title {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .email-body {
+            padding: 28px 28px 20px 28px;
+            color: #475c77;
+            font-size: 16px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .email-highlight {
+            color: #219653;
+            font-weight: 600;
+        }
+
+        .email-footer {
+            text-align: center;
+            color: #b0b8c9;
+            font-size: 13px;
+            padding: 14px 0 10px 0;
+        }
+
+        @media (max-width: 600px) {
+            .email-container {
+                max-width: 98%;
+            }
+
+            .email-body {
+                padding: 16px 6px 12px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <div class="email-title">Thông báo đăng ký khóa học</div>
+        </div>
+        <div class="email-body">
+            <p>
+                Hệ thống đã ghi nhận được hồ sơ đăng ký khóa học <b>[coursename]</b> của học viên <b>[studentname]</b>.
+            </p>
+        </div>
+        <div class="email-footer">
+            &copy; 2025 TESOL Channel. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>

@@ -1,7 +1,12 @@
-using Acme.OnlineCourses.Data;
+﻿using Acme.OnlineCourses.Data;
+using Acme.OnlineCourses.Helpers;
+using Microsoft.AspNetCore.Identity;
 using Serilog;
 using Serilog.Events;
 using Volo.Abp.Data;
+using Volo.Abp.Identity;
+using Volo.Abp.Modularity;
+using Volo.Abp.Threading;
 
 namespace Acme.OnlineCourses;
 
@@ -39,8 +44,30 @@ public class Program
             {
                 builder.Services.AddDataMigrationEnvironment();
             }
+
+            // Đăng ký cấu hình MailSettings từ appsettings.json
+            builder.Services.Configure<MailSettings>(
+                builder.Configuration.GetSection("MailSettings"));
+
+            // Đăng ký MailService với DI container
+            builder.Services.AddScoped<IMailService, Helpers.MailService>();
+
+            // Cấu hình session timeout là 8 giờ
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromHours(8); // Thời gian timeout là 8 giờ
+                options.SlidingExpiration = true; // Gia hạn session khi user có hoạt động
+                options.Cookie.Name = "OnlineCourses.Auth";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+            });
+
             await builder.AddApplicationAsync<OnlineCoursesModule>();
             var app = builder.Build();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             await app.InitializeApplicationAsync();
 
             if (IsMigrateDatabase(args))

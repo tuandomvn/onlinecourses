@@ -1,9 +1,13 @@
 ﻿@page
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Acme.OnlineCourses.Localization
+@using System.Globalization
 @inject IHtmlLocalizer<OnlineCoursesResource> L
 @model Acme.OnlineCourses.Pages.IndexModel
-
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    bool isVN = currentCulture == "vi";
+}
 @section styles {
     <abp-style src="/Pages/Index.cshtml.css" />
 }
@@ -11,21 +15,216 @@
     <abp-script src="/Pages/Index.cshtml.js" />
 }
 
-<div class="row mb-3">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">@Model.FeaturedBlog?.Title</h3>
-                <div class="text-muted mb-3">
-                    @if (Model.FeaturedBlog?.PublishedDate != null)
-                    {
-                        <small>@Model.FeaturedBlog.PublishedDate.Value.ToString("dd/MM/yyyy")</small>
-                    }
-                </div>
-                <div class="blog-content">
-                    @Html.Raw(Model.FeaturedBlog?.Content)
-                </div>
+<!-- Section 1: Hero Section -->
+<div class="hero-section container">
+    <div class="hero-content animate fade-in">
+        <h1>@L["Home.Hero.Title"]</h1>
+        <p class="subtitle animate fade-in delay-200">
+            @Html.Raw(L["Home.Hero.Subtitle"].Value)
+        </p>
+        <a class="hero-btn animate fade-in delay-400" href="/Students/Register">@L["Home.Hero.RegisterButton"]</a>
+    </div>
+    <div class="hero-media animate slide-right delay-300">
+        <div class="video-stats-wrapper">
+            <div class="video-container float-animation" id="open-video-modal" style="cursor:pointer;">
+                <img src="https://img.youtube.com/vi/LL35TBsClH4/maxresdefault.jpg" alt="@L["Home.Hero.VideoAlt"]" class="video-thumb" />
+                <span class="play-btn">         <i class="fa fa-play" style="font-size: 28px;"></i></span>
+            </div>
+            <div class="hero-stats">
+                <div class="animate fade-in delay-500"><b>@L["Home.Hero.Stats.Students.Number"]</b><br><span>@L["Home.Hero.Stats.Students.Label"]</span></div>
+                <div class="animate fade-in delay-600"><b>@L["Home.Hero.Stats.Experience.Number"]</b><br><span>@L["Home.Hero.Stats.Experience.Label"]</span></div>
+                <div class="animate fade-in delay-700"><b>@L["Home.Hero.Stats.Satisfaction.Number"]</b><br><span>@L["Home.Hero.Stats.Satisfaction.Label"]</span></div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Video Modal -->
+<div id="video-modal" class="video-modal">
+    <div class="video-modal-content">
+        <span class="video-modal-close" id="close-video-modal">&times;</span>
+        <iframe id="video-iframe"
+                width="800"
+                height="450"
+                src=""
+                title="@L["Home.Hero.VideoTitle"]"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+        </iframe>
+    </div>
+</div>
+
+<!-- Section 2: About LTi Australia -->
+<section class="about-section container">
+    <div class="about-header">
+        <div>
+            <div class="about-label animate slide-left">@L["Home.About.Label"]</div>
+            <h2 class="about-title animate slide-left delay-100">@L["Home.About.Title"]</h2>
+            <div class="about-desc animate slide-left delay-200">
+                @Html.Raw(L["Home.About.Description"].Value)
+            </div>
+            <div class="about-highlight animate slide-left delay-300">
+                @Html.Raw(L["Home.About.Highlight"].Value)
+            </div>
+        </div>
+        <div>
+            <a href="https://www.lti.edu.vn/" target="_blank" rel="noopener noreferrer" style="display:inline-block;">
+                @if (isVN)
+                {
+                    <img src="~/images/home/lti.PNG" alt="@L["Home.About.LogoAlt"]" class="animate scale-up" style="cursor:pointer;" />
+                }
+                else
+                {
+                    <img src="~/images/home/lti_en.PNG" alt="@L["Home.About.LogoAlt"]" class="animate scale-up" style="cursor:pointer;" />
+                }
+            </a>
+        </div>
+    </div>
+    <div class="about-features-grid">
+        <div class="about-feature animate fade-in">
+            <div class="about-feature-icon"><i class="fa-solid fa-award"></i></div>
+            <div>
+                <div class="about-feature-title">@L["Home.About.Features.Founded.Title"]</div>
+                <div class="about-feature-desc">
+                    @L["Home.About.Features.Founded.Description"]
+                </div>
+            </div>
+        </div>
+        <div class="about-feature animate fade-in delay-100">
+            <div class="about-feature-icon"><i class="fa-solid fa-file-signature"></i></div>
+            <div>
+                <div class="about-feature-title">@L["Home.About.Features.Registration.Title"]</div>
+                <div class="about-feature-desc">
+                    @L["Home.About.Features.Registration.Description"]
+                </div>
+            </div>
+        </div>
+        <div class="about-feature animate fade-in delay-200">
+            <div class="about-feature-icon"><i class="fa-solid fa-briefcase"></i></div>
+            <div>
+                <div class="about-feature-title">@L["Home.About.Features.Experience.Title"]</div>
+                <div class="about-feature-desc">
+                    @L["Home.About.Features.Experience.Description"]
+                </div>
+            </div>
+        </div>
+        <div class="about-feature animate fade-in delay-300">
+            <div class="about-feature-icon"><i class="fa-solid fa-users"></i></div>
+            <div>
+                <div class="about-feature-title">@L["Home.About.Features.Partners.Title"]</div>
+                <div class="about-feature-desc">
+                    @L["Home.About.Features.Partners.Description"]
+                </div>
+            </div>
+        </div>
+        <div class="about-feature animate fade-in delay-400">
+            <div class="about-feature-icon"><i class="fa-solid fa-fire"></i></div>
+            <div>
+                <div class="about-feature-title">@L["Home.About.Features.Impact.Title"]</div>
+                <div class="about-feature-desc">
+                    @L["Home.About.Features.Impact.Description"]
+                </div>
+            </div>
+        </div>
+        <div class="about-feature animate fade-in delay-500">
+            <div class="about-feature-icon"><i class="fa-solid fa-building"></i></div>
+            <div>
+                <div class="about-feature-title">@L["Home.About.Features.Subsidiary.Title"]</div>
+                <div class="about-feature-desc">
+                    @L["Home.About.Features.Subsidiary.Description"]
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="about-footer animate fade-in">
+        @Html.Raw(L["Home.About.Footer"].Value)
+    </div>
+</section>
+
+<!-- Section 3: Schedule -->
+<section class="schedule-section">
+    <div class="container">
+        <div class="schedule-label animate fade-in">@L["Home.Schedule.Label"]</div>
+        <h2 class="schedule-title animate fade-in delay-100">
+            @Html.Raw(L["Home.Schedule.Title"].Value)
+        </h2>
+        <div class="schedule-desc animate fade-in delay-200">
+            @L["Home.Schedule.Description"]
+        </div>
+        <div class="schedule-cards">
+            <div class="schedule-card animate slide-left delay-200">
+                <div class="schedule-card-header">
+                    <div class="schedule-spiral"></div>
+                    <div class="schedule-spiral"></div>
+                    <div class="schedule-spiral"></div>
+                    <div class="schedule-spiral"></div>
+                </div>
+                <div class="schedule-card-body">
+                    <div class="schedule-card-title">@L["Home.Schedule.Morning.Title"]</div>
+                    <div class="schedule-card-time">@L["Home.Schedule.Morning.Time"]</div>
+                </div>
+            </div>
+            <div class="schedule-card animate fade-in delay-300">
+                <div class="schedule-card-header">
+                    <div class="schedule-spiral"></div>
+                    <div class="schedule-spiral"></div>
+                    <div class="schedule-spiral"></div>
+                    <div class="schedule-spiral"></div>
+                </div>
+                <div class="schedule-card-body">
+                    <div class="schedule-card-title">@L["Home.Schedule.Afternoon.Title"]</div>
+                    <div class="schedule-card-time">@L["Home.Schedule.Afternoon.Time"]</div>
+                </div>
+            </div>
+            <div class="schedule-card animate slide-right delay-400">
+                <div class="schedule-card-header">
+                    <div class="schedule-spiral"></div>
+                    <div class="schedule-spiral"></div>
+                    <div class="schedule-spiral"></div>
+                    <div class="schedule-spiral"></div>
+                </div>
+                <div class="schedule-card-body">
+                    <div class="schedule-card-title">@L["Home.Schedule.Evening.Title"]</div>
+                    <div class="schedule-card-time">@L["Home.Schedule.Evening.Time"]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 4: Teachers -->
+<section class="teacher-section container">
+    <div class="teacher-grid">
+        <div class="teacher-image animate slide-left">
+            <img src="~/images/home/teacher.PNG" alt="@L["Home.Teachers.ImageAlt"]" />
+        </div>
+        <div class="teacher-content">
+            <div class="teacher-label animate fade-in">@L["Home.Teachers.Label"]</div>
+            <h2 class="teacher-title animate fade-in delay-100">
+                @Html.Raw(L["Home.Teachers.Title"].Value)
+            </h2>
+            <ul class="teacher-list">
+                <li class="animate slide-right delay-200">
+                    <span class="teacher-check">&#10003;</span>
+                    @L["Home.Teachers.Feature1"]
+                </li>
+                <li class="animate slide-right delay-300">
+                    <span class="teacher-check">&#10003;</span>
+                    @L["Home.Teachers.Feature2"]
+                </li>
+                <li class="animate slide-right delay-400">
+                    <span class="teacher-check">&#10003;</span>
+                    @L["Home.Teachers.Feature3"]
+                </li>
+                <li class="animate slide-right delay-500">
+                    <span class="teacher-check">&#10003;</span>
+                    @L["Home.Teachers.Feature4"]
+                </li>
+            </ul>
+            <a class="teacher-btn animate fade-in delay-500" href="/Students/Register">@L["Home.Teachers.RegisterButton"]</a>
+        </div>
+    </div>
+</section>
+
+@await Html.PartialAsync("_Footer")

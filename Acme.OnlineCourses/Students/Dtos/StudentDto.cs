@@ -1,32 +1,66 @@
+using Acme.OnlineCourses.Agencies.Dtos;
 using System;
 using System.Collections.Generic;
-using Acme.OnlineCourses.Agencies.Dtos;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
 namespace Acme.OnlineCourses.Students.Dtos;
 
-//DTO n�y dung cho student view only
+//DTO này dung cho student view only
 public class ProfileStudentDto : StudentDto
 {
 }
 
-//DTO n�y dung cho admin view
+//DTO này dung cho admin view
 public class AdminViewStudentDto : StudentDto
 {
     public string? AdminNote { get; set; }
+    // Thêm các field từ StudentCourse để hiển thị trên index
+    public string? CourseName { get; set; }
+    public Guid? CourseId { get; set; }
+    public DateTime? RegistrationDate { get; set; }
+    public StudentCourseStatus? CourseStatus { get; set; }
+    public TestStatus? TestStatus { get; set; }
+    public PaymentStatus? CoursePaymentStatus { get; set; }
+    public string? CourseNote { get; set; }
+    // Thêm role của user hiện tại
+    public string? CurrentUserRole { get; set; }
+
+    // Thông tin đại lý để hiển thị trên grid
+    public string? AgencyName { get; set; }
 }
 
+public class UpdateStudentCourseDto
+{
+    public Guid StudentId { get; set; }
+    public Guid CourseId { get; set; }
+    public string FullName { get; set; }
+    public string Email { get; set; }
+    public StudentCourseStatus CourseStatus { get; set; }
+    public TestStatus TestStatus { get; set; }
+    public PaymentStatus PaymentStatus { get; set; }
+
+    [TextArea(Rows = 4)]
+    public string? StudentNote { get; set; }
+
+    [TextArea(Rows = 4)]
+    public string? AdminNote { get; set; }
+
+    public List<StudentAttachment> Attachments { get; set; } = [];
+}
 
 //Share info
 public class StudentDto : AuditedEntityDto<Guid>
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+    //[Obsolete]
+    //public string FirstName { get; set; }
+    //[Obsolete]
+    //public string LastName { get; set; }
     public string FullName { get; set; }
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
     public DateTime? DateOfBirth { get; set; }
-    public PaymentStatus PaymentStatus { get; set; }
+    public PaymentStatus? PaymentStatus { get; set; }
     public AccountStatus AccountStatus { get; set; }
     public Guid? AgencyId { get; set; }
     public string Address { get; set; }
@@ -34,6 +68,16 @@ public class StudentDto : AuditedEntityDto<Guid>
     public string? StudentNote { get; set; }
     public List<StudentAttachmentDto> Attachments { get; set; }
     public List<StudentCourseDto> Courses { get; set; }
+
+    // Thêm các field từ StudentCourse để hiển thị trên index
+    //[Obsolete]
+    //public DateTime? RegistrationDate { get; set; }
+    //[Obsolete]
+    //public StudentCourseStatus? CourseStatus { get; set; }
+    //[Obsolete]
+    //public TestStatus? TestStatus { get; set; }
+    //[Obsolete]
+    //public string? CourseNote { get; set; }
 }
 
 public class StudentAttachmentDto

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Acme.OnlineCourses.Students;
 using Acme.OnlineCourses.Students.Dtos;
+using Acme.OnlineCourses.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,6 +16,7 @@ namespace Acme.OnlineCourses.Web.Pages.Students
     {
         private readonly IStudentAppService _studentAppService;
         private readonly ICurrentUser _currentUser;
+
         [BindProperty]
         public StudentDto Student { get; set; }
 
@@ -45,5 +47,6 @@ namespace Acme.OnlineCourses.Web.Pages.Students
 
             return Page();
         }
+
     }
-} 
+}

@@ -48,9 +48,37 @@ public class AgencyAppService :
         var query = await CreateFilteredQueryAsync(input);
         var totalCount = await query.CountAsync();
         var items = await query
-            //.OrderBy(input.Sorting ?? nameof(Agency.Name))
             .Skip(input.SkipCount)
             .Take(input.MaxResultCount)
+            .OrderBy(e => e.OrgName)
+            .ToListAsync();
+
+        return new PagedResultDto<AgencyDto>
+        {
+            TotalCount = totalCount,
+            Items = _objectMapper.Map<Agency[], AgencyDto[]>(items.ToArray())
+        };
+    }
+
+    public async Task<PagedResultDto<AgencyDto>> GetListAllAgencyAsync(PagedAndSortedResultRequestDto input)
+    {
+        var query = await base.CreateFilteredQueryAsync(input);
+
+        if (input is GetAgencyListDto agencyListInput && !string.IsNullOrWhiteSpace(agencyListInput.Filter))
+        {
+            query = query.Where(x =>
+                x.Code.Contains(agencyListInput.Filter) ||
+                x.Name.Contains(agencyListInput.Filter) ||
+                x.ContactEmail.Contains(agencyListInput.Filter) ||
+                x.ContactPhone.Contains(agencyListInput.Filter)
+            );
+        }
+
+        var totalCount = await query.CountAsync();
+        var items = await query
+            .Skip(input.SkipCount)
+            .Take(input.MaxResultCount)
+            .OrderByDescending(e => e.CreationTime)
             .ToListAsync();
 
         return new PagedResultDto<AgencyDto>
@@ -77,9 +105,11 @@ public class AgencyAppService :
         agency.ContactEmail = input.ContactEmail;
         agency.ContactPhone = input.ContactPhone;
         agency.Address = input.Address;
-        agency.CommissionPercent = input.CommissionPercent;
+        agency.CommissionPercent = input.CommissionPercent ?? 0;
         agency.Status = input.Status;
-        
+        agency.CityCode = input.CityCode; // Optional, can be null
+        agency.OrgName = input.OrgName;
+
         agency = await Repository.UpdateAsync(agency);
         return _objectMapper.Map<Agency, AgencyDto>(agency);
     }
@@ -91,13 +121,19 @@ public class AgencyAppService :
         if (input is GetAgencyListDto agencyListInput && !string.IsNullOrWhiteSpace(agencyListInput.Filter))
         {
             query = query.Where(x =>
+                x.Status == AgencyStatus.Active &&
                 x.Code.Contains(agencyListInput.Filter) ||
                 x.Name.Contains(agencyListInput.Filter) ||
                 x.ContactEmail.Contains(agencyListInput.Filter) ||
                 x.ContactPhone.Contains(agencyListInput.Filter)
             );
         }
+        else
+        {
+            query = query.Where(x => x.Status == AgencyStatus.Active);
+        }
 
+        query = query.OrderBy(e => e.Name);
         return query;
     }
 
@@ -130,7 +166,6 @@ public class AgencyAppService :
         };
     }
 
-    // acme.onlineCourses.agencies.agency.getStudentsList
     // goi từ Agency > Students Model
     public async Task<PagedResultDto<StudentDto>> GetStudentsListAsync(GetStudentFromAgencyDto input)
     {
@@ -141,6 +176,7 @@ public class AgencyAppService :
         var items = await query
             .Skip(input.SkipCount)
             .Take(input.MaxResultCount)
+            .OrderByDescending(e => e.CreationTime)
             .ToListAsync();
 
         return new PagedResultDto<StudentDto>
@@ -159,6 +195,7 @@ public class AgencyAppService :
         var items = await query
             .Skip(dto.SkipCount)
             .Take(dto.MaxResultCount)
+            .OrderByDescending(e => e.CreationTime)
             .ToListAsync();
 
         return new PagedResultDto<StudentDto>

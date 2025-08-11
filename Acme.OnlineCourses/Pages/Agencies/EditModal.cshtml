@@ -18,11 +18,13 @@
             <abp-input asp-for="Agency.Code" disabled />
             <input type="hidden" asp-for="Agency.Code" />
             <abp-input asp-for="Agency.Name" />
+            <abp-input asp-for="Agency.OrgName" />
             <abp-input asp-for="Agency.Description" />
-            <abp-input asp-for="Agency.ContactEmail" />
+            <abp-input asp-for="Agency.ContactEmail" readonly="(Model.Agency.IsAccountProvided)" />
             <abp-input asp-for="Agency.ContactPhone" />
             <abp-input asp-for="Agency.Address" />
-            <abp-input asp-for="Agency.CommissionPercent" />
+            <abp-select asp-for="Agency.CityCode" asp-items="Model.CityList" />
+            <abp-input asp-for="Agency.CommissionPercent" type="number" step="0.01" />
             <abp-select asp-for="Agency.Status" />
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>

@@ -1,0 +1,110 @@
+﻿@page "/About-Us"
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Acme.OnlineCourses.Localization
+@inject IHtmlLocalizer<OnlineCoursesResource> L
+@model Acme.OnlineCourses.Pages.AboutUs.AboutUsModel
+
+@section styles {
+    <abp-style src="/Pages/AboutUs/AboutUs.cshtml.css" />
+}
+@section scripts {
+    <abp-script src="/Pages/AboutUs/AboutUs.cshtml.js" />
+}
+
+<!--Section 1 -->
+<section class="about-hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-12 about-hero-content">
+                <div class="about-label animate fade-in">@L["AboutUs.Hero.Label"]</div>
+                <h1 class="about-title animate fade-in delay-200">@L["AboutUs.Hero.Title"]</h1>
+                <p class="about-description animate fade-in delay-400">
+                    @L["AboutUs.Hero.Description"]
+                </p>
+            </div>
+            <div class="col-lg-6 col-md-12 about-hero-image">
+                <img src="~/images/about1.PNG" alt="@L["AboutUs.Hero.ImageAlt"]" class="img-fluid animate slide-right delay-300 float-animation" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Section 2: TESOL Vision -->
+<section class="about-vision">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+                <div class="vision-content">
+                    <h2 class="vision-title animate slide-left">@L["AboutUs.Vision.Title"]</h2>
+                    <p class="vision-description animate slide-left delay-200">
+                        @L["AboutUs.Vision.Description"]
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="tesol-definition animate slide-right delay-100">
+                    <img src="~/images/about2.PNG" alt="@L["AboutUs.Vision.ImageAlt"]" class="img-fluid definition-image" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Section 3: Mission -->
+<section class="about-mission">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+                <div class="mission-image-container animate slide-left">
+                    <img src="~/images/about3.PNG" alt="@L["AboutUs.Mission.ImageAlt"]" class="img-fluid mission-image" />
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="mission-content">
+                    <h2 class="mission-title animate fade-in">@L["AboutUs.Mission.Title"]</h2>
+                    <ul class="mission-list">
+                        <li class="animate slide-right delay-200">
+                            @L["AboutUs.Mission.Point1"]
+                        </li>
+                        <li class="animate slide-right delay-300">
+                            @L["AboutUs.Mission.Point2"]
+                        </li>
+                        <li class="animate slide-right delay-400">
+                            @L["AboutUs.Mission.Point3"]
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Section 4: Core Values -->
+<section class="about-values">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <h2 class="values-title animate fade-in">@L["AboutUs.Values.Title"]</h2>
+                <ul class="values-list">
+                    <li class="animate fade-in delay-100">
+                        <strong>@L["AboutUs.Values.Quality.Title"]</strong> @L["AboutUs.Values.Quality.Description"]
+                    </li>
+                    <li class="animate fade-in delay-200">
+                        <strong>@L["AboutUs.Values.Innovation.Title"]</strong> @L["AboutUs.Values.Innovation.Description"]
+                    </li>
+                    <li class="animate fade-in delay-300">
+                        <strong>@L["AboutUs.Values.Dedication.Title"]</strong> @L["AboutUs.Values.Dedication.Description"]
+                    </li>
+                    <li class="animate fade-in delay-400">
+                        <strong>@L["AboutUs.Values.Cooperation.Title"]</strong> @L["AboutUs.Values.Cooperation.Description"]
+                    </li>
+                    <li class="animate fade-in delay-500">
+                        <strong>@L["AboutUs.Values.Sustainability.Title"]</strong> @L["AboutUs.Values.Sustainability.Description"]
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+@await Html.PartialAsync("_Footer")

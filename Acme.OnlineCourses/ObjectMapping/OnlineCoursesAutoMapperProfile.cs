@@ -7,6 +7,7 @@ using Acme.OnlineCourses.Students;
 using AutoMapper;
 using Acme.OnlineCourses.Courses;
 using Acme.OnlineCourses.Courses.Dtos;
+using System.Linq;
 
 namespace Acme.OnlineCourses.ObjectMapping;
 
@@ -34,13 +35,10 @@ public class OnlineCoursesAutoMapperProfile : Profile
         CreateMap<AgencyDto, CreateUpdateAgencyDto>();
 
         CreateMap<Student, StudentDto>()
-            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
             ;
         CreateMap<Student, ProfileStudentDto>()
-            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
             ;
         CreateMap<Student, AdminViewStudentDto>()
-            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
             ;
 
         CreateMap<Course, CourseDto>();

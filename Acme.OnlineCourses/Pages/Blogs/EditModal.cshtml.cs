@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Volo.Abp.ObjectMapping;
 
 namespace Acme.OnlineCourses.Pages.Blogs;
-
+[Authorize]
 public class EditModalModel : PageModel
 {
     [HiddenInput]

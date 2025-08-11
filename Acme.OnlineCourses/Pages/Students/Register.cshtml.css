@@ -1,0 +1,190 @@
+﻿/* Course pricing section styles */
+.pricing-section {
+    padding: 60px 0;
+    background-color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+    .pricing-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23f0f5fa' fill-opacity='0.6' fill-rule='evenodd'/%3E%3C/svg%3E");
+        opacity: 0.2;
+        z-index: 0;
+    }
+
+.pricing-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: #e6f7f5;
+    color: #34b4a1;
+    font-weight: 600;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.pricing-title {
+    color: #0a3978;
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.pricing-subtitle {
+    font-size: 18px;
+    color: #445577;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 50px;
+    line-height: 1.6;
+}
+
+.pricing-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    border: 1px solid #eaeef4;
+}
+
+.pricing-label {
+    font-size: 18px;
+    color: #445577;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.price-amount {
+    font-size: 42px;
+    font-weight: 700;
+    color: #34b4a1;
+    margin-bottom: 5px;
+    line-height: 1;
+}
+
+.price-currency {
+    font-size: 18px;
+    color: #8c9aad;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.price-divider {
+    height: 1px;
+    background-color: #eaeef4;
+    margin: 20px 0;
+}
+
+.price-duration {
+    margin: 20px 0;
+    font-weight: 600;
+    color: #445577;
+    font-size: 16px;
+}
+
+.price-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .price-features li {
+        padding: 10px 0;
+        display: flex;
+        align-items: flex-start;
+        font-size: 16px;
+        color: #445577;
+    }
+
+.check-icon {
+    color: #34b4a1;
+    margin-right: 12px;
+    font-size: 16px;
+    min-width: 20px;
+}
+
+/* Section 2: Requirements styling */
+.requirements-section {
+    padding: 40px 0;
+    margin: 30px 0;
+}
+
+.requirements-container {
+    background-color: #feeced;
+    border-left: 4px solid #e74c3c;
+    padding: 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.1);
+}
+
+.requirements-title {
+    color: #e74c3c;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.requirements-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .requirements-list li {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 16px;
+        color: #e74c3c;
+        font-size: 16px;
+    }
+
+        .requirements-list li:last-child {
+            margin-bottom: 0;
+        }
+
+    .requirements-list i {
+        font-size: 8px;
+        margin-top: 8px;
+        margin-right: 12px;
+        flex-shrink: 0;
+    }
+
+    .requirements-list span {
+        color: #e74c3c;
+        line-height: 1.5;
+    }
+
+
+.entry-requirements {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 32px 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 8px rgba(16,60,109,0.04);
+}
+
+    .entry-requirements h3 {
+        color: #103c6d;
+        font-weight: bold;
+    }
+
+    .entry-requirements ul {
+        margin-left: 20px;
+    }
+
+    .entry-requirements a {
+        color: #34b4a1;
+        text-decoration: underline;
+    }

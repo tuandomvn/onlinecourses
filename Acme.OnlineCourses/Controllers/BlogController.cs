@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Acme.OnlineCourses.Blogs;
 using Acme.OnlineCourses.Blogs.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +11,6 @@ namespace Acme.OnlineCourses.Controllers;
 public class BlogController : AbpController
 {
     private readonly IBlogAppService _blogAppService;
-
     public BlogController(IBlogAppService blogAppService)
     {
         _blogAppService = blogAppService;

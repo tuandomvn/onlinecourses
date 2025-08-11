@@ -1,0 +1,61 @@
+﻿@page "/Contact"
+@using Microsoft.Extensions.Localization
+@using Acme.OnlineCourses.Localization
+@model Acme.OnlineCourses.Pages.Contact.ContactModel
+@inject IStringLocalizer<OnlineCoursesResource> L
+@{
+    ViewData["Title"] = L["Contact.PageTitle"];
+}
+
+@section styles {
+    <abp-style src="/Pages/Contact/Contact.cshtml.css" />
+}
+@section scripts {
+    <abp-script src="/Pages/Contact/Contact.cshtml.js" />
+}
+
+<div class="contact-page">
+    <div class="container text-center py-5">
+        <div class="section-title">
+            <span class="subtitle">@L["Contact.Subtitle"]</span>
+        </div>
+        <div class=" mb-3 d-flex align-items-center justify-content-center">
+            <div class="tesol-logo me-3">
+                <img src="~/images/logo-contact.png" alt="@L["Contact.Logo.Alt"]" class="img-fluid" />
+            </div>
+
+            <h1 class="brand-name mb-0">@L["Contact.BrandName"]</h1>
+        </div>
+
+        <p>
+            <strong class="subtitle-text mb-5">
+                @L["Contact.Tagline"]
+            </strong>
+        </p>
+
+
+        <div class="action-buttons">
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-4">
+                    <a href="/Students/Register" class="btn btn-primary btn-register w-100">@L["Contact.RegisterButton"]</a>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-5">
+                    <a href="/Partners" class="btn btn-primary btn-distributor w-100">@L["Contact.DistributorButton"]</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-info">
+            <p class="mb-2"><span>@L["Contact.Phone.Label"]</span> @L["Contact.Phone.Value"]</p>
+            <p class="mb-2"><span>@L["Contact.Email.Label"]</span> @L["Contact.Email.Value"]</p>
+            <p class="mb-2"><span>@L["Contact.Website.Label"]</span> @L["Contact.Website.Value"]</p>
+            <p class="mb-4">
+                <span>@L["Contact.Address.Label"]</span> @L["Contact.Address.Value"]
+            </p>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_Footer")

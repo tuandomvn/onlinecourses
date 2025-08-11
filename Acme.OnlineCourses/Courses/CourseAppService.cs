@@ -20,9 +20,9 @@ public class CourseAppService : ApplicationService, ICourseAppService
         _objectMapper = objectMapper;
     }
 
-    public async Task<List<CourseDto>> GetListAsync()
+    public async Task<List<CourseDto>> GetListAsync(CancellationToken ct = default)
     {
-        var courses = await _courseRepository.GetListAsync();
+        var courses = await _courseRepository.GetListAsync(cancellationToken: ct);
         return _objectMapper.Map<List<Course>, List<CourseDto>>(courses);
     }
-} 
+}

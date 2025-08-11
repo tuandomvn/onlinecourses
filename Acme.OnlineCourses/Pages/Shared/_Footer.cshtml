@@ -1,0 +1,208 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Acme.OnlineCourses.Localization
+@using System.Globalization
+@inject IHtmlLocalizer<OnlineCoursesResource> L
+
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isVietnamese = currentCulture == "vi";
+    var logoFile = isVietnamese ? "logo-white.png" : "logo_en_white.png";
+}
+
+<footer class="site-footer">
+    <div class="footer-content container">
+        <a href="/" class="footer-brand">
+            <img src="~/images/logo/@logoFile" alt="@L["Footer.Logo.Alt"]" class="footer-logo" />
+            <div class="footer-tagline">@L["Footer.Tagline"]</div>
+        </a>
+        <nav class="footer-nav">
+            <a href="/">@L["Footer.Nav.Home"]</a>
+            <a href="/Courses">@L["Footer.Nav.Courses"]</a>
+            <a href="/Students/Register">@L["Footer.Nav.Register"]</a>
+            <a href="/Partners">@L["Footer.Nav.Partners"]</a>
+            <a href="/EmploymentSupports">@L["Footer.Nav.Jobs"]</a>
+            <a href="/About-Us">@L["Footer.Nav.About"]</a>
+            <a href="/Contact">@L["Footer.Nav.Contact"]</a>
+        </nav>
+    </div>
+    <div class="footer-social container">
+        <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
+            <img src="~/images/getting-started/fb.svg" alt="@L["Footer.Social.Facebook"]" />
+        </a>
+        <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
+            <img src="~/images/getting-started/youtube.svg" alt="@L["Footer.Social.YouTube"]" />
+        </a>
+        <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok">
+            <img src="~/images/getting-started/tiktok.svg" alt="@L["Footer.Social.TikTok"]" />
+        </a>
+    </div>
+
+    <div class="footer-copyright">
+        @L["Footer.Copyright"]
+    </div>
+</footer>
+
+<style>
+    .site-footer {
+        background: #063572;
+        color: #fff;
+        padding: 0 0 12px 0;
+        font-size: 1rem;
+      /*   margin-top: 48px; */
+    }
+
+    .footer-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 20px 0 25px 0;
+    }
+
+    .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        text-decoration: none;
+    }
+
+    .footer-logo {
+        max-width: 350px;
+        object-fit: contain;
+    }
+
+    .footer-tagline {
+        display: none; /* Hidden on desktop */
+        color: #e0eaf6;
+        font-size: 0.9rem;
+    }
+
+    .footer-title {
+        font-weight: 700;
+        font-size: 1.15rem;
+    }
+
+    .footer-desc {
+        font-size: 0.95rem;
+        color: #e0eaf6;
+    }
+
+    .footer-nav {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+        .footer-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            font-size: 1rem;
+        }
+
+            .footer-nav a:hover {
+                color: #1eb6c1;
+            }
+
+    .footer-social {
+        display: flex;
+        justify-content:flex-end;
+        gap: 18px;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+        .footer-social img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #fff;
+            padding: 4px;
+            transition: box-shadow 0.2s;
+        }
+
+            .footer-social img:hover {
+                box-shadow: 0 2px 8px #1eb6c1;
+            }
+
+    .footer-copyright {
+        text-align: center;
+        color: #e0eaf6;
+        font-size: 0.95rem;
+        margin-top: 4px;
+        padding-bottom: 2px;
+    }
+
+    @@media (max-width: 900px) {
+        .footer-content
+
+    {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+    }
+
+    .footer-nav {
+        gap: 14px;
+    }
+
+    .footer-social {
+        margin-top: 8px;
+    }
+
+    }
+
+    /* Mobile specific styles */
+    @@media (max-width: 768px) {
+        .site-footer
+
+    {
+        padding: 30px 0 16px 0;
+        text-align: center;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        padding: 0;
+    }
+
+    .footer-brand {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .footer-logo {
+        max-width: 350px;
+    }
+
+    .footer-tagline {
+        display: none; /* Show on mobile */
+        margin-bottom: 10px;
+    }
+
+    .footer-nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .footer-social {
+        justify-content: center;
+        gap: 25px;
+        margin: 20px 0 10px;
+    }
+
+        .footer-social img {
+            width: 40px;
+            height: 40px;
+        }
+
+    }</style>

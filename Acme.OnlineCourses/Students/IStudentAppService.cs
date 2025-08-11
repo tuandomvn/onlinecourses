@@ -1,6 +1,7 @@
 using Acme.OnlineCourses.Students.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace Acme.OnlineCourses.Students;
@@ -20,4 +21,7 @@ public interface IStudentAppService :
     Task<StudentAttachmentDto> UploadAttachmentAsync(Guid studentId, IFormFile file, string description);
     Task DeleteAttachmentAsync(Guid attachmentId);
     Task<StudentDto> UpdateAsync(Guid id, CreateUpdateStudentDto input);
+    Task<PagedResultDto<AdminViewStudentDto>> GetStudentsWithCoursesAsync(GetStudentListDto input);
+    Task<UpdateStudentCourseDto> GetStudentCourseAsync(Guid studentId, Guid courseId);
+    Task UpdateStudentCourseAsync(UpdateStudentCourseDto input);
 } 

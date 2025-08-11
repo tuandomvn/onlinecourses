@@ -1,19 +1,25 @@
-﻿using Acme.OnlineCourses.Extensions;
+﻿using Acme.OnlineCourses.Agencies;
+using Acme.OnlineCourses.Courses;
+using Acme.OnlineCourses.Extensions;
+using Acme.OnlineCourses.Helpers;
+using Acme.OnlineCourses.Migrations;
 using Acme.OnlineCourses.Permissions;
 using Acme.OnlineCourses.Students.Dtos;
+using DocumentFormat.OpenXml.VariantTypes;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 using Volo.Abp;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
 using Volo.Abp.Users;
 using static Acme.OnlineCourses.OnlineCoursesConsts;
 using IdentityUser = Volo.Abp.Identity.IdentityUser;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.IO;
-using Acme.OnlineCourses.Courses;
 
 namespace Acme.OnlineCourses.Students;
 
@@ -26,6 +32,7 @@ public class StudentAppService : CrudAppService<
     IStudentAppService
 {
     private readonly IRepository<Student, Guid> _studentRepository;
+    private readonly IRepository<StudentCourse, Guid> _studentCourseRepository;
     private readonly ICurrentUser _currentUser;
     private readonly IIdentityUserRepository _userRepository;
     private readonly ILogger<StudentAppService> _logger;
@@ -33,16 +40,23 @@ public class StudentAppService : CrudAppService<
     private readonly IRepository<StudentAttachment, Guid> _attachmentRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IRepository<Course, Guid> _courseRepository;
-
+    private readonly IRepository<Agency, Guid> _agencyRepository;
+    private readonly IMailService _mailService;
+    private List<string> _cachedAdminEmails;
+    private DateTime _lastAdminEmailsCache = DateTime.MinValue;
+    private const int ADMIN_EMAILS_CACHE_MINUTES = 50; // Cache for 5 minutes
     public StudentAppService(
-        IRepository<Student, Guid> repository, 
-        ICurrentUser currentUser, 
+        IRepository<Student, Guid> repository,
+        ICurrentUser currentUser,
         IIdentityUserRepository userRepository,
         IdentityUserManager userManager,
         ILogger<StudentAppService> logger,
         IRepository<StudentAttachment, Guid> attachmentRepository,
         IHttpContextAccessor httpContextAccessor,
-        IRepository<Course, Guid> courseRepository)
+        IRepository<Course, Guid> courseRepository,
+        IRepository<Agency, Guid> agencyRepository,
+        IMailService mailService,
+        IRepository<StudentCourse, Guid> studentCourseRepository)
         : base(repository)
     {
         _studentRepository = repository;
@@ -53,12 +67,33 @@ public class StudentAppService : CrudAppService<
         _attachmentRepository = attachmentRepository;
         _httpContextAccessor = httpContextAccessor;
         _courseRepository = courseRepository;
+        _agencyRepository = agencyRepository;
+        _mailService = mailService;
+
 
         GetPolicyName = OnlineCoursesPermissions.Students.Default;
         GetListPolicyName = OnlineCoursesPermissions.Students.Default;
         CreatePolicyName = OnlineCoursesPermissions.Students.Create;
         UpdatePolicyName = OnlineCoursesPermissions.Students.Edit;
         DeletePolicyName = OnlineCoursesPermissions.Students.Delete;
+        _studentCourseRepository = studentCourseRepository;
+    }
+
+    private async Task<List<string>> GetAdminEmailsAsync()
+    {
+        // Check if cache is still valid
+        if (_cachedAdminEmails != null && 
+            DateTime.Now.Subtract(_lastAdminEmailsCache).TotalMinutes < ADMIN_EMAILS_CACHE_MINUTES)
+        {
+            return _cachedAdminEmails;
+        }
+
+        // Get fresh data and update cache
+        var adminUsers = await _userManager.GetUsersInRoleAsync(Roles.Administrator);
+        _cachedAdminEmails = adminUsers.Select(u => u.Email).ToList();
+        _lastAdminEmailsCache = DateTime.Now;
+
+        return _cachedAdminEmails;
     }
 
     [Authorize(OnlineCoursesPermissions.Students.Default)]
@@ -69,52 +104,13 @@ public class StudentAppService : CrudAppService<
         if (!string.IsNullOrWhiteSpace(input.Filter))
         {
             query = query.Where(x =>
-                x.FirstName.Contains(input.Filter) ||
-                x.LastName.Contains(input.Filter) ||
+                x.Fullname.Contains(input.Filter) ||
                 x.Email.Contains(input.Filter) ||
                 x.PhoneNumber.Contains(input.Filter)
             );
         }
 
-        //filter by user logged in and agency if applicable
-        if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email) 
-            && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
-        {
-            // Lấy agencyId
-            if(_currentUser!= null && _userRepository!=null)
-            {
-                var agencyId = _currentUser.GetAgencyIdAsync(_userRepository);
-                if (agencyId != null)
-                {
-                    query = query.Where(x => x.AgencyId == agencyId);
-                }
-            }
-        }
-        else
-        {
-            //No result
-            query = query.Where(x => x.AgencyId == Guid.NewGuid());
-        }
-
-        if (input.AgencyId.HasValue)
-        {
-            query = query.Where(x => x.AgencyId == input.AgencyId.Value);
-        }
-
-        if (input.TestStatus.HasValue)
-        {
-            query = query.Where(x => x.TestStatus == input.TestStatus.Value);
-        }
-
-        if (input.PaymentStatus.HasValue)
-        {
-            query = query.Where(x => x.PaymentStatus == input.PaymentStatus.Value);
-        }
-
-        if (input.AccountStatus.HasValue)
-        {
-            query = query.Where(x => x.AccountStatus == input.AccountStatus.Value);
-        }
+        query = query.OrderByDescending(x => x.CreationTime);
 
         return query;
     }
@@ -124,79 +120,146 @@ public class StudentAppService : CrudAppService<
     [Route("api/app/student/register-student")]
     public async Task<StudentDto> RegisterStudentAsync([FromForm] RegisterStudentDto input, [FromForm] List<IFormFile> files)
     {
-        var isUserExists = await IsUserExistsAsync(input.Email);
-        if (!isUserExists)
+        try
         {
-            _logger.LogWarning($"User with email {input.Email} does not exist.");
-            var studentUser = new IdentityUser(Guid.NewGuid(), input.Email, input.Email);
-
-            await _userManager.CreateAsync(studentUser, "1q2w3E*");//TODO
-            await _userManager.AddToRoleAsync(studentUser, Roles.Student);
-            //TODO: send mail
-        }
-
-        var student = new Student
-        {
-            FirstName = input.FirstName,
-            LastName = input.LastName,
-            Email = input.Email,
-            PhoneNumber = input.PhoneNumber,
-            DateOfBirth = input.DateOfBirth,
-            Address = input.Address,
-            AgencyId = input.AgencyId,
-            AgreeToTerms = input.AgreeToTerms,
-            StudentNote = input.StudentNote,
-        };
-
-        await _studentRepository.InsertAsync(student, autoSave: true);
-
-        // Get first course and create StudentCourse record
-        await InsertStudentCourse(student);
-
-        // Handle file uploads if any
-        if (files != null && files.Any())
-        {
-            foreach (var file in files)
+            var student = new Student
             {
-                if (file.Length > 0)
+                Fullname = input.Fullname,
+                Email = input.Email,
+                PhoneNumber = input.PhoneNumber,
+                DateOfBirth = input.DateOfBirth,
+                Address = input.Address,
+                AgencyId = input.AgencyId,
+                AgreeToTerms = input.AgreeToTerms
+            };
+            await _studentRepository.InsertAsync(student, autoSave: true);
+            _logger.LogInformation($"InsertAsync done");
+
+            var firstCourse = await _courseRepository.FirstOrDefaultAsync();
+
+            var studentAttachments = new List<StudentAttachment>();
+            if (files != null && files.Any())
+            {
+                var allowedExtensions = new[] { ".txt", ".csv", ".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png", ".xls", ".xlsx" };
+                const int maxFileSize = 10 * 1024 * 1024; // 10MB
+
+                foreach (var file in files)
                 {
-                    // Create upload directory if not exists
-                    var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString());
-                    if (!Directory.Exists(uploadDir))
+                    if (file.Length > 0)
                     {
-                        Directory.CreateDirectory(uploadDir);
+                        //Validate file extension
+                        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+                        if (!allowedExtensions.Contains(extension))
+                        {
+                            _logger.LogWarning($"Invalid file extension: {extension}");
+                            throw new UserFriendlyException($"File type not allowed. Allowed types: {string.Join(", ", allowedExtensions)}");
+                        }
+
+                        // Validate file size
+                        if (file.Length > maxFileSize)
+                        {
+                            _logger.LogWarning($"File too large: {file.Length} bytes");
+                            throw new UserFriendlyException($"File is too large. Maximum size allowed is 10MB.");
+                        }
+
+                        // Create upload directory if not exists
+                        var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString());
+                        if (!Directory.Exists(uploadDir))
+                        {
+                            Directory.CreateDirectory(uploadDir);
+                        }
+
+                        // Generate unique filename
+                        var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+                        var filePath = Path.Combine(uploadDir, fileName);
+
+                        // Save file
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                        // Create attachment record
+                        var studentAttachment = new StudentAttachment
+                        {
+                            StudentId = student.Id,
+                            FileName = file.FileName,
+                            FilePath = $"/uploads/students/{student.Id}/{fileName}",
+                            Description = "Uploaded during registration"
+                        };
+
+                        studentAttachments.Add(studentAttachment);
                     }
-
-                    // Generate unique filename
-                    var fileName = $"{Guid.NewGuid()}_{file.FileName}";
-                    var filePath = Path.Combine(uploadDir, fileName);
-
-                    // Save file
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
-
-                    // Create attachment record
-                    var studentAttachment = new StudentAttachment
-                    {
-                        StudentId = student.Id,
-                        FileName = file.FileName,
-                        FilePath = $"/uploads/students/{student.Id}/{fileName}",
-                        Description = "Uploaded during registration"
-                    };
-
-                    await _attachmentRepository.InsertAsync(studentAttachment, autoSave: true);
                 }
             }
-        }
 
-        return ObjectMapper.Map<Student, StudentDto>(student);
+
+            // Get first course and create StudentCourse record
+            await InsertStudentCourse(student, input, firstCourse);
+
+            await _attachmentRepository.InsertManyAsync(studentAttachments, autoSave: true);
+            _logger.LogInformation($"_attachmentRepository.InsertManyAsync done");
+
+            var isUserExists = await IsUserExistsAsync(input.Email);
+            if (!isUserExists)
+            {
+                _logger.LogInformation($"User with email {input.Email} does not exist.");
+                var studentUser = new IdentityUser(Guid.NewGuid(), input.Email, input.Email);
+
+                var password = PasswordGenerator.GenerateSecurePassword(8);
+
+                await _userManager.CreateAsync(studentUser, password);
+                _logger.LogInformation($"_userManager created");
+
+                await _userManager.AddToRoleAsync(studentUser, Roles.Student);
+                _logger.LogInformation($"_userManager AddToRoleAsync done");
+
+                // Send welcome email
+                _mailService.SendWelcomeEmailAsync(new WelcomeRequest
+                {
+                    ToEmail = input.Email,
+                    UserName = input.Email,
+                    Password = password,
+                    CourseName = firstCourse.Name,
+                });
+
+                // Optimized: Get admin emails directly using projection
+                var adminEmails = await GetAdminEmailsAsync();
+                
+                _mailService.SendNotifyToAdminsAsync(new NotityToAdminRequest
+                {
+                    ToEmail = adminEmails,
+                    StudentName = student.Fullname,
+                    StudentEmail = student.Email,
+                    CourseName = firstCourse.Name
+                });
+            }
+            else
+            {
+                var isEnglish = Thread.CurrentThread.CurrentUICulture.Name.StartsWith("en");
+
+                _logger.LogWarning($"User with email {input.Email} already exists.");
+                if (isEnglish)
+                {
+                    throw new UserFriendlyException("A user with this email already exists. Please use a different email address.");
+                }
+                else
+                {
+                    throw new UserFriendlyException("Đã có người dùng với email này. Vui lòng sử dụng địa chỉ email khác.");
+                }
+            }
+
+            return ObjectMapper.Map<Student, StudentDto>(student);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, ex.Message, ex.StackTrace);
+            throw new UserFriendlyException("Có lỗi");
+        }
     }
 
-    private async Task InsertStudentCourse(Student student)
+    private async Task InsertStudentCourse(Student student, RegisterStudentDto input, Course firstCourse)
     {
-        var firstCourse = await _courseRepository.FirstOrDefaultAsync();
         if (firstCourse != null)
         {
             var studentCourse = new StudentCourse
@@ -204,28 +267,76 @@ public class StudentAppService : CrudAppService<
                 StudentId = student.Id,
                 CourseId = firstCourse.Id,
                 RegistrationDate = DateTime.Now,
+                ExpectedStudyDate = input.ExpectedStudyDate.HasValue ? input.ExpectedStudyDate.Value : DateTime.MinValue,
                 CourseStatus = StudentCourseStatus.Inprogress,
-                CourseNote = "TBD"
+                TestStatus = TestStatus.NotTaken, // Set default value
+                PaymentStatus = PaymentStatus.NotPaid, // Set default value
+                StudentNote = input.StudentNote ?? "TBD"
             };
-            student.Courses.Add(studentCourse);
-            await _studentRepository.UpdateAsync(student);
+
+            try
+            {
+                await _studentCourseRepository.InsertAsync(studentCourse, autoSave: true);
+                _logger.LogInformation($"Successfully inserted StudentCourse for Student {student.Id} and Course {firstCourse.Id}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to insert StudentCourse for Student {student.Id} and Course {firstCourse.Id}");
+                throw new UserFriendlyException("Failed to register student for course. Please try again.");
+            }
+        }
+        else
+        {
+            _logger.LogWarning("No courses available to register student.");
         }
     }
 
     [Authorize]
     public async Task<StudentDto> GetByEmailAsync(string email)
     {
-        var query = await _studentRepository.GetQueryableAsync();
-        var student = await query
-            .Include(x => x.Attachments)
-            .FirstOrDefaultAsync(x => x.Email == email);
+        var studentQuery = await _studentRepository.GetQueryableAsync();
+        var studentCourseQuery = await _studentCourseRepository.GetQueryableAsync();
+        var courseQuery = await _courseRepository.GetQueryableAsync();
+
+        var query = from s in studentQuery
+                    join sc in studentCourseQuery on s.Id equals sc.StudentId into studentCourses
+                    from sc in studentCourses.DefaultIfEmpty()
+                    join c in courseQuery on sc.CourseId equals c.Id into courses
+                    from c in courses.DefaultIfEmpty()
+                    select new { Student = s, StudentCourse = sc, Course = c };
+
+        var student = await query.Where(x => x.Student.Email == email).Select(result => new StudentDto
+        {
+            Id = result.Student.Id,
+            FullName = result.Student.Fullname,
+            Email = result.Student.Email,
+            PhoneNumber = result.Student.PhoneNumber,
+            DateOfBirth = result.Student.DateOfBirth,
+            PaymentStatus = result.StudentCourse != null ? result.StudentCourse.PaymentStatus : null,
+            AgencyId = result.Student.AgencyId,
+            Address = result.Student.Address,
+            AgreeToTerms = result.Student.AgreeToTerms,
+            StudentNote = result.StudentCourse != null ? result.StudentCourse.StudentNote : null,
+            Attachments = null, // Will be loaded separately
+            Courses = null,     // Will be loaded separately
+            
+            // Audit fields from base class
+            CreationTime = result.Student.CreationTime,
+            CreatorId = result.Student.CreatorId,
+            LastModificationTime = result.Student.LastModificationTime,
+            LastModifierId = result.Student.LastModifierId
+        }).FirstOrDefaultAsync();
 
         if (student == null)
         {
             throw new UserFriendlyException("Student not found");
         }
+        // Load attachments separately
+        var attachments = await _attachmentRepository.GetListAsync(x => x.StudentId == student.Id);
+        student.Attachments = ObjectMapper.Map<List<StudentAttachment>, List<StudentAttachmentDto>>(attachments);
 
-        return ObjectMapper.Map<Student, StudentDto>(student);
+      
+        return student;
     }
 
     [Authorize]
@@ -267,6 +378,12 @@ public class StudentAppService : CrudAppService<
     [Route("api/app/student/upload")]
     public async Task<StudentAttachmentDto> UploadAttachmentAsync([FromForm] Guid studentId, [FromForm] IFormFile file, [FromForm] string description)
     {
+        // Kiểm tra role - Agency không được phép upload
+        if (_currentUser.IsAuthenticated && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        {
+            throw new UserFriendlyException("Agency users are not allowed to upload attachments.");
+        }
+
         if (file == null || file.Length == 0)
         {
             throw new UserFriendlyException("File is empty");
@@ -303,10 +420,17 @@ public class StudentAppService : CrudAppService<
         return ObjectMapper.Map<StudentAttachment, StudentAttachmentDto>(attachment);
     }
 
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
     public async Task DeleteAttachmentAsync(Guid attachmentId)
     {
+        // Kiểm tra role - Agency không được phép delete
+        if (_currentUser.IsAuthenticated && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        {
+            throw new UserFriendlyException("Agency users are not allowed to delete attachments.");
+        }
+
         var attachment = await _attachmentRepository.GetAsync(attachmentId);
-        
+
         // Delete file
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", attachment.FilePath.TrimStart('/'));
         if (System.IO.File.Exists(filePath))
@@ -318,48 +442,243 @@ public class StudentAppService : CrudAppService<
         await _attachmentRepository.DeleteAsync(attachment);
     }
 
-    [Authorize(OnlineCoursesPermissions.Students.Default)]
-    public override async Task<StudentDto> UpdateAsync(Guid id, CreateUpdateStudentDto input)
+    [Authorize]
+    [HttpPost]
+    [Route("api/app/student/update")]
+    public async Task<StudentDto> UpdateStudentAsync([FromForm] UpdateStudentDto input, [FromForm] List<IFormFile> files)
     {
-        var student = await _studentRepository.GetAsync(id);
-        
+        // Kiểm tra role - Agency không được phép update
+        if (_currentUser.IsAuthenticated && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        {
+            throw new UserFriendlyException("Agency users are not allowed to update student information.");
+        }
+
+        var student = await _studentRepository.GetAsync(input.Id);
+
         // Update only allowed fields
-        student.FirstName = input.FirstName;
-        student.LastName = input.LastName;
+        student.Fullname = input.FullName;
         student.PhoneNumber = input.PhoneNumber;
         student.DateOfBirth = input.DateOfBirth;
         student.Address = input.Address;
 
-        // Handle attachments
-        //if (input.Attachments != null && input.Attachments.Any())
-        //{
-        //    // Delete existing attachments that are not in the new list
-        //    var existingAttachments = await _attachmentRepository.GetListAsync(x => x.StudentId == id);
-        //    var attachmentsToDelete = existingAttachments.Where(x => !input.Attachments.Any(a => a.FilePath == x.FilePath));
-        //    foreach (var attachment in attachmentsToDelete)
-        //    {
-        //        await _attachmentRepository.DeleteAsync(attachment);
-        //    }
-
-        //    // Add new attachments
-        //    foreach (var attachmentDto in input.Attachments)
-        //    {
-        //        if (!existingAttachments.Any(x => x.FilePath == attachmentDto.FilePath))
-        //        {
-        //            var attachment = new StudentAttachment
-        //            {
-        //                StudentId = id,
-        //                FileName = attachmentDto.FileName,
-        //                FilePath = attachmentDto.FilePath,
-        //                Description = attachmentDto.Description
-        //            };
-        //            await _attachmentRepository.InsertAsync(attachment);
-        //        }
-        //    }
-        //}
-
         await _studentRepository.UpdateAsync(student);
 
+        bool hasNewAttachment = false;
+
+        // Handle file uploads if any
+        if (files != null && files.Any())
+        {
+            foreach (var file in files)
+            {
+                if (file.Length > 0)
+                {
+                    // Create upload directory if not exists
+                    var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "students", student.Id.ToString());
+                    if (!Directory.Exists(uploadDir))
+                    {
+                        Directory.CreateDirectory(uploadDir);
+                    }
+
+                    // Generate unique filename
+                    var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+                    var filePath = Path.Combine(uploadDir, fileName);
+
+                    // Save file
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    // Create attachment record
+                    var studentAttachment = new StudentAttachment
+                    {
+                        StudentId = student.Id,
+                        FileName = file.FileName,
+                        FilePath = $"/uploads/students/{student.Id}/{fileName}",
+                        Description = "Uploaded during registration"
+                    };
+
+                    await _attachmentRepository.InsertAsync(studentAttachment, autoSave: true);
+                    hasNewAttachment = true;
+                }
+            }
+        }
+
+        // Notify all admins if there was a new attachment
+        if (hasNewAttachment)
+        {
+            // Optimized: Get admin emails directly using projection
+            var adminEmails = await GetAdminEmailsAsync();
+            
+            _mailService.SendNotifyUpdateAttachmentAsync(new NotifyUpdateAttachmentRequest
+            {
+                ToEmail = adminEmails,
+                StudentEmail = student.Email,
+            });
+        }
+
         return ObjectMapper.Map<Student, StudentDto>(student);
+    }
+
+    [Authorize(Roles = OnlineCoursesConsts.Roles.Administrator + "," + OnlineCoursesConsts.Roles.Agency)]
+    public async Task<PagedResultDto<AdminViewStudentDto>> GetStudentsWithCoursesAsync(GetStudentListDto input)
+    {
+        // Get current user's agencyId
+        Guid? currentUserAgencyId = null;
+        if (_currentUser.IsAuthenticated && !string.IsNullOrEmpty(_currentUser.Email))
+        {
+            if (_currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+            {
+                currentUserAgencyId = await _currentUser.GetAgencyIdAsync(_userRepository, _agencyRepository);
+            }
+        }
+
+        // Alternative approach using direct join
+        var studentQuery = await _studentRepository.GetQueryableAsync();
+        var studentCourseQuery = await _studentCourseRepository.GetQueryableAsync();
+        var courseQuery = await _courseRepository.GetQueryableAsync();
+        var agencyQuery = await _agencyRepository.GetQueryableAsync();
+
+        var query = from s in studentQuery
+                    join sc in studentCourseQuery on s.Id equals sc.StudentId into studentCourses
+                    from sc in studentCourses.DefaultIfEmpty()
+                    join c in courseQuery on sc.CourseId equals c.Id into courses
+                    from c in courses.DefaultIfEmpty()
+                    join a in agencyQuery on s.AgencyId equals a.Id into agencies
+                    from a in agencies.DefaultIfEmpty()
+                    select new { Student = s, StudentCourse = sc, Course = c, Agency = a };
+
+        if (!string.IsNullOrWhiteSpace(input.Filter))
+        {
+            query = query.Where(x =>
+                x.Student.Fullname.Contains(input.Filter) ||
+                x.Student.Email.Contains(input.Filter) ||
+                x.Student.PhoneNumber.Contains(input.Filter)
+            );
+        }
+
+        if (currentUserAgencyId.HasValue)
+        {
+            query = query.Where(x => x.Student.AgencyId == currentUserAgencyId.Value);
+        }
+
+        if (input.AgencyId.HasValue)
+        {
+            query = query.Where(x => x.Student.AgencyId == input.AgencyId.Value);
+        }
+
+        if (input.CourseStatus.HasValue)
+        {
+            query = query.Where(x => x.StudentCourse != null && x.StudentCourse.CourseStatus == input.CourseStatus.Value);
+        }
+
+        var totalCount = await query.CountAsync();
+        var results = await query
+            .Skip(input.SkipCount)
+            .Take(input.MaxResultCount)
+            .OrderByDescending(x => x.Student.CreationTime)
+            .ToListAsync();
+
+        var dtos = results.Select(result => new AdminViewStudentDto
+        {
+            Id = result.Student.Id,
+            FullName = result.Student.Fullname,
+            Email = result.Student.Email,
+            PhoneNumber = result.Student.PhoneNumber,
+            Address = result.Student.Address,
+            DateOfBirth = result.Student.DateOfBirth,
+            AgreeToTerms = result.Student.AgreeToTerms,
+            RegistrationDate = result.StudentCourse?.RegistrationDate,
+            CourseId = result.StudentCourse?.CourseId,
+            CourseName = result.Course?.Name,
+            CourseStatus = result.StudentCourse?.CourseStatus,
+            TestStatus = result.StudentCourse?.TestStatus,
+            PaymentStatus = result.StudentCourse?.PaymentStatus,
+            CourseNote = result.StudentCourse?.StudentNote,
+            AgencyId = result.Student.AgencyId,
+            AgencyName = result.Agency != null ? result.Agency.OrgName : null,
+            CreationTime = result.Student.CreationTime
+        }).ToList();
+
+        _logger.LogInformation($"GetStudentsWithCoursesAsync - TotalCount: {totalCount}, ItemsCount: {dtos.Count}");
+
+        var result = new PagedResultDto<AdminViewStudentDto>
+        {
+            TotalCount = totalCount,
+            Items = dtos
+        };
+
+        return result;
+    }
+
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
+    public async Task<UpdateStudentCourseDto> GetStudentCourseAsync(Guid studentId, Guid courseId)
+    {
+        var query = await _studentRepository.GetQueryableAsync();
+        var student = await query
+            .Include(x => x.Attachments)
+            .Include(x => x.Courses)
+            .FirstOrDefaultAsync(x => x.Id == studentId);
+
+        if (student == null)
+        {
+            throw new UserFriendlyException("Student not found");
+        }
+
+        var studentCourse = student.Courses.FirstOrDefault(x => x.CourseId == courseId);
+        if (studentCourse == null)
+        {
+            throw new UserFriendlyException("Student course not found");
+        }
+
+        return new UpdateStudentCourseDto
+        {
+            FullName = student.Fullname,
+            StudentId = studentId,
+            CourseId = courseId,
+            CourseStatus = studentCourse.CourseStatus,
+            TestStatus = studentCourse.TestStatus,
+            PaymentStatus = studentCourse.PaymentStatus,
+            StudentNote = studentCourse.StudentNote,
+            AdminNote = studentCourse.AdminNote,
+            Email = student.Email,
+            Attachments = student.Attachments.ToList(),
+        };
+    }
+
+    [Authorize(OnlineCoursesPermissions.Students.Default)]
+    public async Task UpdateStudentCourseAsync(UpdateStudentCourseDto input)
+    {
+        // Kiểm tra role - Agency không được phép update
+        if (_currentUser.IsAuthenticated && _currentUser.Roles.Contains(OnlineCoursesConsts.Roles.Agency))
+        {
+            throw new UserFriendlyException("Agency users are not allowed to update student course information.");
+        }
+
+        var query = await _studentRepository.GetQueryableAsync();
+        var student = await query
+            .Include(x => x.Courses)
+            .FirstOrDefaultAsync(x => x.Id == input.StudentId);
+
+        if (student == null)
+        {
+            throw new UserFriendlyException("Student not found");
+        }
+
+        var studentCourse = student.Courses.FirstOrDefault(x => x.CourseId == input.CourseId);
+        if (studentCourse == null)
+        {
+            throw new UserFriendlyException("Student course not found");
+        }
+
+        // Cập nhật chỉ thông tin trong StudentCourse
+        studentCourse.CourseStatus = input.CourseStatus;
+        studentCourse.TestStatus = input.TestStatus;
+        studentCourse.PaymentStatus = input.PaymentStatus;
+        studentCourse.StudentNote = input.StudentNote;
+        studentCourse.AdminNote = input.AdminNote;
+
+        student.Fullname = input.FullName;
+        await _studentRepository.UpdateAsync(student);
     }
 }

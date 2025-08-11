@@ -1,6 +1,7 @@
 ﻿using Acme.OnlineCourses.Agencies;
 using Acme.OnlineCourses.Blogs;
 using Acme.OnlineCourses.Courses;
+using Acme.OnlineCourses.EmpSupport;
 using Acme.OnlineCourses.Students;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -19,6 +20,8 @@ public class OnlineCoursesDbContext : AbpDbContext<OnlineCoursesDbContext>
     public DbSet<Student> Students { get; set; }
     public DbSet<Agency> Agencies { get; set; }
     public DbSet<Course> Courses { get; set; }
+    public DbSet<EmploymentSupport> EmploymentSupports { get; set; }
+    public DbSet<AgentRegister> AgentRegisters { get; set; }
 
     public OnlineCoursesDbContext(DbContextOptions<OnlineCoursesDbContext> options)
         : base(options)

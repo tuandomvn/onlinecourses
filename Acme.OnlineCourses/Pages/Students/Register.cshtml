@@ -1,75 +1,564 @@
-@page
+﻿@page
 @using Microsoft.Extensions.Localization
 @using Acme.OnlineCourses.Localization
 @using Acme.OnlineCourses.Pages.Students
+@using System.Globalization
 @model RegisterModel
 @inject IStringLocalizer<OnlineCoursesResource> L
 @{
     ViewData["Title"] = L["RegisterStudent"];
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    bool isVN = currentCulture == "vi";
 }
 
+@section styles {
+    <abp-style src="/Pages/Students/Register.cshtml.css" />
+    <style>
+        /* Registration form styling - Section 3 */
+        .registration-section {
+            background-color: #f0f8ff;
+            padding: 60px 0;
+        }
+
+        .registration-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .registration-title {
+            color: #103c6d;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .registration-subtitle {
+            color: #555;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .registration-form {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                font-weight: bold;
+                display: block;
+                margin-bottom: 8px;
+                color: #333;
+            }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #d0d0d0;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+        }
+
+        .file-upload-button {
+            background-color: #34b4a1;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            margin: 15px 0;
+        }
+
+            .terms-checkbox input {
+                margin-top: 5px;
+                margin-right: 8px;
+            }
+
+        .submit-button {
+            background-color: #34b4a1;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            display: block;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        /* Validation styles */
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+        
+        .is-valid {
+            border-color: #28a745 !important;
+        }
+        
+        .invalid-feedback {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 80%;
+            color: #dc3545;
+        }
+    </style>
+}
 @section scripts {
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
+    <!-- Validation scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+    
     <abp-script src="/Pages/Students/Register.js" />
+
+    <script>
+        $(document).ready(function() {
+            // File upload button functionality
+            $("#fileUploadBtn").click(function() {
+                $("#attachments").click();
+            });
+
+            // Display selected files
+            $("#attachments").change(function() {
+                let fileNames = "";
+                for (let i = 0; i < this.files.length; i++) {
+                    fileNames += '<div>' + this.files[i].name + '</div>';
+                }
+                $("#fileList").html(fileNames);
+            });
+
+            // Handle form submission
+            $("#SaveButton").click(function(e) {
+                e.preventDefault();
+                
+                // Force validation of all fields before checking
+                $("#RegisterForm").validate().form();
+                
+                // Check terms agreement
+                if(!$("#AgreeToTermsCheckbox").is(":checked")) {
+                    toastr.error('@L["Register.Form.TermsRequired"]');
+                    return false;
+                }
+                
+                // Set hidden field value
+                $("#AgreeToTerms").val($("#AgreeToTermsCheckbox").is(":checked"));
+                
+                // Validate form and show errors
+                if($("#RegisterForm").valid()) {
+                    // Submit form
+                    $("#RegisterForm").submit();
+                } else {
+                    // Show general error message
+                    toastr.error('@L["Register.Form.FillRequired"]');
+                    
+                    // Scroll to first error
+                    var firstError = $(".is-invalid:first");
+                    if(firstError.length) {
+                        $('html, body').animate({
+                            scrollTop: firstError.offset().top - 100
+                        }, 500);
+                    }
+                }
+            });
+            
+          
+        });
+    </script>
 }
 
-<abp-card>
-    <abp-card-header>
-        <abp-card-title>@L["RegisterStudent"]</abp-card-title>
-    </abp-card-header>
-    <abp-card-body>
-        <form id="RegisterForm" enctype="multipart/form-data">
-            <abp-input asp-for="Student.FirstName" required="required" />
-            <abp-input asp-for="Student.LastName" required="required" />
-            <abp-input asp-for="Student.Email" required="required" type="email" readonly="@Model.IsLoggedIn" />
-            <abp-input asp-for="Student.PhoneNumber" required="required" />
-            <abp-input asp-for="Student.DateOfBirth" type="date" required="required" />
-            <abp-input asp-for="Student.Address" required="required" />
-            <div class="form-group">
-                <label asp-for="Student.StudentNote">@L["StudentNote"]</label>
-                <textarea asp-for="Student.StudentNote" class="form-control" rows="4"></textarea>
-            </div>
-            <abp-select asp-for="Student.AgencyId" asp-items="Model.Agencies" required="required" />
-            
-            <div class="form-group">
-                <label>@L["Attachments"]</label>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="attachments" multiple>
+
+<!-- Section 1-->
+<section class="pricing-section animate fade-in">
+    <div class="container">
+        <div class="text-center">
+            <span class="pricing-badge">@L["Register.Pricing.Badge"]</span>
+            <h1 class="pricing-title animate fade-in delay-200">@L["Register.Pricing.Title"]</h1>
+            <p class="pricing-subtitle animate fade-in delay-200">
+                @L["Register.Pricing.Subtitle"]
+            </p>
+        </div>
+
+        <div class="animate fade-in delay-200">
+            <div class="pricing-card">
+                <div class="pricing-label">@L["Register.Pricing.Label"]</div>
+                <div>
+                    <span class="price-amount">15,500,000</span>
+                    <span class="price-currency">VND</span>
                 </div>
-                <div id="fileList" class="mt-2"></div>
-            </div>
 
-            <div class="form-group">
-                <a href="javascript:void(0);" id="TermsLink">@L["ReadTermsAndConditions"]</a>
-            </div>
-            <input type="hidden" asp-for="Student.AgreeToTerms" id="AgreeToTerms" />
-        </form>
-    </abp-card-body>
-    <abp-card-footer>
-        <abp-button button-type="Primary" text="@L["Save"]" id="SaveButton" />
-    </abp-card-footer>
-</abp-card>
+                <div class="price-divider"></div>
 
+                <div class="price-duration">
+                    <i class="fas fa-clock"></i> @L["Register.Pricing.Duration"]
+                </div>
+
+                <ul class="price-features">
+                    <li>
+                        <i class="fas fa-check-circle check-icon"></i>
+                        <span>@L["Register.Pricing.Feature1"]</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle check-icon"></i>
+                        <span>@L["Register.Pricing.Feature2"]</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle check-icon"></i>
+                        <span>@L["Register.Pricing.Feature3"]</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle check-icon"></i>
+                        <span>@L["Register.Pricing.Feature4"]</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle check-icon"></i>
+                        <span>@L["Register.Pricing.Feature5"]</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle check-icon"></i>
+                        <span>@L["Register.Pricing.Feature6"]</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 2: Requirements -->
+<section class="requirements-section animate fade-in delay-200">
+    <div class="container">
+        <div class="requirements">
+            @if (isVN)
+            {
+                <div class="entry-requirements border rounded bg-white p-4 mb-4">
+                    <h3 class="mb-3">Yêu cầu đầu vào – Chứng chỉ Quốc tế</h3>
+                    <p>Để đảm bảo bạn thành công trong khóa học và với vai trò là giáo viên dạy tiếng Anh, bạn phải đạt được 2 điều kiện sau:</p>
+                    <div class="mb-3">
+                        <strong>A. Bài kiểm tra kỹ năng đầu vào</strong>
+                        <ul>
+                            <li>
+                                Đây là một phần của quá trình đăng ký, bạn cần phải tham gia bài kiểm tra đầu vào bao gồm một bài trắc nghiệm nhằm đánh giá mức độ sẵn sàng học tập của bạn thông qua việc kiểm tra các kỹ năng quan trọng như trình độ ngôn ngữ, kỹ năng sử dụng công nghệ, năng lực toán học và tư duy logic.
+                            </li>
+                            <li>
+                                Vui lòng lưu ý, bạn sẽ có tối đa 30 phút để hoàn thành bài kiểm tra và cần đạt được ít nhất 80% câu hỏi để đáp ứng yêu cầu đầu vào và tiếp tục đăng ký khoá học. (nếu bạn không đạt được 80% câu hỏi, bạn có thể thử lại sau 3 tháng).
+                            </li>
+                            <li>
+                                Để bắt đầu bài kiểm tra đầu vào, vui lòng thực hiện các bước sau:<br />
+                                Truy cập vào <a href="https://tesolcourse.online/lti/login/signup.php" target="_blank">https://tesolcourse.online/lti/login/signup.php</a> và làm theo hướng dẫn để tạo tài khoản đăng ký làm bài kiểm tra, hãy đảm bảo rằng bạn sử dụng họ tên và email của mình khớp với họ tên và email mà bạn sẽ dùng để đăng ký khoá học bên dưới.
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>B. Minh chứng về trình độ tiếng Anh</strong>
+                        <p>
+                            Yêu cầu trình độ tiếng Anh tương đương hoặc cao hơn. Vui lòng tải lên một tệp về giấy chứng nhận bảng điểm hoặc văn bằng trong phần đăng ký khoá học để cung cấp minh chứng về trình độ tiếng anh của bạn.
+                        </p>
+                        <ul>
+                            <li>IELTS: 5.5</li>
+                            <li>PTE Academic: 46</li>
+                            <li>TOEIC: 700</li>
+                            <li>CEFR: B1</li>
+                            <li>TOEFL (Paper): 525</li>
+                            <li>TOEFL (CBT): 196</li>
+                            <li>TOEFL (IBT): 69-70</li>
+                            <li>Cambridge Exams: FCE</li>
+                            <li>ISLPR: 3</li>
+                            <li>Bằng Cao đẳng, Đại học chuyên ngành ngôn ngữ Anh</li>
+                        </ul>
+                        <p>
+                            Nếu bạn không thể cung cấp minh chứng về trình độ tiếng Anh hiện có, bạn có thể làm bài kiểm tra trình độ tiếng Anh trực tuyến miễn phí tại
+                            <a href="https://www.efset.org/4-skill/" target="_blank">https://www.efset.org/4-skill/</a>
+                        </p>
+                        <p>
+                            Lưu ý rằng bài kiểm tra này mất khoảng 90 phút để đánh giá kỹ năng nói, viết, nghe và đọc tiếng Anh của bạn. Bài kiểm tra chỉ được thực hiện một lần và phải hoàn thành trong vòng 90 phút ngồi liên tục. Sau khi hoàn thành bài kiểm tra, bạn sẽ nhận được chứng chỉ kết quả của mình, bạn có thể lưu về và có thể dùng để tải lên phần đăng ký học để làm minh chứng về trình độ tiếng Anh.
+                        </p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="entry-requirements border rounded bg-white p-4 mb-4">
+                    <h3 class="mb-3 ">Entry Requirements - International Certificate</h3>
+                    <p>To ensure your success in the course and in your role as an English teacher, you must meet the following two conditions:</p>
+                    <div class="mb-3">
+                        <strong>A. Entry Skills Test</strong>
+                        <ul>
+                            <li>
+                                This is part of the registration process. You are required to take an entry test, which includes a multiple-choice quiz designed to assess your readiness for learning by evaluating important skills such as language proficiency, technology skills, mathematical ability, and logical thinking.
+                            </li>
+                            <li>
+                                Please note that you will have a maximum of 30 minutes to complete the test and must achieve at least 80% of the questions correct to meet the entry requirements and proceed with course registration. (If you do not achieve 80%, you may retake the test after 3 months.)
+                            </li>
+                            <li>
+                                To begin the entry test, please follow these steps:<br>
+                                Go to <a href="https://tesolcourse.online/lti/login/signup.php" target="_blank">https://tesolcourse.online/lti/login/signup.php</a> and follow the instructions to create an account for the test. Make sure you use your full name and email address exactly as you will use them to register for the course below.
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>B. Evidence of English Proficiency</strong>
+                        <p>
+                            An English proficiency level equivalent to or higher than the required standard is required. Please upload a file containing your certificate, transcript, or diploma in the course registration section to provide proof of your English proficiency.
+                        </p>
+                        <ul>
+                            <li>IELTS: 5.5</li>
+                            <li>PTE Academic: 46</li>
+                            <li>TOEIC: 700</li>
+                            <li>CEFR: B1</li>
+                            <li>TOEFL (Paper): 525</li>
+                            <li>TOEFL (CBT): 196</li>
+                            <li>TOEFL (IBT): 69-70</li>
+                            <li>Cambridge Exams: FCE</li>
+                            <li>ISLPR: 3</li>
+                            <li>University Bachelor Degree in English Language</li>
+                        </ul>
+                        <p>
+                            If you are unable to provide existing evidence of English proficiency, you can complete a free online English proficiency test at
+                            <a href="https://www.efset.org/4-skill/" target="_blank">https://www.efset.org/4-skill/</a>
+                        </p>
+                        <p>
+                            Please note that the test takes approximately 90 minutes to assess your English speaking, writing, listening and reading skills. The test can only be attempted once and must be completed in one sitting. Upon completing the test, you will receive a digital certificate with your results, which can be uploaded as your English proficiency evidence.
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Section 3: Registration Form -->
+<section class="registration-section">
+    <div class="container registration-container">
+        <div class="registration-header">
+            <h2 class="registration-title">@L["Register.Form.Title"]</h2>
+            <p class="registration-subtitle">@L["Register.Form.Subtitle"]</p>
+        </div>
+
+        <div class="registration-form">
+            <form id="RegisterForm" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Student.Fullname">@L["FullName"] *</label>
+                            <input asp-for="Student.Fullname" class="form-control" placeholder="@L["Register.Form.FullnamePlaceholder"]" required="required" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Student.DateOfBirth">@L["DateOfBirth"] *</label>
+                            <input asp-for="Student.DateOfBirth" class="form-control" type="date" placeholder="@L["Register.Form.DateOfBirthPlaceholder"]" required="required" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Student.ExpectedStudyDate">@L["ExpectedStudyDate"]</label>
+                            <input asp-for="Student.ExpectedStudyDate" class="form-control" type="date" placeholder="@L["Register.Form.ExpectedStudyDatePlaceholder"]" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Student.PhoneNumber">@L["PhoneNumber"] *</label>
+                            <input asp-for="Student.PhoneNumber" class="form-control" placeholder="@L["Register.Form.PhoneNumberPlaceholder"]" required="required" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Student.Email">@L["Email"] *</label>
+                            <input asp-for="Student.Email" class="form-control" type="email" placeholder="@L["Register.Form.EmailPlaceholder"]" required="required" readonly="@Model.IsLoggedIn" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Student.Address">@L["Address"] *</label>
+                            <input asp-for="Student.Address" class="form-control" placeholder="@L["Register.Form.AddressPlaceholder"]" required="required" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Student.AgencyId">@L["Center"] *</label>
+                            <select asp-for="Student.AgencyId" asp-items="Model.Agencies" class="form-control" required="required">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Student.StudentNote">@L["Note"]</label>
+                            <textarea asp-for="Student.StudentNote" class="form-control" rows="4" placeholder="@L["Register.Form.NotePlaceholder"]"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>@L["Attachments"]</label>
+                            <div class="file-upload-area">
+                                <i class="fas fa-paperclip"></i> @L["Register.Form.Attachments"]
+                                <div class="mt-2">
+                                    <button type="button" class="file-upload-button" id="fileUploadBtn">@L["Register.Form.ChooseFile"]</button>
+                                    <input type="file" class="custom-file-input d-none" id="attachments"
+                                           multiple accept=".csv,.txt,.pdf,.jpg,.jpeg,.png,.gif,.doc,.docx,.xls,.xlsx,text/csv,text/plain,application/pdf,image/jpeg,image/png,image/gif,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                </div>
+                            </div>
+                            <div id="fileList" class="mt-2"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="terms-checkbox">
+                            <input type="checkbox" id="AgreeToTermsCheckbox" class="form-check-input">
+                            <label class="form-check-label" for="AgreeToTermsCheckbox">@L["Register.Form.TermsLabel"] <a href="javascript:void(0);" id="TermsLink" class="text-primary">@L["Register.Form.TermsLink"]</a></label>
+                        </div>
+                        <input type="hidden" asp-for="Student.AgreeToTerms" id="AgreeToTerms" />
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-6 col-xs-12 text-center">
+                        <button type="button" id="SaveButton" class="submit-button">@L["Register.Form.SubmitButton"]</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Terms Modal remains unchanged -->
 <div id="TermsModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">@L["TermsAndConditions"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" id="ModalCloseBtn" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div id="TermsContent"></div>
-                <div class="form-group mt-3">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="AgreeToTermsCheckbox">
-                        <label class="custom-control-label" for="AgreeToTermsCheckbox">@L["IAgreeToTerms"]</label>
-                    </div>
+                <div id="TermsContent">
+                    @if (isVN)
+                    {
+                        <p>
+                            Vui lòng đọc các Thông Tin, Điều Khoản và Điều Kiện Đăng Ký sau và đảm bảo bạn hiểu rõ trước khi tiếp tục. Nếu bạn không chắc chắn về bất kỳ điều khoản nào, vui lòng liên hệ với TESOL Channel để thảo luận trước khi hoàn thành đơn đăng ký.
+                        </p>
+                        <ol>
+                            <li>Sau khi đăng ký, bạn sẽ nhận được tài khoản thông tin cá nhân để theo dõi quá trình đăng ký của bạn.</li>
+                            <li>Nếu đăng ký của bạn không được chấp nhận, bạn sẽ nhận được email thông báo về kết quả.</li>
+                            <li>Nếu đăng ký của bạn được chấp nhận, bạn sẽ nhận được email thông báo thanh toán.</li>
+                            <li>Thanh toán được chuyển khoản 1 lần cho TESOL Channel – là nhà phân phối chính thức của Lti tại Việt nam.</li>
+                            <li>Sau khi bạn đã thanh toán thành công, cung cấp bằng chứng về khoản thanh toán bằng cách gửi file qua tài khoản thông tin cá nhân của bạn.</li>
+                            <li>Số tiền học phí Lti được niêm yết trên trang website của TESOL Channel.</li>
+                            <li>TESOL Channel sẽ không hoàn trả bất kỳ khoản thanh toán nào sau khi đã đăng ký học và thanh toán.</li>
+                            <li>Sau khi học viên thanh toán thành công, học viên sẽ được nhận tài khoản học của Lti qua email và chính thức bắt đầu học.</li>
+                            <li>Chứng chỉ sẽ không được cấp cho đến khi hoàn thành tất cả phần bài tập và thực hành theo quy định của Lti.</li>
+                            <li>Chứng chỉ Quốc tế do LTi cấp, có giá trị trên toàn thế giới và không có thời hạn hết hạn.</li>
+                            <li>Nếu học viên không hoàn thành khóa học trong thời gian đăng ký được phân bổ, học viên sẽ liên hệ với TESOL Channel để được hỗ trợ gia hạn.</li>
+                            <li>Khi đăng ký khóa học của LTi, một thỏa thuận ràng buộc sẽ được thiết lập giữa bạn và Language Training Institute, được điều chỉnh bởi các cơ quan giáo dục liên quan.</li>
+                            <li>Khi chấp nhận các điều kiện này, bạn đồng ý với các chính sách và thủ tục được nêu trong Sổ tay Học viên của LTi <a target="_blank" href="/attach/unet_student_handbook_v250415.pdf">Xem sổ tay</a>.</li>
+                            <li>Khi chấp nhận các điều kiện này, bạn đồng ý với các chi tiết của khóa học (khung thời gian, ngày bắt đầu và kết thúc, địa điểm, thời gian học, v.v.) được ghi trên trang thông tin lớp học liên quan, lưu ý rằng các chi tiết này có thể thay đổi hợp lý. Nếu bạn không chắc chắn về bất kỳ chi tiết nào, vui lòng liên hệ với TESOL Channel.</li>
+                            <li>Nếu bạn dưới 18 tuổi, TESOL Channel chỉ xử lý Đơn Đăng Ký của bạn sau khi có sự đồng ý của cha mẹ hoặc người giám hộ, người này sẽ bị ràng buộc bởi các điều khoản này và chịu trách nhiệm pháp lý về tất cả các khoản thanh toán cho LTi liên quan đến khóa học của bạn.</li>
+                            <li>Học phí của đã bao gồm tất cả học phí, sách, giấy chứng chỉ tốt nghiệp.</li>
+                            <li>Khi chấp nhận các điều kiện này, bạn đồng ý rằng vì mục đích lưu trữ hồ sơ, LTi sẽ giữ lại một bản sao bài kiểm tra của bạn. Nếu bạn muốn giữ một bản sao, bạn đồng ý tự sao chép trước khi nộp và chịu trách nhiệm về mọi chi phí sao chép phát sinh. LTi sẽ chấp nhận bản sao bài kiểm tra thay cho bản gốc miễn là bản sao đó rõ ràng, dễ đọc.</li>
+                            <li>Bạn có trách nhiệm thông báo cho TESOL Chanel bằng văn bản về bất kỳ thay đổi nào đối với thông tin liên hệ của mình bao gồm; địa chỉ thư, địa chỉ email, số điện thoại liên hệ ban ngày hoặc số di động. Việc này có thể thực hiện bằng cách điền vào tài khoản thông tin cá nhân của bạn.</li>
+                            <li>Sách giáo trình TESOL Made Practical For All Situations và tài liệu TESOL mà LTi cung cấp cho bạn sẽ trở thành tài sản của bạn. Tuy nhiên, nội dung của Tài liệu Khóa học, bao gồm bản quyền và tất cả quyền sở hữu trí tuệ khác, vẫn thuộc về LTi. Bạn không được sao chép bất kỳ phần nào của khóa học hoặc tài liệu khóa học mà không có sự đồng ý bằng văn bản của LTi.</li>
+                            <li>Truy cập khóa học và tài liệu học yêu cầu bạn có kỹ năng công nghệ cơ bản và thiết bị phù hợp với kết nối internet ổn định, phần mềm xử lý văn bản, trình đọc PDF và khả năng họp trực tuyến có camera và micro.</li>
+                            <li>Mặc dù TESOL Channel sẽ hỗ trợ đề xuất các sắp xếp thực tập phù hợp (nếu áp dụng), bạn vẫn hoàn toàn chịu trách nhiệm tự sắp xếp lịch thực tập với sự tham vấn của Giảng viên.</li>
+                            <li>Bạn hiểu rằng, TESOL Channel là nhà phân phối chính thức của Lti Australia, mọi nội dung khoá học, và giáo viên và chứng chỉ Quốc Tế là do Lti Australia cung cấp. TESOL Channel hỗ trợ thu học phí và hướng dẫn học viên trong quá trình đăng ký và học.</li>
+                        </ol>
+                        <p>
+                            <input type="checkbox" class="custom-control-input" id="ModalAgreeToTermsCheckbox">
+                            <strong>· Tôi cam kết rằng tôi đã hiểu và đồng ý với các Thông Tin, Điều Khoản và Điều Kiện Đăng Ký.</strong>
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            Please read the following Information, Terms and Conditions of Registration carefully and ensure that you fully understand them before proceeding. If you are unsure about any clause, please contact TESOL Channel for clarification before completing your application.
+                        </p>
+                        <ol>
+                            <li>After registration, you will receive a personal information account to track your application process.</li>
+                            <li>If your application is not accepted, you will receive an email notification of the result.</li>
+                            <li>If your application is accepted, you will receive a payment notification email.</li>
+                            <li>Payment is made in one transfer to TESOL Channel – the official distributor of LTi in Vietnam.</li>
+                            <li>After you have successfully made the payment, provide proof of payment by uploading the file through your personal information account.</li>
+                            <li>LTi tuition fees are listed on the TESOL Channel website.</li>
+                            <li>TESOL Channel will not refund any payments after you have registered and paid for the course.</li>
+                            <li>After successful payment, you will receive your LTi learning account via email and officially begin your studies.</li>
+                            <li>Certificates will not be issued until all assignments and practicum requirements set by LTi have been completed.</li>
+                            <li>The International Certificate is issued by LTi, is valid worldwide, and does not expire.</li>
+                            <li>If you do not complete the course within the allocated registration period, you must contact TESOL Channel for support with an extension.</li>
+                            <li>When enrolling in an LTi course, a binding agreement is established between you and the Language Training Institute, governed by the relevant educational authorities.</li>
+                            <li>By accepting these conditions, you agree to the policies and procedures outlined in the LTi Student Handbook <a target="_blank" href="/attach/unet_student_handbook_v250415.pdf">View Handbook</a>.</li>
+                            <li>By accepting these conditions, you agree to the course details (timeline, start and end dates, location, study times, etc.) as stated on the relevant class information page, noting that these details may be reasonably subject to change. If you are unsure about any details, please contact TESOL Channel.</li>
+                            <li>If you are under 18 years old, TESOL Channel will only process your application after receiving consent from your parent or guardian, who will be bound by these terms and legally responsible for all payments to LTi relating to your course.</li>
+                            <li>The tuition fee includes all course fees, books, and graduation certificate.</li>
+                            <li>By accepting these conditions, you agree that, for record-keeping purposes, LTi will retain a copy of your assessment. If you wish to keep a copy, you agree to make your own copy before submission and bear any related copying costs. LTi will accept a copy of the assessment instead of the original, as long as the copy is clear and legible.</li>
+                            <li>You are responsible for notifying TESOL Channel in writing of any changes to your contact information, including postal address, email address, daytime contact phone number, or mobile number. This can be done by updating your personal information account.</li>
+                            <li>The TESOL Made Practical For All Situations textbook and TESOL materials provided by LTi will become your property. However, the content of the Course Materials, including copyright and all other intellectual property rights, remains the property of LTi. You may not copy any part of the course or course materials without written consent from LTi.</li>
+                            <li>Accessing the course and study materials requires you to have basic technology skills and appropriate devices with a stable internet connection, word processing software, a PDF reader, and the ability to attend online meetings with a camera and microphone.</li>
+                            <li>While TESOL Channel will assist in recommending suitable practicum arrangements (if applicable), you are fully responsible for arranging your own practicum schedule in consultation with your Trainer.</li>
+                            <li>You understand that TESOL Channel is the official distributor of LTi Australia; all course content, trainers, and International Certificates are provided by LTi Australia. Tesol Channel supports fee collection and guides students throughout the registration and study process.</li>
+                        </ol>
+                        <p>
+                            <input type="checkbox" class="custom-control-input" id="ModalAgreeToTermsCheckbox">
+                            <strong>• I confirm that I have read, understood, and agreed to the above Information, Terms, and Conditions of Registration.</strong>
+                        </p>
+                    }
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@L["Close"]</button>
+                <button type="button" class="btn btn-secondary" id="ModalFooterCloseBtn" data-dismiss="modal">@L["Close"]</button>
             </div>
         </div>
     </div>
-</div> 
+</div>
+
+@await Html.PartialAsync("_Footer")              

@@ -1,0 +1,125 @@
+@page
+@using Microsoft.Extensions.Localization
+@using Acme.OnlineCourses.Localization
+@model Acme.OnlineCourses.Pages.EmploymentSupports.IndexModel
+@inject IStringLocalizer<OnlineCoursesResource> L
+@{
+    ViewData["Title"] = L["Employment.Title"];
+}
+
+@section styles {
+    <abp-style src="/Pages/EmploymentSupports/index.cshtml.css" />
+}
+@section scripts {
+    <abp-script src="/Pages/EmploymentSupports/index.cshtml.js" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(function () {
+            @if (TempData["FormMessage"]?.ToString() == "success")
+            {
+                <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: '@Html.Raw(L["Employment.Form.SuccessTitle"].ToString())',
+                    text: '@Html.Raw(L["Employment.Form.SuccessMessage"].ToString())'
+                });
+                </text>
+            }
+        });
+    </script>
+}
+
+<div class="employment-support-page">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 animate fade-in">
+                <div class="subtitle">@L["Employment.Hero.Subtitle"]</div>
+
+                <h1 class="main-heading">@L["Employment.Hero.Title"]</h1>
+
+                <p class="mb-4">@L["Employment.Hero.Description1"]</p>
+
+                <p>@L["Employment.Hero.Description2"]</p>
+            </div>
+            <div class="col-lg-6 animate fade-in">
+                <img src="~/images/es.PNG" alt="@L["Employment.Hero.ImageAlt"]" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-section">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="form-header">
+                <div class="form-subtitle">@L["Employment.Form.Subtitle"]</div>
+                <h2 class="form-title">@L["Employment.Form.Title"]</h2>
+                <p class="form-description">
+                    @L["Employment.Form.Description"]
+                </p>
+            </div>
+
+            <div class="col-lg-8 col-xl-7">
+                <div class="form-wrapper">
+
+                    <form method="post" class="registration-form">
+                        <div class="form-group">
+                            <label asp-for="EmploymentSupport.FullName" class="form-label">@L["Employment.Form.FullName"]</label>
+                            <input asp-for="EmploymentSupport.FullName" class="form-control"
+                                placeholder="@L["Employment.Form.FullNamePlaceholder"]"/>
+                            <span asp-validation-for="EmploymentSupport.FullName" class="text-danger"></span>
+                        </div>
+
+                        <abp-date-picker asp-for="EmploymentSupport.DateOfBirth" />
+                        <span asp-validation-for="EmploymentSupport.DateOfBirth" class="text-danger"></span>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="EmploymentSupport.PhoneNumber" class="form-label">@L["Employment.Form.PhoneNumber"]</label>
+                                    <input asp-for="EmploymentSupport.PhoneNumber" class="form-control" placeholder="@L["Employment.Form.PhoneNumberPlaceholder"]" />
+                                    <span asp-validation-for="EmploymentSupport.PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="EmploymentSupport.Email" class="form-label">@L["Employment.Form.Email"]</label>
+                                    <input asp-for="EmploymentSupport.Email" type="email" class="form-control" placeholder="@L["Employment.Form.EmailPlaceholder"]" />
+                                    <span asp-validation-for="EmploymentSupport.Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="EmploymentSupport.Address" class="form-label">@L["Employment.Form.Address"]</label>
+                            <input asp-for="EmploymentSupport.Address" class="form-control" placeholder="@L["Employment.Form.AddressPlaceholder"]" />
+                            <span asp-validation-for="EmploymentSupport.Address" class="text-danger"></span>
+                        </div>
+
+                       @*  <div class="form-group">
+                            <label asp-for="EmploymentSupport.CourseCompletionDate" class="form-label">@L["Employment.Form.CourseCompletionDate"]</label>
+                            <input asp-for="EmploymentSupport.CourseCompletionDate" type="date" class="form-control" placeholder="@L["Employment.Form.DateFormat"]" />
+                            <span asp-validation-for="EmploymentSupport.CourseCompletionDate" class="text-danger"></span>
+                        </div> *@
+
+                        <abp-date-picker asp-for="EmploymentSupport.CourseCompletionDate" />
+                        <span asp-validation-for="EmploymentSupport.CourseCompletionDate" class="text-danger"></span>
+
+                        <div class="form-group">
+                            <label asp-for="EmploymentSupport.Message" class="form-label">@L["Employment.Form.Message"]</label>
+                            <textarea asp-for="EmploymentSupport.Message" class="form-control form-textarea" rows="4" placeholder="@L["Employment.Form.MessagePlaceholder"]"></textarea>
+                            <span asp-validation-for="EmploymentSupport.Message" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-submit">
+                            <button type="submit" class="btn btn-submit">@L["Employment.Form.SubmitButton"]</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_Footer")

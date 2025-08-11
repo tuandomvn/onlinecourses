@@ -14,6 +14,9 @@ public class CreateUpdateAgencyDto : EntityDto<Guid>
     [StringLength(256)]
     public string Name { get; set; }
 
+    [StringLength(256)]
+    public string OrgName { get; set; }
+
     [StringLength(1024)]
     public string Description { get; set; }
 
@@ -28,9 +31,13 @@ public class CreateUpdateAgencyDto : EntityDto<Guid>
     [StringLength(512)]
     public string Address { get; set; }
 
-    [Required]
+    //[Required]
     [Range(0, 100)]
-    public decimal CommissionPercent { get; set; }
+    [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+    public decimal? CommissionPercent { get; set; }
+    
+    public string? CityCode { get; set; }
 
     public AgencyStatus Status { get; set; }
+    public bool IsAccountProvided { get; set; }
 } 
