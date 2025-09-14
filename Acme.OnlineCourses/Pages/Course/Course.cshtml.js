@@ -1,10 +1,13 @@
 ﻿(function () {
     document.addEventListener('DOMContentLoaded', function () {
+        var currentLanguage = abp.localization.currentCulture.name;
+
         const openBtn = document.getElementById('open-video-modal');
         const modal = document.getElementById('video-modal');
         const closeBtn = document.getElementById('close-video-modal');
         const iframe = document.getElementById('video-iframe');
-        const youtubeUrl = "https://www.youtube.com/embed/LL35TBsClH4?autoplay=1";
+        const youtubeUrl = currentLanguage === 'vi' ? "https://www.youtube.com/embed/ndPkyJmxs0E?autoplay=1"
+            : "https://www.youtube.com/embed/dnBVEOZv-iI?autoplay=1";
 
         if (openBtn && modal && closeBtn && iframe) {
             openBtn.addEventListener('click', function () {

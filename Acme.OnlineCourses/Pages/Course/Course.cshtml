@@ -1,6 +1,7 @@
 ﻿@page "/Courses"
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Acme.OnlineCourses.Localization
+@using System.Globalization
 @inject IHtmlLocalizer<OnlineCoursesResource> L
 @model Acme.OnlineCourses.Pages.Course.CourseModel
 
@@ -9,6 +10,10 @@
 }
 @section scripts {
     <abp-script src="/Pages/Course/Course.cshtml.js" />
+}
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    bool isVietnamese = currentCulture == "vi";
 }
 
 <!-- Section1-->
@@ -26,7 +31,18 @@
             </div>
             <div class="col-lg-5 col-md-12">
                 <div class="course-video-container animate slide-right delay-300" id="open-video-modal">
-                    <img src="https://img.youtube.com/vi/LL35TBsClH4/maxresdefault.jpg" alt="@L["Course.Hero.VideoAlt"]" class="course-thumbnail float-animation" />
+                    @if (isVietnamese)
+                    {
+                        <img src="https://img.youtube.com/vi/ndPkyJmxs0E/maxresdefault.jpg
+                                " alt="@L["Course.Hero.VideoAlt"]"
+                             class="course-thumbnail float-animation" />
+                    }
+                    else
+                    {
+                        <img src="https://img.youtube.com/vi/dnBVEOZv-iI/maxresdefault.jpg
+                                    " alt="@L["Course.Hero.VideoAlt"]"
+                             class="course-thumbnail float-animation" />
+                    }
                     <div class="play-button">
                         <i class="fa fa-play"></i>
                     </div>
@@ -339,7 +355,7 @@
                             </div>
                         </div>
                     </div>
-                 
+
                 </div>
             </div>
         </div>
