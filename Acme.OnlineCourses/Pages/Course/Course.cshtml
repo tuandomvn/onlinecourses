@@ -1,6 +1,7 @@
 ﻿@page "/Courses"
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Acme.OnlineCourses.Localization
+@using System.Globalization
 @inject IHtmlLocalizer<OnlineCoursesResource> L
 @model Acme.OnlineCourses.Pages.Course.CourseModel
 
@@ -9,6 +10,10 @@
 }
 @section scripts {
     <abp-script src="/Pages/Course/Course.cshtml.js" />
+}
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    bool isVietnamese = currentCulture == "vi";
 }
 
 <!-- Section1-->
@@ -26,7 +31,18 @@
             </div>
             <div class="col-lg-5 col-md-12">
                 <div class="course-video-container animate slide-right delay-300" id="open-video-modal">
-                    <img src="https://img.youtube.com/vi/LL35TBsClH4/maxresdefault.jpg" alt="@L["Course.Hero.VideoAlt"]" class="course-thumbnail float-animation" />
+                    @if (isVietnamese)
+                    {
+                        <img src="https://img.youtube.com/vi/ndPkyJmxs0E/maxresdefault.jpg
+                                    " alt="@L["Course.Hero.VideoAlt"]"
+                             class="course-thumbnail float-animation" />
+                    }
+                    else
+                    {
+                        <img src="https://img.youtube.com/vi/dnBVEOZv-iI/maxresdefault.jpg
+                                        " alt="@L["Course.Hero.VideoAlt"]"
+                             class="course-thumbnail float-animation" />
+                    }
                     <div class="play-button">
                         <i class="fa fa-play"></i>
                     </div>
@@ -306,14 +322,28 @@
                 <div class="videos-slider">
                     <!-- Video 1 -->
                     <div class="video-slide">
-                        <div class="practical-video-card animate fade-in" data-video-id="gGJIYqorBzI" data-startTime="20">
-                            <div class="practical-video-thumb">
-                                <img src="https://img.youtube.com/vi/gGJIYqorBzI/maxresdefault.jpg" alt="@L["Course.Practical.VideoAlt", 1]" class="img-fluid">
-                                <div class="play-overlay">
-                                    <i class="fa fa-play"></i>
+                        @if (isVietnamese)
+                        {
+                            <div class="practical-video-card animate fade-in" data-video-id="Er3yeraZKAI" data-startTime="0">
+                                <div class="practical-video-thumb">
+                                    <img src="https://img.youtube.com/vi/Er3yeraZKAI/maxresdefault.jpg" alt="@L["Course.Practical.VideoAlt", 1]" class="img-fluid">
+                                    <div class="play-overlay">
+                                        <i class="fa fa-play"></i>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="practical-video-card animate fade-in" data-video-id="gGJIYqorBzI" data-startTime="20">
+                                <div class="practical-video-thumb">
+                                    <img src="https://img.youtube.com/vi/gGJIYqorBzI/maxresdefault.jpg" alt="@L["Course.Practical.VideoAlt", 1]" class="img-fluid">
+                                    <div class="play-overlay">
+                                        <i class="fa fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
 
                     <!-- Video 2 -->
@@ -339,7 +369,7 @@
                             </div>
                         </div>
                     </div>
-                 
+
                 </div>
             </div>
         </div>
