@@ -255,11 +255,12 @@
     "Course.Content.Module8.Title": "Teaching English Online",
     "Course.Content.Module8.Description": "Equip skills for online teaching, integrating technology, and adapting teaching styles to suit the online learning environment.",
     "Course.Practical.Tesol.Heading": "Looking for a Higher TESOL Course?",
-    "Course.Practical.Tesol.Subheading": "Australian Government Accredited Programs Available",
+    //"Course.Practical.Tesol.Subheading": "Australian Government Accredited Programs Available",
     "Course.Practical.Tesol.List1": "Certificate IV in TESOL (11021NAT)",
     "Course.Practical.Tesol.List2": "Diploma of TESOL (11020NAT)",
     "Course.Practical.Tesol.List3": "Graduate Certificate in TESOL (11057NAT)",
     "Course.Practical.Tesol.List4": "Graduate Diploma of TESOL (11058NAT)",
+    "Course.Practical.Tesol.Note": "“All training is provided by Language Training Institute, Australian RTO Number 30173. TESOL Channel is responsible for connecting students with LTi for their training and placement.”",
     "Course.Practical.Tesol.Contact": "Please contact Tesol Channel to receive expert advice and the best support with registration.",
 
 

@@ -267,11 +267,12 @@
     "Course.Practical.NextButton": "Video tiếp theo",
     "Course.Practical.VideoAlt": "Video thực hành {0}",
     "Course.Practical.Tesol.Heading": "Bạn đang tìm kiếm khóa học TESOL nâng cao?",
-    "Course.Practical.Tesol.Subheading": "Các chương trình được Chính phủ Úc công nhận",
-    "Course.Practical.Tesol.List1": "Chứng chỉ IV về TESOL (11021NAT)",
-    "Course.Practical.Tesol.List2": "Văn bằng TESOL (11020NAT)",
-    "Course.Practical.Tesol.List3": "Chứng chỉ sau đại học về TESOL (11057NAT)",
-    "Course.Practical.Tesol.List4": "Văn bằng sau đại học về TESOL (11058NAT)",
+    //"Course.Practical.Tesol.Subheading": "Các chương trình được Chính phủ Úc công nhận",
+    "Course.Practical.Tesol.List1": "11021NAT Certificate IV in English Language Teaching (TESOL)",
+    "Course.Practical.Tesol.List2": "11020NAT Diploma of English Language Teaching (TESOL)",
+    "Course.Practical.Tesol.List3": "11057NAT Graduate Certificate in English Language Teaching (TESOL)",
+    "Course.Practical.Tesol.List4": "11058NAT Graduate Diploma of English Language Teaching (TESOL)",
+    "Course.Practical.Tesol.Note": "“Tất cả các chương trình đào tạo được cung cấp bởi Language Training Institute (LTi), đơn vị đào tạo được công nhận tại Úc với mã RTO 30173. TESOL Channel có trách nhiệm kết nối học viên với LTi để tham gia chương trình đào tạo và sắp xếp thực tập.”",
     "Course.Practical.Tesol.Contact": "Vui lòng liên hệ Tesol Channel để nhận được tư vấn chuyên nghiệp và hỗ trợ tốt nhất khi đăng ký.",
     //
 
