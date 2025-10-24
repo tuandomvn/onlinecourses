@@ -4,6 +4,9 @@ public interface IMailService
 {
     Task SendEmailAsync(MailRequest mailRequest);
     Task SendWelcomeEmailAsync(WelcomeRequest request);
+
+    Task SendRegistationInstructionEmailAsync(RegistationInstructionRequest request);
+
     Task SendWelcomePartnerEmailAsync(WelcomeRequest request, bool isActive);
     Task SendNotifyToAdminsAsync(NotityToAdminRequest request);
     Task SendNotifyUpdateAttachmentAsync(NotifyUpdateAttachmentRequest request);

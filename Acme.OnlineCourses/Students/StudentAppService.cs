@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.IO;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
@@ -215,17 +216,24 @@ public class StudentAppService : CrudAppService<
                 _logger.LogInformation($"_userManager AddToRoleAsync done");
 
                 // Send welcome email
-                _mailService.SendWelcomeEmailAsync(new WelcomeRequest
+                //_mailService.SendWelcomeEmailAsync(new WelcomeRequest
+                //{
+                //    ToEmail = input.Email,
+                //    UserName = input.Email,
+                //    Password = password,
+                //    CourseName = firstCourse.Name,
+                //});
+
+                var currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                _mailService.SendRegistationInstructionEmailAsync(new RegistationInstructionRequest
                 {
                     ToEmail = input.Email,
-                    UserName = input.Email,
-                    Password = password,
-                    CourseName = firstCourse.Name,
+                    Language = currentCulture
                 });
 
                 // Optimized: Get admin emails directly using projection
                 var adminEmails = await GetAdminEmailsAsync();
-                
+
                 _mailService.SendNotifyToAdminsAsync(new NotityToAdminRequest
                 {
                     ToEmail = adminEmails,

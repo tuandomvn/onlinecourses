@@ -1,8 +1,10 @@
 ﻿using AutoMapper.Internal;
+using DocumentFormat.OpenXml.Office2016.Excel;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace Acme.OnlineCourses.Helpers
 {
@@ -12,6 +14,12 @@ namespace Acme.OnlineCourses.Helpers
         public string UserName { get; set; }
         public string Password { get; set; }
         public string CourseName { get; set; }
+    }
+
+    public class RegistationInstructionRequest
+    {
+        public string ToEmail { get; set; }
+        public string Language { get; set; }
     }
 
     public class NotityToAdminRequest
@@ -65,13 +73,13 @@ namespace Acme.OnlineCourses.Helpers
         {
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
-            
+
             // Add all recipients to the To field
             foreach (var recipient in mailRequest.ToEmail)
             {
                 email.To.Add(MailboxAddress.Parse(recipient));
             }
-            
+
             email.Subject = mailRequest.Subject;
             var builder = new BodyBuilder();
             if (mailRequest.Attachments != null)
@@ -126,10 +134,42 @@ namespace Acme.OnlineCourses.Helpers
             smtp.Disconnect(true);
         }
 
+        public async Task SendRegistationInstructionEmailAsync(RegistationInstructionRequest request)
+        {
+            try
+            {
+                string FilePath = Directory.GetCurrentDirectory() + $"\\Templates\\RegistrationInstruction.{request.Language}.html";
+                StreamReader str = new StreamReader(FilePath);
+                string MailText = str.ReadToEnd();
+                str.Close();
+
+
+                var email = new MimeMessage();
+                email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
+                email.To.Add(MailboxAddress.Parse(request.ToEmail));
+                email.Subject = request.Language == "en" ?
+                    "INSTRUCTIONS TO COMPLETE YOUR TESOL INTERNATIONAL CERTIFICATE COURSE REGISTRATION (LTi AUSTRALIA)" :
+                    "HƯỚNG DẪN HOÀN THÀNH ĐĂNG KÝ KHOÁ HỌC TESOL CHỨNG CHỈ QUỐC TẾ (LTi ÚC)";
+                var builder = new BodyBuilder();
+                builder.HtmlBody = MailText;
+                email.Body = builder.ToMessageBody();
+                using var smtp = new SmtpClient();
+                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+                await smtp.SendAsync(email);
+                smtp.Disconnect(true);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
         public async Task SendWelcomePartnerEmailAsync(WelcomeRequest request, bool isActive)
         {
             string filePath = string.Empty;
-            if(isActive)
+            if (isActive)
             {
                 filePath = Directory.GetCurrentDirectory() + "\\Templates\\WelcomePartnerTemplate.html";
             }

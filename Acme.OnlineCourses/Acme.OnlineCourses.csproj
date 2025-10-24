@@ -157,6 +157,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Templates\RegistrationInstruction.vi.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\RegistrationInstruction.en.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Templates\JobSupport.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
