@@ -1,12 +1,13 @@
 ﻿using Acme.OnlineCourses.Agencies.Dtos;
-using Acme.OnlineCourses.Students.Dtos;
+using Acme.OnlineCourses.Permissions;
 using Acme.OnlineCourses.Students;
+using Acme.OnlineCourses.Students.Dtos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.ObjectMapping;
-using Acme.OnlineCourses.Permissions;
 
 namespace Acme.OnlineCourses.Agencies;
 
@@ -22,13 +23,16 @@ public class AgencyAppService :
 {
     private readonly IObjectMapper _objectMapper;
     private readonly IRepository<Student, Guid> _studentRepository;
+    private readonly ILogger _logger;
     public AgencyAppService(
         IRepository<Agency, Guid> repository,
         IRepository<Student, Guid> studentRepository,
+        ILoggerFactory loggerFactory,
         IObjectMapper objectMapper)
         : base(repository)
     {
         _objectMapper = objectMapper;
+        _logger = loggerFactory.CreateLogger("Acme.OnlineCourses");
         _studentRepository = studentRepository;
         GetPolicyName = OnlineCoursesPermissions.Agencies.Default;
         GetListPolicyName = OnlineCoursesPermissions.Agencies.Default;
@@ -45,6 +49,8 @@ public class AgencyAppService :
 
     public override async Task<PagedResultDto<AgencyDto>> GetListAsync(PagedAndSortedResultRequestDto input)
     {
+        _logger.LogInformation($"Getting list of agencies with input: {input.MaxResultCount}");
+
         var query = await CreateFilteredQueryAsync(input);
         var totalCount = await query.CountAsync();
         var items = await query
@@ -62,6 +68,8 @@ public class AgencyAppService :
 
     public async Task<PagedResultDto<AgencyDto>> GetListAllAgencyAsync(PagedAndSortedResultRequestDto input)
     {
+        _logger.LogInformation($"Getting list GetListAllAgencyAsync with input: {input.MaxResultCount}");
+
         var query = await base.CreateFilteredQueryAsync(input);
 
         if (input is GetAgencyListDto agencyListInput && !string.IsNullOrWhiteSpace(agencyListInput.Filter))

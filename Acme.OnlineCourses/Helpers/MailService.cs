@@ -1,4 +1,5 @@
-﻿using AutoMapper.Internal;
+﻿using Acme.OnlineCourses.Students;
+using AutoMapper.Internal;
 using DocumentFormat.OpenXml.Office2016.Excel;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -65,10 +66,14 @@ namespace Acme.OnlineCourses.Helpers
     public class MailService : IMailService
     {
         private readonly MailSettings _mailSettings;
-        public MailService(IOptions<MailSettings> mailSettings)
+        private readonly ILogger<MailService> _logger;
+        public MailService(IOptions<MailSettings> mailSettings, ILogger<MailService> logger)
         {
+            _logger = logger;
             _mailSettings = mailSettings.Value;
         }
+
+        //This is for test only
         public async Task SendEmailAsync(MailRequest mailRequest)
         {
             var email = new MimeMessage();
@@ -107,32 +112,32 @@ namespace Acme.OnlineCourses.Helpers
             smtp.Disconnect(true);
         }
 
-        public async Task SendWelcomeEmailAsync(WelcomeRequest request)
-        {
-            string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\WelcomeTemplate.html";
-            StreamReader str = new StreamReader(FilePath);
-            string MailText = str.ReadToEnd();
-            str.Close();
+        //public async Task SendWelcomeEmailAsync(WelcomeRequest request)
+        //{
+        //    string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\WelcomeTemplate.html";
+        //    StreamReader str = new StreamReader(FilePath);
+        //    string MailText = str.ReadToEnd();
+        //    str.Close();
 
-            MailText = MailText
-                .Replace("[username]", request.UserName)
-                .Replace("[email]", request.ToEmail)
-                .Replace("[password]", request.Password)
-                .Replace("[coursename]", request.CourseName);
+        //    MailText = MailText
+        //        .Replace("[username]", request.UserName)
+        //        .Replace("[email]", request.ToEmail)
+        //        .Replace("[password]", request.Password)
+        //        .Replace("[coursename]", request.CourseName);
 
-            var email = new MimeMessage();
-            email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
-            email.To.Add(MailboxAddress.Parse(request.ToEmail));
-            email.Subject = $"[TESOL Channel] - Chào mừng học viên {request.UserName}";
-            var builder = new BodyBuilder();
-            builder.HtmlBody = MailText;
-            email.Body = builder.ToMessageBody();
-            using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(email);
-            smtp.Disconnect(true);
-        }
+        //    var email = new MimeMessage();
+        //    email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
+        //    email.To.Add(MailboxAddress.Parse(request.ToEmail));
+        //    email.Subject = $"[TESOL Channel] - Chào mừng học viên {request.UserName}";
+        //    var builder = new BodyBuilder();
+        //    builder.HtmlBody = MailText;
+        //    email.Body = builder.ToMessageBody();
+        //    using var smtp = new SmtpClient();
+        //    smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+        //    smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+        //    await smtp.SendAsync(email);
+        //    smtp.Disconnect(true);
+        //}
 
         public async Task SendRegistationInstructionEmailAsync(RegistationInstructionRequest request)
         {
@@ -158,190 +163,245 @@ namespace Acme.OnlineCourses.Helpers
                 smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
                 await smtp.SendAsync(email);
                 smtp.Disconnect(true);
+
+                _logger.LogInformation($"Registration instruction email sent to {request.ToEmail}");
             }
             catch (Exception ex)
             {
-
-                throw;
+                _logger.LogError($"Failed to send registration instruction email to {request.ToEmail}: {ex.Message}");
             }
         }
 
         public async Task SendWelcomePartnerEmailAsync(WelcomeRequest request, bool isActive)
         {
-            string filePath = string.Empty;
-            if (isActive)
+            try
             {
-                filePath = Directory.GetCurrentDirectory() + "\\Templates\\WelcomePartnerTemplate.html";
+                string filePath = string.Empty;
+                if (isActive)
+                {
+                    filePath = Directory.GetCurrentDirectory() + "\\Templates\\WelcomePartnerTemplate.html";
+                }
+                else
+                {
+                    filePath = Directory.GetCurrentDirectory() + "\\Templates\\WelcomePartnerTemplate_Inactive.html";
+                }
+
+                StreamReader str = new StreamReader(filePath);
+                string MailText = str.ReadToEnd();
+                str.Close();
+
+                MailText = MailText
+                    .Replace("[username]", request.UserName)
+                    .Replace("[email]", request.ToEmail)
+                    .Replace("[password]", request.Password);
+
+                var email = new MimeMessage();
+                email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
+                email.To.Add(MailboxAddress.Parse(request.ToEmail));
+                email.Subject = $"[TESOL Channel] - Chào mừng đại lý {request.UserName}";
+                var builder = new BodyBuilder();
+                builder.HtmlBody = MailText;
+                email.Body = builder.ToMessageBody();
+                using var smtp = new SmtpClient();
+                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+                await smtp.SendAsync(email);
+                smtp.Disconnect(true);
+
+                _logger.LogInformation($"Welcome partner email sent to {request.ToEmail}");
             }
-            else
+            catch (Exception ex)
             {
-                filePath = Directory.GetCurrentDirectory() + "\\Templates\\WelcomePartnerTemplate_Inactive.html";
+                _logger.LogError($"Failed to send welcome partner email to {request.ToEmail}: {ex.Message}");
             }
-
-            StreamReader str = new StreamReader(filePath);
-            string MailText = str.ReadToEnd();
-            str.Close();
-
-            MailText = MailText
-                .Replace("[username]", request.UserName)
-                .Replace("[email]", request.ToEmail)
-                .Replace("[password]", request.Password);
-
-            var email = new MimeMessage();
-            email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
-            email.To.Add(MailboxAddress.Parse(request.ToEmail));
-            email.Subject = $"[TESOL Channel] - Chào mừng đại lý {request.UserName}";
-            var builder = new BodyBuilder();
-            builder.HtmlBody = MailText;
-            email.Body = builder.ToMessageBody();
-            using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(email);
-            smtp.Disconnect(true);
         }
         public async Task SendNotifyToAdminsAsync(NotityToAdminRequest request)
         {
-            string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\Noti.html";
-            StreamReader str = new StreamReader(FilePath);
-            string MailText = str.ReadToEnd();
-            str.Close();
-
-            MailText = MailText
-                .Replace("[coursename]", request.CourseName)
-                .Replace("[studentname]", request.StudentEmail);
-
-            var email = new MimeMessage
+            try
             {
-                Sender = MailboxAddress.Parse(_mailSettings.Mail)
-            };
-            foreach (var recipient in request.ToEmail)
-            {
-                email.To.Add(MailboxAddress.Parse(recipient));
+                string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\Noti.html";
+                StreamReader str = new StreamReader(FilePath);
+                string MailText = str.ReadToEnd();
+                str.Close();
+
+                MailText = MailText
+                    .Replace("[coursename]", request.CourseName)
+                    .Replace("[studentname]", request.StudentEmail);
+
+                var email = new MimeMessage
+                {
+                    Sender = MailboxAddress.Parse(_mailSettings.Mail)
+                };
+                foreach (var recipient in request.ToEmail)
+                {
+                    email.To.Add(MailboxAddress.Parse(recipient));
+                }
+                email.Subject = $"[TESOL Channel] - Thông báo học viên {request.StudentName} đăng ký khóa học";
+                var builder = new BodyBuilder();
+                builder.HtmlBody = MailText;
+                email.Body = builder.ToMessageBody();
+                using var smtp = new SmtpClient();
+                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+                await smtp.SendAsync(email);
+                smtp.Disconnect(true);
+
+                _logger.LogInformation($"Notification email sent to admins for new student {request.StudentEmail}");
             }
-            email.Subject = $"[TESOL Channel] - Thông báo học viên {request.StudentName} đăng ký khóa học";
-            var builder = new BodyBuilder();
-            builder.HtmlBody = MailText;
-            email.Body = builder.ToMessageBody();
-            using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(email);
-            smtp.Disconnect(true);
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to send notification email to admins for new student {request.StudentEmail}: {ex.Message}");
+            }
         }
         public async Task SendNotifyNewPartnerToAdminsAsync(NotityNewPartnerToAdminRequest request)
         {
-            string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\NotiPartner.html";
-            StreamReader str = new StreamReader(FilePath);
-            string MailText = str.ReadToEnd();
-            str.Close();
-
-            MailText = MailText
-                .Replace("[name]", request.Name)
-                .Replace("[email]", request.Email);
-
-            var email = new MimeMessage
+            try
             {
-                Sender = MailboxAddress.Parse(_mailSettings.Mail)
-            };
-            foreach (var recipient in request.ToEmail)
-            {
-                email.To.Add(MailboxAddress.Parse(recipient));
+                string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\NotiPartner.html";
+                StreamReader str = new StreamReader(FilePath);
+                string MailText = str.ReadToEnd();
+                str.Close();
+
+                MailText = MailText
+                    .Replace("[name]", request.Name)
+                    .Replace("[email]", request.Email);
+
+                var email = new MimeMessage
+                {
+                    Sender = MailboxAddress.Parse(_mailSettings.Mail)
+                };
+                foreach (var recipient in request.ToEmail)
+                {
+                    email.To.Add(MailboxAddress.Parse(recipient));
+                }
+                email.Subject = $"[TESOL Channel] - Thông báo đăng ký đối tác - {request.Name}";
+                var builder = new BodyBuilder();
+                builder.HtmlBody = MailText;
+                email.Body = builder.ToMessageBody();
+                using var smtp = new SmtpClient();
+                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+                await smtp.SendAsync(email);
+                smtp.Disconnect(true);
+
+                _logger.LogInformation($"Notification email sent to admins for new partner {request.Name}");
             }
-            email.Subject = $"[TESOL Channel] - Thông báo đăng ký đối tác - {request.Name}";
-            var builder = new BodyBuilder();
-            builder.HtmlBody = MailText;
-            email.Body = builder.ToMessageBody();
-            using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(email);
-            smtp.Disconnect(true);
+            catch (Exception)
+            {
+                _logger.LogError($"Failed to send notification email to admins for new partner {request.Name}");
+            }
         }
 
         public async Task SendJobNotiToAdminsAsync(NotityNewPartnerToAdminRequest request)
         {
-            string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\JobSupport.html";
-            StreamReader str = new StreamReader(FilePath);
-            string MailText = str.ReadToEnd();
-            str.Close();
-
-            MailText = MailText
-                .Replace("[name]", request.Name)
-                .Replace("[email]", request.Email);
-
-            var email = new MimeMessage
+            try
             {
-                Sender = MailboxAddress.Parse(_mailSettings.Mail)
-            };
-            foreach (var recipient in request.ToEmail)
-            {
-                email.To.Add(MailboxAddress.Parse(recipient));
+                string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\JobSupport.html";
+                StreamReader str = new StreamReader(FilePath);
+                string MailText = str.ReadToEnd();
+                str.Close();
+
+                MailText = MailText
+                    .Replace("[name]", request.Name)
+                    .Replace("[email]", request.Email);
+
+                var email = new MimeMessage
+                {
+                    Sender = MailboxAddress.Parse(_mailSettings.Mail)
+                };
+                foreach (var recipient in request.ToEmail)
+                {
+                    email.To.Add(MailboxAddress.Parse(recipient));
+                }
+                email.Subject = $"[TESOL Channel] - Thông báo hỗ trợ việc làm - {request.Name}";
+                var builder = new BodyBuilder();
+                builder.HtmlBody = MailText;
+                email.Body = builder.ToMessageBody();
+                using var smtp = new SmtpClient();
+                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+                await smtp.SendAsync(email);
+                smtp.Disconnect(true);
+
+                _logger.LogInformation($"Job support notification email sent to admins for email {request.Email}");
+
             }
-            email.Subject = $"[TESOL Channel] - Thông báo hỗ trợ việc làm - {request.Name}";
-            var builder = new BodyBuilder();
-            builder.HtmlBody = MailText;
-            email.Body = builder.ToMessageBody();
-            using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(email);
-            smtp.Disconnect(true);
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to send job support notification email to admins for email {request.Email} {ex.Message}");
+            }
         }
 
         public async Task SendNotifyUpdateAttachmentAsync(NotifyUpdateAttachmentRequest request)
         {
-            string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\UpdateAttachment.html";
-            StreamReader str = new StreamReader(FilePath);
-            string MailText = str.ReadToEnd();
-            str.Close();
-
-            MailText = MailText
-                .Replace("[studentEmail]", request.StudentEmail);
-
-            var email = new MimeMessage
+            try
             {
-                Sender = MailboxAddress.Parse(_mailSettings.Mail)
-            };
-            foreach (var recipient in request.ToEmail)
-            {
-                email.To.Add(MailboxAddress.Parse(recipient));
+                string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\UpdateAttachment.html";
+                StreamReader str = new StreamReader(FilePath);
+                string MailText = str.ReadToEnd();
+                str.Close();
+
+                MailText = MailText
+                    .Replace("[studentEmail]", request.StudentEmail);
+
+                var email = new MimeMessage
+                {
+                    Sender = MailboxAddress.Parse(_mailSettings.Mail)
+                };
+                foreach (var recipient in request.ToEmail)
+                {
+                    email.To.Add(MailboxAddress.Parse(recipient));
+                }
+                email.Subject = $"[TESOL Channel] - Thông báo học viên {request.StudentEmail} đã cập nhật tài liệu";
+                var builder = new BodyBuilder();
+                builder.HtmlBody = MailText;
+                email.Body = builder.ToMessageBody();
+                using var smtp = new SmtpClient();
+                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+                await smtp.SendAsync(email);
+                smtp.Disconnect(true);
+
+                _logger.LogInformation($"Update attachment notification email sent to admins for student {request.StudentEmail}");
             }
-            email.Subject = $"[TESOL Channel] - Thông báo học viên {request.StudentEmail} đã cập nhật tài liệu";
-            var builder = new BodyBuilder();
-            builder.HtmlBody = MailText;
-            email.Body = builder.ToMessageBody();
-            using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(email);
-            smtp.Disconnect(true);
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to send update attachment notification email to admins for student {request.StudentEmail} {ex.Message}");
+            }
+           
         }
 
         public async Task SendResetPasswordAsync(ResetPasswordRequest request)
         {
-            string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\NewPassword.html";
-            StreamReader str = new StreamReader(FilePath);
-            string MailText = str.ReadToEnd();
-            str.Close();
-
-            MailText = MailText
-                .Replace("[newpassword]", request.NewPassword);
-
-            var email = new MimeMessage
+            try
             {
-                Sender = MailboxAddress.Parse(_mailSettings.Mail)
-            };
-            email.To.Add(MailboxAddress.Parse(request.ToEmail));
-            email.Subject = "[TESOL Channel] - Đặt lại password thành công";
-            var builder = new BodyBuilder();
-            builder.HtmlBody = MailText;
-            email.Body = builder.ToMessageBody();
-            using var smtp = new SmtpClient();
-            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-            await smtp.SendAsync(email);
-            smtp.Disconnect(true);
+                string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\NewPassword.html";
+                StreamReader str = new StreamReader(FilePath);
+                string MailText = str.ReadToEnd();
+                str.Close();
+
+                MailText = MailText
+                    .Replace("[newpassword]", request.NewPassword);
+
+                var email = new MimeMessage
+                {
+                    Sender = MailboxAddress.Parse(_mailSettings.Mail)
+                };
+                email.To.Add(MailboxAddress.Parse(request.ToEmail));
+                email.Subject = "[TESOL Channel] - Đặt lại password thành công";
+                var builder = new BodyBuilder();
+                builder.HtmlBody = MailText;
+                email.Body = builder.ToMessageBody();
+                using var smtp = new SmtpClient();
+                smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+                await smtp.SendAsync(email);
+                smtp.Disconnect(true);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to send reset password email to {request.ToEmail}: {ex.Message}");
+            }
         }
     }
 }
