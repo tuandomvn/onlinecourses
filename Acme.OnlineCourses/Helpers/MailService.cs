@@ -164,11 +164,11 @@ namespace Acme.OnlineCourses.Helpers
                 await smtp.SendAsync(email);
                 smtp.Disconnect(true);
 
-                _logger.LogInformation($"Registration instruction email sent to {request.ToEmail}");
+                _logger.LogInformation($"Acme.OnlineCourses-Registration instruction email sent to {request.ToEmail}");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to send registration instruction email to {request.ToEmail}: {ex.Message}");
+                _logger.LogError($"Acme.OnlineCourses-Failed to send registration instruction email to {request.ToEmail}: {ex.Message}");
             }
         }
 
@@ -208,11 +208,11 @@ namespace Acme.OnlineCourses.Helpers
                 await smtp.SendAsync(email);
                 smtp.Disconnect(true);
 
-                _logger.LogInformation($"Welcome partner email sent to {request.ToEmail}");
+                _logger.LogInformation($"Acme.OnlineCourses-Welcome partner email sent to {request.ToEmail}");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to send welcome partner email to {request.ToEmail}: {ex.Message}");
+                _logger.LogError($"Acme.OnlineCourses-Failed to send welcome partner email to {request.ToEmail}: {ex.Message}");
             }
         }
         public async Task SendNotifyToAdminsAsync(NotityToAdminRequest request)
@@ -246,11 +246,11 @@ namespace Acme.OnlineCourses.Helpers
                 await smtp.SendAsync(email);
                 smtp.Disconnect(true);
 
-                _logger.LogInformation($"Notification email sent to admins for new student {request.StudentEmail}");
+                _logger.LogInformation($"Acme.OnlineCourses-Notification email sent to admins for new student {request.StudentEmail}");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to send notification email to admins for new student {request.StudentEmail}: {ex.Message}");
+                _logger.LogError($"Acme.OnlineCourses-Failed to send notification email to admins for new student {request.StudentEmail}: {ex.Message}");
             }
         }
         public async Task SendNotifyNewPartnerToAdminsAsync(NotityNewPartnerToAdminRequest request)
@@ -284,11 +284,11 @@ namespace Acme.OnlineCourses.Helpers
                 await smtp.SendAsync(email);
                 smtp.Disconnect(true);
 
-                _logger.LogInformation($"Notification email sent to admins for new partner {request.Name}");
+                _logger.LogInformation($"Acme.OnlineCourses-Notification email sent to admins for new partner {request.Name}");
             }
             catch (Exception)
             {
-                _logger.LogError($"Failed to send notification email to admins for new partner {request.Name}");
+                _logger.LogError($"Acme.OnlineCourses-Failed to send notification email to admins for new partner {request.Name}");
             }
         }
 
@@ -323,12 +323,12 @@ namespace Acme.OnlineCourses.Helpers
                 await smtp.SendAsync(email);
                 smtp.Disconnect(true);
 
-                _logger.LogInformation($"Job support notification email sent to admins for email {request.Email}");
+                _logger.LogInformation($"Acme.OnlineCourses-Job support notification email sent to admins for email {request.Email}");
 
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to send job support notification email to admins for email {request.Email} {ex.Message}");
+                _logger.LogError($"Acme.OnlineCourses-Failed to send job support notification email to admins for email {request.Email} {ex.Message}");
             }
         }
 
@@ -362,11 +362,11 @@ namespace Acme.OnlineCourses.Helpers
                 await smtp.SendAsync(email);
                 smtp.Disconnect(true);
 
-                _logger.LogInformation($"Update attachment notification email sent to admins for student {request.StudentEmail}");
+                _logger.LogInformation($"Acme.OnlineCourses-Update attachment notification email sent to admins for student {request.StudentEmail}");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to send update attachment notification email to admins for student {request.StudentEmail} {ex.Message}");
+                _logger.LogError($"Acme.OnlineCourses-Failed to send update attachment notification email to admins for student {request.StudentEmail} {ex.Message}");
             }
            
         }
@@ -400,7 +400,7 @@ namespace Acme.OnlineCourses.Helpers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to send reset password email to {request.ToEmail}: {ex.Message}");
+                _logger.LogError($"Acme.OnlineCourses-Failed to send reset password email to {request.ToEmail}: {ex.Message}");
             }
         }
     }

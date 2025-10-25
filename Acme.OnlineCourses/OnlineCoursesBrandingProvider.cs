@@ -25,12 +25,11 @@ public class OnlineCoursesBrandingProvider : DefaultBrandingProvider
             try
             {
                 var appName = _localizer["AppName"];
-                //_logger.LogInformation("Localized AppName: {AppName}", appName);
                 return appName;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to get localized AppName");
+                _logger.LogError(ex, "Acme.OnlineCourses-Failed to get localized AppName");
                 // Fallback to default name if localization fails
                 return "Online Courses";
             }
