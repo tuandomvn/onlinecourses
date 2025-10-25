@@ -27,12 +27,12 @@ public class AgencyAppService :
     public AgencyAppService(
         IRepository<Agency, Guid> repository,
         IRepository<Student, Guid> studentRepository,
-        ILoggerFactory loggerFactory,
+        ILogger<AgencyAppService> logger,
         IObjectMapper objectMapper)
         : base(repository)
     {
         _objectMapper = objectMapper;
-        _logger = loggerFactory.CreateLogger("Acme.OnlineCourses");
+        _logger = logger;
         _studentRepository = studentRepository;
         GetPolicyName = OnlineCoursesPermissions.Agencies.Default;
         GetListPolicyName = OnlineCoursesPermissions.Agencies.Default;

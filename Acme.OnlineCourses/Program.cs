@@ -23,8 +23,23 @@ public class Program
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
             .Enrich.FromLogContext()
-            .WriteTo.Async(c => c.File("Logs/logs.txt"))
-            .WriteTo.Async(c => c.Console());
+
+            // Log of (Acme.OnlineCourses) in file application.txt
+            .WriteTo.Logger(lc => lc.Filter
+                .ByIncludingOnly(evt =>evt.Properties.ContainsKey("SourceContext") &&
+                   evt.Properties["SourceContext"].ToString().Contains("Acme.OnlineCourses")
+                )
+                .WriteTo.Async(c => c.File("Logs/application.txt", rollingInterval: RollingInterval.Day,
+                  outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}"))
+                )
+
+            // Log of ABP in file framework.txt
+            //.WriteTo.Logger(lc => lc.Filter
+            //    .ByExcluding(evt => evt.Properties.ContainsKey("SourceContext") && evt.Properties["SourceContext"].ToString().Contains("Acme.OnlineCourses"))
+            //    .WriteTo.Async(c => c.File( "Logs/framework.txt", rollingInterval: RollingInterval.Day,
+            //        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}")))
+            //        .WriteTo.Async(c => c.Console())
+            ;
 
         if (IsMigrateDatabase(args))
         {
