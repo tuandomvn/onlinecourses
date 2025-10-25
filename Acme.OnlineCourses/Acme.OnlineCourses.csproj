@@ -133,6 +133,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\global-styles.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

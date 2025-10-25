@@ -134,7 +134,7 @@ public class StudentAppService : CrudAppService<
                 AgreeToTerms = input.AgreeToTerms
             };
             await _studentRepository.InsertAsync(student, autoSave: true);
-            _logger.LogInformation($"InsertAsync done");
+            _logger.LogInformation($"RegisterStudentAsync-InsertAsync Student done_{student.Email}");
 
             var firstCourse = await _courseRepository.FirstOrDefaultAsync();
 
@@ -194,26 +194,28 @@ public class StudentAppService : CrudAppService<
                 }
             }
 
-
             // Get first course and create StudentCourse record
             await InsertStudentCourse(student, input, firstCourse);
 
-            await _attachmentRepository.InsertManyAsync(studentAttachments, autoSave: true);
-            _logger.LogInformation($"_attachmentRepository.InsertManyAsync done");
+            if(studentAttachments.Any())
+            {
+                await _attachmentRepository.InsertManyAsync(studentAttachments, autoSave: true);
+                _logger.LogInformation($"_attachmentRepository.InsertManyAsync done");
+            }
 
             var isUserExists = await IsUserExistsAsync(input.Email);
             if (!isUserExists)
             {
-                _logger.LogInformation($"User with email {input.Email} does not exist.");
+                _logger.LogInformation($"RegisterStudentAsync-User with email {input.Email} does not exist.");
                 var studentUser = new IdentityUser(Guid.NewGuid(), input.Email, input.Email);
 
                 var password = PasswordGenerator.GenerateSecurePassword(8);
 
                 await _userManager.CreateAsync(studentUser, password);
-                _logger.LogInformation($"_userManager created");
+                _logger.LogInformation($"_userManager create User completed: {studentUser.Email}");
 
                 await _userManager.AddToRoleAsync(studentUser, Roles.Student);
-                _logger.LogInformation($"_userManager AddToRoleAsync done");
+                _logger.LogInformation($"_userManager AddToRoleAsync done {studentUser.Email}");
 
                 // Send welcome email
                 //_mailService.SendWelcomeEmailAsync(new WelcomeRequest
@@ -231,6 +233,8 @@ public class StudentAppService : CrudAppService<
                     Language = currentCulture
                 });
 
+                _logger.LogInformation($"RegisterStudentAsync-Mail sent to {input.Email}");
+
                 // Optimized: Get admin emails directly using projection
                 var adminEmails = await GetAdminEmailsAsync();
 
@@ -241,6 +245,8 @@ public class StudentAppService : CrudAppService<
                     StudentEmail = student.Email,
                     CourseName = firstCourse.Name
                 });
+
+                _logger.LogInformation($"RegisterStudentAsync-Mail sent to {adminEmails}");
             }
             else
             {
@@ -253,7 +259,7 @@ public class StudentAppService : CrudAppService<
                 }
                 else
                 {
-                    throw new UserFriendlyException("Đã có người dùng với email này. Vui lòng sử dụng địa chỉ email khác.");
+                    throw new UserFriendlyException("Email này đã được đăng kí, vui lòng sử dụng địa chỉ email khác.");
                 }
             }
 

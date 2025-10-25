@@ -3,7 +3,7 @@
 public interface IMailService
 {
     Task SendEmailAsync(MailRequest mailRequest);
-    Task SendWelcomeEmailAsync(WelcomeRequest request);
+    //Task SendWelcomeEmailAsync(WelcomeRequest request);
 
     Task SendRegistationInstructionEmailAsync(RegistationInstructionRequest request);
 
