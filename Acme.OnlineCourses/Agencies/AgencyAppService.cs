@@ -49,7 +49,7 @@ public class AgencyAppService :
 
     public override async Task<PagedResultDto<AgencyDto>> GetListAsync(PagedAndSortedResultRequestDto input)
     {
-        _logger.LogInformation($"Getting list of agencies with input: {input.MaxResultCount}");
+        _logger.LogInformation($"Acme.OnlineCourses-Getting list of agencies with input: {input.MaxResultCount}");
 
         var query = await CreateFilteredQueryAsync(input);
         var totalCount = await query.CountAsync();
@@ -68,7 +68,7 @@ public class AgencyAppService :
 
     public async Task<PagedResultDto<AgencyDto>> GetListAllAgencyAsync(PagedAndSortedResultRequestDto input)
     {
-        _logger.LogInformation($"Getting list GetListAllAgencyAsync with input: {input.MaxResultCount}");
+        _logger.LogInformation($"Acme.OnlineCourses-Getting list GetListAllAgencyAsync with input: {input.MaxResultCount}");
 
         var query = await base.CreateFilteredQueryAsync(input);
 

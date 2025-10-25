@@ -134,7 +134,7 @@ public class StudentAppService : CrudAppService<
                 AgreeToTerms = input.AgreeToTerms
             };
             await _studentRepository.InsertAsync(student, autoSave: true);
-            _logger.LogInformation($"RegisterStudentAsync-InsertAsync Student done_{student.Email}");
+            _logger.LogInformation($"Acme.OnlineCourses-InsertAsync Student done_{student.Email}");
 
             var firstCourse = await _courseRepository.FirstOrDefaultAsync();
 
@@ -152,14 +152,14 @@ public class StudentAppService : CrudAppService<
                         var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
                         if (!allowedExtensions.Contains(extension))
                         {
-                            _logger.LogWarning($"Invalid file extension: {extension}");
+                            _logger.LogWarning($"Acme.OnlineCourses-Invalid file extension: {extension}");
                             throw new UserFriendlyException($"File type not allowed. Allowed types: {string.Join(", ", allowedExtensions)}");
                         }
 
                         // Validate file size
                         if (file.Length > maxFileSize)
                         {
-                            _logger.LogWarning($"File too large: {file.Length} bytes");
+                            _logger.LogWarning($"Acme.OnlineCourses-File too large: {file.Length} bytes");
                             throw new UserFriendlyException($"File is too large. Maximum size allowed is 10MB.");
                         }
 
@@ -200,22 +200,22 @@ public class StudentAppService : CrudAppService<
             if(studentAttachments.Any())
             {
                 await _attachmentRepository.InsertManyAsync(studentAttachments, autoSave: true);
-                _logger.LogInformation($"_attachmentRepository.InsertManyAsync done");
+                _logger.LogInformation($"Acme.OnlineCourses-_attachmentRepository.InsertManyAsync done");
             }
 
             var isUserExists = await IsUserExistsAsync(input.Email);
             if (!isUserExists)
             {
-                _logger.LogInformation($"RegisterStudentAsync-User with email {input.Email} does not exist.");
+                _logger.LogInformation($"Acme.OnlineCourses-RegisterStudentAsync-User with email {input.Email} does not exist.");
                 var studentUser = new IdentityUser(Guid.NewGuid(), input.Email, input.Email);
 
                 var password = PasswordGenerator.GenerateSecurePassword(8);
 
                 await _userManager.CreateAsync(studentUser, password);
-                _logger.LogInformation($"_userManager create User completed: {studentUser.Email}");
+                _logger.LogInformation($"Acme.OnlineCourses-_userManager create User completed: {studentUser.Email}");
 
                 await _userManager.AddToRoleAsync(studentUser, Roles.Student);
-                _logger.LogInformation($"_userManager AddToRoleAsync done {studentUser.Email}");
+                _logger.LogInformation($"Acme.OnlineCourses-userManager AddToRoleAsync done {studentUser.Email}");
 
                 // Send welcome email
                 //_mailService.SendWelcomeEmailAsync(new WelcomeRequest
@@ -233,7 +233,7 @@ public class StudentAppService : CrudAppService<
                     Language = currentCulture
                 });
 
-                _logger.LogInformation($"RegisterStudentAsync-Mail sent to {input.Email}");
+                _logger.LogInformation($"Acme.OnlineCourses-RegisterStudentAsync-Mail sent to {input.Email}");
 
                 // Optimized: Get admin emails directly using projection
                 var adminEmails = await GetAdminEmailsAsync();
@@ -246,13 +246,13 @@ public class StudentAppService : CrudAppService<
                     CourseName = firstCourse.Name
                 });
 
-                _logger.LogInformation($"RegisterStudentAsync-Mail sent to {adminEmails}");
+                _logger.LogInformation($"Acme.OnlineCourses-RegisterStudentAsync-Mail sent to {adminEmails}");
             }
             else
             {
                 var isEnglish = Thread.CurrentThread.CurrentUICulture.Name.StartsWith("en");
 
-                _logger.LogWarning($"User with email {input.Email} already exists.");
+                _logger.LogWarning($"Acme.OnlineCourses-User with email {input.Email} already exists.");
                 if (isEnglish)
                 {
                     throw new UserFriendlyException("A user with this email already exists. Please use a different email address.");
@@ -267,7 +267,7 @@ public class StudentAppService : CrudAppService<
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message, ex.StackTrace);
+            _logger.LogError($"Acme.OnlineCourses-{ex.Message}, {ex.Message}");
             throw new UserFriendlyException("Có lỗi");
         }
     }
@@ -291,17 +291,17 @@ public class StudentAppService : CrudAppService<
             try
             {
                 await _studentCourseRepository.InsertAsync(studentCourse, autoSave: true);
-                _logger.LogInformation($"Successfully inserted StudentCourse for Student {student.Id} and Course {firstCourse.Id}");
+                _logger.LogInformation($"Acme.OnlineCourses-Successfully inserted StudentCourse for Student {student.Id} and Course {firstCourse.Id}");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Failed to insert StudentCourse for Student {student.Id} and Course {firstCourse.Id}");
+                _logger.LogError(ex, $"Acme.OnlineCourses-Failed to insert StudentCourse for Student {student.Id} and Course {firstCourse.Id}");
                 throw new UserFriendlyException("Failed to register student for course. Please try again.");
             }
         }
         else
         {
-            _logger.LogWarning("No courses available to register student.");
+            _logger.LogWarning("Acme.OnlineCourses-No courses available to register student.");
         }
     }
 
@@ -614,7 +614,7 @@ public class StudentAppService : CrudAppService<
             CreationTime = result.Student.CreationTime
         }).ToList();
 
-        _logger.LogInformation($"GetStudentsWithCoursesAsync - TotalCount: {totalCount}, ItemsCount: {dtos.Count}");
+        _logger.LogInformation($"Acme.OnlineCourses-GetStudentsWithCoursesAsync - TotalCount: {totalCount}, ItemsCount: {dtos.Count}");
 
         var result = new PagedResultDto<AdminViewStudentDto>
         {
